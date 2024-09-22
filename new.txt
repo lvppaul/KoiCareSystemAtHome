@@ -1,5 +1,4 @@
-<<<<<<< HEAD
+
 HEllo BE-Phat from BE Phat
-=======
-HEllo BE-Phat adadadadadada
->>>>>>> 0069da1 (Update new.txt)
+HEllo BE-Phat from main
+
