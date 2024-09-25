@@ -8,17 +8,16 @@ import './Navigationbar.css';
 function Navigationbar() {
   return (
   <>
-    <header className="text-start">
-          <NavLink to="/about" className="mx-2 text-decoration-none">
-            About
+    <header className="header d-flex justify-content-end w-100">
+          <NavLink to="/contact" className="mx-2 text-white text-decoration-none">
+            Contact Us
           </NavLink>
-          <NavLink to="/contact" className="mx-2 text-decoration-none">
-            Contact
+          <NavLink to="/about" className="mx-2 text-white text-decoration-none">
+            About Us
           </NavLink>
+          
       </header>
     <Navbar expand="lg" bg="light">
-
-  
       <Container fluid>
         <Nav className="flex-grow-4">
           <NavLink to="/" className="d-flex align-items-center">

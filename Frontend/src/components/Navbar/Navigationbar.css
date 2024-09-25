@@ -3,33 +3,56 @@
   height: 100px;
   background-color: #E47E39;
   
-
-}
-
 .header {
-  text-align: right;
+  margin-right: 175px;
+  padding-bottom: 5px ;
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
 }
 
 .container-fluid {
   background-color: white;
+  border-bottom: 1px solid black;
+  box-shadow: rgb(116, 115, 115) 0px 4px 4px;
+  }
+}
+
+.nav-title{
+  text-decoration: none;
+  font-size: 25px;
+  font-weight: bold;
+  color: black;
+  padding: 10px 20px 10px 20px;
+  &.active {
+    color: #E47E39;
+  }
+}
+
+.custom-dropdown{
+  font-size: 25px;
+  font-weight: bold;
+  padding: 2px 20px 2px 20px;
+  &:hover{
+    background-color: #E47E39;
+  }
+}
+.dropdown-item {
+  font-size: 20px;
+  &:active{
+    background-color: #E47E39;
+  }
 }
 
 .navbar-logo {
   height: 100px;
   padding-left: 150px;
+  padding-right: 100px;
 }
 
 .nav-icon {
-  margin-left: 30px;
+  margin-left: 20px;
 }
-
-.nav-title {
-  
-  /* &.active {
-    background-color: #E47E39;
-  } */
-}
-
 
 .bi {
   font-size: 30px;
