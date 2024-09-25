@@ -20,7 +20,7 @@ function Navigationbar() {
     <Navbar expand="lg" bg="light">
       <Container fluid>
         <Nav className="flex-grow-4">
-          <NavLink to="/" className="d-flex align-items-center">
+          <NavLink to="/" className="navbar-brand d-flex align-items-center">
             <img src={Logo} alt="Logo" className="navbar-logo" />
           </NavLink>
         </Nav>
@@ -39,7 +39,7 @@ function Navigationbar() {
           <Form className="d-flex">
             <FormControl type="search" placeholder="Search..." className="me-2 rounded-pill" />
           </Form>
-          <NavLink href="#profile"><i className="bi bi-person-circle nav-icon"></i></NavLink>
+          <NavLink href="#profile" to="/login"><i className="bi bi-person-circle nav-icon"></i></NavLink>
           <NavLink href="#cart"> <i className="bi bi-bag nav-icon"></i></NavLink>
         </Nav>
       </Container>
