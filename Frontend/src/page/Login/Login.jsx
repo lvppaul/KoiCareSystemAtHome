@@ -1,6 +1,5 @@
 import { useState } from 'react'
-// import { login } from "../../axiosConfig";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "./Login.css"
 import logo from "../../assets/logo.svg"
 import { FcGoogle } from "react-icons/fc";
@@ -80,13 +79,13 @@ function Login() {
         </Form.Group>
         </Form>
         <div className="create-account">
-        <a href="#">
+        <Link to="/signup">
           <p>CREATE AN ACCOUNT</p>
-        </a>
+        </Link>
         <p>Or</p>
         <Button className="google-login">
           <FcGoogle size={24} />
-          Login with Google
+             Login with Google
         </Button>
         </div>
       </div>
