@@ -24,7 +24,7 @@
 
 h2 {
     font-weight: bold;
-    color: #FF6600;
+    color: #C97852;
     margin-bottom: 20px;
 }
 
@@ -97,7 +97,7 @@ label {
     
 }
 .create-account a{
-    color: black;
+    color: #C97852;
 }
 
 .google-login {
