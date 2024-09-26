@@ -1,13 +1,16 @@
+.main-content{
+  background-color: #FAEEE6;
+}
 .homepage {
-    background-color: #FAEEE6;
     padding: 20px;
 }
+
+/* landing section */
 .landing{
     margin: 0 150px;
     margin-top: 100px;
 }
   .hero-section {
-    display: flex;
     align-items: center;
     margin-bottom: 40px;
   }
@@ -16,10 +19,10 @@
     width: 100%;
     height: auto;
   }
-  
-  .text-section {
-    padding: 20px;
-}
+
+.text-section {
+    padding-right: 200px;
+}  
 
 .text-section h1 {
     font-weight: bold;
@@ -32,7 +35,7 @@
   }
 
 .text-section p{
-    font-size: 16px;
+    font-size: 18px;
     color: #CA6420;
 }
 .text-section button{
@@ -42,20 +45,62 @@
     width: 182px;
     height: 80px;
     border-radius: 10px;
+    &:hover{
+        background-color: #CA6420;
+    }
 }
-  .features-section {
-    display: flex;
-    justify-content: space-evenly;
-    text-align: center;
-    margin-top: 40px;
-    max-width: 1620px;
-    height: fit-content;
+/* features section */
+
+.features-section {
+  padding: 50px 0;
+  background-color: #FAEEE6;
+}
+.feature{
+  margin: 0 150px;
+}
+.features-section h1 {
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  font-size: 60px;
+  padding-bottom: 100px;
+  padding-top: 50px;
+}
+.features-section h2{
+  color: black;
 }
 
-.feature {
-    margin: 20px 0;
-    background-color: #F6DAC7;
-    width: 378px;
-    height: 680px;
-    border-radius: 10px;
-  }
+.card-img-top {
+  height: 200px;
+  width: 300px;
+  padding: 10px 20px;
+}
+.card {
+  background-color: #F6DAC7 !important;
+  margin: 15px;
+}
+.icon-container img{
+  width: 125px;
+  height: 125px;
+  display: block;
+  justify-content: start;
+}
+.card-title {
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 14px;
+  display: flex;
+  text-align: left;
+}
+.card a{
+  padding-top: 40px;
+  color: black;
+  display: flex;
+  text-align: left;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+

@@ -21,6 +21,10 @@ root.render(
       </Route>
       <Route path='login' element={<Login />}></Route>
       <Route path='signup' element={<Signup />}></Route>
+      <Route path='pond' element={<h1>Not Found</h1>}></Route>
+      <Route path='calculation' element={<h1>Not Found</h1>}></Route>
+      <Route path='shop' element={<h1>Not Found</h1>}></Route>
+      <Route path='news' element={<h1>Not Found</h1>}></Route>
     </Routes>
   </BrowserRouter>
 );
