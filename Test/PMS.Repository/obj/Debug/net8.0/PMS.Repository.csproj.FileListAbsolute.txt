@@ -1,0 +1,14 @@
+D:\1\K5\SWP391\Test\PMS.Repository\bin\Debug\net8.0\PMS.Repository.deps.json
+D:\1\K5\SWP391\Test\PMS.Repository\bin\Debug\net8.0\PMS.Repository.runtimeconfig.json
+D:\1\K5\SWP391\Test\PMS.Repository\bin\Debug\net8.0\PMS.Repository.dll
+D:\1\K5\SWP391\Test\PMS.Repository\bin\Debug\net8.0\PMS.Repository.pdb
+D:\1\K5\SWP391\Test\PMS.Repository\obj\Debug\net8.0\PMS.Repository.csproj.AssemblyReference.cache
+D:\1\K5\SWP391\Test\PMS.Repository\obj\Debug\net8.0\PMS.Repository.GeneratedMSBuildEditorConfig.editorconfig
+D:\1\K5\SWP391\Test\PMS.Repository\obj\Debug\net8.0\PMS.Repository.AssemblyInfoInputs.cache
+D:\1\K5\SWP391\Test\PMS.Repository\obj\Debug\net8.0\PMS.Repository.AssemblyInfo.cs
+D:\1\K5\SWP391\Test\PMS.Repository\obj\Debug\net8.0\PMS.Repository.csproj.CoreCompileInputs.cache
+D:\1\K5\SWP391\Test\PMS.Repository\obj\Debug\net8.0\PMS.Repository.dll
+D:\1\K5\SWP391\Test\PMS.Repository\obj\Debug\net8.0\refint\PMS.Repository.dll
+D:\1\K5\SWP391\Test\PMS.Repository\obj\Debug\net8.0\PMS.Repository.pdb
+D:\1\K5\SWP391\Test\PMS.Repository\obj\Debug\net8.0\PMS.Repository.genruntimeconfig.cache
+D:\1\K5\SWP391\Test\PMS.Repository\obj\Debug\net8.0\ref\PMS.Repository.dll
