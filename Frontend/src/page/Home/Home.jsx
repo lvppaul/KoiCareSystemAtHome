@@ -20,7 +20,7 @@ function Home() {
           <Row className="hero-section">
             <Col md={4} >
             <div className="text-section">
-              <h1>FPT TTKoi</h1>
+              <h1>FPT TT Koi</h1>
               <h2>Koi Care System at Home</h2>
               <p>
                 This website is designed for Koi enthusiasts, offering features to assist with feeding, pond maintenance, and health monitoring, helping ensure your Koi thrive.

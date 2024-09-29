@@ -101,6 +101,9 @@
   text-align: left;
   font-weight: bold;
   font-size: 20px;
+  &:hover{
+    text-shadow: rgb(114, 114, 114) 0 4px 4px;
+  }
 }
 
 
