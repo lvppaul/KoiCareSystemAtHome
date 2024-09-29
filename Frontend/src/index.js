@@ -10,6 +10,8 @@ import Home from './page/Home/Home'
 import Login from './page/Login/Login'
 import Signup from './page/Signup/Signup'
 import Shop from './page/Shop/Shop';
+import Pond from './page/Pond/Pond';
+import AdminHome from './page/AdminHome/AdminHome';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,13 +20,13 @@ root.render(
       <Route path='/' element={<App />}>
         <Route index element={<Home />}></Route>
         <Route path='shop' element={<Shop />}></Route>
+        <Route path='pond' element={<Pond/>}></Route>
+        <Route path='calculation' element={<h1>Not Found</h1>}></Route>
+        <Route path='news' element={<h1>Not Found</h1>}></Route>
       </Route>
       <Route path='login' element={<Login />}></Route>
       <Route path='signup' element={<Signup />}></Route>
-      <Route path='pond' element={<h1>Not Found</h1>}></Route>
-      <Route path='calculation' element={<h1>Not Found</h1>}></Route>
-      <Route path='shop' element={<h1>Not Found</h1>}></Route>
-      <Route path='news' element={<h1>Not Found</h1>}></Route>
+      <Route path='usermanage' element={<AdminHome />}></Route>
     </Routes>
   </BrowserRouter>
 );
