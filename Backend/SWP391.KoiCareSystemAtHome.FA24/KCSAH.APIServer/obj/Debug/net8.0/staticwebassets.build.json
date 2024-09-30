@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "MNoJhEEumIj47pTZKOZA6h6q+VerXuOwa2/iCmjZZgg=",
+  "Source": "KCSAH.APIServer",
+  "BasePath": "_content/KCSAH.APIServer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
