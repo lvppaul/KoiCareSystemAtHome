@@ -19,6 +19,17 @@ CREATE TABLE [User] (
     Role BIT DEFAULT 0,               -- User role (admin or normal user, where 0 = normal user)
     isActive BIT DEFAULT 1            -- Account active status (1 = active, 0 = inactive)
 );
+INSERT INTO [User] (UserID, UserName, FullName, Pass, Phone, Sex, Email, Street, District, City, Country, Role, isActive)
+VALUES 
+('U001', 'john_doe', 'John Doe', 'password123', '1234567890', 'Male', 'john.doe@example.com', '123 Elm Street', 'District 1', 'New York', 'USA', 0, 1);
+
+INSERT INTO [User] (UserID, UserName, FullName, Pass, Phone, Sex, Email, Street, District, City, Country, Role, isActive)
+VALUES 
+('U002', 'jane_smith', 'Jane Smith', 'securePass456', '0987654321', 'Female', 'jane.smith@example.com', '456 Maple Avenue', 'District 2', 'Los Angeles', 'USA', 0, 1);
+
+INSERT INTO [User] (UserID, UserName, FullName, Pass, Phone, Sex, Email, Street, District, City, Country, Role, isActive)
+VALUES 
+('U003', 'admin_user', 'Admin User', 'adminPass789', '1122334455', 'Male', 'admin@example.com', '789 Oak Lane', 'District 3', 'Chicago', 'USA', 1, 1);
 
 --Create Pond table
 CREATE TABLE Pond (
