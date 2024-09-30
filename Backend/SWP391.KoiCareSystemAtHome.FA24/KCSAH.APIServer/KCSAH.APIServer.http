@@ -1,0 +1,6 @@
+@KCSAH.APIServer_HostAddress = http://localhost:5136
+
+GET {{KCSAH.APIServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
