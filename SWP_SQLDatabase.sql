@@ -5,7 +5,7 @@ go
 
 --Create User table
 CREATE TABLE [User] (
-    UserID NVARCHAR(50) NOT NULL PRIMARY KEY,  -- Primary key
+    UserID varchar(10) NOT NULL PRIMARY KEY,  -- Primary key
     UserName VARCHAR(50) NOT NULL,    -- User's username
     FullName NVARCHAR(200) NOT NULL,  -- User's full name
     Pass VARCHAR(50) NOT NULL,        -- User's password (consider using hashing for better security)
@@ -22,8 +22,8 @@ CREATE TABLE [User] (
 
 --Create Pond table
 CREATE TABLE Pond (
-    PondID NVARCHAR(50) NOT NULL PRIMARY KEY,            -- Primary key
-    UserID NVARCHAR(50) NOT NULL,                        -- Foreign key to the User table
+    PondID varchar(10) NOT NULL PRIMARY KEY,            -- Primary key
+    UserID varchar(10) NOT NULL,                        -- Foreign key to the User table
     Name NVARCHAR(50) NOT NULL,                 -- Pond name
     Volume FLOAT NOT NULL,                      -- Pond volume
     Depth INT NOT NULL,                         -- Pond depth
@@ -36,21 +36,21 @@ CREATE TABLE Pond (
 
 --Create Category table
 CREATE TABLE Category (
-	CategoryID NVARCHAR(50) NOT NULL PRIMARY KEY,
+	CategoryID varchar(10) NOT NULL PRIMARY KEY,
 	Name NVARCHAR(255) NOT NULL,
 	Description NVARCHAR(Max) NOT NULL
 );
 
 --Create Product table
 CREATE TABLE Product(
-	ProductID NVARCHAR(50) NOT NULL PRIMARY KEY,
+	ProductID varchar(10) NOT NULL PRIMARY KEY,
 	Name NVARCHAR(255) NOT NULL,
 	Description NVARCHAR(Max) NOT NULL,
 	Quantity INT NOT NULL,
 	Price FLOAT NOT NULL,
 	Status bit default 1,
-	CategoryID NVARCHAR(50) NOT NULL,
-	UserID NVARCHAR(50) NOT NULL,
+	CategoryID varchar(10) NOT NULL,
+	UserID varchar(10) NOT NULL,
 	FOREIGN KEY (UserID) REFERENCES [User](UserID),
 	FOREIGN KEY (CategoryID) REFERENCES [Category](CategoryID)
 );
@@ -58,14 +58,14 @@ CREATE TABLE Product(
 --Create Product_Image table
 CREATE TABLE Product_Image(
 	ImageID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	ProductID NVARCHAR(50) NOT NULL,
+	ProductID varchar(10) NOT NULL,
 	Path NVARCHAR(Max) NOT NULL,
 	FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
 );
 --Create Cart table
 CREATE TABLE Cart(
 	CartID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	UserID NVARCHAR(50) NOT NULL,
+	UserID varchar(10) NOT NULL,
 	TotalQuantity INT NOT NULL,
 	TotalPrice FLOAT NOT NULL,
 	TotalItems INT NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE Cart(
 --Create Shop table
 CREATE TABLE Shop(
 	ShopID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	UserID NVARCHAR(50) NOT NULL,
+	UserID varchar(10) NOT NULL,
 	ShopName NVARCHAR(255) NOT NULL,
 	Picture VARCHAR(Max) NOT NULL,
 	Description NVARCHAR(255) NOT NULL,
@@ -88,9 +88,9 @@ CREATE TABLE Shop(
 
 --Create Koi table
 CREATE TABLE Koi (
-    KoiID NVARCHAR(50) NOT NULL PRIMARY KEY,           -- Primary key
-    UserID NVARCHAR(50) NOT NULL,                       -- Foreign key to the User table
-    PondID NVARCHAR(50) NOT NULL,                       -- Foreign key to the Pond table
+    KoiID varchar(10) NOT NULL PRIMARY KEY,           -- Primary key
+    UserID varchar(10) NOT NULL,                       -- Foreign key to the User table
+    PondID varchar(10) NOT NULL,                       -- Foreign key to the Pond table
     Age INT NOT NULL,                          -- Age of the fish
     Name NVARCHAR(255) NOT NULL,               -- Name of the fish
     Note NVARCHAR(MAX) NOT NULL,               -- Additional notes about the fish
@@ -106,8 +106,8 @@ CREATE TABLE Koi (
 --Create Koi_Record table
 CREATE TABLE Koi_Record(
 	RecordID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	UserID NVARCHAR(50) NOT NULL,
-	KoiID NVARCHAR(50) NOT NULL,
+	UserID varchar(10) NOT NULL,
+	KoiID varchar(10) NOT NULL,
 	Weight INT NOT NULL,
 	Length INT NOT NULL,
 	UpdatedTime DATETIME NOT NULL,
@@ -118,7 +118,7 @@ CREATE TABLE Koi_Record(
 --Create Koi_Image table
 CREATE TABLE Koi_Image(
 	ImageID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	KoiID NVARCHAR(50) NOT NULL,
+	KoiID varchar(10) NOT NULL,
 	Path NVARCHAR(Max) NOT NULL,
 	FOREIGN KEY (KoiID) REFERENCES Koi(KoiID)
 );
@@ -126,8 +126,8 @@ CREATE TABLE Koi_Image(
 --Create Koi_Remind table
 CREATE TABLE Koi_Remind(
 	RemindID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	UserID NVARCHAR(50) NOT NULL,
-	KoiID NVARCHAR(50) NOT NULL,
+	UserID varchar(10) NOT NULL,
+	KoiID varchar(10) NOT NULL,
 	Description NVARCHAR(255) NOT NULL,
 	DateRemind DATE NOT NULL,
 	FOREIGN KEY (UserID) REFERENCES [User](UserID),
@@ -137,7 +137,7 @@ CREATE TABLE Koi_Remind(
 --Create Blogs Table
 CREATE TABLE Blogs (
     BlogID INT NOT NULL PRIMARY KEY,
-    UserID NVARCHAR(50) NOT NULL,
+    UserID varchar(10) NOT NULL,
     PublishDate DATE NOT NULL,
     Content NVARCHAR(MAX) NOT NULL,
     Title NVARCHAR(255) NOT NULL,
@@ -147,7 +147,7 @@ CREATE TABLE Blogs (
 --Create CartItem table
 CREATE TABLE CartItem (
     CartItemID INT NOT NULL PRIMARY KEY,
-    ProductID NVARCHAR(50) NOT NULL,
+    ProductID varchar(10) NOT NULL,
     CartID INT NOT NULL,
     Quantity INT NOT NULL,
     PricePerItem FLOAT NOT NULL,
@@ -166,8 +166,8 @@ CREATE TABLE PaymentMethod(
 --Create Water_Parameter table
 CREATE TABLE Water_Parameter (
     MeasureID INT NOT NULL PRIMARY KEY,
-    UserID NVARCHAR(50) NOT NULL,
-    PondID NVARCHAR(50) NOT NULL,
+    UserID varchar(10) NOT NULL,
+    PondID varchar(10) NOT NULL,
     Nitrite FLOAT NOT NULL,
     Oxygen FLOAT NOT NULL,
     Nitrate FLOAT NOT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE Water_Parameter (
 --Create Orders table
 CREATE TABLE Orders (
     OrderID int NOT NULL PRIMARY KEY,
-    UserID NVARCHAR(50) NOT NULL,
+    UserID varchar(10) NOT NULL,
     ShopID int NOT NULL,
     FullName nvarchar(200) NOT NULL,
     Phone varchar(20) NOT NULL,
@@ -214,7 +214,7 @@ CREATE TABLE Orders (
 CREATE TABLE OrderDetail (
     OrderDetail_ID int NOT NULL PRIMARY KEY,
     OrderID int NOT NULL,
-    ProductID NVARCHAR(50) NOT NULL,
+    ProductID varchar(10) NOT NULL,
     Quantity int NOT NULL,
     UnitPrice float NOT NULL,
     CreatedAt date NOT NULL,
