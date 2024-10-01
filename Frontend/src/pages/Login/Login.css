@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('../../assets/login-bg.png');
+    background-image: url('../../assets/images/login-bg.png');
     background-size: cover;
     background-position: center;
 }

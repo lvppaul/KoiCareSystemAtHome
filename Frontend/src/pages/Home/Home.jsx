@@ -1,11 +1,11 @@
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './Home.css'; // Create this CSS file for custom styles
-import landing from '../../assets/landing-pic.png'
-import feaure1 from '../../assets/managepond.png'
-import feaure2 from '../../assets/calculation.png'
-import feaure3 from '../../assets/shop.png'
-import feaure4 from '../../assets/news-pic.png'
+import landing from '../../assets/images/landing.png'
+import feaure1 from '../../assets/images/managepond.png'
+import feaure2 from '../../assets/images/calculation.png'
+import feaure3 from '../../assets/images/shop.png'
+import feaure4 from '../../assets/images/news.png'
 import logoFeature1 from '../../assets/icon-managepond.svg'
 import logoFeature2 from '../../assets/icon-calculation.svg'
 import logoFeature3 from '../../assets/icon-shop.svg'

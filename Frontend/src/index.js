@@ -6,10 +6,10 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './page/Home/Home'
-import Login from './page/Login/Login'
-import Signup from './page/Signup/Signup'
-import Shop from './page/Shop/Shop';
+import Home from './pages/Home/Home'
+import Login from './pages/Login/Login'
+import Signup from './pages/Signup/Signup'
+import Shop from './pages/Shop/Shop';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,10 +21,12 @@ root.render(
       </Route>
       <Route path='login' element={<Login />}></Route>
       <Route path='signup' element={<Signup />}></Route>
-      <Route path='pond' element={<h1>Not Found</h1>}></Route>
-      <Route path='calculation' element={<h1>Not Found</h1>}></Route>
-      <Route path='shop' element={<h1>Not Found</h1>}></Route>
-      <Route path='news' element={<h1>Not Found</h1>}></Route>
+      <Route path='pond' element={<h1>pond</h1>}></Route>
+      <Route path='foodcalculator' element={<h1>foodcalculator</h1>}></Route>
+      <Route path='saltcalculator' element={<h1>saltcalculator</h1>}></Route>
+      <Route path='blogs' element={<h1>blogs</h1>}></Route>
+      <Route path='news' element={<h1>news</h1>}></Route>
+      <Route path='*' element={<h1>Not Found</h1>}></Route>
     </Routes>
   </BrowserRouter>
 );
