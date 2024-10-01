@@ -1,14 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\github\\Backend .Net\\SWP391.KoiCareSystemAtHome.FA24\\",
+  "WorkspaceRootPath": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1035ABAA-DF35-4EB8-911D-09672534BE4B}|KCSAH.APIServer\\KCSAH.APIServer.csproj|d:\\github\\backend .net\\swp391.koicaresystemathome.fa24\\kcsah.apiserver\\controllers\\koicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1035ABAA-DF35-4EB8-911D-09672534BE4B}|KCSAH.APIServer\\KCSAH.APIServer.csproj|d:\\github\\swp391\\backend\\swp391.koicaresystemathome.fa24\\kcsah.apiserver\\controllers\\koicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1035ABAA-DF35-4EB8-911D-09672534BE4B}|KCSAH.APIServer\\KCSAH.APIServer.csproj|solutionrelative:kcsah.apiserver\\controllers\\koicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|d:\\github\\backend .net\\swp391.koicaresystemathome.fa24\\swp391.kcsah.repository\\models\\koicaresystemathomecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|solutionrelative:swp391.kcsah.repository\\models\\koicaresystemathomecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|d:\\github\\swp391\\backend\\swp391.koicaresystemathome.fa24\\swp391.kcsah.repository\\kcsah.repository\\koirepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|solutionrelative:swp391.kcsah.repository\\kcsah.repository\\koirepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|d:\\github\\swp391\\backend\\swp391.koicaresystemathome.fa24\\swp391.kcsah.repository\\base\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|solutionrelative:swp391.kcsah.repository\\base\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|d:\\github\\swp391\\backend\\swp391.koicaresystemathome.fa24\\swp391.kcsah.repository\\models\\koi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|solutionrelative:swp391.kcsah.repository\\models\\koi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +26,57 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "KoiController.cs",
-              "DocumentMoniker": "D:\\github\\Backend .Net\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Controllers\\KoiController.cs",
-              "RelativeDocumentMoniker": "KCSAH.APIServer\\Controllers\\KoiController.cs",
-              "ToolTip": "D:\\github\\Backend .Net\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Controllers\\KoiController.cs",
-              "RelativeToolTip": "KCSAH.APIServer\\Controllers\\KoiController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Base\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "SWP391.KCSAH.Repository\\Base\\GenericRepository.cs",
+              "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Base\\GenericRepository.cs",
+              "RelativeToolTip": "SWP391.KCSAH.Repository\\Base\\GenericRepository.cs",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAcwFQAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T09:38:01.967Z",
+              "WhenOpened": "2024-10-01T03:53:28.351Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "KoiCareSystemAtHomeContext.cs",
-              "DocumentMoniker": "D:\\github\\Backend .Net\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\KoiCareSystemAtHomeContext.cs",
-              "RelativeDocumentMoniker": "SWP391.KCSAH.Repository\\Models\\KoiCareSystemAtHomeContext.cs",
-              "ToolTip": "D:\\github\\Backend .Net\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\KoiCareSystemAtHomeContext.cs",
-              "RelativeToolTip": "SWP391.KCSAH.Repository\\Models\\KoiCareSystemAtHomeContext.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAkwEUAAAC8AAAAAAAAAA==",
+              "Title": "KoiRepository.cs",
+              "DocumentMoniker": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\KCSAH.Repository\\KoiRepository.cs",
+              "RelativeDocumentMoniker": "SWP391.KCSAH.Repository\\KCSAH.Repository\\KoiRepository.cs",
+              "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\KCSAH.Repository\\KoiRepository.cs",
+              "RelativeToolTip": "SWP391.KCSAH.Repository\\KCSAH.Repository\\KoiRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAsAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T09:30:19.633Z",
+              "WhenOpened": "2024-09-30T15:56:46.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Koi.cs",
+              "DocumentMoniker": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\Koi.cs",
+              "RelativeDocumentMoniker": "SWP391.KCSAH.Repository\\Models\\Koi.cs",
+              "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\Koi.cs",
+              "RelativeToolTip": "SWP391.KCSAH.Repository\\Models\\Koi.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAiwCUAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-30T15:42:31.942Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "KoiController.cs",
+              "DocumentMoniker": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Controllers\\KoiController.cs",
+              "RelativeDocumentMoniker": "KCSAH.APIServer\\Controllers\\KoiController.cs",
+              "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Controllers\\KoiController.cs",
+              "RelativeToolTip": "KCSAH.APIServer\\Controllers\\KoiController.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAAAEUAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-30T09:38:01.967Z",
               "EditorCaption": ""
             }
           ]

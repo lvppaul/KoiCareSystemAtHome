@@ -18,5 +18,78 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "KCSAH.APIServer.Controllers.KoiController",
+    "Method": "CreateKoi",
+    "RelativePath": "api/Koi",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "koi",
+        "Type": "SWP391.KCSAH.Repository.Models.Koi",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SWP391.KCSAH.Repository.Models.Koi",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "KCSAH.APIServer.Controllers.KoiController",
+    "Method": "GetKoiById",
+    "RelativePath": "api/Koi/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SWP391.KCSAH.Repository.Models.Koi",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "KCSAH.APIServer.Controllers.KoiController",
+    "Method": "UpdateKoi",
+    "RelativePath": "api/Koi/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "koi",
+        "Type": "SWP391.KCSAH.Repository.Models.Koi",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

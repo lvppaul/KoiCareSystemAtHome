@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TyLtWQ97wOA=",
+  "dgSpecHash": "r0A7C+W6MRQ=",
   "success": true,
-  "projectFilePath": "D:\\github\\Backend .Net\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\KCSAH.APIServer.csproj",
+  "projectFilePath": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\KCSAH.APIServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Luu Minh Quan\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Luu Minh Quan\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
