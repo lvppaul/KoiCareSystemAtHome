@@ -12,3 +12,18 @@ D:\github\Backend .Net\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\o
 D:\github\Backend .Net\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\SWP391.KCSAH.Repository.pdb
 D:\github\Backend .Net\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\SWP391.KCSAH.Repository.genruntimeconfig.cache
 D:\github\Backend .Net\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\ref\SWP391.KCSAH.Repository.dll
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\bin\Debug\net8.0\SWP391.KCSAH.Repository.deps.json
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\bin\Debug\net8.0\SWP391.KCSAH.Repository.runtimeconfig.json
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\bin\Debug\net8.0\SWP391.KCSAH.Repository.dll
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\bin\Debug\net8.0\SWP391.KCSAH.Repository.pdb
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\SWP391.KCSAH.Repository.csproj.AssemblyReference.cache
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\SWP391.KCSAH.Repository.GeneratedMSBuildEditorConfig.editorconfig
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\SWP391.KCSAH.Repository.AssemblyInfoInputs.cache
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\SWP391.KCSAH.Repository.AssemblyInfo.cs
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\SWP391.KCSAH.Repository.csproj.CoreCompileInputs.cache
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\SWP391.KCSAH.Repository.sourcelink.json
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\SWP391.KCSAH.Repository.dll
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\refint\SWP391.KCSAH.Repository.dll
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\SWP391.KCSAH.Repository.pdb
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\SWP391.KCSAH.Repository.genruntimeconfig.cache
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\SWP391.KCSAH.Repository\obj\Debug\net8.0\ref\SWP391.KCSAH.Repository.dll

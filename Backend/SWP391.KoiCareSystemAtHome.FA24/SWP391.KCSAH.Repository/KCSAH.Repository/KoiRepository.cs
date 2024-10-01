@@ -12,5 +12,18 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
     public class KoiRepository : GenericRepository<Koi>
     {
         public KoiRepository(KoiCareSystemAtHomeContext context) => _context = context;
+
+        public async Task<List<Koi>> GetAllAsync()
+        {
+            return await _context.Kois.ToListAsync();
+        }
+
+        public async Task<Koi> GetByIdAsync(string id)
+        {
+            var result = await _context.Kois.Include(p => p.User).Include(p => p.Pond).FirstAsync(p => p.KoiId.Equals(id));
+
+            return result;
+        }
+
     }
 }

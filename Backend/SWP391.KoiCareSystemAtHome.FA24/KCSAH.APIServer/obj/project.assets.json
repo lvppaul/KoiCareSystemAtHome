@@ -3555,11 +3555,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\github\\Backend .Net\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\KCSAH.APIServer.csproj",
+      "projectUniqueName": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\KCSAH.APIServer.csproj",
       "projectName": "KCSAH.APIServer",
-      "projectPath": "D:\\github\\Backend .Net\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\KCSAH.APIServer.csproj",
+      "projectPath": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\KCSAH.APIServer.csproj",
       "packagesPath": "C:\\Users\\Luu Minh Quan\\.nuget\\packages\\",
-      "outputPath": "D:\\github\\Backend .Net\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\obj\\",
+      "outputPath": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Luu Minh Quan\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3577,8 +3577,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\github\\Backend .Net\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj": {
-              "projectPath": "D:\\github\\Backend .Net\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj"
+            "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj": {
+              "projectPath": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj"
             }
           }
         }
