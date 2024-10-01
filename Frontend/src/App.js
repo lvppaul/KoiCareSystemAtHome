@@ -1,18 +1,20 @@
-import './App.css';
-import Nav from './components/Navbar/Navigationbar';
-import Footer from './components/Footer/Footer';
-import {Outlet } from 'react-router-dom';
-import Home from './pages/Home/Home';
+import "./App.css";
+import Nav from "./components/Navbar/Navigationbar";
+import Footer from "./components/Footer/Footer";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
     <>
-      <div className='navbar'><Nav /></div>
-      <div className='main-content'>
-
+      <div className="navbar">
+        <Nav />
+      </div>
+      <div className="main-content">
         <Outlet />
       </div>
-      <div className='footer'> <Footer /></div>
+      <div className="footer">
+        <Footer />
+      </div>
     </>
   );
 }

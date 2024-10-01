@@ -16,9 +16,9 @@ function Footer() {
           <div className="col-lg-2 col-md-6 mb-4">
             <h5>Get Help</h5>
             <ul className="list-unstyled">
-              <li><a href="#">Order status</a></li>
-              <li><a href="#">FAQs</a></li>
-              <li><a href="#">Terms & Condition</a></li>
+              <li><a href="/valid-path">Order status</a></li>
+              <li><a href="/valid-path">FAQs</a></li>
+              <li><a href="/valid-path">Terms & Condition</a></li>
             </ul>
           </div>
 
@@ -26,10 +26,10 @@ function Footer() {
           <div className="col-lg-2 col-md-6 mb-4">
             <h5>Features</h5>
             <ul className="list-unstyled">
-              <li><a href="#">Pond</a></li>
-              <li><a href="#">Shop</a></li>
-              <li><a href="#">News</a></li>
-              <li><a href="#">Blogs</a></li>
+              <li><a href="/valid-path">Pond</a></li>
+              <li><a href="/valid-path">Shop</a></li>
+              <li><a href="/valid-path">News</a></li>
+              <li><a href="/valid-path">Blogs</a></li>
             </ul>
           </div>
 
@@ -37,8 +37,8 @@ function Footer() {
           <div className="col-lg-2 col-md-6 mb-4">
             <h5>About Us</h5>
             <ul className="list-unstyled">
-              <li><a href="#">About FPT TTKoi</a></li>
-              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="/valid-path">About FPT TTKoi</a></li>
+              <li><a href="/valid-path">Privacy Policy</a></li>
               <br></br>
               <li style={{ color: 'gray', fontSize: '36px', fontWeight: 'bold'}}>FPT TTKoi</li>
             </ul>
@@ -48,8 +48,8 @@ function Footer() {
           <div className="col-lg-2 col-md-6 mb-4">
             <h5>Contact</h5>
             <ul className="list-unstyled">
-              <li><a href="#">Email</a></li>
-              <li><a href="#">Hotline</a></li>
+              <li><a href="/valid-path">Email</a></li>
+              <li><a href="/valid-path">Hotline</a></li>
             </ul>
           </div>
         </div>
