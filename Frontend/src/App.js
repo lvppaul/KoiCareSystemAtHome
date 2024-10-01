@@ -11,7 +11,6 @@ function App() {
     <>
       <div className='navbar'><Nav /></div>
       <div className='main-content'>
-        <AdminHome />
         <Outlet />
       </div>
       <div className='footer'> <Footer /></div>
