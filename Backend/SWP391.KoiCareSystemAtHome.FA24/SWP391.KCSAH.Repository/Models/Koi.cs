@@ -33,7 +33,7 @@ public partial class Koi
 
     public virtual ICollection<KoiRemind> KoiReminds { get; set; } = new List<KoiRemind>();
 
-    public virtual Pond? Pond { get; set; } = null!;
+    public virtual Pond Pond { get; set; } = null!;
 
-    public virtual User? User { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
 }
