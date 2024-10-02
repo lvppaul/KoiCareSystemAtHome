@@ -91,5 +91,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KCSAH.APIServer.Controllers.KoiController",
+    "Method": "DeleteKoi",
+    "RelativePath": "api/Koi/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
