@@ -38,8 +38,7 @@
               "RelativeToolTip": "SWP391.KCSAH.Repository\\Base\\GenericRepository.cs",
               "ViewState": "AgIAAEYAAAAAAAAAAAAcwFQAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T03:53:28.351Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-01T03:53:28.351Z"
             },
             {
               "$type": "Document",
@@ -51,8 +50,7 @@
               "RelativeToolTip": "SWP391.KCSAH.Repository\\KCSAH.Repository\\KoiRepository.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAAAsAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T15:56:46.405Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-30T15:56:46.405Z"
             },
             {
               "$type": "Document",
@@ -74,7 +72,7 @@
               "RelativeDocumentMoniker": "KCSAH.APIServer\\Controllers\\KoiController.cs",
               "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Controllers\\KoiController.cs",
               "RelativeToolTip": "KCSAH.APIServer\\Controllers\\KoiController.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAAAEUAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAYwEsAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-30T09:38:01.967Z",
               "EditorCaption": ""
