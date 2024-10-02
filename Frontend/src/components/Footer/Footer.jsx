@@ -1,6 +1,6 @@
 import React from 'react';
 import './Footer.css';
-import Logo from '../../assets/logo.svg'; 
+import Logo from '../../assets/logo.svg';
 
 function Footer() {
   return (
@@ -40,7 +40,7 @@ function Footer() {
               <li><a href="/valid-path">About FPT TTKoi</a></li>
               <li><a href="/valid-path">Privacy Policy</a></li>
               <br></br>
-              <li style={{ color: 'gray', fontSize: '36px', fontWeight: 'bold'}}>FPT TTKoi</li>
+              <li style={{ color: 'gray', fontSize: '36px', fontWeight: 'bold' }}>FPT TTKoi</li>
             </ul>
           </div>
 
@@ -54,7 +54,7 @@ function Footer() {
           </div>
         </div>
 
-        <hr/>
+        <hr />
 
         {/* Bottom Section */}
         <div className="row">
