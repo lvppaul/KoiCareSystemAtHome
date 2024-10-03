@@ -1,34 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\",
+  "WorkspaceRootPath": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1035ABAA-DF35-4EB8-911D-09672534BE4B}|KCSAH.APIServer\\KCSAH.APIServer.csproj|d:\\github\\swp391\\backend\\swp391.koicaresystemathome.fa24\\kcsah.apiserver\\controllers\\shopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1035ABAA-DF35-4EB8-911D-09672534BE4B}|KCSAH.APIServer\\KCSAH.APIServer.csproj|solutionrelative:kcsah.apiserver\\controllers\\shopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1035ABAA-DF35-4EB8-911D-09672534BE4B}|KCSAH.APIServer\\KCSAH.APIServer.csproj|d:\\github\\swp391\\backend\\swp391.koicaresystemathome.fa24\\kcsah.apiserver\\controllers\\koicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1035ABAA-DF35-4EB8-911D-09672534BE4B}|KCSAH.APIServer\\KCSAH.APIServer.csproj|solutionrelative:kcsah.apiserver\\controllers\\koicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|d:\\github\\swp391\\backend\\swp391.koicaresystemathome.fa24\\swp391.kcsah.repository\\models\\shop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|d:\\1\\k5\\swp391\\project\\backend\\swp391.koicaresystemathome.fa24\\swp391.kcsah.repository\\models\\shop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|solutionrelative:swp391.kcsah.repository\\models\\shop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|d:\\github\\swp391\\backend\\swp391.koicaresystemathome.fa24\\swp391.kcsah.repository\\models\\koi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|solutionrelative:swp391.kcsah.repository\\models\\koi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|d:\\1\\k5\\swp391\\project\\backend\\swp391.koicaresystemathome.fa24\\swp391.kcsah.repository\\models\\productimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|solutionrelative:swp391.kcsah.repository\\models\\productimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|d:\\github\\swp391\\backend\\swp391.koicaresystemathome.fa24\\swp391.kcsah.repository\\base\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|solutionrelative:swp391.kcsah.repository\\base\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|d:\\github\\swp391\\backend\\swp391.koicaresystemathome.fa24\\swp391.kcsah.repository\\kcsah.repository\\koirepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|solutionrelative:swp391.kcsah.repository\\kcsah.repository\\koirepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|d:\\github\\swp391\\backend\\swp391.koicaresystemathome.fa24\\swp391.kcsah.repository\\kcsah.repository\\shoprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1A589C4-63E9-4B5D-9E7C-E53B336BF22D}|SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj|solutionrelative:swp391.kcsah.repository\\kcsah.repository\\shoprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1035ABAA-DF35-4EB8-911D-09672534BE4B}|KCSAH.APIServer\\KCSAH.APIServer.csproj|d:\\1\\k5\\swp391\\project\\backend\\swp391.koicaresystemathome.fa24\\kcsah.apiserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1035ABAA-DF35-4EB8-911D-09672534BE4B}|KCSAH.APIServer\\KCSAH.APIServer.csproj|solutionrelative:kcsah.apiserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,92 +22,46 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Shop.cs",
-              "DocumentMoniker": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\Shop.cs",
-              "RelativeDocumentMoniker": "SWP391.KCSAH.Repository\\Models\\Shop.cs",
-              "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\Shop.cs",
-              "RelativeToolTip": "SWP391.KCSAH.Repository\\Models\\Shop.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAA3wBsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T15:22:50.51Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ShopController.cs",
-              "DocumentMoniker": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Controllers\\ShopController.cs",
-              "RelativeDocumentMoniker": "KCSAH.APIServer\\Controllers\\ShopController.cs",
-              "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Controllers\\ShopController.cs",
-              "RelativeToolTip": "KCSAH.APIServer\\Controllers\\ShopController.cs",
-              "ViewState": "AgIAAEoAAAAAAAAAAAA/wFUAAAAfAAAAAAAAAA==",
+              "Title": "Shop.cs",
+              "DocumentMoniker": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\Shop.cs",
+              "RelativeDocumentMoniker": "SWP391.KCSAH.Repository\\Models\\Shop.cs",
+              "ToolTip": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\Shop.cs",
+              "RelativeToolTip": "SWP391.KCSAH.Repository\\Models\\Shop.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T15:04:28.703Z",
+              "WhenOpened": "2024-10-03T08:22:22.859Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ShopRepository.cs",
-              "DocumentMoniker": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\KCSAH.Repository\\ShopRepository.cs",
-              "RelativeDocumentMoniker": "SWP391.KCSAH.Repository\\KCSAH.Repository\\ShopRepository.cs",
-              "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\KCSAH.Repository\\ShopRepository.cs",
-              "RelativeToolTip": "SWP391.KCSAH.Repository\\KCSAH.Repository\\ShopRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T15:02:46.957Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "GenericRepository.cs",
-              "DocumentMoniker": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Base\\GenericRepository.cs",
-              "RelativeDocumentMoniker": "SWP391.KCSAH.Repository\\Base\\GenericRepository.cs",
-              "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Base\\GenericRepository.cs",
-              "RelativeToolTip": "SWP391.KCSAH.Repository\\Base\\GenericRepository.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAgwEAAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T03:53:28.351Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "KoiRepository.cs",
-              "DocumentMoniker": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\KCSAH.Repository\\KoiRepository.cs",
-              "RelativeDocumentMoniker": "SWP391.KCSAH.Repository\\KCSAH.Repository\\KoiRepository.cs",
-              "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\KCSAH.Repository\\KoiRepository.cs",
-              "RelativeToolTip": "SWP391.KCSAH.Repository\\KCSAH.Repository\\KoiRepository.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAABQAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T15:56:46.405Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Koi.cs",
-              "DocumentMoniker": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\Koi.cs",
-              "RelativeDocumentMoniker": "SWP391.KCSAH.Repository\\Models\\Koi.cs",
-              "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\Koi.cs",
-              "RelativeToolTip": "SWP391.KCSAH.Repository\\Models\\Koi.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAiwCMAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T15:42:31.942Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "KoiController.cs",
-              "DocumentMoniker": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Controllers\\KoiController.cs",
-              "RelativeDocumentMoniker": "KCSAH.APIServer\\Controllers\\KoiController.cs",
-              "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Controllers\\KoiController.cs",
-              "RelativeToolTip": "KCSAH.APIServer\\Controllers\\KoiController.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAYwBcAAABCAAAAAAAAAA==",
+              "Title": "ProductImage.cs",
+              "DocumentMoniker": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\ProductImage.cs",
+              "RelativeDocumentMoniker": "SWP391.KCSAH.Repository\\Models\\ProductImage.cs",
+              "ToolTip": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\Models\\ProductImage.cs",
+              "RelativeToolTip": "SWP391.KCSAH.Repository\\Models\\ProductImage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T09:38:01.967Z"
+              "WhenOpened": "2024-10-03T08:22:13.619Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Program.cs",
+              "RelativeDocumentMoniker": "KCSAH.APIServer\\Program.cs",
+              "ToolTip": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Program.cs",
+              "RelativeToolTip": "KCSAH.APIServer\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-03T08:13:11.514Z",
+              "EditorCaption": ""
             }
           ]
         }

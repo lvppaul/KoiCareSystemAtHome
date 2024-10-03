@@ -4410,19 +4410,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Luu Minh Quan\\.nuget\\packages\\": {}
+    "C:\\Users\\DELL\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj",
+      "projectUniqueName": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj",
       "projectName": "SWP391.KCSAH.Repository",
-      "projectPath": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj",
-      "packagesPath": "C:\\Users\\Luu Minh Quan\\.nuget\\packages\\",
-      "outputPath": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\obj\\",
+      "projectPath": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj",
+      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+      "outputPath": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Luu Minh Quan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
