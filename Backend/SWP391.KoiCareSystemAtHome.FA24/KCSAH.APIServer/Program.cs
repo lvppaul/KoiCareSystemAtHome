@@ -19,7 +19,14 @@ namespace KCSAH.APIServer
 
             builder.Services.AddScoped<UnitOfWork>();
             builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
+            // Add CORS services
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -30,7 +37,8 @@ namespace KCSAH.APIServer
             }
 
             app.UseHttpsRedirection();
-
+            // Use CORS
+            app.UseCors("AllowAllOrigins");
             app.UseAuthorization();
 
 

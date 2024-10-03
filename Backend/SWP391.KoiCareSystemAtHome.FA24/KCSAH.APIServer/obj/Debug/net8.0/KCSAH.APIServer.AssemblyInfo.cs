@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KCSAH.APIServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a400e5de4a657c471b1b03929d335f158633e4e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+43bb4d047942758b3a001dfd56819ba75f5eda19")]
 [assembly: System.Reflection.AssemblyProductAttribute("KCSAH.APIServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KCSAH.APIServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

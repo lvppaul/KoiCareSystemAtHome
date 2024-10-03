@@ -14,6 +14,8 @@ import NotPage from "./pages/NotPage/NotPage";
 import Pond from './pages/Pond/Pond';
 import AdminHome from './pages/Admin/Home/AdminHome';
 import TableUser from "./components/TableUser/TableUser";
+import SaltCalculator from "./pages/SaltCalculator/SaltCalculator";
+import FoodCalculator from "./pages/FoodCalculator/FoodCalculator";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -23,8 +25,8 @@ root.render(
         <Route index element={<Home />} />
         <Route path="shop" element={<Shop />} />
         <Route path="pond" element={<Pond />} />
-        <Route path="foodcalculator" element={<h1>Food Calculator</h1>} />
-        <Route path="saltcalculator" element={<h1>Salt Calculator</h1>} />
+        <Route path="foodcalculator" element={<FoodCalculator/>} />
+        <Route path="saltcalculator" element={<SaltCalculator/>} />
         <Route path="blogs" element={<h1>Blogs</h1>} />
         <Route path="news" element={<h1>News</h1>} />
         <Route path="*" element={<NotPage />} />
@@ -32,13 +34,13 @@ root.render(
 
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
-      <Route path="admin" element={<AdminHome />}>
+      <Route path="/admin/" element={<AdminHome />}>
           <Route index element={<h1>Report</h1>} />
           <Route path="report" element={<h1>Report</h1>} />
           <Route path="usermanage" element={<TableUser />} />
           <Route path="shopadmin" element={<h1>Shop</h1>} />
           <Route path="products" element={<h1>Products</h1>} />
-          <Route path="categories" element={<h1>Categories</h1>} />
+          <Route path="catagories" element={<h1>Categories</h1>} />
           <Route path="setting" element={<h1>Setting</h1>} />
           <Route path="feedback" element={<h1>Feedback</h1>} />
         </Route>
