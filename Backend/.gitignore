@@ -48,3 +48,7 @@ Thumbs.db
 /obj/
 /out/
 /target/
+# Ignore Visual Studio document layout backup settings
+documentlayout.backup.json
+documentlayout.json
+*.suo
