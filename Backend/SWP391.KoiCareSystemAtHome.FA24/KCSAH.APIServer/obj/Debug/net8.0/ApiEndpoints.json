@@ -179,5 +179,42 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "KCSAH.APIServer.Controllers.ShopController",
+    "Method": "UpdateShop",
+    "RelativePath": "api/Shop/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "shop",
+        "Type": "SWP391.KCSAH.Repository.Models.Shop",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KCSAH.APIServer.Controllers.ShopController",
+    "Method": "DeleteShop",
+    "RelativePath": "api/Shop/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
