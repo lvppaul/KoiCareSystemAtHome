@@ -18,7 +18,7 @@ function SideBar() {
                 <MenuItem component={<Link to="/admin/usermanage" />}> User Manager</MenuItem>
                 <MenuItem component={<Link to="/admin/shopadmin" />}> Shop</MenuItem>
                 <MenuItem component={<Link to="/admin/products" />}> Product</MenuItem>
-                <MenuItem component={<Link to="/admin/catagories" />}> Catagories</MenuItem>
+                <MenuItem component={<Link to="/admin/catagories"/>}> Catagories</MenuItem>
             </Menu>
 
             <Menu style={{paddingTop: '80px'}}>
