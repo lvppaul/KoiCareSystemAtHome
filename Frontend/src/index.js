@@ -34,13 +34,13 @@ root.render(
 
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
-      <Route path="admin" element={<AdminHome />}>
+      <Route path="/admin/" element={<AdminHome />}>
           <Route index element={<h1>Report</h1>} />
           <Route path="report" element={<h1>Report</h1>} />
           <Route path="usermanage" element={<TableUser />} />
           <Route path="shopadmin" element={<h1>Shop</h1>} />
           <Route path="products" element={<h1>Products</h1>} />
-          <Route path="categories" element={<h1>Categories</h1>} />
+          <Route path="catagories" element={<h1>Categories</h1>} />
           <Route path="setting" element={<h1>Setting</h1>} />
           <Route path="feedback" element={<h1>Feedback</h1>} />
         </Route>
