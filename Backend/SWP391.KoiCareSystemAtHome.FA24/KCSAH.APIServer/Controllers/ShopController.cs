@@ -44,5 +44,50 @@ namespace KCSAH.APIServer.Controllers
 
             return shop;
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateShop(int id, Shop shop)
+        {
+            if (id != shop.ShopId)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                _unitOfWork.ShopRepository.UpdateAsync(shop);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ShopExists(shop.ShopId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteShop(int id)
+        {
+            var shop = await _unitOfWork.ShopRepository.GetByIdAsync(id);
+
+            if(shop == null)
+            {
+                return NotFound();
+            }
+
+            await _unitOfWork.ShopRepository.RemoveAsync(shop);
+
+            return NoContent();
+        }
+        private bool ShopExists(int id) 
+        { 
+            return _unitOfWork.ShopRepository.GetByIdAsync(id) == null;    
+        }
     }
 }

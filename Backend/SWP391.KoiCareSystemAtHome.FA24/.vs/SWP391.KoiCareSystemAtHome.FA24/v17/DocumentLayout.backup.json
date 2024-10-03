@@ -50,8 +50,7 @@
               "RelativeToolTip": "SWP391.KCSAH.Repository\\Models\\Shop.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAA3wBsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T15:22:50.51Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-02T15:22:50.51Z"
             },
             {
               "$type": "Document",
@@ -61,7 +60,7 @@
               "RelativeDocumentMoniker": "KCSAH.APIServer\\Controllers\\ShopController.cs",
               "ToolTip": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\Controllers\\ShopController.cs",
               "RelativeToolTip": "KCSAH.APIServer\\Controllers\\ShopController.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAgwC4AAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAswFUAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-02T15:04:28.703Z",
               "EditorCaption": ""
@@ -76,8 +75,7 @@
               "RelativeToolTip": "SWP391.KCSAH.Repository\\KCSAH.Repository\\ShopRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T15:02:46.957Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-02T15:02:46.957Z"
             },
             {
               "$type": "Document",
@@ -89,8 +87,7 @@
               "RelativeToolTip": "SWP391.KCSAH.Repository\\Base\\GenericRepository.cs",
               "ViewState": "AgIAADMAAAAAAAAAAAAgwEAAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T03:53:28.351Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-01T03:53:28.351Z"
             },
             {
               "$type": "Document",
@@ -102,8 +99,7 @@
               "RelativeToolTip": "SWP391.KCSAH.Repository\\KCSAH.Repository\\KoiRepository.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAAAABQAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T15:56:46.405Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-30T15:56:46.405Z"
             },
             {
               "$type": "Document",
@@ -115,8 +111,7 @@
               "RelativeToolTip": "SWP391.KCSAH.Repository\\Models\\Koi.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAiwCMAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T15:42:31.942Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-30T15:42:31.942Z"
             },
             {
               "$type": "Document",
@@ -128,8 +123,7 @@
               "RelativeToolTip": "KCSAH.APIServer\\Controllers\\KoiController.cs",
               "ViewState": "AgIAADkAAAAAAAAAAAAYwBcAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T09:38:01.967Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-30T09:38:01.967Z"
             }
           ]
         }
