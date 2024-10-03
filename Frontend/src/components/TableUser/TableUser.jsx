@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import api from '../../API/AxiosConfig';
 import UserCard from '../UserCard/UserCard';
-
+import { Row } from 'react-bootstrap';
+import './TableUser.css';
 const TableUser = () => {
   const [users, setUsers] = useState([]);
   const fetchUserinfo = async () => {
@@ -21,7 +22,13 @@ const TableUser = () => {
 
   return (
     <>
-    <div>
+    <Row style={{display: 'flex' , justifyContent: 'center', alignItems:'center'}}>
+    <div style={{width:'1000px', height:'150px', borderRadius: '30px', border:'solid 1px black'}}>
+      
+    </div>
+    </Row>
+    <Row>
+    <div className='table-user'>
       <h1>Table User</h1>
       <Table striped bordered hover>
         <thead>
@@ -46,6 +53,7 @@ const TableUser = () => {
           ))}
       </Table>
     </div>
+    </Row>
     </>
   )
 }

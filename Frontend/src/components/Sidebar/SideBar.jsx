@@ -1,48 +1,40 @@
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { Sidebar, Menu, MenuItem  } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 import './SideBar.css';
-import { Button, Nav, NavbarBrand } from 'react-bootstrap';
 import logo from "../../assets/logo.svg";
+import React from 'react';
 function SideBar() {
     return (
         <>
-            <Sidebar>
-                <Menu>
-                    <div className='brand'>
-                <NavbarBrand>
-                    <img src={logo} alt='logo'/> 
-                    <span className="brand-name">FPT TT Koi</span>
-                </NavbarBrand>
-                    </div>
-                    <div className='menu'>
-                        
-                    <MenuItem>
-                        <Link to="/">Report</Link>
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to="/usermanage">Customer</Link>
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to="/">Shop</Link>
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to="/">Product</Link>
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to="/">Categories</Link>
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to="/">Setting</Link>
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to="/">Feedback</Link>
-                    </MenuItem>
-                    <MenuItem>
-                        <Button>Log out</Button>
-                    </MenuItem>
-                    </div>
-                </Menu>
-            </Sidebar>
+        <Sidebar style={{width:'100%'}}>
+        <div >
+          <div >
+            <div style={{backgroundColor: '#FF4900', borderTopRightRadius:'20px', marginBottom:'30px'}}>
+                <img src={logo} alt="logo" />
+                <span style={{ fontSize: '25px', fontWeight: 'bold' , fontStyle: 'italic'}}>FPT TT Koi</span>
+            </div>
+            <Menu style={{border:'none'}}>
+                <MenuItem component={<Link to="/admin/report" />}> Report</MenuItem>
+                <MenuItem component={<Link to="/admin/usermanage" />}> User Manager</MenuItem>
+                <MenuItem component={<Link to="/admin/shopadmin" />}> Shop</MenuItem>
+                <MenuItem component={<Link to="/admin/products" />}> Product</MenuItem>
+                <MenuItem component={<Link to="/admin/catagories" />}> Catagories</MenuItem>
+            </Menu>
+
+            <Menu style={{paddingTop: '80px'}}>
+              <MenuItem component={<Link to="/admin/setting" />}>
+                Setting
+              </MenuItem>
+              <MenuItem component={<Link to="/admin/feedback" />}>
+              Feedback
+              </MenuItem>
+              <MenuItem onClick={alert}>
+                Log out
+              </MenuItem>
+            </Menu>
+          </div>
+        </div>
+      </Sidebar>
         </>
     )
 }

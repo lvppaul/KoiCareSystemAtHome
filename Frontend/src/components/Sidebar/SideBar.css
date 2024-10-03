@@ -1,18 +1,27 @@
-.ps-menu-root{
-    border: 0.5px solid black;
-    border-radius: 10px;
+.ps-sidebar-container {
+    background-color: white;
 }
-.brand{
-    background-color: #FF4900;
-}
-.brand-name{
-    font-size: 25px;
+.ps-menu-root li{
+    background-color: #ff4900;
+    margin: 30px 0px;
+    border-top-right-radius: 20px; 
+    border-bottom-right-radius: 20px;
+    width: 200px;
+    height: 50px;
+    font-size: 18px;
     font-weight: bold;
+    color: white;
 }
 
-.menu li{
-    text-decoration: none;
-    border: 1px solid #FF4900;
-    padding: 10px;
-    border-radius-right: 10px;
+.ps-menu-root a{
+    &.active {
+        background-color: #040100;
+        border-top-right-radius: 20px; 
+        border-bottom-right-radius: 20px;
+    }
+    &:hover {
+        background-color: #040100 !important;
+        border-top-right-radius: 20px; 
+        border-bottom-right-radius: 20px;
+    }
 }

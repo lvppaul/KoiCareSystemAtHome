@@ -1,0 +1,29 @@
+.admin-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: unset;
+}
+
+.admin-nav__search {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-nav__search input {
+    width: 60%;
+    height: 60px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.admin-nav__user {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #495057;
+}

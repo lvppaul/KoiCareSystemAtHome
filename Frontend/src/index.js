@@ -11,27 +11,37 @@ import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import Shop from "./pages/Shop/Shop";
 import NotPage from "./pages/NotPage/NotPage";
-import Pond from './page/Pond/Pond';
-import AdminHome from './page/AdminHome/AdminHome';
+import Pond from './pages/Pond/Pond';
+import AdminHome from './pages/Admin/Home/AdminHome';
+import TableUser from "./components/TableUser/TableUser";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}>
-        <Route index element={<Home />}></Route>
-        <Route path="shop" element={<Shop />}></Route>
-        <Route path="pond" element={<h1>pond</h1>}></Route>
-        <Route path="foodcalculator" element={<h1>foodcalculator</h1>}></Route>
-        <Route path="saltcalculator" element={<h1>saltcalculator</h1>}></Route>
-        <Route path="blogs" element={<h1>blogs</h1>}></Route>
-        <Route path="news" element={<h1>news</h1>}></Route>
-        <Route path="*" element={<NotPage />}></Route>
+        <Route index element={<Home />} />
+        <Route path="shop" element={<Shop />} />
+        <Route path="pond" element={<Pond />} />
+        <Route path="foodcalculator" element={<h1>Food Calculator</h1>} />
+        <Route path="saltcalculator" element={<h1>Salt Calculator</h1>} />
+        <Route path="blogs" element={<h1>Blogs</h1>} />
+        <Route path="news" element={<h1>News</h1>} />
+        <Route path="*" element={<NotPage />} />
       </Route>
-      <Route path='login' element={<Login />}></Route>
-      <Route path='signup' element={<Signup />}></Route>
-      <Route path='admin' element={<AdminHome />}></Route>
-      <Route path='usermanage' element={<AdminHome />}></Route>
+
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
+      <Route path="admin" element={<AdminHome />}>
+          <Route index element={<h1>Report</h1>} />
+          <Route path="report" element={<h1>Report</h1>} />
+          <Route path="usermanage" element={<TableUser />} />
+          <Route path="shopadmin" element={<h1>Shop</h1>} />
+          <Route path="products" element={<h1>Products</h1>} />
+          <Route path="categories" element={<h1>Categories</h1>} />
+          <Route path="setting" element={<h1>Setting</h1>} />
+          <Route path="feedback" element={<h1>Feedback</h1>} />
+        </Route>
     </Routes>
   </BrowserRouter>
 );

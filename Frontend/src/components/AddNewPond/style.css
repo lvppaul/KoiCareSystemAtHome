@@ -1,5 +1,6 @@
 .pond-item{
     justify-content: flex-end;
+    margin-right: 400px;
 }
 .pond-item button{
     background-color: #FF8433;
@@ -9,7 +10,6 @@
     width: 180px;
     height: 70px;
     margin-top: 50px;
-    margin-right: 400px;
 }
 
 .pond-item button:hover{
@@ -58,3 +58,13 @@
     padding-top: 40px;
     color: black;
   }
+.modal-addpond{
+    .img-preview{
+        max-width: fit-content;
+        max-height: fit-content;
+    }
+    img{
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
