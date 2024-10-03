@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SWP391.KCSAH.Repository")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+51df6a85a8e89bbe9afb8b97fe3d084fbb71e1e7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a400e5de4a657c471b1b03929d335f158633e4e")]
 [assembly: System.Reflection.AssemblyProductAttribute("SWP391.KCSAH.Repository")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SWP391.KCSAH.Repository")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

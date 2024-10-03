@@ -67,6 +67,18 @@ namespace KCSAH.APIServer.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteKoi(string id)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
+            if(koi == null)
+            {
+                return NotFound();
+            }
+            await _unitOfWork.KoiRepository.RemoveAsync(koi);
+
+            return NoContent();
+        }
         private bool KoiExists(string id)
         {
             return _unitOfWork.KoiRepository.GetByIdAsync(id) != null;
