@@ -1,1 +1,50 @@
-bin/
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# Dependency directories #
+node_modules/
+vendor/
+# Dependency directories for Python #
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Environment variables #
+#########################
+.env
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+Thumbs.db
+
+# IDEs and editors #
+####################
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts #
+###################
+/bin/
+/obj/
+/out/
+/target/
