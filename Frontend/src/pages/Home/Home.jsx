@@ -20,7 +20,7 @@ function Home() {
           <Row className="hero-section">
             <Col md={4} >
             <div className="text-section">
-              <h1>FPT TTKoi</h1>
+              <h1>FPT TT Koi</h1>
               <h2>Koi Care System at Home</h2>
               <p>
                 This website is designed for Koi enthusiasts, offering features to assist with feeding, pond maintenance, and health monitoring, helping ensure your Koi thrive.
@@ -29,7 +29,9 @@ function Home() {
             </div>
             </Col>
             <Col md={8} className="image-section">
+            <Link to="/admin"> 
               <img src={landing} alt="Koi" className="hero-image" />
+            </Link>
             </Col>
           </Row>
         </div>
@@ -63,7 +65,7 @@ function Home() {
             <Card className="h-100 text-center">
               <div className="icon-container">
                 <img src={logoFeature2} alt="Manage Ponds Icon" />
-                <h2>Manage Pond</h2>
+                <h2>Calculation Tools</h2>
               </div>
               <Card.Img variant="top" src={feaure2} className="p-2 card-img-top" />
               <Card.Body>
@@ -81,7 +83,7 @@ function Home() {
             <Card className="h-100 text-center">
               <div className="icon-container">
                 <img src={logoFeature3} alt="Manage Ponds Icon" />
-                <h2>Manage Pond</h2>
+                <h2>Shop</h2>
               </div>
               <Card.Img variant="top" src={feaure3} className="p-2 card-img-top" />
               <Card.Body>
@@ -93,13 +95,12 @@ function Home() {
               </Card.Body>
             </Card>
           </Col>
-
           {/* News / Blogs */}
           <Col className="md-3">
             <Card className="h-100 text-center">
               <div className="icon-container">
                 <img src={logoFeature4} alt="Manage Ponds Icon" />
-                <h2>Manage Pond</h2>
+                <h2>News/Blogs</h2>
               </div>
               <Card.Img variant="top" src={feaure4} className="p-2 card-img-top" />
               <Card.Body>

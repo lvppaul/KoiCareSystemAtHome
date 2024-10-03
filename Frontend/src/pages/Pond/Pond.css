@@ -1,0 +1,35 @@
+.pond-list-header h1{
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+    padding-top: 20px;
+}
+
+.pond-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.pond-card{
+    background-color: #D9D9D9 !important;
+    width: 300px;
+    height: 400px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.pond-card img{
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+
+}
+.pond-card h5 {
+    font-size: 20px;
+    font-weight: bold;
+}
+

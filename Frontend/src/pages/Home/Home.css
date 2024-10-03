@@ -79,6 +79,10 @@
 .card {
   background-color: #F6DAC7 !important;
   margin: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .icon-container img{
   width: 125px;
@@ -102,6 +106,9 @@
   text-align: left;
   font-weight: bold;
   font-size: 20px;
+  &:hover{
+    text-shadow: rgb(114, 114, 114) 0 4px 4px;
+  }
 }
 
 

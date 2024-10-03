@@ -1,0 +1,70 @@
+.pond-item{
+    justify-content: flex-end;
+    margin-right: 400px;
+}
+.pond-item button{
+    background-color: #FF8433;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    width: 180px;
+    height: 70px;
+    margin-top: 50px;
+}
+
+.pond-item button:hover{
+    background-color: #FFA07A;
+}
+.add-pond{
+    background-color: #FF8433;
+    font-weight: bold;
+    font-size: 20px;
+}
+.pond-list h1{
+    text-align: center;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.image-pond {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-pond button {
+    background-color: white;
+    border-radius: 25px;
+    width: 200px;
+    height: 200px;
+}
+
+.modal-header h1{
+    font-weight: bold;
+}
+
+.file-input-hidden {
+    display: none;
+    
+  }
+  
+  .file-input-label {
+    display: inline-block;
+    text-align: center;
+    background-color: white;
+    width: 200px;
+    height: 200px;
+    border-radius: 25px;
+    padding-top: 40px;
+    color: black;
+  }
+.modal-addpond{
+    .img-preview{
+        max-width: fit-content;
+        max-height: fit-content;
+    }
+    img{
+        max-width: 100%;
+        max-height: 100%;
+    }
+}

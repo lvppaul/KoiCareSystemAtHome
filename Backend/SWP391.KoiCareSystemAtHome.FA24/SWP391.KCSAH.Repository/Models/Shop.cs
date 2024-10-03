@@ -23,5 +23,5 @@ public partial class Shop
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; } = null!;
 }
