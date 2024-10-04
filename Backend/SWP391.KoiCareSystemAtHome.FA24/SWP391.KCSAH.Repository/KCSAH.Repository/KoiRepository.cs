@@ -15,7 +15,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Koi>> GetAllAsync()
         {
-            return await _context.Kois.ToListAsync();
+            return await _context.Kois.Include(p => p.User).Include(p => p.Pond).ToListAsync();
         }
 
         public async Task<Koi> GetByIdAsync(string id)

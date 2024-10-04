@@ -15,7 +15,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Product>> GetAllAsync()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Include(p => p.User).Include(p => p.Category).ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(string id)
