@@ -39,7 +39,7 @@ namespace KCSAH.APIServer.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(500, "Error saving the user.");
+                return StatusCode(500, "Error saving Koi.");
             }
             return CreatedAtAction("GetKoiById", new { id = koi.KoiId }, koi);
         }
