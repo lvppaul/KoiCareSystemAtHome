@@ -47,5 +47,20 @@ const getShopProducts = async () => {
     }
 };
 
+// Function to get categories
+const getCategories = async () => {
+    try {
+        const response = await api.get('/Category', {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        throw error;
+    }
+};
+
 export default api;
-export { getUserInfo, getShopProducts };
+export { getUserInfo, getShopProducts, getCategories };
