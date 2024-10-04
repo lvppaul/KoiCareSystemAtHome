@@ -8,6 +8,7 @@ namespace SWP391.KCSAH.Repository
         private readonly KoiCareSystemAtHomeContext _context;
         private KoiRepository _koiRepository;
         private ShopRepository _shopRepository;
+        private PondRepository _pondRepository;
 
         public UnitOfWork() => _context ??= new KoiCareSystemAtHomeContext();
 
@@ -19,6 +20,11 @@ namespace SWP391.KCSAH.Repository
         public ShopRepository ShopRepository
         {
             get { return _shopRepository ??= new ShopRepository(_context); }
+        }
+
+        public PondRepository PondRepository
+        {
+            get { return _pondRepository ??= new PondRepository(_context); }
         }
     }
 }

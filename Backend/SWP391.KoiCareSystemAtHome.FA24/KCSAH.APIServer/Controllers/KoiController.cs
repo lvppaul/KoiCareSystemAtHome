@@ -7,7 +7,7 @@ namespace KCSAH.APIServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class KoiController : Controller
+    public class KoiController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
         public KoiController(UnitOfWork unitOfWork) => _unitOfWork = unitOfWork;

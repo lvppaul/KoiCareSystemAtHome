@@ -7,7 +7,7 @@ namespace KCSAH.APIServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ShopController : Controller
+    public class ShopController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
 
