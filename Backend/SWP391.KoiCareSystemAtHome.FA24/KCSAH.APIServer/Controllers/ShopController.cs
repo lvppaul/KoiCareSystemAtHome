@@ -39,7 +39,7 @@ namespace KCSAH.APIServer.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(500, "Error saving object");
+                return StatusCode(500, "Error saving shop");
             }
 
             return shop;
