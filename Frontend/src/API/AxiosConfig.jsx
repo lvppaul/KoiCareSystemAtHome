@@ -1,25 +1,26 @@
 import axios from 'axios';
 
-const baseUrl = 'https://localhost:7054/api';
+const baseUrl = 'https://localhost:7044/api';
 
 const config = {
-    baseUrl: baseUrl
+    baseURL: baseUrl
 };
 const api = axios.create(config);
 
-api.defaults.baseURL = baseUrl;
-
-
-//handle before call api
+// Handle before call API
 const handleBefore = (config) => {
-    //handle before call api
-
+    // Add any logic before making an API call
+    console.log('Making API call to:', config.url);
     return config;
-}
-   
+};
+
+// Attach the handleBefore function to the api instance
+api.interceptors.request.use(handleBefore, error => Promise.reject(error));
+
+// Function to get user info
 const getUserInfo = async (token) => {
     try {
-        const response = await axios.get(`${baseUrl}/user`, {
+        const response = await api.get('/user', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -29,7 +30,22 @@ const getUserInfo = async (token) => {
         console.error('Error fetching user info:', error);
         throw error;
     }
-}
-;
+};
+
+// Function to get shop products
+const getShopProducts = async () => {
+    try {
+        const response = await api.get('/Product', {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching shop products:', error);
+        throw error;
+    }
+};
 
 export default api;
+export { getUserInfo, getShopProducts };
