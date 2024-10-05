@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'https://localhost:7044/api';
+const baseUrl = 'https://localhost:7044/api/';
 
 const config = {
     baseURL: baseUrl
@@ -20,7 +20,7 @@ api.interceptors.request.use(handleBefore, error => Promise.reject(error));
 // Function to get user info
 const getUserInfo = async (token) => {
     try {
-        const response = await api.get('/user', {
+        const response = await api.get('user', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -35,7 +35,7 @@ const getUserInfo = async (token) => {
 // Function to get shop products
 const getShopProducts = async () => {
     try {
-        const response = await api.get('/Product', {
+        const response = await api.get('Product', {
             headers: {
                 'accept': 'text/plain'
             }
@@ -50,7 +50,7 @@ const getShopProducts = async () => {
 // Function to get categories
 const getCategories = async () => {
     try {
-        const response = await api.get('/Category', {
+        const response = await api.get('Category', {
             headers: {
                 'accept': 'text/plain'
             }
@@ -65,7 +65,7 @@ const getCategories = async () => {
 // Function to get product by ID
 const getProductById = async (productId) => {
     try {
-        const response = await api.get(`/Product/${productId}`, {
+        const response = await api.get(`Product/${productId}`, {
             headers: {
                 'accept': 'text/plain'
             }
