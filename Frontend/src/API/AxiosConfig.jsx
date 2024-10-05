@@ -40,8 +40,14 @@ const getShopProducts = async () => {
             headers: {
                 'accept': 'text/plain'
 
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw error;
+    }
 }
-
 const postPond = async (token, data) => {
     try {
         const response = await axios.post(`${baseUrl}/Pond/`, data, {
