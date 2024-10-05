@@ -40,7 +40,7 @@ const getShopProducts = async () => {
             headers: {
                 'accept': 'text/plain'
 
-}
+            }
 
 const postPond = async (token, data) => {
     try {
