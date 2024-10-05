@@ -1,30 +1,29 @@
-.container {
+.shop-container {
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 24px;
 }
 
-.header {
+.shop-header {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
     color: chocolate;
-    margin-left: 184px;
 }
 
-.main {
+.shop-main {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.filter {
+.shop-filter {
     margin-bottom: 20px;
 }
 
-.select {
+.category-select {
     margin-left: 10px;
 }
 
@@ -56,19 +55,19 @@
     margin-bottom: 10px;
 }
 
-.pagination {
+.shop-pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
 }
 
-.pagination button {
+.shop-pagination button {
     margin: 0 10px;
     padding: 5px 10px;
     cursor: pointer;
 }
 
-.pagination span {
+.shop-pagination span {
     margin: 0 10px;
 }

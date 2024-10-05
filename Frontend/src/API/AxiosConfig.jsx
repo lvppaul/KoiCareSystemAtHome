@@ -62,5 +62,20 @@ const getCategories = async () => {
     }
 };
 
+// Function to get product by ID
+const getProductById = async (productId) => {
+    try {
+        const response = await api.get(`/Product/${productId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching product with ID ${productId}:`, error);
+        throw error;
+    }
+};
+
 export default api;
-export { getUserInfo, getShopProducts, getCategories };
+export { getUserInfo, getShopProducts, getCategories, getProductById };

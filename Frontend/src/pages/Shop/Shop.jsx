@@ -64,15 +64,15 @@ const Shop = () => {
   }
 
   return (
-    <div className="container">
-      <header className="header">
+    <div className="shop-container">
+      <header className="shop-header">
         <h1>Koi Care Shop</h1>
       </header>
-      <main className="main">
-        <div className="filter">
+      <main className="shop-main">
+        <div className="shop-filter">
           <label>
             Sort by Category:
-            <select value={selectedCategory} onChange={handleCategoryChange} className="select">
+            <select value={selectedCategory} onChange={handleCategoryChange} className="category-select">
               {categories.map((category) => (
                 <option key={category.categoryId} value={category.categoryId}>
                   {category.name}
@@ -91,7 +91,7 @@ const Shop = () => {
             </li>
           ))}
         </ul>
-        <div className="pagination">
+        <div className="shop-pagination">
           <button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</button>
           <span>Page {currentPage} of {totalPages}</span>
           <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>

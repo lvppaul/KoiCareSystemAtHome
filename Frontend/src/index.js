@@ -16,6 +16,7 @@ import AdminHome from './pages/Admin/Home/AdminHome';
 import TableUser from "./components/TableUser/TableUser";
 import SaltCalculator from "./pages/SaltCalculator/SaltCalculator";
 import FoodCalculator from "./pages/FoodCalculator/FoodCalculator";
+import Product from './pages/Product/Product';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -24,6 +25,7 @@ root.render(
       <Route path="/" element={<App />}>
         <Route index element={<Home />} />
         <Route path="shop" element={<Shop />} />
+        <Route path="product/:productId" element={<Product />} />
         <Route path="pond" element={<Pond />} />
         <Route path="foodcalculator" element={<FoodCalculator/>} />
         <Route path="saltcalculator" element={<SaltCalculator/>} />
