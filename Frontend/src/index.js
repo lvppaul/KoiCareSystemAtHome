@@ -16,6 +16,8 @@ import AdminHome from './pages/Admin/Home/AdminHome';
 import TableUser from "./components/TableUser/TableUser";
 import SaltCalculator from "./pages/SaltCalculator/SaltCalculator";
 import FoodCalculator from "./pages/FoodCalculator/FoodCalculator";
+import PondDetail from "./pages/PondDetail/PondDetail";
+import KoiDetail from "./pages/KoiDetails/KoiDetail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -30,6 +32,9 @@ root.render(
         <Route path="blogs" element={<h1>Blogs</h1>} />
         <Route path="news" element={<h1>News</h1>} />
         <Route path="*" element={<NotPage />} />
+        <Route path="pondDetail" element={<PondDetail />} />
+        <Route path="koidetail" element={<KoiDetail/>}/>
+
       </Route>
 
       <Route path="login" element={<Login />} />

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import './UserCard.css'
+
 function UserCard({ user }) {
   const handleEditUser = (userId) => {
     console.log('Edit user ' + userId)

@@ -52,10 +52,8 @@
     display: inline-block;
     text-align: center;
     background-color: white;
-    width: 200px;
-    height: 200px;
     border-radius: 25px;
-    padding-top: 40px;
+    font-weight: bold;
     color: black;
   }
 .modal-addpond{
