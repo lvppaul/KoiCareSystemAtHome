@@ -1,0 +1,12 @@
+.pond-card{
+  background-color: none;
+}
+.pond-detail {
+    margin-left: 20px;
+}
+
+.pond-detail li{
+    font-size: 36px;
+    font-weight: 600;
+    padding: 10px 0;
+}

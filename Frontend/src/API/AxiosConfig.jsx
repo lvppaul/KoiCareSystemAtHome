@@ -11,6 +11,7 @@ const api = axios.create(config);
 const handleBefore = (config) => {
     // Add any logic before making an API call
     console.log('Making API call to:', config.url);
+    //handle before call api
     return config;
 };
 
@@ -38,6 +39,14 @@ const getShopProducts = async () => {
         const response = await api.get('Product', {
             headers: {
                 'accept': 'text/plain'
+
+}
+
+const postPond = async (token, data) => {
+    try {
+        const response = await axios.post(`${baseUrl}/Pond/`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
             }
         });
         return response.data;
@@ -76,6 +85,7 @@ const getProductById = async (productId) => {
         throw error;
     }
 };
+
 
 export default api;
 export { getUserInfo, getShopProducts, getCategories, getProductById };

@@ -44,7 +44,7 @@ function Home() {
         <Row>
           {/* Manage Ponds */}
           <Col className="md-3">
-            <Card className="h-100 text-center">
+            <Card className="h-100 text-center home-card">
               <div className="icon-container">
                 <img src={logoFeature1} alt="Manage Ponds Icon" />
                 <h2>Manage Pond</h2>
@@ -62,7 +62,7 @@ function Home() {
 
           {/* Calculation Tools */}
           <Col className="md-3">
-            <Card className="h-100 text-center">
+            <Card className="h-100 text-center home-card">
               <div className="icon-container">
                 <img src={logoFeature2} alt="Manage Ponds Icon" />
                 <h2>Calculation Tools</h2>
@@ -70,8 +70,8 @@ function Home() {
               <Card.Img variant="top" src={feaure2} className="p-2 card-img-top" />
               <Card.Body>
                 <Card.Text>
-                  Helps users track pond details and fish health, ensuring efficient
-                  management and the well-being of their Koi.
+                Helps users determine the right amount of food for Koi at different 
+                growth stages and calculates the necessary salt for each pond to maintain optimal conditions.
                 </Card.Text>
                 <Link to="/calculation">Learn more </Link>
               </Card.Body>
@@ -80,7 +80,7 @@ function Home() {
 
           {/* Shop */}
           <Col className="md-3">
-            <Card className="h-100 text-center">
+            <Card className="h-100 text-center home-card">
               <div className="icon-container">
                 <img src={logoFeature3} alt="Manage Ponds Icon" />
                 <h2>Shop</h2>
@@ -88,8 +88,8 @@ function Home() {
               <Card.Img variant="top" src={feaure3} className="p-2 card-img-top" />
               <Card.Body>
                 <Card.Text>
-                  Helps users track pond details and fish health, ensuring efficient
-                  management and the well-being of their Koi.
+                Lets users open their own store or buy Koi-related products 
+                from others, offering a marketplace for supplies, and pond equipment.
                 </Card.Text>
                 <Link to="/shop">Learn more </Link>
               </Card.Body>
@@ -97,7 +97,7 @@ function Home() {
           </Col>
           {/* News / Blogs */}
           <Col className="md-3">
-            <Card className="h-100 text-center">
+            <Card className="h-100 text-center home-card">
               <div className="icon-container">
                 <img src={logoFeature4} alt="Manage Ponds Icon" />
                 <h2>News/Blogs</h2>
@@ -105,8 +105,8 @@ function Home() {
               <Card.Img variant="top" src={feaure4} className="p-2 card-img-top" />
               <Card.Body>
                 <Card.Text>
-                  Helps users track pond details and fish health, ensuring efficient
-                  management and the well-being of their Koi.
+                The "News / Blogs" feature keeps users updated with the latest news and 
+                informative blogs and lets them share their own insights with the Koi community.
                 </Card.Text>
                 <Link to="/news">Learn more </Link>
               </Card.Body>
