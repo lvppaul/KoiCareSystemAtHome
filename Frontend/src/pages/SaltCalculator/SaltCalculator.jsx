@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getPonds } from '../../API/AxiosConfig'; // Adjust the path as necessary
-import './SaltCalculator.css'; // Assuming you have a CSS file for styling
-
+import { getPonds } from '../../API/AxiosConfig';
+import './SaltCalculator.css';
 const SaltCalculator = () => {
   const [ponds, setPonds] = useState([]);
   const [selectedPond, setSelectedPond] = useState(null);

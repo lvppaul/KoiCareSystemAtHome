@@ -7,15 +7,11 @@ const config = {
 };
 const api = axios.create(config);
 
-// Handle before call API
 const handleBefore = (config) => {
-    // Add any logic before making an API call
     console.log('Making API call to:', config.url);
-    //handle before call api
     return config;
 };
 
-// Attach the handleBefore function to the api instance
 api.interceptors.request.use(handleBefore, error => Promise.reject(error));
 
 // Function to get user info
@@ -65,6 +61,37 @@ const getPonds = async () => {
     }
 }
 
+// Function to get kois
+const getKois = async () => {
+    try {
+        const response = await api.get('Koi', {
+            headers: {
+                'accept': 'text/plain'
+
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching kois:', error);
+        throw error;
+    }
+}
+
+// Function to get product by ID
+const getKoiById = async (koiId) => {
+    try {
+        const response = await api.get(`Koi/${koiId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching koi with ID ${koiId}:`, error);
+        throw error;
+    }
+};
+
 // Function to post pond data
 const postPond = async (token, data) => {
     try {
@@ -112,4 +139,4 @@ const getProductById = async (productId) => {
 
 
 export default api;
-export { getUserInfo, getShopProducts,getPonds, getCategories, getProductById };
+export { getUserInfo, getShopProducts, getPonds, getKois, getKoiById, getCategories, getProductById };
