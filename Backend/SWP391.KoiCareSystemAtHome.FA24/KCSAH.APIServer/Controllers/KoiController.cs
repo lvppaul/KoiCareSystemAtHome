@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using KCSAH.APIServer.Dto;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository;
 using SWP391.KCSAH.Repository.Models;
@@ -10,68 +12,101 @@ namespace KCSAH.APIServer.Controllers
     public class KoiController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
-        public KoiController(UnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        private readonly IMapper _mapper;
+        public KoiController(UnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Koi>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<KoiDTO>>> GetAllAsync()
         {
-            return await _unitOfWork.KoiRepository.GetAllAsync();
+            var kois = await _unitOfWork.KoiRepository.GetAllAsync();
+            var result = _mapper.Map<IEnumerable<KoiDTO>>(kois);
+            if (result == null)
+                return NotFound();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Koi>> GetKoiById(string id)
+        public async Task<ActionResult<KoiDTO>> GetByIdAsync(string id)
         {
             var koi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
-            if(koi == null)
+            if (koi == null)
             {
                 return NotFound();
             }
-
-            return koi;
+            var result = _mapper.Map<KoiDTO>(koi);
+            return result;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Koi>> CreateKoi(Koi koi)
+        public async Task<ActionResult<Category>> CreateCategory([FromBody] CategoryDTO category)
         {
-            try
+            if (category == null)
             {
-                await _unitOfWork.KoiRepository.CreateAsync(koi);
+                return BadRequest(ModelState);
             }
-            catch (DbUpdateConcurrencyException)
+
+            var cate = _unitOfWork.CategoryRepository.GetAll().Where(c => c.Name.ToUpper() == category.Name.ToUpper()).FirstOrDefault();
+
+            if (cate != null)
             {
-                return StatusCode(500, "Error saving Koi.");
+                ModelState.AddModelError("", "Category already exists.");
+                return StatusCode(422, ModelState);
             }
-            return CreatedAtAction("GetKoiById", new { id = koi.KoiId }, koi);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var categoryMap = _mapper.Map<Category>(category);
+            var createResult = await _unitOfWork.CategoryRepository.CreateAsync(categoryMap);
+            if (createResult <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateKoi(string id, Koi koi)
+        public async Task<IActionResult> UpdateKoi(int id, [FromBody] KoiDTO koidto)
         {
-            if (!id.Equals(koi.KoiId))
+            if (koidto == null)
             {
                 return BadRequest();
             }
 
-            try
+            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
+            var existingKoi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
+            if (existingKoi == null)
             {
-                _unitOfWork.KoiRepository.UpdateAsync(koi);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!KoiExists(id))
-                {
-                    return NotFound();
-                }
+                return NotFound(); // Trả về 404 nếu không tìm thấy category
             }
 
-            return NoContent();
+            // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
+            _mapper.Map(koidto, existingKoi);
+
+            // Cập nhật vào cơ sở dữ liệu
+            var updateResult = await _unitOfWork.KoiRepository.UpdateAsync(existingKoi);
+
+            if (updateResult <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while updating category");
+                return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
+            }
+
+            return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKoi(string id)
         {
             var koi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
-            if(koi == null)
+            if (koi == null)
             {
                 return NotFound();
             }
