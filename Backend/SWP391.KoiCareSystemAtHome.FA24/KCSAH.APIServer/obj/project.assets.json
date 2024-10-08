@@ -3582,11 +3582,16 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\Luu Minh Quan\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\DELL\\.nuget\\packages\\": {}
+>>>>>>> main
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\KCSAH.APIServer.csproj",
       "projectName": "KCSAH.APIServer",
       "projectPath": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\KCSAH.APIServer.csproj",
@@ -3595,6 +3600,16 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Luu Minh Quan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+      "projectUniqueName": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\KCSAH.APIServer.csproj",
+      "projectName": "KCSAH.APIServer",
+      "projectPath": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\KCSAH.APIServer.csproj",
+      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+      "outputPath": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\KCSAH.APIServer\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> main
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3609,8 +3624,13 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+<<<<<<< HEAD
             "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj": {
               "projectPath": "D:\\github\\SWP391\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj"
+=======
+            "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj": {
+              "projectPath": "D:\\1\\K5\\SWP391\\Project\\Backend\\SWP391.KoiCareSystemAtHome.FA24\\SWP391.KCSAH.Repository\\SWP391.KCSAH.Repository.csproj"
+>>>>>>> main
             }
           }
         }

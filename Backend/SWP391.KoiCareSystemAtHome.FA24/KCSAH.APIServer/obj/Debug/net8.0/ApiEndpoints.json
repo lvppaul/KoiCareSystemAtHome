@@ -1,7 +1,11 @@
 [
   {
     "ContainingType": "KCSAH.APIServer.Controllers.CategoryController",
+<<<<<<< HEAD
     "Method": "GetAllASync",
+=======
+    "Method": "GetAllSync",
+>>>>>>> main
     "RelativePath": "api/Category",
     "HttpMethod": "GET",
     "IsController": true,
@@ -9,7 +13,11 @@
     "Parameters": [],
     "ReturnTypes": [
       {
+<<<<<<< HEAD
         "Type": "System.Collections.Generic.IEnumerable\u00601[[KCSAH.APIServer.Dto.CategoryDTO, KCSAH.APIServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+=======
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SWP391.KCSAH.Repository.Models.Category, SWP391.KCSAH.Repository, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+>>>>>>> main
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -29,7 +37,11 @@
     "Parameters": [
       {
         "Name": "category",
+<<<<<<< HEAD
         "Type": "KCSAH.APIServer.Dto.CategoryDTO",
+=======
+        "Type": "SWP391.KCSAH.Repository.Models.Category",
+>>>>>>> main
         "IsRequired": true
       }
     ],
@@ -61,7 +73,11 @@
     ],
     "ReturnTypes": [
       {
+<<<<<<< HEAD
         "Type": "KCSAH.APIServer.Dto.CategoryDTO",
+=======
+        "Type": "SWP391.KCSAH.Repository.Models.Category",
+>>>>>>> main
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -85,8 +101,13 @@
         "IsRequired": true
       },
       {
+<<<<<<< HEAD
         "Name": "categoryDto",
         "Type": "KCSAH.APIServer.Dto.CategoryDTO",
+=======
+        "Name": "category",
+        "Type": "SWP391.KCSAH.Repository.Models.Category",
+>>>>>>> main
         "IsRequired": true
       }
     ],
@@ -227,7 +248,11 @@
     "Parameters": [],
     "ReturnTypes": [
       {
+<<<<<<< HEAD
         "Type": "System.Collections.Generic.IEnumerable\u00601[[KCSAH.APIServer.Dto.PondDTO, KCSAH.APIServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+=======
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SWP391.KCSAH.Repository.Models.Pond, SWP391.KCSAH.Repository, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+>>>>>>> main
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -239,15 +264,24 @@
   },
   {
     "ContainingType": "KCSAH.APIServer.Controllers.PondController",
+<<<<<<< HEAD
     "Method": "CreateShop",
+=======
+    "Method": "CreatePond",
+>>>>>>> main
     "RelativePath": "api/Pond",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
+<<<<<<< HEAD
         "Name": "ponddto",
         "Type": "KCSAH.APIServer.Dto.PondDTO",
+=======
+        "Name": "pond",
+        "Type": "SWP391.KCSAH.Repository.Models.Pond",
+>>>>>>> main
         "IsRequired": true
       }
     ],
@@ -265,7 +299,11 @@
   },
   {
     "ContainingType": "KCSAH.APIServer.Controllers.PondController",
+<<<<<<< HEAD
     "Method": "GetByIdAsync",
+=======
+    "Method": "GetPondById",
+>>>>>>> main
     "RelativePath": "api/Pond/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -273,13 +311,21 @@
     "Parameters": [
       {
         "Name": "id",
+<<<<<<< HEAD
         "Type": "System.Int32",
+=======
+        "Type": "System.String",
+>>>>>>> main
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
+<<<<<<< HEAD
         "Type": "KCSAH.APIServer.Dto.PondDTO",
+=======
+        "Type": "SWP391.KCSAH.Repository.Models.Pond",
+>>>>>>> main
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -299,12 +345,21 @@
     "Parameters": [
       {
         "Name": "id",
+<<<<<<< HEAD
         "Type": "System.Int32",
         "IsRequired": true
       },
       {
         "Name": "ponddto",
         "Type": "KCSAH.APIServer.Dto.PondDTO",
+=======
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "pond",
+        "Type": "SWP391.KCSAH.Repository.Models.Pond",
+>>>>>>> main
         "IsRequired": true
       }
     ],
@@ -327,6 +382,7 @@
     "ReturnTypes": []
   },
   {
+<<<<<<< HEAD
     "ContainingType": "KCSAH.APIServer.Controllers.PondController",
     "Method": "GetFood",
     "RelativePath": "api/Pond/GetFood/{id}",
@@ -345,6 +401,10 @@
   {
     "ContainingType": "KCSAH.APIServer.Controllers.ProductController",
     "Method": "GetAllSync",
+=======
+    "ContainingType": "KCSAH.APIServer.Controllers.ProductController",
+    "Method": "GetAllAsync",
+>>>>>>> main
     "RelativePath": "api/Product",
     "HttpMethod": "GET",
     "IsController": true,
@@ -352,7 +412,11 @@
     "Parameters": [],
     "ReturnTypes": [
       {
+<<<<<<< HEAD
         "Type": "System.Collections.Generic.IEnumerable\u00601[[KCSAH.APIServer.Dto.ProductDTO, KCSAH.APIServer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+=======
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SWP391.KCSAH.Repository.Models.Product, SWP391.KCSAH.Repository, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+>>>>>>> main
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -371,8 +435,13 @@
     "Order": 0,
     "Parameters": [
       {
+<<<<<<< HEAD
         "Name": "productdto",
         "Type": "KCSAH.APIServer.Dto.ProductDTO",
+=======
+        "Name": "product",
+        "Type": "SWP391.KCSAH.Repository.Models.Product",
+>>>>>>> main
         "IsRequired": true
       }
     ],
@@ -390,7 +459,11 @@
   },
   {
     "ContainingType": "KCSAH.APIServer.Controllers.ProductController",
+<<<<<<< HEAD
     "Method": "GetByIdAsync",
+=======
+    "Method": "GetProductById",
+>>>>>>> main
     "RelativePath": "api/Product/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -398,13 +471,21 @@
     "Parameters": [
       {
         "Name": "id",
+<<<<<<< HEAD
         "Type": "System.Int32",
+=======
+        "Type": "System.String",
+>>>>>>> main
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
+<<<<<<< HEAD
         "Type": "KCSAH.APIServer.Dto.ProductDTO",
+=======
+        "Type": "SWP391.KCSAH.Repository.Models.Product",
+>>>>>>> main
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -424,12 +505,21 @@
     "Parameters": [
       {
         "Name": "id",
+<<<<<<< HEAD
         "Type": "System.Int32",
         "IsRequired": true
       },
       {
         "Name": "productdto",
         "Type": "KCSAH.APIServer.Dto.ProductDTO",
+=======
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "product",
+        "Type": "SWP391.KCSAH.Repository.Models.Product",
+>>>>>>> main
         "IsRequired": true
       }
     ],
@@ -559,5 +649,25 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "KCSAH.APIServer.Controllers.UserController",
+    "Method": "GetAllAsync",
+    "RelativePath": "api/User",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SWP391.KCSAH.Repository.Models.User, SWP391.KCSAH.Repository, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

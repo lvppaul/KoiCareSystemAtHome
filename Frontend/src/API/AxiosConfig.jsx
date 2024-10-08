@@ -48,6 +48,55 @@ const getShopProducts = async () => {
         throw error;
     }
 }
+
+// Function to get ponds
+const getPonds = async () => {
+    try {
+        const response = await api.get('Pond', {
+            headers: {
+                'accept': 'text/plain'
+
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching ponds:', error);
+        throw error;
+    }
+}
+
+// Function to get kois
+const getKois = async () => {
+    try {
+        const response = await api.get('Koi', {
+            headers: {
+                'accept': 'text/plain'
+
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching kois:', error);
+        throw error;
+    }
+}
+
+// Function to get product by ID
+const getKoiById = async (koiId) => {
+    try {
+        const response = await api.get(`Koi/${koiId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching koi with ID ${koiId}:`, error);
+        throw error;
+    }
+};
+
+// Function to post pond data
 const postPond = async (token, data) => {
     try {
         const response = await axios.post(`${baseUrl}/Pond/`, data, {
@@ -57,7 +106,7 @@ const postPond = async (token, data) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Error fetching shop products:', error);
+        console.error('Error posting pond data:', error);
         throw error;
     }
 };
@@ -94,4 +143,4 @@ const getProductById = async (productId) => {
 
 
 export default api;
-export { getUserInfo, getShopProducts, getCategories, getProductById };
+export { getUserInfo, getShopProducts, getPonds, getKois, getKoiById, getCategories, getProductById };
