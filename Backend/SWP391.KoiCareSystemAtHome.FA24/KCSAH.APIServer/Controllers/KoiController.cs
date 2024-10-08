@@ -42,16 +42,16 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Category>> CreateCategory([FromBody] CategoryDTO category)
+        public async Task<ActionResult<Koi>> CreateCategory([FromBody] KoiDTO koi)
         {
-            if (category == null)
+            if (koi == null)
             {
                 return BadRequest(ModelState);
             }
 
-            var cate = _unitOfWork.CategoryRepository.GetAll().Where(c => c.Name.ToUpper() == category.Name.ToUpper()).FirstOrDefault();
+            var kois = _unitOfWork.KoiRepository.GetAll().Where(c => c.KoiId == koi.KoiId).FirstOrDefault();
 
-            if (cate != null)
+            if (kois != null)
             {
                 ModelState.AddModelError("", "Category already exists.");
                 return StatusCode(422, ModelState);
@@ -61,8 +61,8 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var categoryMap = _mapper.Map<Category>(category);
-            var createResult = await _unitOfWork.CategoryRepository.CreateAsync(categoryMap);
+            var koiMap = _mapper.Map<Koi>(kois);
+            var createResult = await _unitOfWork.KoiRepository.CreateAsync(koiMap);
             if (createResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while saving.");
