@@ -19,5 +19,7 @@ namespace KCSAH.APIServer.Dto
         public string CategoryId { get; set; }
 
         public string UserId { get; set; }
+
+        public CategoryDTO Categories { get; set; }
     }
 }

@@ -47,9 +47,30 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            var shop = _unitOfWork.ProductRepository.GetAll().Where(c => c.Name.ToUpper() == productdto.Name.ToUpper()).FirstOrDefault();
+            // Kiểm tra danh mục có tồn tại hay không
+            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(productdto.CategoryId);
 
-            if (shop != null)
+            // Nếu danh mục không tồn tại, tạo danh mục mới
+            if (category == null)
+            {
+                var newCategory = _mapper.Map<Category>(productdto.Categories);
+                var categoryResult = await _unitOfWork.CategoryRepository.CreateAsync(newCategory);
+
+                if (categoryResult <= 0)
+                {
+                    ModelState.AddModelError("", "Something went wrong while saving the category.");
+                    return StatusCode(500, ModelState);
+                }
+
+                // Sau khi tạo danh mục mới, lấy lại danh mục vừa tạo
+                category = newCategory;
+            }
+
+            // Kiểm tra xem sản phẩm có tên trùng lặp hay không
+            var existingProduct = _unitOfWork.ProductRepository.GetAll()
+                .FirstOrDefault(c => c.Name.ToUpper() == productdto.Name.ToUpper());
+
+            if (existingProduct != null)
             {
                 ModelState.AddModelError("", "This name has already existed.");
                 return StatusCode(422, ModelState);
@@ -59,19 +80,26 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            // Ánh xạ từ ProductDTO sang Product và liên kết với danh mục đã có hoặc mới tạo
             var productMap = _mapper.Map<Product>(productdto);
+            productMap.CategoryId = category.CategoryId;  // Liên kết với danh mục hiện tại
+
             var createResult = await _unitOfWork.ProductRepository.CreateAsync(productMap);
+
             if (createResult <= 0)
             {
-                ModelState.AddModelError("", "Something went wrong while saving.");
+                ModelState.AddModelError("", "Something went wrong while saving the product.");
                 return StatusCode(500, ModelState);
             }
 
             return Ok("Successfully created");
         }
 
+
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductDTO productdto)
+        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductDTO productdto)
         {
             if (productdto == null)
             {
