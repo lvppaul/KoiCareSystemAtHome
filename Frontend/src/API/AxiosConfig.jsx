@@ -141,6 +141,37 @@ const getProductById = async (productId) => {
     }
 };
 
+// Function to sign up
+const signUp = async (userData) => {
+    try {
+        const response = await api.post('Account/SignUp', userData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error signing up:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+// Function to sign in
+const signIn = async (credentials) => {
+    try {
+        const response = await api.post('Account/SignIn', credentials, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error signing in:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
 
 export default api;
-export { getUserInfo, getShopProducts, getPonds, getKois, getKoiById, getCategories, getProductById };
+export { getUserInfo, getShopProducts, getPonds, getKois, getKoiById, getCategories, getProductById, signIn, signUp };
