@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository.Models;
 using SWP391.KCSAH.Repository;
+using AutoMapper;
+using KCSAH.APIServer.Dto;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -10,61 +12,92 @@ namespace KCSAH.APIServer.Controllers
     public class ProductController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
-        public ProductController(UnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        private readonly IMapper _mapper;
+        public ProductController(UnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllSync()
         {
-            return await _unitOfWork.ProductRepository.GetAllAsync();
+            var products = await _unitOfWork.ProductRepository.GetAllAsync();
+            var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+            return Ok(productDTOs);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProductById(string id)
+        public async Task<ActionResult<ProductDTO>> GetByIdAsync(int id)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
-
-            return product;
+            var result = _mapper.Map<ProductDTO>(product);
+            return result;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct(Product product)
+        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductDTO productdto)
         {
-            try
+            if (productdto == null)
             {
-                await _unitOfWork.ProductRepository.CreateAsync(product);
+                return BadRequest(ModelState);
             }
-            catch (DbUpdateConcurrencyException)
+
+            var shop = _unitOfWork.ProductRepository.GetAll().Where(c => c.Name.ToUpper() == productdto.Name.ToUpper()).FirstOrDefault();
+
+            if (shop != null)
             {
-                return StatusCode(500, "Error saving the product.");
+                ModelState.AddModelError("", "This name has already existed.");
+                return StatusCode(422, ModelState);
             }
-            return CreatedAtAction("GetProductById", new { id = product.ProductId }, product);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var productMap = _mapper.Map<Product>(productdto);
+            var createResult = await _unitOfWork.ProductRepository.CreateAsync(productMap);
+            if (createResult <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(string id, Product product)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductDTO productdto)
         {
-            if (!id.Equals(product.ProductId))
+            if (productdto == null)
             {
                 return BadRequest();
             }
 
-            try
+            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
+            var existingProduct = await _unitOfWork.ProductRepository.GetByIdAsync(id);
+            if (existingProduct == null)
             {
-                _unitOfWork.ProductRepository.UpdateAsync(product);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
+                return NotFound(); // Trả về 404 nếu không tìm thấy category
             }
 
-            return NoContent();
+            // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
+            _mapper.Map(productdto, existingProduct);
+
+            // Cập nhật vào cơ sở dữ liệu
+            var updateResult = await _unitOfWork.ProductRepository.UpdateAsync(existingProduct);
+
+            if (updateResult <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while updating category");
+                return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
+            }
+
+            return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
         }
 
         [HttpDelete("{id}")]

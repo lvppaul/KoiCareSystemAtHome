@@ -1,4 +1,5 @@
 
+using KCSAH.APIServer.Services;
 using SWP391.KCSAH.Repository;
 using System.Text.Json.Serialization;
 
@@ -18,6 +19,8 @@ namespace KCSAH.APIServer
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<UnitOfWork>();
+            builder.Services.AddScoped<PondService>();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             // Add CORS services
             builder.Services.AddCors(options =>

@@ -216,3 +216,4 @@ D:\1\K5\SWP391\Project\Backend\SWP391.KoiCareSystemAtHome.FA24\KCSAH.APIServer\o
 D:\1\K5\SWP391\Project\Backend\SWP391.KoiCareSystemAtHome.FA24\KCSAH.APIServer\obj\Debug\net8.0\KCSAH.APIServer.pdb
 D:\1\K5\SWP391\Project\Backend\SWP391.KoiCareSystemAtHome.FA24\KCSAH.APIServer\obj\Debug\net8.0\KCSAH.APIServer.genruntimeconfig.cache
 D:\1\K5\SWP391\Project\Backend\SWP391.KoiCareSystemAtHome.FA24\KCSAH.APIServer\obj\Debug\net8.0\ref\KCSAH.APIServer.dll
+D:\github\SWP391\Backend\SWP391.KoiCareSystemAtHome.FA24\KCSAH.APIServer\bin\Debug\net8.0\AutoMapper.dll

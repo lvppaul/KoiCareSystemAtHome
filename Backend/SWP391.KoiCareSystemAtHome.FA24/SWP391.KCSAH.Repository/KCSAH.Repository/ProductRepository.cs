@@ -15,12 +15,12 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Product>> GetAllAsync()
         {
-            return await _context.Products.Include(p => p.User).Include(p => p.Category).ToListAsync();
+            return await _context.Products.ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(string id)
         {
-            var result = await _context.Products.Include(p => p.User).Include(p => p.Category).FirstAsync(p => p.ProductId.Equals(id));
+            var result = await _context.Products.FirstAsync(p => p.ProductId.Equals(id));
 
             return result;
         }
