@@ -1,11 +1,12 @@
-import React from 'react';
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import "./Login.css"
-import logo from "../../assets/logo.svg"
-import { FcGoogle } from "react-icons/fc";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthProvider';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import { signIn } from '../../API/AxiosConfig';
+import { Link } from 'react-router-dom';
+import { FcGoogle } from 'react-icons/fc';
+import logo from '../../assets/logo.svg';
+import './Login.css';
 
 function Login() {
   const navigate = useNavigate();

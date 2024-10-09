@@ -9,7 +9,7 @@ import api from '../../API/AxiosConfig';
 const Pond = () => {
     const navigate = useNavigate();
     const navigateToPondDetails = (pondId) => {
-        navigate("/pondDetail");
+        navigate("/ponddetail");
     }
 
     useEffect(() => {
@@ -35,6 +35,7 @@ const Pond = () => {
     show={showModalAddPond} 
     setShow={setShowModalAddPond}/>
             <Card md={4} className='pond-card' onClick={() => navigateToPondDetails()}>
+                <a href="./ponddetail"></a>
                 <Card.Body>
                     <Card.Img variant="header" src= "../../assets/images/shop.png" />
                 </Card.Body>

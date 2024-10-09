@@ -1,11 +1,22 @@
-import React from "react";
 import { Navbar,Nav, Container, Form,FormControl,NavDropdown,} from "react-bootstrap";
 import { NavLink } from 'react-router-dom';
-// import 'react-icons/';
 import Logo from "../../assets/logo.svg";
 import "./Navigationbar.css";
+import { BiUserCircle, BiCart } from "react-icons/bi";
+import { auth } from "../../API/firebase";
+import { useState, useEffect } from 'react';
 
-function Navigationbar() {
+const Navigationbar = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <>
       <header className="header d-flex justify-content-end w-100">
@@ -60,12 +71,19 @@ function Navigationbar() {
                 className="me-2 rounded-pill"
               />
             </Form>
-            <NavLink href="#profile" to="/login">
-              <i className="bi bi-person-circle nav-icon"></i>
-            </NavLink>
+            <NavDropdown title={<BiUserCircle size={50} />} id="basic-nav-dropdown">    
+              {user ? (
+                <NavDropdown.Item as={NavLink} to="/login">
+                  Log in
+                </NavDropdown.Item>
+              ) : null}
+              <NavDropdown.Item as={NavLink} to="/login" onClick= {()=> auth.signOut()}>
+                Log out
+              </NavDropdown.Item>
+            </NavDropdown>
             <NavLink href="#cart">
               {" "}
-              <i className="bi bi-bag nav-icon"></i>
+              <BiCart size={50} color="Black" style={{marginTop: '5px'}}/>
             </NavLink>
           </Nav>
         </Container>

@@ -4,6 +4,7 @@ import api from '../../API/AxiosConfig';
 import UserCard from '../UserCard/UserCard';
 import { Row } from 'react-bootstrap';
 import './TableUser.css';
+
 const TableUser = () => {
   const [users, setUsers] = useState([]);
   const fetchUserinfo = async () => {
