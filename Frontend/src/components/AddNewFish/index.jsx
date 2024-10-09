@@ -71,7 +71,7 @@ const AddNewFish = (props) => {
                     Add Fish
                 </Button>
             </Row>
-            <Modal show={show} onHide={setShow} size='xl' className='modal-addfish'>
+            <Modal show={show} onHide={setShow} size='xl' className='modal-addblog'>
                 <Modal.Header closeButton>
                     <Modal.Title> <h1>Adding Fish</h1></Modal.Title>
                 </Modal.Header>

@@ -11,7 +11,7 @@ import logoFeature2 from '../../assets/icon-calculation.svg'
 import logoFeature3 from '../../assets/icon-shop.svg'
 import logoFeature4 from '../../assets/icon-news.svg'
 
-function Home() {
+const Home = () => {
 
   return (
     <>
