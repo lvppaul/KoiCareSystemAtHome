@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import './SideBar.css';
 import logo from "../../assets/logo.svg";
 import React from 'react';
-function SideBar() {
+
+const SideBar = () =>{
     return (
         <>
         <Sidebar style={{width:'100%'}}>

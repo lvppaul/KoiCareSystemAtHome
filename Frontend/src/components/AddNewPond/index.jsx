@@ -4,11 +4,16 @@ import { Button, Modal, Form, Row, Col } from 'react-bootstrap/';
 import {  BiImport } from "react-icons/bi";
 import PondIcon from "../../assets/Pond.svg";
 import api from '../../API/AxiosConfig';
+import { storage } from '../../API/firebase';
+import {ref, uploadBytesResumable, getDownloadURL} from 'firebase/storage';
 
 const AddNewPond = (props) => {
     const {show,setShow} = props;
+    const [progress, setProgress] = useState("");
 
     const handleClose = () => setShow(false);
+    //handle upload image
+    
     //useState modal form
     const[name,setName] = useState("");
     const[volumn,setVolumn] = useState("");
@@ -18,9 +23,46 @@ const AddNewPond = (props) => {
     const[skimmer,setSkimmer] = useState("");
     const[image,setImage] = useState("");
     const[previewImage, setPreviewImage] = useState("");
-
+    
+    const metadata = {
+        contentType: 'image/jpeg',
+    };
     //upload image
     const handleUploadImg = (event) => {
+        //create image name
+        const storageRef = ref(storage, `images/${image.name}`);
+        //handle upload image
+        const uploadTask = uploadBytesResumable(storageRef, image, metadata);
+
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred/snapshot.totalBytes) * 100;
+                setProgress(progress);
+                console.log('upload is' + progress + '%');
+                switch (snapshot.state) {
+                    case 'paused':
+                        console.log('Upload is paused');
+                        break;
+                    case 'running':
+                        console.log('upload is running ')
+                        break;
+                }
+            },
+
+        (error) => {
+            console.log(error);
+        },
+        () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                alert('File available at' + downloadURL);
+                setImage(null);
+                setProgress(0);
+                console.log('File available at' + downloadURL);
+            });
+        }
+        );
+
         if(event.target && event.target.files && event.target.files[0]){
             setPreviewImage(URL.createObjectURL(event.target.files[0]));
             setImage(event.target.files[0]);;
@@ -53,7 +95,7 @@ const AddNewPond = (props) => {
             <Button variant="success" onClick={setShow}>
                 <img src={PondIcon} alt='add pond icon' /> New Pond
             </Button>
-        </Row>
+            </Row>
             <Modal show={show} onHide={setShow} size='xl' className='modal-addpond'>
                 <Modal.Header closeButton>
                     <Modal.Title> <h1>Adding Pond</h1></Modal.Title>
@@ -71,7 +113,7 @@ const AddNewPond = (props) => {
                                         Import Image <BiImport size={30} /> 
                                     </label>
                                 </Row>
-                                <Row className='img-preview'>  
+                                <Row className='img-preview'> 
                                     {previewImage ? 
                                         <img src={previewImage} alt={previewImage}/>
                                         :

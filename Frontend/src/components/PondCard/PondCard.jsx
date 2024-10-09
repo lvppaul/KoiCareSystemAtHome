@@ -1,7 +1,7 @@
 import { Card,Button } from 'react-bootstrap'
 
 
-function PondCard({ pond }) {
+const PondCard = ({ pond }) => {
  
   return (
     <Card md={4} className='pond-card'>

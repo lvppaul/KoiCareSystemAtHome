@@ -5,7 +5,7 @@
   import AdminNav from '../../../components/AdminNav/AdminNav'
   import { Outlet } from 'react-router-dom'
 
-  function AdminHome() {
+  const AdminHome = () => {
     return (
       <Container fluid style={{ minHeight: '100vh', backgroundColor: '#FCEFCF', padding: '12px 0' }}>
       <Row>
