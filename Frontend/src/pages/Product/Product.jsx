@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getProductById } from '../../API/AxiosConfig'; // Adjust the path as necessary
-import './Product.css'; // Assuming you have a CSS file for styling
+import { getProductById } from '../../API/AxiosConfig';
+import './Product.css';
 
 const Product = () => {
   const { productId } = useParams();

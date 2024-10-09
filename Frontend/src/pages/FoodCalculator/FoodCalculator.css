@@ -1,46 +1,63 @@
+.food-calculator-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
 .food-calculator {
-  max-width: 600px;
-  margin: 64px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  flex: 1;
+  margin-right: 20px;
   background-color: #f9f9f9;
+  padding: 24px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   text-align: center;
 }
 
-.food-calculator h1 {
+.feeding-info {
+  max-width: 416px;
+  height: fit-content;
+  padding: 24px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  text-align: center;
   margin-bottom: 20px;
 }
 
-.input-group {
-  margin-bottom: 15px;
+.salt-input-group {
+  display: flex;
+  align-items: center;
 }
 
-.input-group label {
-  display: block;
-  margin-bottom: 5px;
+.food-result {
+  margin-top: 24px;
+  text-align: center;
 }
 
-.input-group input {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
+.temperature-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
+.temperature-buttons button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
   border-radius: 4px;
+  background-color: #e0e0e0;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #0056b3;
+.temperature-buttons button:hover {
+  background-color: #d0d0d0;
 }
 
-.result {
-  margin-top: 20px;
-  font-size: 1.2em;
+.temperature-buttons button.selected {
+  background-color: #a0a0a0;
+  color: white;
 }
