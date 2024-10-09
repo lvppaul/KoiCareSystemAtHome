@@ -34,4 +34,3 @@ jspm_packages/
 
 #firebase ignore
 src/API/firebase.js
-firebase.json
