@@ -21,6 +21,8 @@ import PondDetail from "./pages/PondDetail/PondDetail";
 import KoiDetail from "./pages/KoiDetails/KoiDetail";
 import AddNewBlog from "./components/AddNewBlog/AddNewBlog";
 import Blog from "./pages/Blog/Blog";
+import BlogDetail from './pages/BlogDetails/BlogDetail';
+import ManageShop from "./pages/ManageShop/ManageShop";
 import AuthProvider from "./pages/Login/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute"; // Import the ProtectedRoute component
 
@@ -33,11 +35,13 @@ root.render(
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="shop" element={<Shop />} />
+            <Route path="manageshop" element={<ManageShop />} />
             <Route path="product/:productId" element={<Product />} />
             <Route path="pond" element={<Pond />} />
             <Route path="foodcalculator" element={<FoodCalculator />} />
             <Route path="saltcalculator" element={<SaltCalculator />} />
             <Route path="blogs" element={<Blog />} />
+            <Route path="blog/:blogId" element={<BlogDetail />} />
             <Route path="news" element={<h1>News</h1>} />
             <Route path="*" element={<NotPage />} />
             <Route path="ponddetail" element={<PondDetail />} />
