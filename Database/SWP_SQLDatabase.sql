@@ -25,8 +25,8 @@ CREATE TABLE Pond (
     PondID varchar(10) NOT NULL PRIMARY KEY,            -- Primary key
     UserID varchar(200) NOT NULL,                        -- Foreign key to the User table
     Name NVARCHAR(50) NOT NULL,					 -- Pond name
-	ImageUrl varchar(Max),
     Volume FLOAT NOT NULL,                      -- Pond volume
+	Thumbnail varchar(MAX),
     Depth INT NOT NULL,                         -- Pond depth
     PumpingCapacity INT NOT NULL,               -- Pumping capacity of the pond
     Drain INT NOT NULL,                         -- Drain availability
@@ -68,9 +68,8 @@ CREATE TABLE Product_Image(
 CREATE TABLE Shop(
 	ShopID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	UserID varchar(200) NOT NULL,
-	ImageUrl varchar(Max),
 	ShopName NVARCHAR(255) NOT NULL,
-	Picture VARCHAR(Max),
+	Thumbnail VARCHAR(Max),
 	Description NVARCHAR(255) NOT NULL,
 	Phone VARCHAR(20) NOT NULL,
 	Email VARCHAR(255) NOT NULL,
@@ -139,7 +138,7 @@ CREATE TABLE Blogs (
 
 --Create PaymentMethod table
 CREATE TABLE PaymentMethod(
-	PaymentMethodID varchar(10) NOT NULL PRIMARY KEY,
+	PaymentMethodID int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	PaymentName NVARCHAR(255) NOT NULL
 );
 
@@ -180,7 +179,7 @@ CREATE TABLE Orders (
     District nvarchar(50) NOT NULL,
     City nvarchar(50) NOT NULL,
     Country nvarchar(50) NOT NULL,
-    PaymentMethodID varchar(10) NOT NULL,
+    PaymentMethodID int NOT NULL,
     TotalPrice float NOT NULL, 
     OrderStatus bit DEFAULT 0,
 
@@ -226,12 +225,6 @@ CREATE TABLE Revenue (
 	OrderID int NOT NULL,
 	CommissionFee float NOT NULL,
 	FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
-);
-CREATE TABLE Pond_Image (
-    ImageID int NOT NULL PRIMARY KEY IDENTITY(1,1),
-    ImageUrl nvarchar(MAX) NOT NULL,
-    PondID varchar(10) NOT NULL,
-    FOREIGN KEY (PondID) REFERENCES Pond(PondID)
 );
 
 CREATE TABLE Blog_Image (
