@@ -4,7 +4,7 @@ import { addBlog } from '../../API/AxiosConfig';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../../firebase';
+import { storage } from '../../API/firebase';
 
 const AddNewBlog = ({ onAddBlog }) => {
     const [title, setTitle] = useState('');
@@ -36,7 +36,7 @@ const AddNewBlog = ({ onAddBlog }) => {
 
         input.onchange = async () => {
             const file = input.files[0];
-            const storageRef = ref(storage, `images/${file.name}`);
+            const storageRef = ref(storage, `blogImages/${file.name}`);
             try {
                 await uploadBytes(storageRef, file);
                 const imageUrl = await getDownloadURL(storageRef);
