@@ -139,7 +139,7 @@ CREATE TABLE Blogs (
 
 --Create PaymentMethod table
 CREATE TABLE PaymentMethod(
-	PaymentMethodID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	PaymentMethodID varchar(10) NOT NULL PRIMARY KEY,
 	PaymentName NVARCHAR(255) NOT NULL
 );
 
@@ -180,7 +180,7 @@ CREATE TABLE Orders (
     District nvarchar(50) NOT NULL,
     City nvarchar(50) NOT NULL,
     Country nvarchar(50) NOT NULL,
-    PaymentMethodID INT NOT NULL,
+    PaymentMethodID varchar(10) NOT NULL,
     TotalPrice float NOT NULL, 
     OrderStatus bit DEFAULT 0,
 
