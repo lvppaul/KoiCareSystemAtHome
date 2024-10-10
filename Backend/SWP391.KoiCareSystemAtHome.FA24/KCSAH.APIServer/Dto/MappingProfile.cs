@@ -12,6 +12,7 @@ namespace KCSAH.APIServer.Dto
             CreateMap<PondDTO, Pond>().ReverseMap();
             CreateMap<Koi, KoiDTO>().ReverseMap();
             CreateMap<ProductDTO, Product>().ReverseMap();
+            CreateMap<Cart, CartDTO>().ReverseMap();
         }
     }
 }
