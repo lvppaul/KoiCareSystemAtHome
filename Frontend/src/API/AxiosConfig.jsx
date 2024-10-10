@@ -34,7 +34,7 @@ const getUserInfo = async (token) => {
 };
 
 // Function to get shop products
-const getShopProducts = async () => {
+const getProducts = async () => {
     try {
         const response = await api.get('Product', {
             headers: {
@@ -48,6 +48,50 @@ const getShopProducts = async () => {
         throw error;
     }
 }
+
+// Function to add a new product
+const addProduct = async (data) => {
+    try {
+        const response = await api.post('Product', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error adding product:', error);
+        throw error;
+    }
+};
+
+// Function to update a product
+const updateProduct = async (data) => {
+    try {
+        const response = await api.put(`Product/${data.id}`, data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating product:', error);
+        throw error;
+    }
+};
+
+// Function to delete a product
+const deleteProduct = async (productId) => {
+    try {
+        await api.delete(`Product/${productId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        throw error;
+    }
+};
 
 // Function to get ponds
 const getPonds = async () => {
@@ -107,6 +151,37 @@ const postPond = async (token, data) => {
         return response.data;
     } catch (error) {
         console.error('Error posting pond data:', error);
+        throw error;
+    }
+};
+
+// Function to get kois
+const getShop = async () => {
+    try {
+        const response = await api.get('Shop', {
+            headers: {
+                'accept': 'text/plain'
+
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching shops:', error);
+        throw error;
+    }
+}
+
+// Function to update a product
+const updateShop = async (data) => {
+    try {
+        const response = await api.put(`Shop/${data.id}`, data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating shop:', error);
         throw error;
     }
 };
@@ -238,6 +313,6 @@ const signIn = async (credentials) => {
 
 export default api;
 export {
-    getUserInfo, getShopProducts, getPonds, getKois, getKoiById, getCategories, getProductById,
+    getUserInfo, getProducts, addProduct, updateProduct, deleteProduct, getShop, updateShop, getPonds, getKois, getKoiById, getCategories, getProductById,
     getBlogs, addBlog, getComments, addComment, signIn, signUp
 };

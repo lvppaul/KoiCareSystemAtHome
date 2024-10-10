@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getShopProducts, getCategories } from '../../API/AxiosConfig';
+import { getProducts, getCategories } from '../../API/AxiosConfig';
 import './Shop.css';
 
 const Shop = () => {
@@ -20,7 +20,7 @@ const Shop = () => {
       })
       .catch(error => console.error('Error fetching categories:', error));
 
-    getShopProducts()
+    getProducts()
       .then(data => {
         console.log('Fetched products:', data);
         setProducts(data);

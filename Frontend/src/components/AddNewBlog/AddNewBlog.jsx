@@ -36,7 +36,7 @@ const AddNewBlog = ({ onAddBlog }) => {
 
         input.onchange = async () => {
             const file = input.files[0];
-            const storageRef = ref(storage, `blogImages/${file.name}`);
+            const storageRef = ref(storage, `/blog/blogImages/${file.name}`);
             try {
                 await uploadBytes(storageRef, file);
                 const imageUrl = await getDownloadURL(storageRef);
