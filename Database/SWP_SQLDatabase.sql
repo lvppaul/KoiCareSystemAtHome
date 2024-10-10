@@ -128,7 +128,7 @@ CREATE TABLE Koi_Remind(
 
 --Create Blogs Table
 CREATE TABLE Blogs (
-    BlogID INT NOT NULL PRIMARY KEY,
+    BlogID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     UserID varchar(200) NOT NULL,
     PublishDate DATETIME NOT NULL,
     Content NVARCHAR(MAX) NOT NULL,
