@@ -36,7 +36,7 @@ CREATE TABLE Pond (
 
 --Create Category table
 CREATE TABLE Category (
-	CategoryID varchar(10) NOT NULL PRIMARY KEY,
+	CategoryID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	Name NVARCHAR(255) NOT NULL,
 	Description NVARCHAR(Max) NOT NULL
 );
@@ -49,7 +49,7 @@ CREATE TABLE Product(
 	Quantity INT NOT NULL,
 	Price FLOAT NOT NULL,
 	Status bit default 1,
-	CategoryID varchar(10) NOT NULL,
+	CategoryID int NOT NULL,
 	UserID varchar(10) NOT NULL,
 	FOREIGN KEY (UserID) REFERENCES [User](UserID),
 	FOREIGN KEY (CategoryID) REFERENCES [Category](CategoryID)
@@ -61,15 +61,6 @@ CREATE TABLE Product_Image(
 	ProductID varchar(10) NOT NULL,
 	Path NVARCHAR(Max) NOT NULL,
 	FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
-);
---Create Cart table
-CREATE TABLE Cart(
-	CartID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	UserID varchar(10) NOT NULL,
-	TotalQuantity INT NOT NULL,
-	TotalPrice FLOAT NOT NULL,
-	TotalItems INT NOT NULL,
-	FOREIGN KEY (UserID) REFERENCES [User](UserID)
 );
 
 --Create Shop table
@@ -129,7 +120,7 @@ CREATE TABLE Koi_Remind(
 	UserID varchar(10) NOT NULL,
 	KoiID varchar(10) NOT NULL,
 	Description NVARCHAR(255) NOT NULL,
-	DateRemind DATE NOT NULL,
+	DateRemind DATETIME NOT NULL,
 	FOREIGN KEY (UserID) REFERENCES [User](UserID),
 	FOREIGN KEY (KoiID) REFERENCES Koi(KoiID)
 );
@@ -138,22 +129,10 @@ CREATE TABLE Koi_Remind(
 CREATE TABLE Blogs (
     BlogID INT NOT NULL PRIMARY KEY,
     UserID varchar(10) NOT NULL,
-    PublishDate DATE NOT NULL,
+    PublishDate DATETIME NOT NULL,
     Content NVARCHAR(MAX) NOT NULL,
     Title NVARCHAR(255) NOT NULL,
     FOREIGN KEY (UserID) REFERENCES [User](UserID)
-);
-
---Create CartItem table
-CREATE TABLE CartItem (
-    CartItemID INT NOT NULL PRIMARY KEY,
-    ProductID varchar(10) NOT NULL,
-    CartID INT NOT NULL,
-    Quantity INT NOT NULL,
-    PricePerItem FLOAT NOT NULL,
-    TotalPrice FLOAT NOT NULL,
-    FOREIGN KEY (ProductID) REFERENCES Product(ProductID),
-    FOREIGN KEY (CartID) REFERENCES Cart(CartID)
 );
 
 --Create PaymentMethod table
@@ -165,7 +144,7 @@ CREATE TABLE PaymentMethod(
 
 --Create Water_Parameter table
 CREATE TABLE Water_Parameter (
-    MeasureID INT NOT NULL PRIMARY KEY,
+    MeasureID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     UserID varchar(10) NOT NULL,
     PondID varchar(10) NOT NULL,
     Nitrite FLOAT NOT NULL,
@@ -189,22 +168,22 @@ CREATE TABLE Water_Parameter (
 
 --Create Orders table
 CREATE TABLE Orders (
-    OrderID int NOT NULL PRIMARY KEY,
+    OrderID int NOT NULL PRIMARY KEY IDENTITY(1,1),
     UserID varchar(10) NOT NULL,
     ShopID int NOT NULL,
     FullName nvarchar(200) NOT NULL,
     Phone varchar(20) NOT NULL,
-    OrderDate date NOT NULL,
+    OrderDate datetime NOT NULL, 
     Email varchar(200) NOT NULL,
     Street nvarchar(50) NOT NULL,
     District nvarchar(50) NOT NULL,
     City nvarchar(50) NOT NULL,
     Country nvarchar(50) NOT NULL,
     PaymentMethodID INT NOT NULL,
-    TotalPrice float NOT NULL,
-    CreateAt date NOT NULL,
+    TotalPrice float NOT NULL, 
+    CreateAt datetime NOT NULL, 
     OrderStatus bit DEFAULT 0,
-    
+
     FOREIGN KEY (UserID) REFERENCES [User](UserID),
     FOREIGN KEY (ShopID) REFERENCES Shop(ShopID),
     FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethod(PaymentMethodID)
@@ -212,22 +191,32 @@ CREATE TABLE Orders (
 
 --Create OrderDetail table
 CREATE TABLE OrderDetail (
-    OrderDetail_ID int NOT NULL PRIMARY KEY,
     OrderID int NOT NULL,
     ProductID varchar(10) NOT NULL,
     Quantity int NOT NULL,
     UnitPrice float NOT NULL,
-    CreatedAt date NOT NULL,
-    
+    CreatedAt datetime NOT NULL,
+    PRIMARY KEY (OrderID, ProductID),
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
     FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
 );
 
 --Create News table 
 CREATE TABLE News (
-    NewsID int NOT NULL PRIMARY KEY,
+    NewsID int NOT NULL PRIMARY KEY IDENTITY(1,1),
     Title nvarchar(255) NOT NULL,
-    PublishDate date NOT NULL,
+    PublishDate datetime NOT NULL,
     Content nvarchar(MAX) NOT NULL
 );
 
+--Create BlogComments table
+CREATE TABLE BlogComments (
+    CommentId int NOT NULL PRIMARY KEY IDENTITY(1,1),
+    UserID varchar(10) NOT NULL,
+    BlogId int NOT NULL,
+    Content nvarchar(MAX) NOT NULL,
+    CreateDate datetime NOT NULL,
+
+    FOREIGN KEY (UserID) REFERENCES [User](UserID),
+    FOREIGN KEY (BlogId) REFERENCES Blogs(BlogId)
+);
