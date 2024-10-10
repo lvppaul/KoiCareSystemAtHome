@@ -195,7 +195,6 @@ CREATE TABLE OrderDetail (
     ProductID varchar(10) NOT NULL,
     Quantity int NOT NULL,
     UnitPrice float NOT NULL,
-    CreatedAt datetime NOT NULL,
     PRIMARY KEY (OrderID, ProductID),
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
     FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
