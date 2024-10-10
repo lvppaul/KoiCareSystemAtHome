@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Container, Row, Col, Table } from 'react-bootstrap';
+import { Form, Button, Container, Table } from 'react-bootstrap';
 import { getProducts, addProduct, updateProduct, deleteProduct, updateShop } from '../../API/AxiosConfig';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../API/firebase';
@@ -39,7 +39,7 @@ const ManageShop = () => {
         e.preventDefault();
         try {
             const updatedProduct = await updateProduct(editingProduct);
-            setProducts(products.map(product => product.id === updatedProduct.id ? updatedProduct : product));
+            setProducts(products.map(product => product.productId === updatedProduct.productId ? updatedProduct : product));
             setEditingProduct(null);
         } catch (error) {
             console.error('Error updating product:', error);
@@ -49,7 +49,7 @@ const ManageShop = () => {
     const handleDeleteProduct = async (productId) => {
         try {
             await deleteProduct(productId);
-            setProducts(products.filter(product => product.id !== productId));
+            setProducts(products.filter(product => product.productId !== productId));
         } catch (error) {
             console.error('Error deleting product:', error);
         }
@@ -73,7 +73,7 @@ const ManageShop = () => {
 
         input.onchange = async () => {
             const file = input.files[0];
-            const storageRef = ref(storage, `shopImages/${file.name}`);
+            const storageRef = ref(storage, `shop/shopThumbnails/${file.name}`);
             try {
                 await uploadBytes(storageRef, file);
                 const imageUrl = await getDownloadURL(storageRef);
@@ -152,7 +152,7 @@ const ManageShop = () => {
                 </thead>
                 <tbody>
                     {products.map(product => (
-                        <tr key={product.id}>
+                        <tr key={product.productId}>
                             <td>{product.name}</td>
                             <td>{product.price}</td>
                             <td>{product.description}</td>

@@ -67,7 +67,7 @@ const addProduct = async (data) => {
 // Function to update a product
 const updateProduct = async (data) => {
     try {
-        const response = await api.put(`Product/${data.id}`, data, {
+        const response = await api.put(`Product/${data.productId}`, data, {
             headers: {
                 'Content-Type': 'application/json'
             }
