@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
-import { signIn } from '../../Config/AxiosConfig';
+import { signIn } from '../../Config/LogInApi';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import './Login.css';
