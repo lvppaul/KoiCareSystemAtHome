@@ -206,6 +206,7 @@ CREATE TABLE OrderDetail (
 --Create News table 
 CREATE TABLE News (
     NewsID int NOT NULL PRIMARY KEY IDENTITY(1,1),
+	Thumbnail varchar(Max),
     Title nvarchar(255) NOT NULL,
     PublishDate datetime NOT NULL,
     Content nvarchar(MAX) NOT NULL
