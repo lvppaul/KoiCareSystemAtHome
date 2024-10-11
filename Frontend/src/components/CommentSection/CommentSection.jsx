@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { getComments, addComment } from '../../API/AxiosConfig';
 
@@ -7,11 +7,7 @@ const CommentSection = ({ blogId }) => {
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchComments();
-    }, []);
-
-    const fetchComments = async () => {
+    const fetchComments = useCallback(async () => {
         try {
             const data = await getComments(blogId);
             setComments(data);
@@ -20,7 +16,11 @@ const CommentSection = ({ blogId }) => {
             console.error('Error fetching comments:', error);
             setLoading(false);
         }
-    };
+    }, [blogId]);
+
+    useEffect(() => {
+        fetchComments();
+    }, [fetchComments]);
 
     const handleAddComment = async (e) => {
         e.preventDefault();

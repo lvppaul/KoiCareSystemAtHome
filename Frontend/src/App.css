@@ -1,3 +1,4 @@
 .main-content {
   background-color: #FCEFCF;
+  transition: 2s ease-in-out;
 }
