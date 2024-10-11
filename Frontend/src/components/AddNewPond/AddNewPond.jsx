@@ -4,7 +4,7 @@ import { Button, Modal, Form, Row, Col } from 'react-bootstrap/';
 import {  BiImport } from "react-icons/bi";
 import PondIcon from "../../assets/Pond.svg";
 import api from '../../Config/AxiosConfig';
-import { storage } from '../../API/firebase';
+import { storage } from '../../Config/firebase';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {Spinner } from 'react-bootstrap';
 

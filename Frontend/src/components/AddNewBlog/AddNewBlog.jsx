@@ -4,7 +4,7 @@ import { addBlog } from '../../Config/BlogApi';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../../API/firebase';
+import { storage } from '../../Config/firebase';
 
 const AddNewBlog = ({ onAddBlog }) => {
     const [title, setTitle] = useState('');

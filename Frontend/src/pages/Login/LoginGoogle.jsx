@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { signInWithRedirect } from "firebase/auth";
 import { signIn } from "../../Config/LogInApi";
-import { auth, provider } from "../../API/firebase";
+import { auth, provider } from "../../Config/firebase";
 import { useAuth } from './AuthProvider';
 import {jwtDecode} from 'jwt-decode'; // Correct import for jwt-decode
 

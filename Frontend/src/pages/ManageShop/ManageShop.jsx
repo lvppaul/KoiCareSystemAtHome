@@ -3,7 +3,7 @@ import { Form, Button, Container, Table } from 'react-bootstrap';
 import { getProducts, addProduct, updateProduct, deleteProduct } from '../../Config/ProductApi';
 import { getShop, updateShop } from '../../Config/ShopApi';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../../API/firebase';
+import { storage } from '../../Config/firebase';
 
 const ManageShop = () => {
     const [products, setProducts] = useState([]);
