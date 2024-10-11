@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -19,52 +19,49 @@ import FoodCalculator from "./pages/FoodCalculator/FoodCalculator";
 import Product from './pages/Product/Product';
 import PondDetail from "./pages/PondDetail/PondDetail";
 import KoiDetail from "./pages/KoiDetails/KoiDetail";
-import AddNewBlog from "./components/AddNewBlog/AddNewBlog";
 import Blog from "./pages/Blog/Blog";
-import BlogDetail from './pages/BlogDetails/BlogDetail';
-import ManageShop from "./pages/ManageShop/ManageShop";
-import AuthProvider from "./pages/Login/AuthProvider";
-import ProtectedRoute from "./components/ProtectedRoute"; // Import the ProtectedRoute component
+// Remove AuthProvider and ProtectedRoute imports as we're not using them in dev mode
+import {AuthProvider} from "./pages/Login/AuthProvider";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Import the ProtectedRoute component
+import News from './pages/News/News'; // Assuming you have a News component
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const container = document.getElementById('root');
+const root = createRoot(container);
+
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route index element={<Home />} />
-            <Route path="shop" element={<Shop />} />
-            <Route path="manageshop" element={<ManageShop />} />
-            <Route path="product/:productId" element={<Product />} />
-            <Route path="pond" element={<Pond />} />
-            <Route path="foodcalculator" element={<FoodCalculator />} />
-            <Route path="saltcalculator" element={<SaltCalculator />} />
-            <Route path="blogs" element={<Blog />} />
-            <Route path="blog/:blogId" element={<BlogDetail />} />
-            <Route path="news" element={<h1>News</h1>} />
-            <Route path="*" element={<NotPage />} />
-            <Route path="ponddetail" element={<PondDetail />} />
-            <Route path="koidetail" element={<KoiDetail />} />
-            <Route path="addnewblog" element={<AddNewBlog />} />
-          </Route>
+    <React.StrictMode>
+        <BrowserRouter>
+            <Routes>
+                {/* Public Routes (accessible to everyone) */}
+                <Route path="/" element={<App />}>
+                    <Route index element={<Home />} />
+                    <Route path="news" element={<News />} />
+                    <Route path="blogs" element={<Blog />} />
 
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="/admin/" element={<ProtectedRoute requiredRole="admin"><AdminHome /></ProtectedRoute>}>
-            <Route index element={<h1>Report</h1>} />
-            <Route path="report" element={<h1>Report</h1>} />
-            <Route path="usermanage" element={<ProtectedRoute requiredRole="admin"><TableUser /></ProtectedRoute>} />
-            <Route path="shopadmin" element={<ProtectedRoute requiredRole="admin"><h1>Shop</h1></ProtectedRoute>} />
-            <Route path="products" element={<ProtectedRoute requiredRole="admin"><h1>Products</h1></ProtectedRoute>} />
-            <Route path="catagories" element={<ProtectedRoute requiredRole="admin"><h1>Categories</h1></ProtectedRoute>} />
-            <Route path="setting" element={<ProtectedRoute requiredRole="admin"><h1>Setting</h1></ProtectedRoute>} />
-            <Route path="feedback" element={<ProtectedRoute requiredRole="admin"><h1>Feedback</h1></ProtectedRoute>} />
-          </Route>
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+                <Route path="signup" element={<Signup />} />
+                <Route path="login" element={<Login />} />
+
+                {/* Protected Routes for Authenticated Users */}
+                <Route path="shop" element={/*<ProtectedRoute requiredRole="member">*/<Shop />/*</ProtectedRoute>*/} />
+                <Route path="product/:productId" element={/*<ProtectedRoute requiredRole="member">*/<Product />/*</ProtectedRoute>*/} />
+                <Route path="pond" element={/*<ProtectedRoute requiredRole="member">*/<Pond />/*</ProtectedRoute>*/} />
+                <Route path="foodcalculator" element={/*<ProtectedRoute requiredRole="member">*/<FoodCalculator />/*</ProtectedRoute>*/} />
+                <Route path="saltcalculator" element={/*<ProtectedRoute requiredRole="member">*/<SaltCalculator />/*</ProtectedRoute>*/} />
+                <Route path="ponddetail" element={/*<ProtectedRoute requiredRole="member">*/<PondDetail />/*</ProtectedRoute>*/} />
+                <Route path="koidetail" element={/*<ProtectedRoute requiredRole="member">*/<KoiDetail />/*</ProtectedRoute>*/} />
+                <Route path="*" element={<NotPage />} />
+                </Route>
+                        
+                {/* Admin Routes */}
+                <Route path="/admin" element={/*<ProtectedRoute requiredRole="admin">*/<AdminHome />/*</ProtectedRoute>*/}>
+                    <Route index element={<h1>Report</h1>} />
+                    <Route path="report" element={<h1>Report</h1>} />
+                    <Route path="usermanage" element={/*<ProtectedRoute requiredRole="admin">*/<TableUser />/*</ProtectedRoute>*/} />
+                </Route>
+
+            </Routes>
+        </BrowserRouter>
+    </React.StrictMode>
 );
 
 // Performance measurement

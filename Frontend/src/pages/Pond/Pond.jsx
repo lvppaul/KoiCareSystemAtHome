@@ -1,9 +1,9 @@
-import AddNewPond from '../../components/AddNewPond'
+import AddNewPond from '../../components/AddNewPond/AddNewPond'
 import './Pond.css'
 import { Card} from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../../API/AxiosConfig';
+import api from '../../Config/AxiosConfig';
 
 
 const Pond = () => {
