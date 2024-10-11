@@ -13,8 +13,7 @@ const AddNewPond = (props) => {
     const {show,setShow} = props;
     const [loading, setLoading] = useState(false);
     const handleClose = () => setShow(false);
-    //handle upload image
-    
+        
     //useState modal form
     const[name,setName] = useState("");
     const[volumn,setVolumn] = useState("");
