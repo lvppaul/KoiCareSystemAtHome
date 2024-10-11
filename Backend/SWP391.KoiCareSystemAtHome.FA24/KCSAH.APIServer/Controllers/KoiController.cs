@@ -42,7 +42,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Koi>> CreateCategory([FromBody] KoiDTO koi)
+        public async Task<ActionResult<Koi>> CreateKoi([FromBody] KoiDTO koi)
         {
             if (koi == null)
             {

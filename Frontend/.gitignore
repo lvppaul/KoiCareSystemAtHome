@@ -31,3 +31,7 @@ jspm_packages/
 *.ntvs*
 *.njsproj
 *.sln
+
+#firebase ignore
+src/API/firebase.js
+

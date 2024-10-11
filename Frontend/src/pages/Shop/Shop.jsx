@@ -34,7 +34,7 @@ const Shop = () => {
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const filteredProducts = selectedCategory === 'All'
@@ -69,6 +69,7 @@ const Shop = () => {
         <h1>Koi Care Shop</h1>
       </header>
       <main className="shop-main">
+        <Link to={`/manageshop`} className="productLink">Manage Shop</Link>
         <div className="shop-filter">
           <label>
             Sort by Category:
