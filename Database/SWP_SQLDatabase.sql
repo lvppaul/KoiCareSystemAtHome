@@ -6,6 +6,7 @@ go
 --Create User table
 CREATE TABLE [User] (
     UserID varchar(200) NOT NULL PRIMARY KEY,  -- Primary key
+	Avatar varchar(Max),
     UserName VARCHAR(50) NOT NULL,    -- User's username
     FullName NVARCHAR(200),  -- User's full name
     Password VARCHAR(200) NOT NULL,        -- User's password (consider using hashing for better security)
@@ -46,6 +47,7 @@ CREATE TABLE Category (
 CREATE TABLE Product(
 	ProductID varchar(10) NOT NULL PRIMARY KEY,
 	Name NVARCHAR(255) NOT NULL,
+	Thumbnail varchar(Max),
 	Description NVARCHAR(Max),
 	Quantity INT NOT NULL,
 	Price FLOAT NOT NULL,
@@ -83,6 +85,7 @@ CREATE TABLE Koi (
     KoiID varchar(10) NOT NULL PRIMARY KEY,           -- Primary key
     UserID varchar(200) NOT NULL,                       -- Foreign key to the User table
     PondID varchar(10) NOT NULL,                       -- Foreign key to the Pond table
+	Thumbnail varchar(Max),
     Age INT NOT NULL,                          -- Age of the fish
     Name NVARCHAR(255) NOT NULL,               -- Name of the fish
     Note NVARCHAR(MAX),               -- Additional notes about the fish
@@ -131,6 +134,7 @@ CREATE TABLE Blogs (
     BlogID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     UserID varchar(200) NOT NULL,
     PublishDate DATETIME NOT NULL,
+	Thumbnail varchar(Max),
     Content NVARCHAR(MAX) NOT NULL,
     Title NVARCHAR(255) NOT NULL,
     FOREIGN KEY (UserID) REFERENCES [User](UserID)
