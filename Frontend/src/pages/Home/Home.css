@@ -70,11 +70,14 @@
 .features-section h2{
   color: black;
 }
-
+.card-footer a{
+  flex-direction: row;
+}
 .card-img-top {
   height: 200px;
   width: 300px;
   padding: 10px 20px;
+  border-radius: 25px;
 }
 .home-card {
   background-color: #F6DAC7 !important;
@@ -98,12 +101,13 @@
   font-size: 14px;
   display: flex;
   text-align: left;
+  height: 100px;
 }
-.card a{
-  padding-top: 40px;
+
+
+.card-footer a{
   color: black;
   display: flex;
-  text-align: left;
   font-weight: bold;
   font-size: 20px;
   &:hover{

@@ -3,11 +3,14 @@ import { Container, Row, Col, Button, Card, Pagination } from 'react-bootstrap';
 import { MdDelete, MdAdd } from "react-icons/md";
 import './PondDetail.css';
 import { useState } from 'react';
-import AddNewFish from '../../components/AddNewFish';
+import AddNewFish from '../../components/AddNewFish/AddNewFish';
+import { storage } from '../../Config/firebase';
+import {ref, deleteObject} from 'firebase/storage'
 //   const { pondId } = useParams();
 
 // Use pondId to fetch or display pond details
 const PondDetail = () => {
+  const image = "https://firebasestorage.googleapis.com/v0/b/koi-care-system-at-home-32e49.appspot.com/o/pond%2FpondThumbnails%2FScreenshot%202024-09-13%20210015.png?alt=media&token=631a1c70-5f2b-44d3-8c94-de2c901c5ff4";
   const koiList = [
     { name: 'Wagon', age: '2 months', variety: 'Kohaku', length: '42 cm' },
     { name: 'Wagon', age: '2 years', variety: 'Goshiki', length: '40 cm' },
@@ -17,12 +20,25 @@ const PondDetail = () => {
     { name: 'Showa', age: '2 years', variety: 'Goshiki', length: '40 cm' }
   ];
   const [showModalAddFish, setShowModalAddFish] = useState(false);
+  const handleDeleteImage = () => {
+    const imageUrl =  image;// Replace with the actual image URL
+
+    const imageRef = ref(storage, imageUrl);
+
+    deleteObject(imageRef)
+      .then(() => {
+        console.log("Image deleted successfully");
+      })
+      .catch((error) => {
+        console.error("Error deleting image:", error);
+      });
+  }
 
   return (
     <Container className='pond-detail-container' style={{ marginTop: '100px', marginBottom: '100px' }}>
       <Row style={{ justifyContent: 'flex-end' }}>
         <h1>Pond Name</h1>
-        <Button style={{ width: '180px', height: '70px', fontWeight: 'bold', fontSize: '18px', borderRadius: '15px', backgroundColor: '#FF8433' }}>
+        <Button onClick={handleDeleteImage} style={{ width: '180px', height: '70px', fontWeight: 'bold', fontSize: '18px', borderRadius: '15px', backgroundColor: '#FF8433' }}>
           <MdDelete size={25} />
           Delete Pond
         </Button>

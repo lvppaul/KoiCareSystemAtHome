@@ -1,5 +1,5 @@
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Home.css'; // Create this CSS file for custom styles
 import landing from '../../assets/images/landing.png'
 import feaure1 from '../../assets/images/managepond.png'
@@ -12,7 +12,7 @@ import logoFeature3 from '../../assets/icon-shop.svg'
 import logoFeature4 from '../../assets/icon-news.svg'
 
 const Home = () => {
-
+  const navigate = useNavigate();
   return (
     <>
       <Container fluid className="homepage">
@@ -25,7 +25,7 @@ const Home = () => {
               <p>
                 This website is designed for Koi enthusiasts, offering features to assist with feeding, pond maintenance, and health monitoring, helping ensure your Koi thrive.
               </p>
-              <Button variant="primary">Get Started</Button>
+              <Button class="get-sta ted" variant="primary" onClick={() => {navigate('login')}} >Get Started</Button>
             </div>
             </Col>
             <Col md={8} className="image-section">
@@ -55,7 +55,9 @@ const Home = () => {
                   Helps users track pond details and fish health, ensuring efficient
                   management and the well-being of their Koi.
                 </Card.Text>
+                <Card.Footer>
                 <Link to="/pond">Learn more </Link>
+                </Card.Footer>
               </Card.Body>
             </Card>
           </Col>
@@ -73,7 +75,9 @@ const Home = () => {
                 Helps users determine the right amount of food for Koi at different 
                 growth stages and calculates the necessary salt for each pond to maintain optimal conditions.
                 </Card.Text>
+                <Card.Footer>
                 <Link to="/calculation">Learn more </Link>
+                </Card.Footer>
               </Card.Body>
             </Card>
           </Col>
@@ -91,7 +95,9 @@ const Home = () => {
                 Lets users open their own store or buy Koi-related products 
                 from others, offering a marketplace for supplies, and pond equipment.
                 </Card.Text>
+                <Card.Footer>
                 <Link to="/shop">Learn more </Link>
+                </Card.Footer>
               </Card.Body>
             </Card>
           </Col>
@@ -108,7 +114,9 @@ const Home = () => {
                 The "News / Blogs" feature keeps users updated with the latest news and 
                 informative blogs and lets them share their own insights with the Koi community.
                 </Card.Text>
+                <Card.Footer>
                 <Link to="/news">Learn more </Link>
+                </Card.Footer>
               </Card.Body>
             </Card>
           </Col>
