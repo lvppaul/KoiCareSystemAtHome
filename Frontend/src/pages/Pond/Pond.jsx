@@ -3,7 +3,7 @@ import './Pond.css'
 import { Card} from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../../Config/AxiosConfig';
+import {getPonds} from '../../Config/PondApi';
 
 
 const Pond = () => {
@@ -18,7 +18,7 @@ const Pond = () => {
     const[ponds, setPonds] = useState([]);
     const fetchPondInfo = async () => {
         try {
-            const response = await api.get("pond");
+            const response = getPonds();
             setPonds(response.data);
         } catch (err) {
             console.log(err);

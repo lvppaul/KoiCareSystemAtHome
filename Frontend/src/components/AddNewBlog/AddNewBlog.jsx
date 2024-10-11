@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { addBlog } from '../../API/AxiosConfig';
+import { addBlog } from '../../Config/BlogApi';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';

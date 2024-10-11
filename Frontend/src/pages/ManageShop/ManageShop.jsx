@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Table } from 'react-bootstrap';
-import { getProducts, addProduct, updateProduct, deleteProduct, updateShop } from '../../API/AxiosConfig';
+import { getProducts, addProduct, updateProduct, deleteProduct } from '../../Config/ProductApi';
+import { getShop, updateShop } from '../../Config/ShopApi';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../API/firebase';
 
@@ -18,7 +19,9 @@ const ManageShop = () => {
     const fetchProducts = async () => {
         try {
             const data = await getProducts();
-            setProducts(data);
+            const shop = await getShop();
+            const filteredProducts = data.filter(data => data.userId === shop.userId);
+            setProducts(filteredProducts);
         } catch (error) {
             console.error('Error fetching products:', error);
         }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
-import { getBlogs } from '../../API/AxiosConfig';
+import { getBlogs } from '../../Config/BlogApi';
 import AddNewBlog from '../../components/AddNewBlog/AddNewBlog';
 import './Blog.css';
 

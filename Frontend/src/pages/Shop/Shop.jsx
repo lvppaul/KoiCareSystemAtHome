@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getProducts, getCategories } from '../../Config/AxiosConfig';
+import { getProducts } from '../../Config/ProductApi';
+import { getCategories } from '../../Config/CategoryApi';
 import './Shop.css';
 
 const Shop = () => {
