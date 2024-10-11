@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getPonds } from '../../API/AxiosConfig';
+import { getPonds } from '../../Config/AxiosConfig';
 import './SaltCalculator.css';
 const SaltCalculator = () => {
   const [ponds, setPonds] = useState([]);

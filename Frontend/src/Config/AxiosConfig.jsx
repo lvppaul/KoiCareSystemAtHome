@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
-const baseUrl = 'https://localhost:7044/api/';
+const baseUrl = 'https://localhost:7181/api/';
 
 const config = {
     baseURL: baseUrl
@@ -166,7 +167,14 @@ const signIn = async (credentials) => {
                 'Accept': 'application/json'
             }
         });
-        return response.data;
+        const token = response.data;
+        // Decode the JWT token to get user role
+        const decoded = jwtDecode(token)
+        // Extract the role from the decoded token
+        const userRole = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]; 
+        // Return both the user data and the role
+        localStorage.setItem('token', token); // Save the token to local storage
+        return { userRole, token }; // Return user data, role, and token
     } catch (error) {
         console.error('Error signing in:', error.response ? error.response.data : error.message);
         throw error;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import api from '../../API/AxiosConfig';
+import api from '../../Config/AxiosConfig';
 import UserCard from '../UserCard/UserCard';
 import { Row } from 'react-bootstrap';
 import './TableUser.css';

@@ -1,16 +1,17 @@
-import './style.css'
+import './AddNewPond.css'
 import { useState } from 'react';
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap/';
 import {  BiImport } from "react-icons/bi";
 import PondIcon from "../../assets/Pond.svg";
-import api from '../../API/AxiosConfig';
-import { storage } from '../../API/firebase';
-import {ref, uploadBytesResumable, getDownloadURL} from 'firebase/storage';
+import api from '../../Config/AxiosConfig';
+import { storage } from '../../Config/firebase';
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import {Spinner } from 'react-bootstrap';
+
 
 const AddNewPond = (props) => {
     const {show,setShow} = props;
-    const [progress, setProgress] = useState("");
-
+    const [loading, setLoading] = useState(false);
     const handleClose = () => setShow(false);
     //handle upload image
     
@@ -27,68 +28,54 @@ const AddNewPond = (props) => {
     const metadata = {
         contentType: 'image/jpeg',
     };
-    //upload image
+
+    // handle preview image
     const handleUploadImg = (event) => {
-        //create image name
-        const storageRef = ref(storage, `images/${image.name}`);
-        //handle upload image
-        const uploadTask = uploadBytesResumable(storageRef, image, metadata);
-
-        uploadTask.on(
-            'state_changed',
-            (snapshot) => {
-                const progress = (snapshot.bytesTransferred/snapshot.totalBytes) * 100;
-                setProgress(progress);
-                console.log('upload is' + progress + '%');
-                switch (snapshot.state) {
-                    case 'paused':
-                        console.log('Upload is paused');
-                        break;
-                    case 'running':
-                        console.log('upload is running ')
-                        break;
-                }
-            },
-
-        (error) => {
-            console.log(error);
-        },
-        () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                alert('File available at' + downloadURL);
-                setImage(null);
-                setProgress(0);
-                console.log('File available at' + downloadURL);
-            });
+        const file = event.target.files[0];
+        if (file) {
+            setPreviewImage(URL.createObjectURL(file));
+            setImage(file);
         }
-        );
-
-        if(event.target && event.target.files && event.target.files[0]){
-            setPreviewImage(URL.createObjectURL(event.target.files[0]));
-            setImage(event.target.files[0]);;
-        }; 
     }
 
-    const handleSubmitPond = async() => {
-        //validate form
+    const handleSubmitPond = async () => {
+        if (!image) {
+            console.log("No image selected");
+            return;
+        }
+        setLoading(true);
+        // Upload image
+        const storageRef = ref(storage, `/pond/pondThumbnails/${image.name}`);
+        try {
+            const snapshot = await uploadBytes(storageRef, image, metadata);
+            const downloadURL = await getDownloadURL(snapshot.ref);
+            setImage(downloadURL);
 
-        //call api  
-        const form = new FormData();
-            form.append('name', 'name');
-            form.append('volumn', 'volumn');
-            form.append('depth', 'depth');
-            form.append('pump', 'pump');
-            form.append('drain', 'drain');
-            form.append('skimmer', 'skimmer');
-            form.append('pondImage', image);
+            // Prepare pond data
+            const pondData = {
+                name,
+                volumn,
+                depth,
+                pump,
+                drain,
+                skimmer,
+                image: downloadURL
+            };
 
+            // Call API
             try {
-                const response = await api.post("pond", form);
-                console.log(response);
+                // const response = await api.post("pond", pondData);
+                console.log(pondData);
             } catch (error) {
                 console.log(error);
             }
+        } catch (error) {
+            console.log("Error uploading image:", error);
+        } finally {
+            setLoading(false);
+        }
     }
+
     return (
         <>
             <Row className='pond-item'>
@@ -180,12 +167,11 @@ const AddNewPond = (props) => {
                         Cancel
                     </Button>
                     <Button variant="primary" onClick={() => handleSubmitPond()} style={{ backgroundColor: '#00C92C' }}>
-                        Save
+                    {loading ? <Spinner animation="border" size="sm" /> : "Save"}
                     </Button>
                 </Modal.Footer>
             </Modal>
         </>
     );
 }
-
 export default AddNewPond;

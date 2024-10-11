@@ -4,7 +4,6 @@
   background-color: #E47E39;
   margin-bottom: 50px;
 
-  
   .container-fluid {
     background-color: white;
     border-bottom: 1px solid black;
@@ -25,8 +24,13 @@
   font-weight: bold;
   color: black;
   padding: 10px 20px 10px 20px;
+  border: none;
+  border-radius: 25px;
+  transition: background-color 0.3s ease-in-out;
   &.active {
     background-color: #E47E39;
+    border: none;
+    border-radius: 25px;
   }
 }
 
@@ -36,13 +40,11 @@
   padding: 2px 20px 2px 20px;
   &:hover{
     background-color: #E47E39;
+    border-radius: 25px;
   }
 }
 .dropdown-item {
   font-size: 20px;
-  &:active{
-    background-color: #E47E39;
-  }
 }
 
 .navbar-logo {

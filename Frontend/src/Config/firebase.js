@@ -23,13 +23,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // const firebaseApp = initializeApp(firebaseConfig);
-// Initialize Firebase Auth provider
-const provider = new GoogleAuthProvider();
-  
-// whenever a user interacts with the provider, we force them to select an account
-provider.setCustomParameters({   
-    prompt : "select_account "
-});
 const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
 const storage = getStorage(app);
-export { auth, provider, signInWithRedirect, storage };
+export {storage, auth, provider};

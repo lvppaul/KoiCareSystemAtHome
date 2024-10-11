@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthProvider';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
-import { signIn } from '../../API/AxiosConfig';
+import { signIn } from '../../Config/AxiosConfig';
 import { Link } from 'react-router-dom';
-import { FcGoogle } from 'react-icons/fc';
 import logo from '../../assets/logo.svg';
 import './Login.css';
+import LoginGoogle from './LoginGoogle';
+import { useAuth } from './AuthProvider';
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth(); // Use the login function from AuthProvider
   const [err, setErr] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,7 +21,8 @@ function Login() {
       const response = await signIn({ email, password });
       console.log('Sign in response:', response);
       if (response) {
-        // Redirect to Home page
+        // Call the login function with the user data and role
+        login({ email, role: response.userRole });
         navigate('/');
       } else {
         setErr(response ? response.message : 'No response from server');
@@ -33,8 +35,8 @@ function Login() {
 
   const description = `Our website will provide the best solution to help Koi enthusiasts
     manage and care for your Koi fish at home.
-    We provide a range of features to monitor, track and maintain\n
-    optimal conditions for Koi ponds and fish health.`
+    We provide a range of features to monitor, track and maintain
+    optimal conditions for Koi ponds and fish health.`;
 
   return (
     <div className='login-container'>
@@ -42,24 +44,21 @@ function Login() {
         <img src={logo} alt="FPT TT Koi logo" className="logo" />
         <h2>Login to FPT TT Koi</h2>
         <p className="description">{description}</p>
-
         {err && <p className="error-message">{err}</p>}
-        <Form
-          onSubmit={handleLogin}>
-          <Form.Group controlId="formEmail">
-            <Form.Label>Email</Form.Label>
+        <Form onSubmit={handleLogin}>
+          <Form.Group>
             <InputGroup>
               <FormControl
-                type="text"
+                type="email"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                autoComplete='email'
               />
             </InputGroup>
           </Form.Group>
-          <Form.Group controlId="formPassword">
-            <Form.Label>Password</Form.Label>
+          <Form.Group>
             <InputGroup>
               <FormControl
                 type="password"
@@ -67,6 +66,7 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                autoComplete='current-password'
               />
             </InputGroup>
           </Form.Group>
@@ -86,14 +86,11 @@ function Login() {
             <p>CREATE AN ACCOUNT</p>
           </Link>
           <p>Or</p>
-          <Button className="google-login">
-            <FcGoogle size={24} />
-            Login with Google
-          </Button>
+          <LoginGoogle />
         </div>
       </div>
     </div>
   )
 }
 
-export default Login
+export default Login;

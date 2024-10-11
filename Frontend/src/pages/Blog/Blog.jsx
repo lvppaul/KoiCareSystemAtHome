@@ -1,6 +1,6 @@
 import { Container } from 'react-bootstrap'
 import { useState } from 'react'
-import AddNewBlog from '../../components/AddNewBlog/AddNewBlog'
+// import AddNewBlog from '../../components/AddNewBlog/AddNewBlog'
 
 const Blog = () => {
   const [showModalNewBlog, setShowModalNewBlog] = useState(false);
@@ -10,9 +10,9 @@ const Blog = () => {
         <h1>Blogs</h1>
         
         <div className="main-blog">
-            <AddNewBlog 
+            {/* <AddNewBlog 
             show = {showModalNewBlog}
-            setShow = {setShowModalNewBlog}/>
+            setShow = {setShowModalNewBlog}/> */}
         </div>
 
     </Container>

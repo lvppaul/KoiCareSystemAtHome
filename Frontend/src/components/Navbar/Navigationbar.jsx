@@ -1,21 +1,20 @@
-import { Navbar,Nav, Container, Form,FormControl,NavDropdown,} from "react-bootstrap";
+import { Navbar, Nav, Container, Form, FormControl, NavDropdown } from "react-bootstrap";
 import { NavLink } from 'react-router-dom';
 import Logo from "../../assets/logo.svg";
 import "./Navigationbar.css";
 import { BiUserCircle, BiCart } from "react-icons/bi";
-import { auth } from "../../API/firebase";
-import { useState, useEffect } from 'react';
+import { useAuth } from "../../pages/Login/AuthProvider"; // Correct import for useAuth
 
 const Navigationbar = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-
-    return () => unsubscribe();
-  }, []);
+  // const auth = useAuth();
+  // if (!auth) {
+  //   console.error("auth not available");
+  //   return null;
+  // }
+  // const { user, logout } = auth;
+  // const handleLogOut = () => {
+  //   logout();
+  // }
 
   return (
     <>
@@ -26,6 +25,12 @@ const Navigationbar = () => {
         <NavLink to="/about" className="mx-2 text-white text-decoration-none">
           About Us
         </NavLink>
+        {/* {user && (
+          <NavDropdown title={<BiUserCircle size={24} />} id="basic-nav-dropdown">
+            <NavDropdown.Item onClick={handleLogOut}>Logout</NavDropdown.Item>
+            <NavDropdown.Item>Role: {user.role}</NavDropdown.Item>
+          </NavDropdown>
+        )} */}
       </header>
       <Navbar expand="lg" bg="light">
         <Container fluid>
@@ -72,14 +77,15 @@ const Navigationbar = () => {
               />
             </Form>
             <NavDropdown title={<BiUserCircle size={50} />} id="basic-nav-dropdown">    
-              {user ? (
-                <NavDropdown.Item as={NavLink} to="/login">
-                  Log in
-                </NavDropdown.Item>
-              ) : null}
-              <NavDropdown.Item as={NavLink} to="/login" onClick= {()=> auth.signOut()}>
-                Log out
-              </NavDropdown.Item>
+                {/* {user ? (
+                  <NavDropdown.Item onClick={handleLogOut}>
+                    Log out
+                  </NavDropdown.Item>
+                ) : (
+                  <NavDropdown.Item as={NavLink} to="/login">
+                    Log in
+                  </NavDropdown.Item>
+                )} */}
             </NavDropdown>
             <NavLink href="#cart">
               {" "}
