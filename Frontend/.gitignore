@@ -33,5 +33,5 @@ jspm_packages/
 *.sln
 
 #firebase ignore
-/Config/firebase.js
+src/Config/firebase.js
 
