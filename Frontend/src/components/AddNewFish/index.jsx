@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap/';
 import { BiImport } from "react-icons/bi";
 import FishIcon from "../../assets/Addfish.svg";
-import api from '../../API/AxiosConfig';
+import api from '../../Config/AxiosConfig';
 import { MdAdd } from "react-icons/md";
 
 const AddNewFish = (props) => {

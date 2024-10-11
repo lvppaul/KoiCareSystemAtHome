@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using KCSAH.APIServer.Dto;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository;
 using SWP391.KCSAH.Repository.Models;
@@ -10,65 +12,93 @@ namespace KCSAH.APIServer.Controllers
     public class ShopController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public ShopController(UnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        public ShopController(UnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Shop>>> GetAllSync()
+        public async Task<ActionResult<IEnumerable<ShopDTO>>> GetAllSync()
         {
-            return await _unitOfWork.ShopRepository.GetAllAsync();
+            var shops = await _unitOfWork.ShopRepository.GetAllAsync();
+            var shopDTOs = _mapper.Map<List<ShopDTO>>(shops);
+            return Ok(shopDTOs);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Shop>> GetByIdAsync(int id)
+        public async Task<ActionResult<ShopDTO>> GetByIdAsync(int id)
         {
-            var result = await _unitOfWork.ShopRepository.GetByIdAsync(id);
-            if (result == null)
+            var shop = await _unitOfWork.ShopRepository.GetByIdAsync(id);
+            if (shop == null)
             {
                 return NotFound();
             }
+            var result = _mapper.Map<ShopDTO>(shop);
             return result;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Shop>> CreateShop(Shop shop)
+        public async Task<ActionResult<Shop>> CreateShop([FromBody] ShopDTO shopdto)
         {
-            try
+            if (shopdto == null)
             {
-                await _unitOfWork.ShopRepository.CreateAsync(shop);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return StatusCode(500, "Error saving shop");
+                return BadRequest(ModelState);
             }
 
-            return shop;
+            var shop = _unitOfWork.ShopRepository.GetAll().Where(c => c.ShopName.ToUpper() == shopdto.ShopName.ToUpper()).FirstOrDefault();
+
+            if (shop != null)
+            {
+                ModelState.AddModelError("", "This name has already existed.");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var shopMap = _mapper.Map<Shop>(shopdto);
+            var createResult = await _unitOfWork.ShopRepository.CreateAsync(shopMap);
+            if (createResult <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateShop(int id, Shop shop)
+        public async Task<IActionResult> UpdateShop(int id, [FromBody] ShopDTO shopdto)
         {
-            if (id != shop.ShopId)
+            if (shopdto == null)
             {
                 return BadRequest();
             }
-            try
+
+            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
+            var existingShop = await _unitOfWork.ShopRepository.GetByIdAsync(id);
+            if (existingShop == null)
             {
-                _unitOfWork.ShopRepository.UpdateAsync(shop);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ShopExists(shop.ShopId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound(); // Trả về 404 nếu không tìm thấy category
             }
 
-            return NoContent();
+            // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
+            _mapper.Map(shopdto, existingShop);
+
+            // Cập nhật vào cơ sở dữ liệu
+            var updateResult = await _unitOfWork.ShopRepository.UpdateAsync(existingShop);
+
+            if (updateResult <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while updating category");
+                return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
+            }
+
+            return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
         }
 
         [HttpDelete("{id}")]
@@ -76,7 +106,7 @@ namespace KCSAH.APIServer.Controllers
         {
             var shop = await _unitOfWork.ShopRepository.GetByIdAsync(id);
 
-            if(shop == null)
+            if (shop == null)
             {
                 return NotFound();
             }
@@ -85,9 +115,9 @@ namespace KCSAH.APIServer.Controllers
 
             return NoContent();
         }
-        private bool ShopExists(int id) 
-        { 
-            return _unitOfWork.ShopRepository.GetByIdAsync(id) == null;    
+        private bool ShopExists(int id)
+        {
+            return _unitOfWork.ShopRepository.GetByIdAsync(id) == null;
         }
     }
 }

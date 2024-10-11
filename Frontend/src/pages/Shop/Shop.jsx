@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getShopProducts, getCategories } from '../../API/AxiosConfig'; // Adjust the path as necessary
-import './Shop.css'; // Assuming you have a CSS file for styling
+import { getShopProducts, getCategories } from '../../Config/AxiosConfig';
+import './Shop.css';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -9,12 +9,12 @@ const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 12; // Adjust the number of products per page as needed
+  const productsPerPage = 12;
 
   useEffect(() => {
     getCategories()
       .then(data => {
-        console.log('Fetched categories:', data); // Debugging
+        console.log('Fetched categories:', data);
         const validCategories = data.filter(category => category && category.categoryId && category.name);
         setCategories([{ categoryId: 'All', name: 'All' }, ...validCategories]);
       })
@@ -22,7 +22,7 @@ const Shop = () => {
 
     getShopProducts()
       .then(data => {
-        console.log('Fetched products:', data); // Debugging
+        console.log('Fetched products:', data);
         setProducts(data);
         setLoading(false);
       })
@@ -34,7 +34,7 @@ const Shop = () => {
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
-    setCurrentPage(1); // Reset to the first page when category changes
+    setCurrentPage(1);
   };
 
   const filteredProducts = selectedCategory === 'All'
@@ -69,6 +69,7 @@ const Shop = () => {
         <h1>Koi Care Shop</h1>
       </header>
       <main className="shop-main">
+        <Link to={`/manageshop`} className="productLink">Manage Shop</Link>
         <div className="shop-filter">
           <label>
             Sort by Category:

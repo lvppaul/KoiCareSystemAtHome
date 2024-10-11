@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository.Models;
 using SWP391.KCSAH.Repository;
+using AutoMapper;
+using KCSAH.APIServer.Dto;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -10,66 +12,95 @@ namespace KCSAH.APIServer.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
-
-        public CategoryController(UnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetAllSync()
+        private readonly IMapper _mapper;
+        public CategoryController(UnitOfWork unitOfWork, IMapper mapper)
         {
-            return await _unitOfWork.CategoryRepository.GetAllAsync();
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetByIdAsync(string id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetAllASync()
         {
-            var result = await _unitOfWork.CategoryRepository.GetByIdAsync(id);
-            if (result == null)
+            var categories = await _unitOfWork.CategoryRepository.GetAllAsync();
+            var categoryDTOs = _mapper.Map<List<CategoryDTO>>(categories);
+            return Ok(categoryDTOs);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CategoryDTO>> GetByIdAsync(string id)
+        {
+            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
+            var result = _mapper.Map<CategoryDTO>(category);
             return result;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Category>> CreateCategory(Category category)
+        public async Task<ActionResult<Category>> CreateCategory([FromBody] CategoryDTO category)
         {
-            try
+            if (category == null)
             {
-                await _unitOfWork.CategoryRepository.CreateAsync(category);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return StatusCode(500, "Error saving category");
+                return BadRequest(ModelState);
             }
 
-            return CreatedAtAction("GetCategoryById", new { id = category.CategoryId }, category);
+            var cate = _unitOfWork.CategoryRepository.GetAll().Where(c => c.Name.ToUpper() == category.Name.ToUpper()).FirstOrDefault();
+
+            if (cate != null)
+            {
+                ModelState.AddModelError("", "Category already exists.");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var categoryMap = _mapper.Map<Category>(category);
+            var createResult = await _unitOfWork.CategoryRepository.CreateAsync(categoryMap);
+            if (createResult <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(string id, Category category)
+        public async Task<IActionResult> UpdateCategory(string id, [FromBody] CategoryDTO categoryDto)
         {
-            if (!id.Equals(category.CategoryId))
+            if (categoryDto == null)
             {
                 return BadRequest();
             }
-            try
+
+            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
+            var existingCategory = await _unitOfWork.CategoryRepository.GetByIdAsync(id);
+            if (existingCategory == null)
             {
-                _unitOfWork.CategoryRepository.UpdateAsync(category);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CategoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound(); // Trả về 404 nếu không tìm thấy category
             }
 
-            return NoContent();
+            // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
+            _mapper.Map(categoryDto, existingCategory);
+
+            // Cập nhật vào cơ sở dữ liệu
+            var updateResult = await _unitOfWork.CategoryRepository.UpdateAsync(existingCategory);
+
+            if (updateResult <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while updating category");
+                return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
+            }
+
+            return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(string id)
