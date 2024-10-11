@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getPonds, getKois } from '../../Config/AxiosConfig';
+import { getPonds } from '../../Config/PondApi';
+import { getKois } from '../../Config/KoiApi';
 import './FoodCalculator.css';
 
 const FoodCalculator = () => {

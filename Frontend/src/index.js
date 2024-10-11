@@ -24,6 +24,7 @@ import Blog from "./pages/Blog/Blog";
 import {AuthProvider} from "./pages/Login/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Import the ProtectedRoute component
 import News from './pages/News/News'; // Assuming you have a News component
+import ManageShop from "./pages/ManageShop/ManageShop";
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -43,6 +44,7 @@ root.render(
 
                 {/* Protected Routes for Authenticated Users */}
                 <Route path="shop" element={/*<ProtectedRoute requiredRole="member">*/<Shop />/*</ProtectedRoute>*/} />
+                <Route path="manageshop" element={/*<ProtectedRoute requiredRole="member">*/<ManageShop />/*</ProtectedRoute>*/} />
                 <Route path="product/:productId" element={/*<ProtectedRoute requiredRole="member">*/<Product />/*</ProtectedRoute>*/} />
                 <Route path="pond" element={/*<ProtectedRoute requiredRole="member">*/<Pond />/*</ProtectedRoute>*/} />
                 <Route path="foodcalculator" element={/*<ProtectedRoute requiredRole="member">*/<FoodCalculator />/*</ProtectedRoute>*/} />
