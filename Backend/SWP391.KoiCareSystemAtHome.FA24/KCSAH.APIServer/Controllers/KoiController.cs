@@ -29,10 +29,22 @@ namespace KCSAH.APIServer.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("async/{id}")]
         public async Task<ActionResult<KoiDTO>> GetByIdAsync(string id)
         {
             var koi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<KoiDTO>(koi);
+            return result;
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<KoiDTO> GetById(string id)
+        {
+            var koi =  _unitOfWork.KoiRepository.GetById(id);
             if (koi == null)
             {
                 return NotFound();
@@ -53,7 +65,7 @@ namespace KCSAH.APIServer.Controllers
 
             if (kois != null)
             {
-                ModelState.AddModelError("", "Category already exists.");
+                ModelState.AddModelError("", "Koi already exists.");
                 return StatusCode(422, ModelState);
             }
 
@@ -61,7 +73,7 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var koiMap = _mapper.Map<Koi>(kois);
+            var koiMap = _mapper.Map<Koi>(koi);
             var createResult = await _unitOfWork.KoiRepository.CreateAsync(koiMap);
             if (createResult <= 0)
             {
@@ -69,7 +81,7 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully created");
+            return CreatedAtAction("GetById",new {id = koi.KoiId},koi);
         }
 
         [HttpPut("{id}")]

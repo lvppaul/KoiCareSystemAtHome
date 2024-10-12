@@ -27,10 +27,22 @@ namespace KCSAH.APIServer.Controllers
             return Ok(productDTOs);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("async/{id}")]
         public async Task<ActionResult<ProductDTO>> GetByIdAsync(int id)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<ProductDTO>(product);
+            return result;
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<ProductDTO> GetById(int id)
+        {
+            var product =  _unitOfWork.ProductRepository.GetById(id);
             if (product == null)
             {
                 return NotFound();
@@ -93,7 +105,7 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully created");
+            return CreatedAtAction("GetById",new { id = productdto.ProductId },productdto);
         }
 
 
