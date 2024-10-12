@@ -28,10 +28,22 @@ namespace KCSAH.APIServer.Controllers
             return Ok(shopDTOs);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("async/{id}")]
         public async Task<ActionResult<ShopDTO>> GetByIdAsync(int id)
         {
             var shop = await _unitOfWork.ShopRepository.GetByIdAsync(id);
+            if (shop == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<ShopDTO>(shop);
+            return result;
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<ShopDTO> GetById(int id)
+        {
+            var shop =  _unitOfWork.ShopRepository.GetById(id);
             if (shop == null)
             {
                 return NotFound();
@@ -68,7 +80,7 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully created");
+            return CreatedAtAction("GetById", new { id = shopdto.ShopId }, shopdto);
         }
 
         [HttpPut("{id}")]
@@ -94,7 +106,7 @@ namespace KCSAH.APIServer.Controllers
 
             if (updateResult <= 0)
             {
-                ModelState.AddModelError("", "Something went wrong while updating category");
+                ModelState.AddModelError("", "Something went wrong while updating shop");
                 return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
             }
 
