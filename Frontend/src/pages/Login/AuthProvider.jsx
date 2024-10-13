@@ -11,20 +11,15 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        } else {
-            // Mock-up admin account for development/testing
-            const adminUser = {
-                username: 'admin',
-                role: 'admin',
-                email: 'admin@example.com'
-            };
-            console.log('Setting mock-up admin user:', adminUser);
-            setUser(adminUser);
-            localStorage.setItem('user', JSON.stringify(adminUser));
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (error) {
+                console.error('Error parsing stored user:', error);
+                localStorage.removeItem('user'); // Clear invalid data
+            }
         }
         setLoading(false);
-    }, []);
+    }, [navigate]);
 
     const login = (userData) => {
         setUser(userData);
@@ -42,9 +37,13 @@ export const AuthProvider = ({ children }) => {
         return user?.role === role;
     };
 
+    if (loading) {
+        return <div>Loading...</div>; // Show a loading indicator while checking the user
+    }
+
     return (
         <AuthContext.Provider value={{ user, login, logout, hasRole }}>
-            {!loading && children}
+            {children}
         </AuthContext.Provider>
     );
 };

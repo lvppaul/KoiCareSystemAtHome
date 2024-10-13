@@ -6,15 +6,15 @@ import { BiUserCircle, BiCart } from "react-icons/bi";
 import { useAuth } from "../../pages/Login/AuthProvider"; // Correct import for useAuth
 
 const Navigationbar = () => {
-  // const auth = useAuth();
-  // if (!auth) {
-  //   console.error("auth not available");
-  //   return null;
-  // }
-  // const { user, logout } = auth;
-  // const handleLogOut = () => {
-  //   logout();
-  // }
+  const auth = useAuth();
+  if (!auth) {
+    console.error("auth not available");
+    return null;
+  }
+  const { user, logout } = auth;
+  const handleLogOut = () => {
+    logout();
+  }
 
   return (
     <>
@@ -77,15 +77,23 @@ const Navigationbar = () => {
               />
             </Form>
             <NavDropdown title={<BiUserCircle size={50} />} id="basic-nav-dropdown">    
-                {/* {user ? (
+                {user ? (
+                  <>
                   <NavDropdown.Item onClick={handleLogOut}>
                     Log out
                   </NavDropdown.Item>
+                  <hr />
+                  <NavDropdown.Item style={{fontWeight: 'bold', color: 'black'}} disabled>
+                    Role: {user.role} <br />
+                    Email: {user.email}
+                  </NavDropdown.Item>
+                  </>
                 ) : (
                   <NavDropdown.Item as={NavLink} to="/login">
                     Log in
                   </NavDropdown.Item>
-                )} */}
+                  
+                )}
             </NavDropdown>
             <NavLink href="#cart">
               {" "}
