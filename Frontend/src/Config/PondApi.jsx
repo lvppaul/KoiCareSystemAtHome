@@ -6,7 +6,6 @@ const getPonds = async () => {
         const response = await api.get('Pond', {
             headers: {
                 'accept': 'text/plain'
-
             }
         });
         return response.data;
@@ -16,6 +15,35 @@ const getPonds = async () => {
     }
 }
 
+const getPondByUserId = async (userId) => {
+    try {
+        const allPond = await getPonds();
+        const pond = allPond.find(pond => pond.userId === userId);
+        if(!pond){
+            console.log('Pond not found');
+            return null;
+        } else {
+            return pond;
+        }
+    } catch (error) {
+        console.error('Error fetching ponds:', error);
+        throw error;
+    }
+}
+
+const getPondsById = async (pondId) => {
+    try {
+        const response = await api.get(`Pond/async/${pondId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching ponds:', error);
+        throw error;
+    }
+}
 
 // Function to post pond data
 const postPond = async (token, data) => {
@@ -28,8 +56,8 @@ const postPond = async (token, data) => {
         return response.data;
     } catch (error) {
         console.error('Error posting pond data:', error);
-        throw error;
+        //throw error;
     }
 };
 
-export { getPonds, postPond };
+export { getPonds, getPondsById ,postPond, getPondByUserId };

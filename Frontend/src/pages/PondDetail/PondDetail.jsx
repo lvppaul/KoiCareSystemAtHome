@@ -2,10 +2,11 @@ import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Button, Card, Pagination } from 'react-bootstrap';
 import { MdDelete, MdAdd } from "react-icons/md";
 import './PondDetail.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddNewFish from '../../components/AddNewFish/AddNewFish';
 import { storage } from '../../Config/firebase';
 import {ref, deleteObject} from 'firebase/storage'
+import { getPondsById } from '../../Config/PondApi';
 //   const { pondId } = useParams();
 
 // Use pondId to fetch or display pond details
@@ -32,6 +33,28 @@ const PondDetail = () => {
       .catch((error) => {
         console.error("Error deleting image:", error);
       });
+  }
+  const [koiPond, setKoiPond] = useState();
+  const { pondId } = useParams();
+
+  //handle fetch data koi pond by pondId
+  useEffect(() => {
+    const fetchPondDetails = async () => {
+      try {
+        const data = await getPondsById(pondId);
+        console.log('Fetched koi pond:', data);
+        setKoiPond(data);
+      } catch (error) {
+        console.error('Error fetching koi pond:', error);
+      }
+    };
+
+    if (pondId) {
+      fetchPondDetails();
+    }
+  }, [pondId]);
+  if (!koiPond) {
+    console.log('Pond not found');
   }
 
   return (
