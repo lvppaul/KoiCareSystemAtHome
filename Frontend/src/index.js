@@ -50,7 +50,7 @@ root.render(
                 <Route path="pond" element={<ProtectedRoute requiredRole="member"><Pond /></ProtectedRoute>} />
                 <Route path="foodcalculator" element={<ProtectedRoute requiredRole="member"><FoodCalculator /></ProtectedRoute>} />
                 <Route path="saltcalculator" element={<ProtectedRoute requiredRole="member"><SaltCalculator /></ProtectedRoute>} />
-                <Route path="ponddetail" element={<ProtectedRoute requiredRole="member"><PondDetail /></ProtectedRoute>} />
+                <Route path="ponddetail/:pondId" element={<ProtectedRoute requiredRole="member"><PondDetail /></ProtectedRoute>} />
                 <Route path="koidetail" element={<ProtectedRoute requiredRole="member"><KoiDetail /></ProtectedRoute>} />
                 <Route path="*" element={<NotPage />} />
                 </Route>

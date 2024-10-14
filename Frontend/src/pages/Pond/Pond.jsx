@@ -3,27 +3,26 @@ import './Pond.css'
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getPonds, getPondByUserId } from '../../Config/PondApi';
+import { getPondByUserId } from '../../Config/PondApi';
 import { Link } from 'react-router-dom';
-
+import Spinner from 'react-bootstrap/Spinner';
+import { useAuth } from '../Login/AuthProvider';
 const Pond = () => {
-    const navigate = useNavigate();
+    const [showModalAddPond, setShowModalAddPond] = useState(false);
 
     const [ponds, setPonds] = useState([]);
-    const [pondId, setPondId] = useState('');
-    // const {userId} = useParams();
-    const userId = 'U002';
-    const navigateToPondDetails = (pondId) => {
-        navigate("/ponddetail");
-    }
+    const user = useAuth();
+    const userId = user.user.userId;
+    const [loading, setLoading] = useState(true);
+ 
 
     useEffect(() => {
         const featchPondByUserId = async () => {
             try {
                 const data = await getPondByUserId(userId);
                 if (data) {
-                    console.log('Fetched ponds:', data);
                     setPonds(data);
+                    setLoading(false);
                 } else {
                     console.error('API response is not an array:', data);
                 }
@@ -33,8 +32,8 @@ const Pond = () => {
     }
     featchPondByUserId();
     }, [userId]);
-
-    const [showModalAddPond, setShowModalAddPond] = useState(false);
+    
+    
 
     return (
         <>
@@ -44,24 +43,26 @@ const Pond = () => {
                     show={showModalAddPond}
                     setShow={setShowModalAddPond} />
                 <Container>
+                        
                     <Row>
-                            <Col>
-                                <Link to={`/ponddetail/${ponds.pondId}`}>
-                                    <Card md={4} className='pond-card'>
-                                        <Card.Body>
-                                            <Card.Img variant="header" src="../../assets/images/shop.png" />
-                                        </Card.Body>
-                                        <Card.Body>
-                                            <h5>{ponds.name}</h5>
-                                        </Card.Body>
-                                    </Card>
+                    {loading? <Spinner/> : ponds.map((pond) => (
+                        <Col>
+                            <Card md={4} className='pond-card'>
+                                <Link to={`/ponddetail/${pond.pondId}`} style={{textDecoration: 'none'}}>
+                                <Card.Body>
+                                    <Card.Img variant="header" src={pond.thumbnail} />
+                                </Card.Body>
+                                <Card.Body style={{textAlign: 'center'}}>
+                                    <h5 style={{color:'black'}}>{pond.name}</h5>
+                                </Card.Body>
                                 </Link>      
-                            </Col>
-                    
+                            </Card>
+                        </Col>
+                    ))}
                     </Row>
                 </Container>
                 <Col>
-                    <Card md={4} className='pond-card' onClick={() => navigateToPondDetails()}>
+                    <Card md={4} className='pond-card'>
                         <Card.Body>
                             <Card.Img variant="header" src="../../assets/images/shop.png" />
                         </Card.Body>
