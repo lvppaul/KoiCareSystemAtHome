@@ -23,5 +23,7 @@
         public string Color { get; set; }
 
         public bool Status { get; set; }
+
+        public string? Thumbnail { get; set; }
     }
 }

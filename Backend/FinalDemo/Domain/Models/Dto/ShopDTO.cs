@@ -19,5 +19,7 @@ namespace KCSAH.APIServer.Dto
         public string Email { get; set; }
 
         public decimal Rating { get; set; }
+
+        public string? Thumbnail { get; set; }
     }
 }

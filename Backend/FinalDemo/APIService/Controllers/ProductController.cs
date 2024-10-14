@@ -30,14 +30,16 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("async/{id}")]
-        public async Task<ActionResult<ProductRequestDTO>> GetByIdAsync(int id)
+        public async Task<ActionResult<ProductDTO>> GetByIdAsync(string id)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
-            var result = _mapper.Map<ProductRequestDTO>(product);
+            var result = _mapper.Map<ProductDTO>(product);
+            var category = await GetCategoryAsync(product.CategoryId);
+            result.category = category;
             return result;
         }
 
@@ -103,7 +105,7 @@ namespace KCSAH.APIServer.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductRequestDTO productdto)
+        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductUpdateDTO productdto)
         {
             if (productdto == null)
             {
@@ -130,13 +132,13 @@ namespace KCSAH.APIServer.Controllers
             }
 
             // Gọi phương thức bất đồng bộ để lấy thông tin Category
-            var category = await GetCategoryAsync(productdto.CategoryId);
+          //  var category = await GetCategoryAsync(productdto.CategoryId);
 
             // Trả về kết quả cập nhật
-            var productReturn = _mapper.Map<ProductDTO>(productdto);
-            productReturn.category = category;
+            //var productReturn = _mapper.Map<ProductDTO>(productdto);
+            //productReturn.category = category;
 
-            return Ok(productReturn); // Trả về 200 OK với sản phẩm đã cập nhật
+            return NoContent(); // Trả về 200 OK với sản phẩm đã cập nhật
         }
 
         private async Task<CategoryDTO> GetCategoryAsync(int id)

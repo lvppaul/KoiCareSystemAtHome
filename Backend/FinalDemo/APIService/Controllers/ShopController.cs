@@ -88,7 +88,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateShop(int id, [FromBody] ShopDTO shopdto)
+        public async Task<IActionResult> UpdateShop(int id, [FromBody] ShopRequestDTO shopdto)
         {
             if (shopdto == null)
             {
@@ -113,6 +113,7 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "Something went wrong while updating shop");
                 return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
             }
+         
 
             return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
         }

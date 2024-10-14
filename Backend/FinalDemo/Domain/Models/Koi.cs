@@ -26,6 +26,8 @@ public partial class Koi
 
     public bool? Status { get; set; }
 
+    public string? Thumbnail { get; set; }
+
     public virtual ICollection<KoiImage> KoiImages { get; set; } = new List<KoiImage>();
 
     public virtual ICollection<KoiRecord> KoiRecords { get; set; } = new List<KoiRecord>();

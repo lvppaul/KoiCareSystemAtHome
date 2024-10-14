@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Models;
+using Domain.Models.Dto;
 using KCSAH.APIServer.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -86,7 +87,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateKoi(int id, [FromBody] KoiDTO koidto)
+        public async Task<IActionResult> UpdateKoi(string id, [FromBody] KoiUpdateDTO koidto)
         {
             if (koidto == null)
             {

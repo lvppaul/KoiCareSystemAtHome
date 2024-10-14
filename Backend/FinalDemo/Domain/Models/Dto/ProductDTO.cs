@@ -24,5 +24,7 @@ namespace Domain.Models.Dto
         public CategoryDTO category { get; set; }
 
         public string UserId { get; set; }
+
+        public string? Thumbnail { get; set; }
     }
 }

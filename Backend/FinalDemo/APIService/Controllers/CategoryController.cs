@@ -4,6 +4,7 @@ using SWP391.KCSAH.Repository;
 using AutoMapper;
 using KCSAH.APIServer.Dto;
 using Domain.Models;
+using Domain.Models.Dto;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -53,7 +54,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Category>> CreateCategory([FromBody] CategoryDTO category)
+        public async Task<ActionResult<Category>> CreateCategory([FromBody] CategoryRequestDTO category)
         {
             if (category == null)
             {
@@ -79,12 +80,13 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
             }
+            var categoryShow = _mapper.Map<CategoryDTO>(categoryMap);
 
-            return CreatedAtAction("GetById", new {id = category.CategoryId},category);
+            return CreatedAtAction("GetById", new {id = categoryShow.CategoryId},categoryShow);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(string id, [FromBody] CategoryDTO categoryDto)
+        public async Task<IActionResult> UpdateCategory(string id, [FromBody] CategoryRequestDTO categoryDto)
         {
             if (categoryDto == null)
             {
@@ -109,8 +111,9 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "Something went wrong while updating category");
                 return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
             }
+            var categoryShow = _mapper.Map<CategoryDTO>(categoryDto);
 
-            return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
+            return Ok(categoryShow); // Trả về 204 No Content nếu cập nhật thành công
         }
 
 

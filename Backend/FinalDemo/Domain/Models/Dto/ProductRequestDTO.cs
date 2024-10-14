@@ -20,5 +20,7 @@ namespace KCSAH.APIServer.Dto
 
         public string UserId { get; set; }
 
+        public string? Thumbnail { get; set; }
+
     }
 }
