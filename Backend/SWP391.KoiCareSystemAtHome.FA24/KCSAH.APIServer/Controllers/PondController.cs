@@ -30,10 +30,22 @@ namespace KCSAH.APIServer.Controllers
             return Ok(pondMap);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PondDTO>> GetByIdAsync(int id)
+        [HttpGet("async/{id}")]
+        public async Task<ActionResult<PondDTO>> GetByIdAsync(string id)
         {
             var pond = await _unitOfWork.PondRepository.GetByIdAsync(id);
+            if (pond == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<PondDTO>(pond);
+            return result;
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<PondDTO> GetById(string id)
+        {
+            var pond =  _unitOfWork.PondRepository.GetById(id);
             if (pond == null)
             {
                 return NotFound();
@@ -49,7 +61,7 @@ namespace KCSAH.APIServer.Controllers
             return Ok(result);
         }
         [HttpPost]
-        public async Task<ActionResult<Pond>> CreateShop([FromBody] PondDTO ponddto)
+        public async Task<ActionResult<Pond>> CreatePond([FromBody] PondDTO ponddto)
         {
             if (ponddto == null)
             {
@@ -76,7 +88,7 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully created");
+            return CreatedAtAction("GetById",new {id = ponddto.PondId},ponddto);
         }
 
         [HttpPut("{id}")]

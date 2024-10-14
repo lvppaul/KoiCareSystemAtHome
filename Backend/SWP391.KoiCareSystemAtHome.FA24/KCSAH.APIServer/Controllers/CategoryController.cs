@@ -29,6 +29,18 @@ namespace KCSAH.APIServer.Controllers
 
 
         [HttpGet("{id}")]
+        public  ActionResult<CategoryDTO> GetById(string id)
+        {
+            var category =  _unitOfWork.CategoryRepository.GetById(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<CategoryDTO>(category);
+            return result;
+        }
+
+        [HttpGet("async/{id}")]
         public async Task<ActionResult<CategoryDTO>> GetByIdAsync(string id)
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(id);
@@ -68,7 +80,7 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully created");
+            return CreatedAtAction("GetById", new {id = category.CategoryId},category);
         }
 
         [HttpPut("{id}")]

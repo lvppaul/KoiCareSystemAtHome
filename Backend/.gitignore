@@ -1,54 +1,60 @@
-# Compiled source #
-###################
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
+# Thư mục bin và obj (chứa các file build)
+bin/
+obj/
 
-# Packages #
-############
-# Dependency directories #
-node_modules/
-vendor/
-# Dependency directories for Python #
-__pycache__/
-*.py[cod]
-*.egg
-*.egg-info/
-dist/
-build/
-
-# Environment variables #
-#########################
-.env
-
-# Logs and databases #
-######################
+# Thư mục chứa các cài đặt, file tạm thời, hoặc log
 *.log
-*.sql
+.vscode/
+*.vs/
+*.user
+*.suo
+
+# Thư mục chứa các package đã khôi phục từ nuget
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+
+# Tệp dữ liệu tạm thời
+*.tmp
+*.temp
+*.tmp.*
+*.temp.*
+
+# File cấu hình môi trường phát triển (không nên chia sẻ public)
+appsettings.Development.json
+appsettings.Local.json
+
+# File dữ liệu lock và cache
+.lock.json
+*.cache
 *.sqlite
+*.sql
+npm-debug.log
+yarn-error.log
 
-# OS generated files #
-######################
-.DS_Store
+# Các file khác liên quan đến hệ điều hành
 Thumbs.db
+.DS_Store
 
-# IDEs and editors #
-####################
+# File cấu hình publish
+publish/
+
+# Visual Studio config
 .vscode/
 .idea/
-*.swp
-*.swo
+*.sln.docstates
 
-# Build artifacts #
-###################
-/bin/
-/obj/
-/out/
-/target/
-# Ignore Visual Studio document layout backup settings
-documentlayout.backup.json
-documentlayout.json
+# Rider và các IDE khác
+.idea/
+.idea_modules/
+.vscode/
 *.suo
+*.dotSettings.user
+*.sln.iml
+
+# Các file ẩn của Git
+.git/
+.gitignore
+
