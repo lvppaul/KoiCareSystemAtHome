@@ -6,6 +6,7 @@ using AutoMapper;
 using KCSAH.APIServer.Dto;
 using KCSAH.APIServer.Services;
 using Domain.Models;
+using Domain.Models.Dto;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -56,20 +57,20 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("GetFishNumber/{id}")]
-        public async Task<IActionResult> GetFood(string id)
+        public async Task<IActionResult> GetFood(int id)
         {
             var result = await _getfood.GetNumberofFish(id);
             return Ok(result);
         }
 
         [HttpGet("GetPondByUserId/{id}")]
-        public async Task<IActionResult> GetPond(string id)
+        public async Task<IActionResult> GetPond(int id)
         {
             var result = await _getfood.GetNumberofFish(id);
             return Ok(result);
         }
         [HttpPost]
-        public async Task<ActionResult<Pond>> CreatePond([FromBody] PondDTO ponddto)
+        public async Task<ActionResult<Pond>> CreatePond([FromBody] PondRequestDTO ponddto)
         {
             if (ponddto == null)
             {
@@ -95,8 +96,8 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
             }
-
-            return CreatedAtAction("GetById",new {id = ponddto.PondId},ponddto);
+            var pondShow = _mapper.Map<PondDTO>(pondMap);
+            return CreatedAtAction("GetById",new {id = pondShow.PondId}, pondShow);
         }
 
         [HttpPut("{id}")]

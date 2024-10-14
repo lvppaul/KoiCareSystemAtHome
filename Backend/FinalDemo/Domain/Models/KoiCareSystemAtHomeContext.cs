@@ -140,14 +140,14 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.ToTable("Koi");
 
             entity.Property(e => e.KoiId)
-                .HasMaxLength(10)
+                .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("KoiID");
             entity.Property(e => e.Color).HasMaxLength(200);
             entity.Property(e => e.Name).HasMaxLength(255);
             entity.Property(e => e.Origin).HasMaxLength(255);
             entity.Property(e => e.PondId)
-                .HasMaxLength(10)
+                .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("PondID");
             entity.Property(e => e.Status).HasDefaultValue(true);
@@ -171,7 +171,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.Property(e => e.ImageId).HasColumnName("ImageID");
             entity.Property(e => e.KoiId)
-                .HasMaxLength(10)
+                .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("KoiID");
 
@@ -189,7 +189,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.Property(e => e.RecordId).HasColumnName("RecordID");
             entity.Property(e => e.KoiId)
-                .HasMaxLength(10)
+                .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("KoiID");
             entity.Property(e => e.UpdatedTime).HasColumnType("datetime");
@@ -215,7 +215,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.RemindId).HasColumnName("RemindID");
             entity.Property(e => e.DateRemind).HasColumnType("datetime");
             entity.Property(e => e.KoiId)
-                .HasMaxLength(10)
+                .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("KoiID");
             entity.Property(e => e.RemindDescription).HasMaxLength(255);
@@ -334,7 +334,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.ToTable("Pond");
 
             entity.Property(e => e.PondId)
-                .HasMaxLength(10)
+                .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("PondID");
             entity.Property(e => e.Name).HasMaxLength(50);
@@ -439,7 +439,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.DateTime).HasColumnType("datetime");
             entity.Property(e => e.PH).HasColumnName("pH");
             entity.Property(e => e.PondId)
-                .HasMaxLength(10)
+                .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("PondID");
 

@@ -1,9 +1,13 @@
-﻿namespace KCSAH.APIServer.Dto
-{
-    public class KoiDTO
-    {
-        public int KoiId { get; set; }
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+namespace Domain.Models.Dto
+{
+    public class KoiRequestDTO
+    {
         public string UserId { get; set; }
 
         public int PondId { get; set; }

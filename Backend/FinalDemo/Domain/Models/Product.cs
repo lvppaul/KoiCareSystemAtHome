@@ -21,7 +21,6 @@ public partial class Product
 
     public virtual Category Category { get; set; } = null!;
 
-    public string? Thumbnail { get; set; }
     public virtual ApplicationUser ApplicationUser { get; set; } = null!;
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();

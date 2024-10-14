@@ -56,19 +56,11 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Koi>> CreateKoi([FromBody] KoiDTO koi)
+        public async Task<ActionResult<Koi>> CreateKoi([FromBody] KoiRequestDTO koi)
         {
             if (koi == null)
             {
                 return BadRequest(ModelState);
-            }
-
-            var kois = _unitOfWork.KoiRepository.GetAll().Where(c => c.KoiId == koi.KoiId).FirstOrDefault();
-
-            if (kois != null)
-            {
-                ModelState.AddModelError("", "Koi already exists.");
-                return StatusCode(422, ModelState);
             }
 
             if (!ModelState.IsValid)
@@ -82,8 +74,8 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
             }
-
-            return CreatedAtAction("GetById",new {id = koi.KoiId},koi);
+            var koiShow = _mapper.Map<KoiDTO>(koiMap);
+            return CreatedAtAction("GetById",new {id = koiShow.KoiId },koiShow);
         }
 
         [HttpPut("{id}")]

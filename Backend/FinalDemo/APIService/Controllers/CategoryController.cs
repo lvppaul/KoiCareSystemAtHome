@@ -54,7 +54,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Category>> CreateCategory([FromBody] CategoryDTO category)
+        public async Task<ActionResult<Category>> CreateCategory([FromBody] CategoryRequestDTO category)
         {
             if (category == null)
             {
@@ -82,7 +82,7 @@ namespace KCSAH.APIServer.Controllers
             }
             var categoryShow = _mapper.Map<CategoryDTO>(categoryMap);
 
-            return CreatedAtAction("GetById", new {id = categoryShow.CategoryId},categoryShow);
+            return CreatedAtAction("GetById", new { id = categoryShow.CategoryId }, categoryShow);
         }
 
         [HttpPut("{id}")]

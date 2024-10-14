@@ -11,7 +11,7 @@ namespace KCSAH.APIServer.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<int> GetNumberofFish(string id)
+        public async Task<int> GetNumberofFish(int id)
         {
             var result = await _unitOfWork.PondRepository.GetByIdAsync1(id);
             if(result == null)

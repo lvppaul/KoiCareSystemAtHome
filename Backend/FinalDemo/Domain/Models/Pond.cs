@@ -5,7 +5,7 @@ namespace Domain.Models;
 
 public partial class Pond
 {
-    public string PondId { get; set; } = null!;
+    public int PondId { get; set; }
     public string UserId { get; set; } = null!;
     public string Name { get; set; } = null!;
 

@@ -7,7 +7,7 @@ public partial class WaterParameter
 {
     public int MeasureId { get; set; }
 
-    public string PondId { get; set; } = null!;
+    public int PondId { get; set; }
     public string UserId { get; set; } = null!;
 
     public double Nitrite { get; set; }
