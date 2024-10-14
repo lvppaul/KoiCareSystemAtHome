@@ -10,9 +10,11 @@ import logoFeature1 from '../../assets/icon-managepond.svg'
 import logoFeature2 from '../../assets/icon-calculation.svg'
 import logoFeature3 from '../../assets/icon-shop.svg'
 import logoFeature4 from '../../assets/icon-news.svg'
+import { useAuth } from '../Login/AuthProvider';
 
 const Home = () => {
   const navigate = useNavigate();
+  const user = useAuth();
   return (
     <>
       <Container fluid className="homepage">
@@ -25,13 +27,11 @@ const Home = () => {
               <p>
                 This website is designed for Koi enthusiasts, offering features to assist with feeding, pond maintenance, and health monitoring, helping ensure your Koi thrive.
               </p>
-              <Button class="get-sta ted" variant="primary" onClick={() => {navigate('login')}} >Get Started</Button>
+              <Button class="get-sta ted" variant="primary" onClick={() => {user ?  navigate('pond') : navigate('login')} } >Get Started</Button>
             </div>
             </Col>
             <Col md={8} className="image-section">
-            <Link to="/admin"> 
               <img src={landing} alt="Koi" className="hero-image" />
-            </Link>
             </Col>
           </Row>
         </div>

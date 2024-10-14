@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'https://localhost:7031/api/';
+const baseUrl = 'https://localhost:7062/api/';
 
 const config = {
     baseURL: baseUrl
@@ -13,7 +13,6 @@ const handleBefore = (config) => {
     
     return config;
 };
-
 api.interceptors.request.use(handleBefore, error => Promise.reject(error));
 
-export default api;
+export default api ;

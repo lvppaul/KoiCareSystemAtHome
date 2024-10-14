@@ -4,16 +4,16 @@ import { jwtDecode } from 'jwt-decode';
 // Function to sign up
 const signUp = async (userData) => {
     try {
-        const response = await api.post('Account/SignUp', userData, {
+        const response = await api.post('Account/CreateMemberAccount', userData, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
         });
+        
         return response.data;
     } catch (error) {
-        console.error('Error signing up:', error.response ? error.response.data : error.message);
-        throw error;
+        return error.response.data;
     }
 };
 
@@ -31,9 +31,12 @@ const signIn = async (credentials) => {
         const decoded = jwtDecode(token)
         // Extract the role from the decoded token
         const userRole = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]; 
+        const email = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+        const userId = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+
         // Return both the user data and the role
-        localStorage.setItem('token', token); // Save the token to local storage
-        return { userRole, token }; // Return user data, role, and token
+        localStorage.setItem('user', JSON.stringify({ email, userRole, userId })); // Save the user data to local storage
+        return { userRole, email, userId }; // Return email and role, userid
     } catch (error) {
         console.error('Error signing in:', error.response ? error.response.data : error.message);
         throw error;

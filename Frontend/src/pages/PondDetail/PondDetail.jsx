@@ -7,6 +7,7 @@ import AddNewFish from '../../components/AddNewFish/AddNewFish';
 import { storage } from '../../Config/firebase';
 import {ref, deleteObject} from 'firebase/storage'
 import { getPondsById } from '../../Config/PondApi';
+import { Spinner } from 'react-bootstrap';
 //   const { pondId } = useParams();
 
 // Use pondId to fetch or display pond details
@@ -21,6 +22,7 @@ const PondDetail = () => {
     { name: 'Showa', age: '2 years', variety: 'Goshiki', length: '40 cm' }
   ];
   const [showModalAddFish, setShowModalAddFish] = useState(false);
+  const [loading, setLoading] = useState(true); // Loading state
   const handleDeleteImage = () => {
     const imageUrl =  image;// Replace with the actual image URL
 
@@ -34,7 +36,8 @@ const PondDetail = () => {
         console.error("Error deleting image:", error);
       });
   }
-  const [koiPond, setKoiPond] = useState();
+
+  const [pond, setPond] = useState(null);
   const { pondId } = useParams();
 
   //handle fetch data koi pond by pondId
@@ -43,24 +46,33 @@ const PondDetail = () => {
       try {
         const data = await getPondsById(pondId);
         console.log('Fetched koi pond:', data);
-        setKoiPond(data);
+        setPond(data);
       } catch (error) {
         console.error('Error fetching koi pond:', error);
+      } finally {
+        setLoading(false);
       }
     };
-
     if (pondId) {
       fetchPondDetails();
     }
   }, [pondId]);
-  if (!koiPond) {
-    console.log('Pond not found');
+  if (loading){
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Spinner animation="border" variant="primary" />
+      </div>
+    );
+  }
+
+  if (!pond) {
+    return <h1>Pond not found</h1>;
   }
 
   return (
     <Container className='pond-detail-container' style={{ marginTop: '100px', marginBottom: '100px' }}>
       <Row style={{ justifyContent: 'flex-end' }}>
-        <h1>Pond Name</h1>
+        <h1 style={{fontWeight:'bolder'}}>{pond.name}</h1>
         <Button onClick={handleDeleteImage} style={{ width: '180px', height: '70px', fontWeight: 'bold', fontSize: '18px', borderRadius: '15px', backgroundColor: '#FF8433' }}>
           <MdDelete size={25} />
           Delete Pond
@@ -70,21 +82,21 @@ const PondDetail = () => {
         <Col md={6}>
           <div>
             <Card.Img className='flex-start'
-              src="https://upload.wikimedia.org/wikipedia/commons/1/10/Ojiya_Nishikigoi_no_Sato_ac_%283%29.jpg"
-              style={{ width: '650px', height: '700px' }}
+              src= {pond.thumbnail}
+              style={{ width: '650px', height: '700px', borderRadius: '50px' }}
             />
           </div>
         </Col>
         <Col md={6} style={{ fontSize: '36px', fontWeight: 'bold' }}>
-          <h1>Pond Details</h1>
+          <h1 style={{fontWeight: 'bold'}}>Pond Details</h1>
           <ul className='pond-detail'>
-            <li>Pond: Garden pond</li>
-            <li>Number of fish: 8-15</li>
-            <li>Volume: 3000 gal</li>
-            <li>Depth: 1.4-1.5m</li>
-            <li>pH: 7-7.5 (range: 4-9)</li>
-            <li>Temperature: 20-27°C</li>
-            <li>Minimum O2 content: 2.5mg/l</li>
+            <li><strong>Volume:</strong> {pond.volume} liters</li>
+            <li><strong>Depth:</strong> {pond.depth} meters</li>
+            <li><strong>Pumping Capacity:</strong> {pond.pumpingCapacity} liters/hour</li>
+            <li><strong>Drain:</strong> {pond.drain ? 'Yes' : 'No'}</li>
+            <li><strong>Skimmer:</strong> {pond.skimmer ? 'Yes' : 'No'}</li>
+            <li><strong>Note:</strong> {pond.note}</li>
+            {/* <li></li> */}
           </ul>
         </Col>
       </Row>

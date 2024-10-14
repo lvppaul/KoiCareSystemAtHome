@@ -18,7 +18,7 @@ const getPonds = async () => {
 const getPondByUserId = async (userId) => {
     try {
         const allPond = await getPonds();
-        const pond = allPond.find(pond => pond.userId === userId);
+        const pond = allPond.filter(pond => pond.userId === userId);
         if(!pond){
             console.log('Pond not found');
             return null;
@@ -46,11 +46,12 @@ const getPondsById = async (pondId) => {
 }
 
 // Function to post pond data
-const postPond = async (token, data) => {
+const postPond = async (userId, data) => {
     try {
         const response = await api.post(`Pond/`, data, {
             headers: {
-                Authorization: `Bearer ${token}`
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
             }
         });
         return response.data;
