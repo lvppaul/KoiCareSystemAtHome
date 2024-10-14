@@ -87,7 +87,7 @@ const Shop = () => {
           {currentProducts.map(product => (
             <li key={product.productId} className="productItem">
               <Link to={`/product/${product.productId}`} className="productLink">
-                <img src={product.productImages} alt={product.name} className="productImage" />
+                <img src={product.thumbnail} alt={product.name} className="productImage" />
                 <div>{product.name} - ${product.price}</div>
               </Link>
             </li>

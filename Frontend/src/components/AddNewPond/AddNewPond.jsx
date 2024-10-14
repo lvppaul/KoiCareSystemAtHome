@@ -7,13 +7,15 @@ import api from '../../Config/AxiosConfig';
 import { storage } from '../../Config/firebase';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {Spinner } from 'react-bootstrap';
+import { useAuth } from '../../pages/Login/AuthProvider';
 
 
 const AddNewPond = (props) => {
     const {show,setShow} = props;
     const [loading, setLoading] = useState(false);
     const handleClose = () => setShow(false);
-        
+    const user = useAuth();
+    const email = user.user.email;
     //useState modal form
     const[name,setName] = useState("");
     const[volumn,setVolumn] = useState("");
@@ -32,6 +34,7 @@ const AddNewPond = (props) => {
     const handleUploadImg = (event) => {
         const file = event.target.files[0];
         if (file) {
+            console.log(email);
             setPreviewImage(URL.createObjectURL(file));
             setImage(file);
         }
@@ -44,7 +47,7 @@ const AddNewPond = (props) => {
         }
         setLoading(true);
         // Upload image
-        const storageRef = ref(storage, `/pond/pondThumbnails/${image.name}`);
+        const storageRef = ref(storage, `/pond/pondThumbnails/${email}/${image.name}`);
         try {
             const snapshot = await uploadBytes(storageRef, image, metadata);
             const downloadURL = await getDownloadURL(snapshot.ref);
@@ -63,7 +66,7 @@ const AddNewPond = (props) => {
 
             // Call API
             try {
-                // const response = await api.post("pond", pondData);
+                const response = await api.post("pond", pondData);
                 console.log(pondData);
             } catch (error) {
                 console.log(error);
