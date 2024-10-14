@@ -1,4 +1,6 @@
-﻿using KCSAH.APIServer.Dto;
+﻿using Domain.Models.Entity;
+using KCSAH.APIServer.Dto;
+using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository;
 
 namespace KCSAH.APIServer.Services
@@ -6,9 +8,11 @@ namespace KCSAH.APIServer.Services
     public class PondService
     {
         private readonly UnitOfWork _unitOfWork;
-        public PondService(UnitOfWork unitOfWork)
+        private readonly KoiCareSystemAtHomeContext _context;
+        public PondService(UnitOfWork unitOfWork, KoiCareSystemAtHomeContext context)
         {
             _unitOfWork = unitOfWork;
+            _context = context;
         }
 
         public async Task<int> GetNumberofFish(int id)
@@ -22,9 +26,9 @@ namespace KCSAH.APIServer.Services
             return count;
         }
 
-        //public async Task<List<PondDTO>> GetPondByUserId(string id)
-        //{
-            
-        //}
+        public async Task<List<Pond>> GetPondByUserIdAsync(string id)
+        {
+            return await _context.Ponds.Where(p => p.UserId.Equals(id)).ToListAsync();
+        }
     }
 }

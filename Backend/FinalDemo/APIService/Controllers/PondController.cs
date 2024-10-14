@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SWP391.KCSAH.Repository.Models;
 using SWP391.KCSAH.Repository;
 using AutoMapper;
-using KCSAH.APIServer.Dto;
 using KCSAH.APIServer.Services;
-using Domain.Models;
-using Domain.Models.Dto;
+using Domain.Models.Entity;
+using Domain.Models.Dto.Response;
+using Domain.Models.Dto.Request;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -16,12 +15,12 @@ namespace KCSAH.APIServer.Controllers
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly PondService _getfood;
-        public PondController(UnitOfWork unitOfWork, IMapper mapper, PondService getfood)
+        private readonly PondService _getService;
+        public PondController(UnitOfWork unitOfWork, IMapper mapper, PondService getService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _getfood = getfood;
+            _getService = getService;
         }
 
         [HttpGet]
@@ -56,18 +55,19 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
-        [HttpGet("GetFishNumber/{id}")]
+        [HttpGet("GetFishNumberByPondId/{id}")]
         public async Task<IActionResult> GetFood(int id)
         {
-            var result = await _getfood.GetNumberofFish(id);
+            var result = await _getService.GetNumberofFish(id);
             return Ok(result);
         }
 
-        [HttpGet("GetPondByUserId/{id}")]
-        public async Task<IActionResult> GetPond(int id)
+        [HttpGet("GetPondsByUserId/{id}")]
+        public async Task<IActionResult> GetPondByUserIdAsync(string id)
         {
-            var result = await _getfood.GetNumberofFish(id);
-            return Ok(result);
+            var result = await _getService.GetPondByUserIdAsync(id);
+            var show = _mapper.Map<List<PondDTO>>(result);
+            return Ok(show);
         }
         [HttpPost]
         public async Task<ActionResult<Pond>> CreatePond([FromBody] PondRequestDTO ponddto)

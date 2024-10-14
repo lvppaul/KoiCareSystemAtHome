@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Domain.Models;
+using Domain.Models.Entity;
 using SWP391.KCSAH.Repository.KCSAH.Repository;
-using SWP391.KCSAH.Repository.Models;
 
 namespace SWP391.KCSAH.Repository
 {

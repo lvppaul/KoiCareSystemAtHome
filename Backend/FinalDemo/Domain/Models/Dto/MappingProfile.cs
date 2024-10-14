@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Domain.Models;
-using Domain.Models.Dto;
-using SWP391.KCSAH.Repository.Models;
-using SWP391.KCSAH.Repository.Models.Dto;
+using Domain.Models.Dto.Request;
+using Domain.Models.Dto.Response;
+using Domain.Models.Entity;
 
 namespace KCSAH.APIServer.Dto
 {

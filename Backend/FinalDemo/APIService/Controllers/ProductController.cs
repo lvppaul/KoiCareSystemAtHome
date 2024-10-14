@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SWP391.KCSAH.Repository.Models;
 using SWP391.KCSAH.Repository;
 using AutoMapper;
-using KCSAH.APIServer.Dto;
-using Domain.Models;
-using Domain.Models.Dto;
+using Domain.Models.Entity;
+using Domain.Models.Dto.Response;
+using Domain.Models.Dto.Request;
 
 namespace KCSAH.APIServer.Controllers
 {

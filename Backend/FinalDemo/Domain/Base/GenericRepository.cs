@@ -1,6 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Models.Entity;
 using Microsoft.EntityFrameworkCore;
-using SWP391.KCSAH.Repository.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

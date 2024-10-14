@@ -1,7 +1,7 @@
 ﻿using Domain.Authentication;
 using Domain.Base;
 using Domain.Helper;
-using Domain.Models;
+using Domain.Models.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
