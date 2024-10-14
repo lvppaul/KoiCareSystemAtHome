@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Modal } from 'react-bootstrap';
+import { Form, Button,  Modal } from 'react-bootstrap';
 import { updateShopDetails } from '../../Config/ShopApi';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
