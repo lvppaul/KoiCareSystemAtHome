@@ -30,6 +30,7 @@ namespace KCSAH.APIServer.Controllers
 
 
         [HttpGet("{id}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public  ActionResult<CategoryDTO> GetById(string id)
         {
             var category =  _unitOfWork.CategoryRepository.GetById(id);

@@ -44,6 +44,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("{id}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<KoiDTO> GetById(string id)
         {
             var koi =  _unitOfWork.KoiRepository.GetById(id);
