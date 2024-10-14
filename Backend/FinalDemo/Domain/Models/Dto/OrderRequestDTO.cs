@@ -29,7 +29,7 @@ namespace Domain.Models.Dto
 
         public int PaymentMethodId { get; set; }
 
-        public double TotalPrice { get; set; }
+        //public double TotalPrice { get; set; }
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
 

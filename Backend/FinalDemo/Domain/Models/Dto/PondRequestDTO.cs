@@ -1,11 +1,13 @@
-﻿using SWP391.KCSAH.Repository.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace KCSAH.APIServer.Dto
+namespace Domain.Models.Dto
 {
-    public class PondDTO
+    public class PondRequestDTO
     {
-        public int PondId { get; set; }
-
         public string UserId { get; set; }
 
         public string Name { get; set; }
@@ -23,6 +25,5 @@ namespace KCSAH.APIServer.Dto
         public string? Note { get; set; }
 
         public string? Thumbnail { get; set; }
-
     }
 }

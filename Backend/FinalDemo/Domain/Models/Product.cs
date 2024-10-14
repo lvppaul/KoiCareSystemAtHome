@@ -5,12 +5,12 @@ namespace Domain.Models;
 
 public partial class Product
 {
-    public string ProductId { get; set; } = null!;
+    public int ProductId { get; set; }
     public string UserId { get; set; } = null!;
     public string Name { get; set; } = null!;
 
     public string? Description { get; set; }
-
+    public string? Thumbnail {  get; set; }
     public int Quantity { get; set; }
 
     public double Price { get; set; }
@@ -20,6 +20,7 @@ public partial class Product
     public int CategoryId { get; set; }
 
     public virtual Category Category { get; set; } = null!;
+
     public virtual ApplicationUser ApplicationUser { get; set; } = null!;
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();

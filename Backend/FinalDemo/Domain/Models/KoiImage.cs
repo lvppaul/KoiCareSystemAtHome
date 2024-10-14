@@ -7,7 +7,7 @@ public partial class KoiImage
 {
     public int ImageId { get; set; }
 
-    public string KoiId { get; set; } = null!;
+    public int KoiId { get; set; }
 
     public string? Url { get; set; }
 

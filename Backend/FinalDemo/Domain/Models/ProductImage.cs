@@ -7,7 +7,7 @@ public partial class ProductImage
 {
     public int ImageId { get; set; }
 
-    public string ProductId { get; set; } = null!;
+    public int ProductId { get; set; }
 
     public string ImageUrl { get; set; } = null!;
 

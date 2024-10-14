@@ -9,7 +9,7 @@ namespace Domain.Models.Dto
 {
     public class ProductDTO
     {
-        public string ProductId { get; set; }
+        public int ProductId { get; set; }
 
         public string Name { get; set; }
 
@@ -24,5 +24,7 @@ namespace Domain.Models.Dto
         public CategoryDTO category { get; set; }
 
         public string UserId { get; set; }
+
+        public string? Thumbnail { get; set; }
     }
 }

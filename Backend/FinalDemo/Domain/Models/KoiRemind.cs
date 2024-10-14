@@ -7,7 +7,7 @@ public partial class KoiRemind
 {
     public int RemindId { get; set; }
 
-    public string KoiId { get; set; } = null!;
+    public int KoiId { get; set; }
     public string UserId { get; set; } = null!;
 
     public string? RemindDescription { get; set; }

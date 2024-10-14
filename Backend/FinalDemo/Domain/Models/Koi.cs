@@ -5,12 +5,13 @@ namespace Domain.Models;
 
 public partial class Koi
 {
-    public string KoiId { get; set; } = null!;
+    public int KoiId { get; set; }
 
-    public string PondId { get; set; } = null!;
+    public int PondId { get; set; }
     public string UserId { get; set; } = null!;
 
     public int Age { get; set; }
+    public string? Thumbnail {  get; set; }
 
     public string Name { get; set; } = null!;
 
@@ -25,6 +26,7 @@ public partial class Koi
     public string Color { get; set; } = null!;
 
     public bool? Status { get; set; }
+
 
     public virtual ICollection<KoiImage> KoiImages { get; set; } = new List<KoiImage>();
 
