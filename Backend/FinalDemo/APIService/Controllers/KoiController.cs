@@ -79,7 +79,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateKoi(string id, [FromBody] KoiUpdateDTO koidto)
+        public async Task<IActionResult> UpdateKoi(int id, [FromBody] KoiRequestDTO koidto)
         {
             if (koidto == null)
             {

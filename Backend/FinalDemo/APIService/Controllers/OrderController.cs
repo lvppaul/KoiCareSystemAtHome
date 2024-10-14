@@ -101,7 +101,7 @@ namespace KCSAH.APIServer.Controllers
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
         }
 
-        private async Task<Product> GetProductAsync(string id)
+        private async Task<Product> GetProductAsync(int id)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
 

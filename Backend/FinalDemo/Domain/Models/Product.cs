@@ -5,7 +5,7 @@ namespace Domain.Models;
 
 public partial class Product
 {
-    public string ProductId { get; set; } = null!;
+    public int ProductId { get; set; }
     public string UserId { get; set; } = null!;
     public string Name { get; set; } = null!;
 

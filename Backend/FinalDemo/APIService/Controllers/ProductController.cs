@@ -99,13 +99,14 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "Something went wrong while saving the product.");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtAction("GetById",new { id = productdto.ProductId }, productdto);
+            var productShow = _mapper.Map<ProductDTO>(productMap);
+            return CreatedAtAction("GetById",new { id = productShow.ProductId }, productShow);
         }
 
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductUpdateDTO productdto)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductRequestDTO productdto)
         {
             if (productdto == null)
             {
@@ -130,13 +131,6 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "Something went wrong while updating product");
                 return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
             }
-
-            // Gọi phương thức bất đồng bộ để lấy thông tin Category
-          //  var category = await GetCategoryAsync(productdto.CategoryId);
-
-            // Trả về kết quả cập nhật
-            //var productReturn = _mapper.Map<ProductDTO>(productdto);
-            //productReturn.category = category;
 
             return NoContent(); // Trả về 200 OK với sản phẩm đã cập nhật
         }

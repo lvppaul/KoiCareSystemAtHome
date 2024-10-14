@@ -302,7 +302,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.ProductId)
-                .HasMaxLength(10)
+                .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("ProductID");
 
@@ -353,7 +353,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.ToTable("Product");
 
             entity.Property(e => e.ProductId)
-                .HasMaxLength(10)
+                .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("ProductID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
@@ -379,7 +379,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.Property(e => e.ImageId).HasColumnName("ImageID");
             entity.Property(e => e.ProductId)
-                .HasMaxLength(10)
+                .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("ProductID");
 

@@ -4,7 +4,6 @@ namespace KCSAH.APIServer.Dto
 {
     public class ProductRequestDTO
     {
-        public string ProductId { get; set; }
 
         public string Name { get; set; }
 

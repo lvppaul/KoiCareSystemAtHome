@@ -9,7 +9,7 @@ namespace Domain.Models.Dto
 {
     public class ProductDTO
     {
-        public string ProductId { get; set; }
+        public int ProductId { get; set; }
 
         public string Name { get; set; }
 

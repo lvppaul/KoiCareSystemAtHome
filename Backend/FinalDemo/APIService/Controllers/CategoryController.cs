@@ -86,7 +86,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(string id, [FromBody] CategoryRequestDTO categoryDto)
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryRequestDTO categoryDto)
         {
             if (categoryDto == null)
             {
@@ -111,9 +111,8 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "Something went wrong while updating category");
                 return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
             }
-            var categoryShow = _mapper.Map<CategoryDTO>(categoryDto);
 
-            return Ok(categoryShow); // Trả về 204 No Content nếu cập nhật thành công
+            return NoContent(); 
         }
 
 

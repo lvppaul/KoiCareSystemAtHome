@@ -8,7 +8,7 @@ namespace Domain.Models.Dto
 {
     public class OrderDetailRequestDTO
     {
-        public string ProductId { get; set; } = null!;
+        public int ProductId { get; set; }
 
         public int Quantity { get; set; }
 
