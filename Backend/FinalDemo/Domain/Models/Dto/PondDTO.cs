@@ -22,5 +22,7 @@ namespace KCSAH.APIServer.Dto
 
         public string? Note { get; set; }
 
+        public string? Thumbnail { get; set; }
+
     }
 }

@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Dto
 {
-    public class ProductDTO
+    public class ProductUpdateDTO
     {
-        public string ProductId { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -21,7 +19,7 @@ namespace Domain.Models.Dto
 
         public bool? Status { get; set; }
 
-        public CategoryDTO category { get; set; }
+        public int CategoryId { get; set; }
 
         public string UserId { get; set; }
 

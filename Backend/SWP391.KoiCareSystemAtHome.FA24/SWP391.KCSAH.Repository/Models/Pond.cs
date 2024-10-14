@@ -23,6 +23,8 @@ public partial class Pond
 
     public string? Note { get; set; }
 
+    public string? Thumbnail { get; set; }
+
     public virtual ICollection<Koi> Kois { get; set; } = new List<Koi>();
 
     public virtual User User { get; set; } = null!;
