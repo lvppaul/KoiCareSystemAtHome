@@ -12,6 +12,5 @@ namespace Domain.Models.Dto
 
         public int Quantity { get; set; }
 
-        public double UnitPrice { get; set; }
     }
 }

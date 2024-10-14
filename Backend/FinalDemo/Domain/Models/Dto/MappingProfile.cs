@@ -25,6 +25,8 @@ namespace KCSAH.APIServer.Dto
             CreateMap<OrderRequestDTO, OrderDTO>().ReverseMap();
             CreateMap<OrderDetailRequestDTO, OrderDetail>().ReverseMap();
             CreateMap<OrderDetailRequestDTO, OrderDetailDTO>().ReverseMap();
+            CreateMap<CategoryRequestDTO, Category>().ReverseMap();
+            CreateMap<CategoryRequestDTO, CategoryDTO>().ReverseMap();
         }
     }
 }

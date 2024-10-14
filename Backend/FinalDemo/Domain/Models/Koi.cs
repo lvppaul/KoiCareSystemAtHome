@@ -11,6 +11,7 @@ public partial class Koi
     public string UserId { get; set; } = null!;
 
     public int Age { get; set; }
+    public string? Thumbnail {  get; set; }
 
     public string Name { get; set; } = null!;
 

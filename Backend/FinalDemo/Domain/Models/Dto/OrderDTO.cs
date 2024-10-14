@@ -29,12 +29,12 @@ namespace SWP391.KCSAH.Repository.Models.Dto
         public string Country { get; set; } = null!;
 
         public int PaymentMethodId { get; set; }
-
-        public double TotalPrice { get; set; }
+        
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
         public bool? OrderStatus { get; set; }
         public List<OrderDetailDTO> orderDetails { get; set; }
+        public double TotalPrice => orderDetails.Sum(od => od.Quantity * od.UnitPrice);
     }
 }

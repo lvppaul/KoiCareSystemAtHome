@@ -6,6 +6,7 @@ using SWP391.KCSAH.Repository.Models;
 using SWP391.KCSAH.Repository;
 using Domain.Models;
 using Domain.Models.Dto;
+using KCSAH.APIServer.Dto;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -91,15 +92,21 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
             }
-            
-            // Lưu chi tiết đơn hàng
-            foreach (var detail in orderMap.OrderDetails)
+            foreach(var detail in orderMap.OrderDetails)
             {
-                // Ánh xạ và lưu chi tiết đơn hàng mà không cần thiết phải gán ID
-                detail.OrderId = orderMap.OrderId; // Gán OrderId cho chi tiết đơn hàng
+                var product = await GetProductAsync(detail.ProductId);
+                detail.UnitPrice = product.Price;
             }
             var order = _mapper.Map<OrderDTO>(orderMap);
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
+        }
+
+        private async Task<Product> GetProductAsync(string id)
+        {
+            var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
+
+            // Sử dụng AutoMapper để ánh xạ từ Category sang CategoryDTO
+            return product;
         }
     }
 }
