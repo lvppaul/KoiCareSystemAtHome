@@ -1,5 +1,5 @@
 using Domain.Base;
-using Domain.Models;
+using Domain.Models.Entity;
 using Domain.Repositories;
 using KCSAH.APIServer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

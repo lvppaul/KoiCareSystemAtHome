@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Domain.Models;
+using Domain.Models.Entity;
+using Domain.Repositories;
 using SWP391.KCSAH.Repository.KCSAH.Repository;
-using SWP391.KCSAH.Repository.Models;
 
 namespace SWP391.KCSAH.Repository
 {
@@ -17,6 +17,11 @@ namespace SWP391.KCSAH.Repository
         //private CartRepository _cartRepository;
         private OrderRepository _orderRepository;
         private OrderDetailRepository _orderDetailRepository;
+        private BlogRepository _blogRepository;
+        private BlogImageRepository _blogImageRepository;
+        private BlogCommentRepository _blogCommentRepository;
+
+
 
         public UnitOfWork() => _context ??= new KoiCareSystemAtHomeContext();
 
@@ -57,6 +62,21 @@ namespace SWP391.KCSAH.Repository
         public OrderDetailRepository OrderDetailRepository
         {
             get { return _orderDetailRepository ??= new OrderDetailRepository(_context); }
+        }
+
+        public BlogRepository BlogRepository
+        {
+            get { return _blogRepository ??= new BlogRepository(_context); }
+        }
+
+        public BlogImageRepository BlogImageRepository
+        {
+            get { return _blogImageRepository ??= new BlogImageRepository(_context); }
+        }
+
+        public BlogCommentRepository BlogCommentRepository
+        {
+            get { return _blogCommentRepository ??= new BlogCommentRepository(_context); }
         }
     }
 }

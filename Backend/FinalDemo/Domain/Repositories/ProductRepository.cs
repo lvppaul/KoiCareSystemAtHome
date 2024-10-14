@@ -1,7 +1,6 @@
-﻿using Domain.Models;
+﻿using Domain.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository.Base;
-using SWP391.KCSAH.Repository.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await _context.Products.ToListAsync();
         }
 
-        public async Task<Product> GetByIdAsync(string id)
+        public async Task<Product> GetByIdAsync(int id)
         {
             var result = await _context.Products.FirstAsync(p => p.ProductId.Equals(id));
 

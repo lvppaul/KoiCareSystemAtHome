@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository;
 using AutoMapper;
-using KCSAH.APIServer.Dto;
-using Domain.Models;
-using Domain.Models.Dto;
+using Domain.Models.Entity;
+using Domain.Models.Dto.Response;
+using Domain.Models.Dto.Request;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -30,6 +30,7 @@ namespace KCSAH.APIServer.Controllers
 
 
         [HttpGet("{id}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public  ActionResult<CategoryDTO> GetById(string id)
         {
             var category =  _unitOfWork.CategoryRepository.GetById(id);

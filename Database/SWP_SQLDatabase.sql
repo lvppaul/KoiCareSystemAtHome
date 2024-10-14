@@ -23,7 +23,7 @@ CREATE TABLE [User] (
 
 --Create Pond table
 CREATE TABLE Pond (
-    PondID varchar(10) NOT NULL PRIMARY KEY,            -- Primary key
+    PondID INT NOT NULL PRIMARY KEY IDENTITY(1,1),            -- Primary key
     UserID varchar(200) NOT NULL,                        -- Foreign key to the User table
     Name NVARCHAR(50) NOT NULL,					 -- Pond name
     Volume FLOAT NOT NULL,                      -- Pond volume
@@ -45,7 +45,7 @@ CREATE TABLE Category (
 
 --Create Product table
 CREATE TABLE Product(
-	ProductID varchar(10) NOT NULL PRIMARY KEY,
+	ProductID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	Name NVARCHAR(255) NOT NULL,
 	Thumbnail varchar(Max),
 	Description NVARCHAR(Max),
@@ -195,7 +195,7 @@ CREATE TABLE Orders (
 --Create OrderDetail table
 CREATE TABLE OrderDetail (
     OrderID int NOT NULL,
-    ProductID varchar(10) NOT NULL,
+    ProductID INT NOT NULL,
     Quantity int NOT NULL,
     UnitPrice float NOT NULL,
     PRIMARY KEY (OrderID, ProductID),
