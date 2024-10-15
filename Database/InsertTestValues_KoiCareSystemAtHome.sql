@@ -1,4 +1,4 @@
-drop database KoiCareSystemAtHome;
+--drop database KoiCareSystemAtHome;
 
 use KoiCareSystemAtHome;
 
@@ -12,18 +12,20 @@ use KoiCareSystemAtHome;
 --EXEC sp_msforeachtable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL';
 
 /*
-General Rules for User Roles:
-- Pond, Koi, Koi_Record, Koi_Remind, Water_Parameter, Orders: Cannot include UserID with the shop role.
+ General Rules for User Roles:
+ - Pond, Koi, Koi_Record, Koi_Remind, Water_Parameter, Orders: Cannot include UserID with the shop role.
 
-- Koi_Remind, Product, Shop: Cannot include UserID with the member role.
+ - Koi_Remind, Product, Shop: Cannot include UserID with the member role.
 
-- Admin UserID: Can only appear in Blogs and BlogComments tables.
+ - Admin UserID: Can only appear in Blogs and BlogComments tables.
 
-- Product, Shop: Can only include UserID with the shop role.
+ - Product, Shop: Can only include UserID with the shop role.
 */
 
---User table
-INSERT INTO AspNetUsers(Id, FirstName, LastName, Sex, Street, District, City, Country, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount)
+--User table: insert according to the numbered order
+
+--1.
+INSERT INTO [AspNetUsers] (Id, FirstName, LastName, Sex, Street, District, City, Country, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount)
 VALUES
 ('156e10b8-ca91-4925-938f-1d872a357ebe', 'member', 'a', NULL, NULL, NULL, NULL, NULL, 'member@example.com', 'MEMBER@EXAMPLE.COM', 'member@example.com', 'MEMBER@EXAMPLE.COM', 0, 'AQAAAAIAAYagAAAAEIu0gnPvb0zhWrk4NNA3wEMiOewPTGZLrYqgAOJs5OwUbuKXyPKTBekE9OveJ020gg==', 'RWVHVDP7IWP22CE4U3VXIEKH4ZOXHD2W', '71aae56b-e997-4ae0-8215-2e0f71381a88', NULL, 0, 0, NULL, 1, 0),
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip', 'b', NULL, NULL, NULL, NULL, NULL, 'vip@example.com', 'VIP@EXAMPLE.COM', 'vip@example.com', 'VIP@EXAMPLE.COM', 0, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', NULL, 0, 0, NULL, 1, 0),
@@ -31,6 +33,24 @@ VALUES
 ('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'sho2p', 'c2', NULL, NULL, NULL, NULL, NULL, 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 0, 'AQAAAAIAAYagAAAAEAAinoUzd5JbC2ZXIsjuzrMAwLklvMaW0XlwQpaoRZHof+FMlGnMJSiNThEoQJ3C/Q==', '5YQ266SGHHXQ2W3KRSLNZKZSM7BB4XWC', 'fbd64607-02bd-47ca-8cb3-22d7c2f6a6c8', NULL, 0, 0, NULL, 1, 0),
 ('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'shop', 'c', NULL, NULL, NULL, NULL, NULL, 'shop@example.com', 'SHOP@EXAMPLE.COM', 'shop@example.com', 'SHOP@EXAMPLE.COM', 0, 'AQAAAAIAAYagAAAAEMFEM383aESJByWGKS3TlzTnvQdLT1LzwWblpe2+AzVDIOIBfUqsZHnQkzC1oSo72g==', '5CIZCKPIKKLLFBIRJDJHT45DZ3V7DL2Q', '98bef99c-d585-4b37-be2d-6e57540bb48b', NULL, 0, 0, NULL, 1, 0);
 
+--2
+INSERT INTO [AspNetRoles] (Id, Name, NormalizedName, ConcurrencyStamp)
+VALUES
+('511e95c7-ae67-4186-9fd7-8d5da11979b0', 'member', 'MEMBER', NULL),
+('6f242335-7855-4678-b3f2-0a0c7c525c8a', 'admin', 'ADMIN', NULL),
+('90204048-b8cd-4d16-bfe7-5991e5360e06', 'vip', 'VIP', NULL),
+('ac9abd73-dc84-4bd4-b4b5-8e062cd66cc6', 'shop', 'SHOP', NULL);
+
+--3
+INSERT INTO [AspNetUserRoles] (UserId, RoleId)
+VALUES
+('156e10b8-ca91-4925-938f-1d872a357ebe', '511e95c7-ae67-4186-9fd7-8d5da11979b0'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', '6f242335-7855-4678-b3f2-0a0c7c525c8a'),
+('373236e8-0df7-44bf-9990-ce22fa1ff829', '90204048-b8cd-4d16-bfe7-5991e5360e06'),
+('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'ac9abd73-dc84-4bd4-b4b5-8e062cd66cc6'),
+('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'ac9abd73-dc84-4bd4-b4b5-8e062cd66cc6');
+
+-----
 
 INSERT INTO Pond (UserID, Name, Volume, Thumbnail, Depth, PumpingCapacity, Drain, Skimmer, Note)
 VALUES 
