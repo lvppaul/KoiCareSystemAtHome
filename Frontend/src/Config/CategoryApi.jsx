@@ -15,4 +15,19 @@ const getCategories = async () => {
     }
 };
 
-export { getCategories };
+// Function to get category by ID
+const getCategoryById = async (categoryId) => {
+    try {
+        const response = await api.get(`Category/${categoryId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching categories with ID ${categoryId}:`, error);
+        throw error;
+    }
+};
+
+export { getCategories, getCategoryById };
