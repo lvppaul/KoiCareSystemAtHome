@@ -3,19 +3,18 @@ import { useState } from 'react';
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap/';
 import {  BiImport } from "react-icons/bi";
 import PondIcon from "../../assets/Pond.svg";
-import api from '../../Config/AxiosConfig';
 import { storage } from '../../Config/firebase';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {Spinner } from 'react-bootstrap';
 import { useAuth } from '../../pages/Login/AuthProvider';
-
+import { postPond } from '../../Config/PondApi';
 
 const AddNewPond = (props) => {
-    const {show,setShow} = props;
+    const {show,setShow, onPondAdded} = props;
     const [loading, setLoading] = useState(false);
     const handleClose = () => setShow(false);
     const user = useAuth();
-    const email = user.user.email;
+    const userId = user.user.userId;
     //useState modal form
     const[name,setName] = useState("");
     const[volumn,setVolumn] = useState("");
@@ -23,60 +22,75 @@ const AddNewPond = (props) => {
     const[pump,setPump] = useState("");
     const[drain,setDrain] = useState("");
     const[skimmer,setSkimmer] = useState("");
-    const[image,setImage] = useState("");
+    const[note,setNote] = useState("");
+    const[thumbnail,setThumbnail] = useState("");
     const[previewImage, setPreviewImage] = useState("");
     
-    const metadata = {
-        contentType: 'image/jpeg',
-    };
 
     // handle preview image
     const handleUploadImg = (event) => {
         const file = event.target.files[0];
         if (file) {
-            console.log(email);
+            console.log(localStorage.getItem('user'));
             setPreviewImage(URL.createObjectURL(file));
-            setImage(file);
+            setThumbnail(file);
         }
     }
 
     const handleSubmitPond = async () => {
-        if (!image) {
+        if (!thumbnail) {
             console.log("No image selected");
             return;
         }
         setLoading(true);
         // Upload image
-        const storageRef = ref(storage, `/pond/pondThumbnails/${email}/${image.name}`);
+        const storageRef = ref(storage, `/pond/pondThumbnails/${userId}/${Date.now()}_${thumbnail.name}`);
         try {
-            const snapshot = await uploadBytes(storageRef, image, metadata);
+            const snapshot = await uploadBytes(storageRef, thumbnail);
             const downloadURL = await getDownloadURL(snapshot.ref);
-            setImage(downloadURL);
-
+            console.log('Image uploaded:', downloadURL);
+            setThumbnail(downloadURL);
+        const pondData = {
+            userId: userId,
+            name,
+            volumn,
+            depth,
+            pump,
+            drain,
+            skimmer,
+            note,
+            thumbnail: downloadURL,
+        };
+        console.log('pondData', pondData);
             // Prepare pond data
-            const pondData = {
-                name,
-                volumn,
-                depth,
-                pump,
-                drain,
-                skimmer,
-                image: downloadURL
-            };
 
             // Call API
-            try {
-                const response = await api.post("pond", pondData);
-                console.log(pondData);
-            } catch (error) {
-                console.log(error);
-            }
-        } catch (error) {
-            console.log("Error uploading image:", error);
-        } finally {
-            setLoading(false);
-        }
-    }
+                postPond(pondData)
+                .then((response) => {
+                    console.log('Pond added:', response);
+                    alert('Pond added successfully', response);
+                    console.log('image', thumbnail);
+                    console.log('storageRef', storageRef);
+                    setName("");
+                    setVolumn("");
+                    setDepth("");
+                    setPump("");
+                    setDrain("");
+                    setSkimmer("");
+                    setNote("");
+                    setPreviewImage(""); // Reset the preview image
+                    setThumbnail(""); // Reset the image state
+                    handleClose();
+                    if (onPondAdded) {
+                        onPondAdded(response);
+                    }
+                    
+                    setLoading(false);
+                });
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        setLoading(false);
+    }}
 
     return (
         <>
@@ -158,6 +172,14 @@ const AddNewPond = (props) => {
                                         <Form.Control type="text" placeholder="Pumping (l/h)" 
                                         value={pump}
                                         onChange={(event) => setPump(event.target.value)}/>
+                                    </Form.Group>
+                                </Row>
+                                <Row>
+                                    <Form.Group as={Col} controlId="formNote">
+                                        <Form.Label>Note:</Form.Label>
+                                        <Form.Control type="text" placeholder="Note" 
+                                        value={note}
+                                        onChange={(event) => setNote(event.target.value)}/>
                                     </Form.Group>
                                 </Row>
                             </Col>
