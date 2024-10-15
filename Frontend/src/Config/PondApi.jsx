@@ -46,7 +46,7 @@ const getPondsById = async (pondId) => {
 }
 
 // Function to post pond data
-const postPond = async (userId, data) => {
+const postPond = async (data) => {
     try {
         const response = await api.post(`Pond/`, data, {
             headers: {

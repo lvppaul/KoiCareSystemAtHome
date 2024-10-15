@@ -38,8 +38,7 @@ const signIn = async (credentials) => {
         localStorage.setItem('user', JSON.stringify({ email, userRole, userId })); // Save the user data to local storage
         return { userRole, email, userId }; // Return email and role, userid
     } catch (error) {
-        console.error('Error signing in:', error.response ? error.response.data : error.message);
-        throw error;
+        return error.response.data;
     }
 };
 
