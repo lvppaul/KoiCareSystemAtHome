@@ -74,6 +74,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Blog>(entity =>
         {

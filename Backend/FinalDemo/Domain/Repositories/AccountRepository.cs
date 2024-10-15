@@ -43,6 +43,7 @@ namespace Domain.Repositories
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, model.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
 
             };
