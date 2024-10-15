@@ -21,10 +21,10 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductRequestDTO>>> GetAllSync()
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllSync()
         {
             var products = await _unitOfWork.ProductRepository.GetAllAsync();
-            var productDTOs = _mapper.Map<List<ProductRequestDTO>>(products);
+            var productDTOs = _mapper.Map<List<ProductDTO>>(products);
             return Ok(productDTOs);
         }
 

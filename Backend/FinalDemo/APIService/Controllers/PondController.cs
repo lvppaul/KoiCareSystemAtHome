@@ -6,6 +6,7 @@ using KCSAH.APIServer.Services;
 using Domain.Models.Entity;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Request;
+using Domain.Models.Dto.Update;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -102,7 +103,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePond(int id, [FromBody] PondRequestDTO ponddto)
+        public async Task<IActionResult> UpdatePond(int id, [FromBody] PondUpdateDTO ponddto)
         {
             if (ponddto == null)
             {
@@ -124,7 +125,7 @@ namespace KCSAH.APIServer.Controllers
 
             if (updateResult <= 0)
             {
-                ModelState.AddModelError("", "Something went wrong while updating category");
+                ModelState.AddModelError("", "Something went wrong while updating pond");
                 return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
             }
 

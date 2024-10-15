@@ -138,15 +138,6 @@ namespace APIService.Controllers
                 return NotFound();
             }
 
-            // Tạo một bản sao của danh sách để lặp
-            var newsImages = news.NewsImages.ToList();
-
-            // Xóa tất cả các NewsImage liên quan
-            foreach (var item in newsImages)
-            {
-                await _unitOfWork.NewsImageRepository.RemoveAsync(item);
-            }
-
             // Xóa bản ghi News
             await _unitOfWork.NewRepository.RemoveAsync(news);
 
