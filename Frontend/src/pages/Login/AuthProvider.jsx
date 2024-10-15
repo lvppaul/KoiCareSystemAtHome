@@ -34,7 +34,14 @@ export const AuthProvider = ({ children }) => {
     };
 
     const hasRole = (role) => {
-        return user?.role === role;
+        if (role === 'shop'){
+            return user?.role === role;
+        } else {
+        const roleHierarchy = ['member', 'vip', 'admin'];
+        const userRoleIndex = roleHierarchy.indexOf(user?.role);
+        const requiredRoleIndex = roleHierarchy.indexOf(role);
+        return userRoleIndex >= requiredRoleIndex;
+        }
     };
 
     if (loading) {
