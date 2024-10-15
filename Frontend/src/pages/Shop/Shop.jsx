@@ -12,18 +12,17 @@ const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
 
-  useEffect(() => {
+  const fetchCategories = async () => {
     getCategories()
       .then(data => {
-        console.log('Fetched categories:', data);
         const validCategories = data.filter(category => category && category.categoryId && category.name);
         setCategories([{ categoryId: 'All', name: 'All' }, ...validCategories]);
       })
       .catch(error => console.error('Error fetching categories:', error));
+    };
 
     getProducts()
       .then(data => {
-        console.log('Fetched products:', data);
         setProducts(data);
         setLoading(false);
       })
@@ -31,7 +30,6 @@ const Shop = () => {
         console.error('Error fetching products:', error);
         setLoading(false);
       });
-  }, []);
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
