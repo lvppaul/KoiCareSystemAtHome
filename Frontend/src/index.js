@@ -20,10 +20,12 @@ import Product from './pages/Product/Product';
 import PondDetail from "./pages/PondDetail/PondDetail";
 import KoiDetail from "./pages/KoiDetails/KoiDetail";
 import Blog from "./pages/Blog/Blog";
-import {AuthProvider} from "./pages/Login/AuthProvider";
+import { AuthProvider } from "./pages/Login/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Import the ProtectedRoute component
 import News from './pages/News/News'; // Assuming you have a News component
 import ManageShop from "./pages/ManageShop/ManageShop";
+import KoiRemind from "./pages/KoiRemind/KoiRemind";
+import NotAuthorized from "./pages/NotAuthorized/NotAuthorized";
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -31,39 +33,43 @@ const root = createRoot(container);
 root.render(
     <React.StrictMode>
         <BrowserRouter>
-        <AuthProvider>
-            <Routes>
-                {/* Public Routes (accessible to everyone) */}
-                <Route path="login" element={<Login />} />
-                <Route path="signup" element={<Signup />} />
+            <AuthProvider>
+                <Routes>
+                    {/* Public Routes (accessible to everyone) */}
+                    <Route path="login" element={<Login />} />
+                    <Route path="signup" element={<Signup />} />
 
-                <Route path="/" element={<App />}>
-                    <Route index element={<Home />} />
-                    <Route path="news" element={<News />} />
-                    <Route path="blogs" element={<Blog />} />
+                    <Route path="/" element={<App />}>
+                        <Route index element={<Home />} />
+                        <Route path="news" element={<News />} />
+                        <Route path="blogs" element={<Blog />} />
+                        <Route path="shop" element={<Shop />} />
+                        <Route path="product/:productId" element={<Product />} />
+                        <Route path="notauthorized" element={<NotAuthorized />} />
+                        <Route path="*" element={<NotPage />} />
 
+                        {/* Protected Routes for Authenticated Users */}
+                        <Route path="pond" element={<ProtectedRoute requiredRole="member"><Pond /></ProtectedRoute>} />
+                        <Route path="ponddetail/:pondId" element={<ProtectedRoute requiredRole="member"><PondDetail /></ProtectedRoute>} />
+                        <Route path="koidetail" element={<ProtectedRoute requiredRole="member"><KoiDetail /></ProtectedRoute>} />
 
-                {/* Protected Routes for Authenticated Users */}
-                <Route path="shop" element={<ProtectedRoute requiredRole="member"><Shop /></ProtectedRoute>} />
-                <Route path="manageshop" element={<ProtectedRoute requiredRole="member"><ManageShop /></ProtectedRoute>} />
-                <Route path="product/:productId" element={<ProtectedRoute requiredRole="member"><Product /></ProtectedRoute>} />
-                <Route path="pond" element={<ProtectedRoute requiredRole="member"><Pond /></ProtectedRoute>} />
-                <Route path="foodcalculator" element={<ProtectedRoute requiredRole="member"><FoodCalculator /></ProtectedRoute>} />
-                <Route path="saltcalculator" element={<ProtectedRoute requiredRole="member"><SaltCalculator /></ProtectedRoute>} />
-                <Route path="ponddetail/:pondId" element={<ProtectedRoute requiredRole="member"><PondDetail /></ProtectedRoute>} />
-                <Route path="koidetail" element={<ProtectedRoute requiredRole="member"><KoiDetail /></ProtectedRoute>} />
-                <Route path="*" element={<NotPage />} />
-                </Route>
-                        
-                {/* Admin Routes */}
-                <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminHome /></ProtectedRoute>}>
-                    <Route index element={<h1>Report</h1>} />
-                    <Route path="report" element={<h1>Report</h1>} />
-                    <Route path="usermanage" element={<ProtectedRoute requiredRole="admin"><TableUser /></ProtectedRoute>} />
-                </Route>
+                        {/* Protected Routes for Shop Users */}
+                        <Route path="manageshop" element={<ProtectedRoute requiredRole="shop"><ManageShop /></ProtectedRoute>} />
 
-            </Routes>
-        </AuthProvider>
+                        {/* Protected Routes for Vip Users */}
+                        <Route path="foodcalculator" element={<ProtectedRoute requiredRole="vip"><FoodCalculator /></ProtectedRoute>} />
+                        <Route path="saltcalculator" element={<ProtectedRoute requiredRole="vip"><SaltCalculator /></ProtectedRoute>} />
+                        <Route path="koiremind" element={<ProtectedRoute requiredRole="vip"><KoiRemind /></ProtectedRoute>} />
+                    </Route>
+
+                    {/* Admin Routes */}
+                    <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminHome /></ProtectedRoute>}>
+                        <Route index element={<h1>Report</h1>} />
+                        <Route path="report" element={<h1>Report</h1>} />
+                        <Route path="usermanage" element={<ProtectedRoute requiredRole="admin"><TableUser /></ProtectedRoute>} />
+                    </Route>
+                </Routes>
+            </AuthProvider>
         </BrowserRouter>
     </React.StrictMode>
 );
