@@ -155,7 +155,7 @@ namespace Domain.Repositories
 
         public async Task<string> ChangePasswordAsync(string userId,ChangePasswordModel model)
         {
-            string mes = "Change Successfully";
+            string mes = "Successfully";
             var user  = await _userManager.FindByIdAsync(userId);
             if(user == null)
             {
