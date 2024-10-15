@@ -12,6 +12,6 @@ namespace Domain.Models.Dto.Response
 
         public int KoiId { get; set; }
 
-        public string? Url { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }
