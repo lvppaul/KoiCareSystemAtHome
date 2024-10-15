@@ -8,7 +8,7 @@ public partial class News
     public int NewsId { get; set; }
 
     public string Title { get; set; } = null!;
-    public string? Thumbnails { get; set; }
+    public string? Thumbnail { get; set; }
 
     public DateTime PublishDate { get; set; }
 

@@ -2,6 +2,7 @@
 using Domain.Models;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
+using Domain.Models.Dto.Update;
 using Domain.Models.Entity;
 
 namespace KCSAH.APIServer.Dto
@@ -31,6 +32,17 @@ namespace KCSAH.APIServer.Dto
             CreateMap<PondRequestDTO, Pond>().ReverseMap();
             CreateMap<KoiRequestDTO, Koi>().ReverseMap();
             CreateMap<KoiRequestDTO, KoiDTO>().ReverseMap();
+            //News
+            CreateMap<News, NewsDTO>()
+                .ForMember(dest => dest.NewsImage, opt => opt.MapFrom(src => src.NewsImages));
+            CreateMap<NewsRequestDTO, News>()
+            .ForMember(dest => dest.NewsImages, opt => opt.MapFrom(src => src.NewsImage));
+            CreateMap<NewsDTO, NewsRequestDTO>().ReverseMap();
+            CreateMap<NewsImage, NewsImageDTO>().ReverseMap();
+            CreateMap<NewsImageRequestDTO, NewsImage>().ReverseMap();
+            CreateMap<NewsImageRequestDTO, NewsImageDTO>().ReverseMap();
+
+            CreateMap<NewsUpdateDTO, News>().ReverseMap();
             //Blog
             //CreateMap<BlogDTO,Blog>().ReverseMap();
             //CreateMap<BlogRequestDTO,Blog>().ReverseMap();
@@ -43,9 +55,7 @@ namespace KCSAH.APIServer.Dto
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.BlogImages))
                 .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.BlogComments));
 
-            CreateMap<BlogRequestDTO, Blog>()
-                .ForMember(dest => dest.BlogImages, opt => opt.MapFrom(src => src.Images))
-                .ForMember(dest => dest.BlogComments, opt => opt.MapFrom(src => src.Comments));
+            CreateMap<BlogRequestDTO, Blog>().ReverseMap();
             //BlogImage
             CreateMap<BlogImageDTO, BlogImage>().ReverseMap();
             CreateMap<BlogImageDTO, BlogImageRequestDTO>().ReverseMap();
@@ -55,8 +65,6 @@ namespace KCSAH.APIServer.Dto
             CreateMap<BlogCommentDTO, BlogComment>().ReverseMap();
             CreateMap<BlogCommentDTO, BlogCommentRequestDTO>().ReverseMap();
             CreateMap<BlogCommentRequestDTO, BlogComment>().ReverseMap();
-
-
 
         }
     }
