@@ -18,9 +18,9 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await _context.Categories.ToListAsync();
         }
 
-        public async Task<Category> GetByIdAsync(string id)
+        public async Task<Category> GetByIdAsync(int id)
         {
-            var result = await _context.Categories.FirstOrDefaultAsync(p => p.CategoryId.Equals(id));
+            var result = await _context.Categories.FirstOrDefaultAsync(p => p.CategoryId == id);
 
             return result;
         }

@@ -2,6 +2,7 @@
 using Domain.Models;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
+using Domain.Models.Dto.Update;
 using Domain.Models.Entity;
 
 namespace KCSAH.APIServer.Dto
@@ -31,6 +32,18 @@ namespace KCSAH.APIServer.Dto
             CreateMap<PondRequestDTO, Pond>().ReverseMap();
             CreateMap<KoiRequestDTO, Koi>().ReverseMap();
             CreateMap<KoiRequestDTO, KoiDTO>().ReverseMap();
+            //News
+            CreateMap<News, NewsDTO>()
+                .ForMember(dest => dest.NewsImage, opt => opt.MapFrom(src => src.NewsImages));
+            CreateMap<NewsRequestDTO, News>()
+            .ForMember(dest => dest.NewsImages, opt => opt.MapFrom(src => src.NewsImage));
+            CreateMap<NewsDTO, NewsRequestDTO>().ReverseMap();
+            CreateMap<NewsImage, NewsImageDTO>().ReverseMap();
+            CreateMap<NewsImageRequestDTO, NewsImage>().ReverseMap();
+            CreateMap<NewsImageRequestDTO, NewsImageDTO>().ReverseMap();
+
+            CreateMap<NewsUpateDTO, News>().ReverseMap();
+
         }
     }
 }
