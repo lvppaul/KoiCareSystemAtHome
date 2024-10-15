@@ -44,6 +44,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("{id}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<PondDTO> GetById(string id)
         {
             var pond =  _unitOfWork.PondRepository.GetById(id);

@@ -1,4 +1,5 @@
-import React, { useState, useNavigate } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import "./Signup.css";
 import { FcGoogle } from "react-icons/fc";
@@ -30,9 +31,12 @@ function Signup() {
                     setConfirmPassword('');
                     setFirstName('');
                     setLastName('');
-                    setSignupError(response);
+                    navigate('/login'); // Redirect to login page after successful signup
                 }
             })
+            .catch((error) => {
+                setSignupError(error.message);
+            });
     };
 
     return (

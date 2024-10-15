@@ -43,6 +43,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("{id}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<ProductRequestDTO> GetById(int id)
         {
             var product =  _unitOfWork.ProductRepository.GetById(id);

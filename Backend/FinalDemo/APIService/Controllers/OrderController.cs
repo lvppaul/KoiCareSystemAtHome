@@ -30,6 +30,7 @@ namespace KCSAH.APIServer.Controllers
             return Ok(result);
         }
         [HttpGet("{id}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<OrderDTO> ReturnOrderById(int id)
         {
             var order = _unitOfWork.OrderRepository.GetById(id);

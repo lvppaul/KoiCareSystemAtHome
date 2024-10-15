@@ -9,6 +9,7 @@ import { storage } from '../../Config/firebase';
 const AddNewBlog = ({ onAddBlog }) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
     const quillRef = useRef(null); // Create a ref using useRef
 
     const handleSubmit = async (e) => {
@@ -16,6 +17,7 @@ const AddNewBlog = ({ onAddBlog }) => {
         const newBlog = {
             title,
             content,
+            imageUrl,
             publishDate: new Date().toISOString().split('T')[0], // Assuming publishDate is in YYYY-MM-DD format
             userId: 'currentUserId', // Replace with actual user ID
         };
@@ -40,7 +42,7 @@ const AddNewBlog = ({ onAddBlog }) => {
             try {
                 await uploadBytes(storageRef, file);
                 const imageUrl = await getDownloadURL(storageRef);
-
+                setImageUrl(imageUrl);
                 const quill = quillRef.current.getEditor();
                 const range = quill.getSelection();
                 quill.insertEmbed(range.index, 'image', imageUrl);

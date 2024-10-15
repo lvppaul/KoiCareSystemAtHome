@@ -43,6 +43,30 @@ namespace KCSAH.APIServer.Dto
             CreateMap<NewsImageRequestDTO, NewsImageDTO>().ReverseMap();
 
             CreateMap<NewsUpateDTO, News>().ReverseMap();
+            //Blog
+            //CreateMap<BlogDTO,Blog>().ReverseMap();
+            //CreateMap<BlogRequestDTO,Blog>().ReverseMap();
+            //CreateMap<BlogRequestDTO,BlogDTO>().ReverseMap();
+            CreateMap<BlogDTO, Blog>()
+    .ForMember(dest => dest.BlogImages, opt => opt.MapFrom(src => src.Images))
+    .ForMember(dest => dest.BlogComments, opt => opt.MapFrom(src => src.Comments));
+
+            CreateMap<Blog, BlogDTO>()
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.BlogImages))
+                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.BlogComments));
+
+            CreateMap<BlogRequestDTO, Blog>()
+                .ForMember(dest => dest.BlogImages, opt => opt.MapFrom(src => src.Images))
+                .ForMember(dest => dest.BlogComments, opt => opt.MapFrom(src => src.Comments));
+            //BlogImage
+            CreateMap<BlogImageDTO, BlogImage>().ReverseMap();
+            CreateMap<BlogImageDTO, BlogImageRequestDTO>().ReverseMap();
+            CreateMap<BlogImageRequestDTO, BlogImage>().ReverseMap();
+
+            //BlogComment
+            CreateMap<BlogCommentDTO, BlogComment>().ReverseMap();
+            CreateMap<BlogCommentDTO, BlogCommentRequestDTO>().ReverseMap();
+            CreateMap<BlogCommentRequestDTO, BlogComment>().ReverseMap();
 
         }
     }
