@@ -1,10 +1,12 @@
 ﻿using Domain.Authentication;
 using Domain.Base;
 using Domain.Helper;
+using Domain.Models;
 using Domain.Models.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -149,6 +151,139 @@ namespace Domain.Repositories
             }
             return result;
 
+        }
+
+        public async Task<string> ChangePasswordAsync(string userId,ChangePasswordModel model)
+        {
+            string mes = "Change Successfully";
+            var user  = await _userManager.FindByIdAsync(userId);
+            if(user == null)
+            {
+                return mes = "Your Account does not exist";
+            }
+            var result = await _userManager.ChangePasswordAsync(user,model.CurrentPassword,model.NewPassword);
+           
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    mes = error.Description;
+                }
+            }
+            return mes;
+          
+        }
+
+        public async Task<string> UpdateAccountDetailAsync(string userId, AccountDetailModel model)
+        {
+            string mes = "Successfully";
+            var user = await _userManager.FindByIdAsync(userId);
+            if(user == null)
+            {
+               return  mes = "Your Account does not exist";
+            }
+           
+            user.Sex = model.Sex;
+            user.Street = model.Street;
+            user.District = model.District;
+            user.City = model.City;
+            user.Country = model.Country;
+            user.PhoneNumber = model.PhoneNumber;
+            var result = await _userManager.UpdateAsync(user);
+           
+            if (!result.Succeeded)
+            {
+
+                foreach (var error in result.Errors)
+                {
+                    return mes = error.Description;
+                }
+            }
+            return mes;
+           
+        }
+
+        public async Task<string> ChangeRoleToVipAsync(string userId)
+        {
+            string mes = "Successfully";
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) {
+                return mes = "Your Account does not exist";
+            }
+            var removeResult = await _userManager.RemoveFromRoleAsync(user, AppRole.Member);
+            if (!removeResult.Succeeded)
+            {
+                foreach(var error in removeResult.Errors)
+                {
+                    return mes = error.Description;
+                }
+            }
+            if (!await _roleManager.RoleExistsAsync(AppRole.Vip))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(AppRole.Vip));
+            }
+            var addResult = await _userManager.AddToRoleAsync(user, AppRole.Vip);
+            if (!addResult.Succeeded) {
+                foreach (var error in addResult.Errors)
+                {
+                    return mes = error.Description;
+                }
+            }
+            return mes;
+        }
+
+        public async Task<string> LockoutEnabled(string userId)
+        {
+            string mes = "This a ccount is locked already";
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return mes = "Your Account does not exist";
+            }
+            var check = await CheckLockoutEnabledAsync(user);
+            if (check)
+            {
+                var result = await _userManager.SetLockoutEnabledAsync(user, true);
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        return mes = error.Description;
+                    }
+                }
+                return mes = "Locked";
+            }
+            return mes;
+        }
+
+        public async Task<string> LockoutDisabled(string userId)
+        {
+            string mes = "This account is not locked yet";
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return mes = "Your Account does not exist";
+            }
+            var check = await CheckLockoutEnabledAsync(user);
+            if (check)
+            {
+                var result = await _userManager.SetLockoutEnabledAsync(user, false);
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        return mes = error.Description;
+                    }
+                }
+                return mes = "UnLocked";
+            }
+            return mes;
+        }
+
+        public async Task<bool> CheckLockoutEnabledAsync(ApplicationUser user)
+        {
+            var result = await _userManager.GetLockoutEnabledAsync(user);
+            return result;
         }
     }
 }
