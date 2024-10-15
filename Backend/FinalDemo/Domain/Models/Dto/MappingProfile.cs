@@ -14,7 +14,7 @@ namespace KCSAH.APIServer.Dto
             CreateMap<CategoryDTO, Category>().ReverseMap();
             CreateMap<Shop, ShopDTO>().ReverseMap();
             CreateMap<PondDTO, Pond>().ReverseMap();
-            CreateMap<Koi, KoiDTO>().ReverseMap();
+            
             CreateMap<ProductRequestDTO, Product>().ReverseMap();
             CreateMap<Order, OrderDTO>().ReverseMap();
             CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
@@ -30,8 +30,33 @@ namespace KCSAH.APIServer.Dto
             CreateMap<CategoryRequestDTO, Category>().ReverseMap();
             CreateMap<PondRequestDTO, PondDTO>().ReverseMap();
             CreateMap<PondRequestDTO, Pond>().ReverseMap();
+            //Koi
             CreateMap<KoiRequestDTO, Koi>().ReverseMap();
             CreateMap<KoiRequestDTO, KoiDTO>().ReverseMap();
+         //   CreateMap<Koi, KoiDTO>().ReverseMap();
+            CreateMap<KoiDTO, Koi>()
+    .ForMember(dest => dest.KoiImages, opt => opt.MapFrom(src => src.Images))
+    .ForMember(dest => dest.KoiReminds, opt => opt.MapFrom(src => src.Reminds))
+    .ForMember(dest => dest.KoiRecords, opt => opt.MapFrom(src => src.Records))
+    ;
+
+            CreateMap<Koi, KoiDTO>()
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.KoiImages))
+                .ForMember(dest => dest.Reminds, opt => opt.MapFrom(src => src.KoiReminds))
+                .ForMember(dest => dest.Records, opt => opt.MapFrom(src => src.KoiRecords))
+                ;
+
+            //KoiImage
+            CreateMap<KoiImageDTO, KoiImage>().ReverseMap();
+            CreateMap<KoiImageDTO, KoiImageRequestDTO>().ReverseMap();
+            CreateMap<KoiImageRequestDTO, KoiImage>().ReverseMap();
+            CreateMap<KoiImageUpdateDTO, KoiImage>().ReverseMap();
+
+            //KoiRemind
+
+            //KoiRecord
+
+
             //News
             CreateMap<News, NewsDTO>()
                 .ForMember(dest => dest.NewsImage, opt => opt.MapFrom(src => src.NewsImages));

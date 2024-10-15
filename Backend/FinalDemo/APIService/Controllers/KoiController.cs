@@ -25,14 +25,12 @@ namespace KCSAH.APIServer.Controllers
         public async Task<ActionResult<IEnumerable<KoiDTO>>> GetAllAsync()
         {
             var kois = await _unitOfWork.KoiRepository.GetAllAsync();
-            var result = _mapper.Map<IEnumerable<KoiDTO>>(kois);
-            if (result == null)
-                return NotFound();
-            return Ok(result);
+            var koiDTOs = _mapper.Map<List<KoiDTO>>(kois);
+            return Ok(koiDTOs);
         }
 
         [HttpGet("async/{id}")]
-        public async Task<ActionResult<KoiDTO>> GetByIdAsync(string id)
+        public async Task<ActionResult<KoiDTO>> GetByIdAsync(int id)
         {
             var koi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
             if (koi == null)
@@ -45,7 +43,7 @@ namespace KCSAH.APIServer.Controllers
 
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public ActionResult<KoiDTO> GetById(string id)
+        public ActionResult<KoiDTO> GetById(int id)
         {
             var koi =  _unitOfWork.KoiRepository.GetById(id);
             if (koi == null)
@@ -102,7 +100,7 @@ namespace KCSAH.APIServer.Controllers
 
             if (updateResult <= 0)
             {
-                ModelState.AddModelError("", "Something went wrong while updating category");
+                ModelState.AddModelError("", "Something went wrong while updating koi");
                 return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
             }
 
@@ -110,7 +108,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteKoi(string id)
+        public async Task<IActionResult> DeleteKoi(int id)
         {
             var koi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
             if (koi == null)
@@ -121,7 +119,7 @@ namespace KCSAH.APIServer.Controllers
 
             return NoContent();
         }
-        private bool KoiExists(string id)
+        private bool KoiExists(int id)
         {
             return _unitOfWork.KoiRepository.GetByIdAsync(id) != null;
         }

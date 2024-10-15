@@ -22,6 +22,9 @@ namespace SWP391.KCSAH.Repository
         private BlogRepository _blogRepository;
         private BlogImageRepository _blogImageRepository;
         private BlogCommentRepository _blogCommentRepository;
+        private KoiImageRepository _koiImageRepository;
+        private KoiRemindRepository _koiRemindRepository;
+        private KoiRecordRepository _koiRecordRepository;
 
         public UnitOfWork() => _context ??= new KoiCareSystemAtHomeContext();
 
@@ -86,6 +89,21 @@ namespace SWP391.KCSAH.Repository
         public BlogCommentRepository BlogCommentRepository
         {
             get { return _blogCommentRepository ??= new BlogCommentRepository(_context); }
+        }
+
+        public KoiImageRepository KoiImageRepository
+        {
+            get { return _koiImageRepository ??= new KoiImageRepository(_context); }
+        }
+
+        public KoiRemindRepository KoiRemindRepository
+        {
+            get { return _koiRemindRepository ??= new KoiRemindRepository(_context); }
+        }
+
+        public KoiRecordRepository KoiRecordRepository
+        {
+            get { return _koiRecordRepository ??= new KoiRecordRepository(_context); }
         }
     }
 }

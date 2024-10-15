@@ -16,12 +16,12 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Koi>> GetAllAsync()
         {
-            return await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).ToListAsync();
+            return await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).ToListAsync();
         }
 
         public async Task<Koi> GetByIdAsync(int id)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).FirstAsync(p => p.KoiId.Equals(id));
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).FirstAsync(p => p.KoiId.Equals(id));
 
             return result;
         }
