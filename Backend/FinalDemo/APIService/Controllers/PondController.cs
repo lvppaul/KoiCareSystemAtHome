@@ -32,7 +32,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("async/{id}")]
-        public async Task<ActionResult<PondDTO>> GetByIdAsync(string id)
+        public async Task<ActionResult<PondDTO>> GetByIdAsync(int id)
         {
             var pond = await _unitOfWork.PondRepository.GetByIdAsync(id);
             if (pond == null)
@@ -45,7 +45,7 @@ namespace KCSAH.APIServer.Controllers
 
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public ActionResult<PondDTO> GetById(string id)
+        public ActionResult<PondDTO> GetById(int id)
         {
             var pond =  _unitOfWork.PondRepository.GetById(id);
             if (pond == null)
@@ -102,7 +102,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePond(int id, [FromBody] PondDTO ponddto)
+        public async Task<IActionResult> UpdatePond(int id, [FromBody] PondRequestDTO ponddto)
         {
             if (ponddto == null)
             {

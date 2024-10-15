@@ -29,7 +29,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("async/{id}")]
-        public async Task<ActionResult<ProductDTO>> GetByIdAsync(string id)
+        public async Task<ActionResult<ProductDTO>> GetByIdAsync(int id)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
             if (product == null)

@@ -28,6 +28,9 @@ namespace KCSAH.APIServer.Dto
             CreateMap<OrderDetailRequestDTO, OrderDetailDTO>().ReverseMap();
             CreateMap<CategoryRequestDTO, CategoryDTO>().ReverseMap();
             CreateMap<CategoryRequestDTO, Category>().ReverseMap();
+            //Pond
+            CreateMap<PondUpdateDTO, Pond>().ReverseMap();
+            CreateMap<PondUpdateDTO, PondDTO>().ReverseMap();
             CreateMap<PondRequestDTO, PondDTO>().ReverseMap();
             CreateMap<PondRequestDTO, Pond>().ReverseMap();
             CreateMap<KoiRequestDTO, Koi>().ReverseMap();
@@ -35,9 +38,10 @@ namespace KCSAH.APIServer.Dto
             //News
             CreateMap<News, NewsDTO>()
                 .ForMember(dest => dest.NewsImage, opt => opt.MapFrom(src => src.NewsImages));
-            CreateMap<NewsRequestDTO, News>()
-            .ForMember(dest => dest.NewsImages, opt => opt.MapFrom(src => src.NewsImage));
+            CreateMap<NewsRequestDTO, News>().ReverseMap();
             CreateMap<NewsDTO, NewsRequestDTO>().ReverseMap();
+
+            //NewsImage
             CreateMap<NewsImage, NewsImageDTO>().ReverseMap();
             CreateMap<NewsImageRequestDTO, NewsImage>().ReverseMap();
             CreateMap<NewsImageRequestDTO, NewsImageDTO>().ReverseMap();

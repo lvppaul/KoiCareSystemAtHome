@@ -31,7 +31,7 @@ namespace KCSAH.APIServer.Controllers
 
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public  ActionResult<CategoryDTO> GetById(string id)
+        public  ActionResult<CategoryDTO> GetById(int id)
         {
             var category =  _unitOfWork.CategoryRepository.GetById(id);
             if (category == null)
@@ -43,7 +43,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("async/{id}")]
-        public async Task<ActionResult<CategoryDTO>> GetByIdAsync(string id)
+        public async Task<ActionResult<CategoryDTO>> GetByIdAsync(int id)
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (category == null)
