@@ -95,7 +95,7 @@ namespace APIService.Controllers
             return news;
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNews(int id, [FromBody] NewsUpateDTO newsdto)
+        public async Task<IActionResult> UpdateNews(int id, [FromBody] NewsUpdateDTO newsdto)
         {
             if (newsdto == null)
             {

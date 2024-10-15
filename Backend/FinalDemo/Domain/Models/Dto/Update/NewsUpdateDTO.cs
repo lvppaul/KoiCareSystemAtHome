@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Dto.Update
 {
-    public class NewsUpateDTO
+    public class NewsUpdateDTO
     {
         public string Title { get; set; } = null!;
 

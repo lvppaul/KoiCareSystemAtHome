@@ -42,7 +42,7 @@ namespace KCSAH.APIServer.Dto
             CreateMap<NewsImageRequestDTO, NewsImage>().ReverseMap();
             CreateMap<NewsImageRequestDTO, NewsImageDTO>().ReverseMap();
 
-            CreateMap<NewsUpateDTO, News>().ReverseMap();
+            CreateMap<NewsUpdateDTO, News>().ReverseMap();
             //Blog
             //CreateMap<BlogDTO,Blog>().ReverseMap();
             //CreateMap<BlogRequestDTO,Blog>().ReverseMap();
