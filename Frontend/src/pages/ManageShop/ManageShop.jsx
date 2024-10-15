@@ -7,27 +7,33 @@ import UpdateShopProducts from '../../components/UpdateShopProducts/UpdateShopPr
 import AddNewProduct from '../../components/AddNewProduct/AddNewProduct';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
+import { useAuth } from '../Login/AuthProvider';
 
 const ManageShop = () => {
+    const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
     const [shop, setShop] = useState(null);
     const [showShopModal, setShowShopModal] = useState(false);
     const [showProductModal, setShowProductModal] = useState(false);
     const [showAddProductModal, setShowAddProductModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const userId = 'U001'; // Replace with actual user ID
+    const { user } = useAuth();
+    const userId = user.userId;
+    console.log(userId);
 
     const fetchShopDetails = useCallback(async () => {
         try {
             const shopData = await getShopByUserId(userId);
-            if (shopData.picture) {
-                const storageRef = ref(storage, shopData.picture);
-                shopData.picture = await getDownloadURL(storageRef);
+            if (shopData.thumbnail) {
+                const storageRef = ref(storage, shopData.thumbnail);
+                shopData.thumbnail = await getDownloadURL(storageRef);
             }
             setShop(shopData);
             fetchProducts(shopData.userId);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching shop details:', error);
+            setLoading(false);
         }
     }, [userId]);
 
@@ -54,17 +60,17 @@ const ManageShop = () => {
     };
 
     const handleAddProduct = (newProduct) => {
-        setProducts([...products, { ...newProduct, productId: `P${products.length + 1}`, userId }]);
+        setProducts([...products, { ...newProduct, userId }]);
     };
 
-    if (!shop) {
+    if (loading) {
         return <div>Loading...</div>;
     }
 
     return (
         <Container>
             <Card>
-                <Card.Img variant="top" src={shop.picture} alt="Shop Image" />
+                <Card.Img variant="top" src={shop.thumbnail} alt="Shop Image" />
                 <Card.Body>
                     <Card.Title>{shop.shopName}</Card.Title>
                     <Card.Text>
