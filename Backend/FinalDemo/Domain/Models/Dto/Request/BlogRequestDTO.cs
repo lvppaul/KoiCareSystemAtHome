@@ -17,7 +17,5 @@ namespace Domain.Models.Dto.Request
         public DateTime PublishDate { get; set; } = DateTime.Now;
         public string Title { get; set; } = null!;
 
-        public List<BlogImageRequestDTO> Images { get; set; }
-        public List<BlogCommentRequestDTO> Comments { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace Domain.Models.Dto.Response
 
         public string Title { get; set; } = null!;
 
-        public List<BlogImageDTO> Images { get; set; }
-        public List<BlogCommentDTO> Comments { get; set; }
+        public List<BlogImageDTO>? Images { get; set; }
+        public List<BlogCommentDTO>? Comments { get; set; }
     }
 }

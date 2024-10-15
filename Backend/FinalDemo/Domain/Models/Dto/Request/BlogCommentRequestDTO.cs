@@ -9,7 +9,7 @@ namespace Domain.Models.Dto.Request
 {
     public class BlogCommentRequestDTO
     {
-    //    public int BlogId { get; set; }
+        public int BlogId { get; set; }
         public string UserId { get; set; } = null!;
 
         public string Content { get; set; } = null!;

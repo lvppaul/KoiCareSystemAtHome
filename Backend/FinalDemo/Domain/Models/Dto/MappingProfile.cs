@@ -43,9 +43,7 @@ namespace KCSAH.APIServer.Dto
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.BlogImages))
                 .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.BlogComments));
 
-            CreateMap<BlogRequestDTO, Blog>()
-                .ForMember(dest => dest.BlogImages, opt => opt.MapFrom(src => src.Images))
-                .ForMember(dest => dest.BlogComments, opt => opt.MapFrom(src => src.Comments));
+            CreateMap<BlogRequestDTO, Blog>().ReverseMap();
             //BlogImage
             CreateMap<BlogImageDTO, BlogImage>().ReverseMap();
             CreateMap<BlogImageDTO, BlogImageRequestDTO>().ReverseMap();
