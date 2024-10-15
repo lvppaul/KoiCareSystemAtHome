@@ -25,5 +25,12 @@
         public bool Status { get; set; }
 
         public string? Thumbnail { get; set; }
+
+        public List<KoiImageDTO>? Images { get; set; } = new List<KoiImageDTO>();
+
+        public List<KoiRemindDTO>? Reminds { get; set; }
+
+        public List<KoiRecordDTO>? Records { get; set; }
+
     }
 }

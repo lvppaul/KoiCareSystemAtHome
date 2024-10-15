@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
+using Domain.Models.Dto.Update;
 using Domain.Models.Entity;
 using KCSAH.APIServer.Dto;
 using Microsoft.AspNetCore.Http;
@@ -89,7 +90,7 @@ namespace APIService.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBlog(int id, [FromBody] BlogRequestDTO blogdto)
+        public async Task<IActionResult> UpdateBlog(int id, [FromBody] BlogUpdateDTO blogdto)
         {
             if (blogdto == null)
             {

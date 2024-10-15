@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import "./Signup.css";

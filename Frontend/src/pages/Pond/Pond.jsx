@@ -33,7 +33,9 @@ const Pond = () => {
     featchPondByUserId();
     }, [userId]);
     
-    
+    const handlePondAdded = (newPond) => {
+        setPonds((prevPonds) => [...prevPonds, newPond]);
+    };
 
     return (
         <>
@@ -41,7 +43,8 @@ const Pond = () => {
                 <h1>Pond List</h1>
                 <AddNewPond
                     show={showModalAddPond}
-                    setShow={setShowModalAddPond} />
+                    setShow={setShowModalAddPond} 
+                    onPondAdded={handlePondAdded}/>
                 <Container>
                         
                     <Row>

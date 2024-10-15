@@ -11,54 +11,54 @@ namespace APIService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogImageController : ControllerBase
+    public class KoiImageController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public BlogImageController(UnitOfWork unitOfWork, IMapper mapper)
+        public KoiImageController(UnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BlogImageDTO>>> GetAllSync()
+        public async Task<ActionResult<IEnumerable<KoiImageDTO>>> GetAllSync()
         {
-            var blogImages = await _unitOfWork.BlogImageRepository.GetAllAsync();
-            var blogImageDTOs = _mapper.Map<List<BlogImageDTO>>(blogImages);
-            return Ok(blogImageDTOs);
+            var koiImages = await _unitOfWork.KoiImageRepository.GetAllAsync();
+            var koiImageDTOs = _mapper.Map<List<KoiImageDTO>>(koiImages);
+            return Ok(koiImageDTOs);
         }
 
         [HttpGet("async/{id}")]
-        public async Task<ActionResult<BlogImageDTO>> GetByIdAsync(int id)
+        public async Task<ActionResult<KoiImageDTO>> GetByIdAsync(int id)
         {
-            var blogImage = await _unitOfWork.BlogImageRepository.GetByIdAsync(id);
-            if (blogImage == null)
+            var koiImage = await _unitOfWork.KoiImageRepository.GetByIdAsync(id);
+            if (koiImage == null)
             {
                 return NotFound();
             }
-            var result = _mapper.Map<BlogImageDTO>(blogImage);
+            var result = _mapper.Map<KoiImageDTO>(koiImage);
             return result;
         }
 
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public ActionResult<BlogImageDTO> GetById(int id)
+        public ActionResult<KoiImageDTO> GetById(int id)
         {
-            var blogImage = _unitOfWork.BlogImageRepository.GetById(id);
-            if (blogImage == null)
+            var koiImage = _unitOfWork.KoiImageRepository.GetById(id);
+            if (koiImage == null)
             {
                 return NotFound();
             }
-            var result = _mapper.Map<BlogImageDTO>(blogImage);
+            var result = _mapper.Map<KoiImageDTO>(koiImage);
             return result;
         }
 
         [HttpPost]
-        public async Task<ActionResult<BlogImageDTO>> CreateBlogImage([FromBody] BlogImageRequestDTO blogImagedto)
+        public async Task<ActionResult<KoiImageDTO>> CreateKoiImage([FromBody] KoiImageRequestDTO koiImagedto)
         {
-            if (blogImagedto == null)
+            if (koiImagedto == null)
             {
                 return BadRequest(ModelState);
             }
@@ -67,42 +67,42 @@ namespace APIService.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var blogImageMap = _mapper.Map<BlogImage>(blogImagedto);
-            var createResult = await _unitOfWork.BlogImageRepository.CreateAsync(blogImageMap);
+            var koiImageMap = _mapper.Map<KoiImage>(koiImagedto);
+            var createResult = await _unitOfWork.KoiImageRepository.CreateAsync(koiImageMap);
             if (createResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
             }
             // Cập nhật lại giá trị ShopId cho shopdto từ shopMap
-            var blogImageReturn = _mapper.Map<BlogImageDTO>(blogImageMap);
-            return CreatedAtAction("GetById", new { id = blogImageReturn.ImageId }, blogImageReturn);
+            var koiImageReturn = _mapper.Map<KoiImageDTO>(koiImageMap);
+            return CreatedAtAction("GetById", new { id = koiImageReturn.ImageId }, koiImageReturn);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBlogImage(int id, [FromBody] BlogImageUpdateDTO blogImagedto)
+        public async Task<IActionResult> UpdateKoiImage(int id, [FromBody] KoiImageUpdateDTO koiImagedto)
         {
-            if (blogImagedto == null)
+            if (koiImagedto == null)
             {
                 return BadRequest();
             }
 
             // Lấy thực thể category hiện tại từ cơ sở dữ liệu
-            var existingBlogImage = await _unitOfWork.BlogImageRepository.GetByIdAsync(id);
-            if (existingBlogImage == null)
+            var existingKoiImage = await _unitOfWork.KoiImageRepository.GetByIdAsync(id);
+            if (existingKoiImage == null)
             {
                 return NotFound(); // Trả về 404 nếu không tìm thấy category
             }
 
             // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
-            _mapper.Map(blogImagedto, existingBlogImage);
+            _mapper.Map(koiImagedto, existingKoiImage);
 
             // Cập nhật vào cơ sở dữ liệu
-            var updateResult = await _unitOfWork.BlogImageRepository.UpdateAsync(existingBlogImage);
+            var updateResult = await _unitOfWork.KoiImageRepository.UpdateAsync(existingKoiImage);
 
             if (updateResult <= 0)
             {
-                ModelState.AddModelError("", "Something went wrong while updating blogImage");
+                ModelState.AddModelError("", "Something went wrong while updating koiImage");
                 return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
             }
 
@@ -111,22 +111,23 @@ namespace APIService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBlogImage(int id)
+        public async Task<IActionResult> DeleteKoiImage(int id)
         {
-            var blogImage = await _unitOfWork.BlogImageRepository.GetByIdAsync(id);
+            var koiImage = await _unitOfWork.KoiImageRepository.GetByIdAsync(id);
 
-            if (blogImage == null)
+            if (koiImage == null)
             {
                 return NotFound();
             }
 
-            await _unitOfWork.BlogImageRepository.RemoveAsync(blogImage);
+            await _unitOfWork.KoiImageRepository.RemoveAsync(koiImage);
 
             return NoContent();
         }
-        private bool BlogImageExists(int id)
+        private bool KoiImageExists(int id)
         {
-            return _unitOfWork.BlogImageRepository.GetByIdAsync(id) == null;
+            return _unitOfWork.KoiImageRepository.GetByIdAsync(id) == null;
         }
     }
 }
+

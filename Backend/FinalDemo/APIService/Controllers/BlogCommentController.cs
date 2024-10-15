@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
+using Domain.Models.Dto.Update;
 using Domain.Models.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace APIService.Controllers
         public async Task<ActionResult<IEnumerable<BlogCommentDTO>>> GetAllSync()
         {
             var blogComments = await _unitOfWork.BlogCommentRepository.GetAllAsync();
-            var blogCommentDTOs = _mapper.Map<List<BlogImageDTO>>(blogComments);
+            var blogCommentDTOs = _mapper.Map<List<BlogCommentDTO>>(blogComments);
             return Ok(blogCommentDTOs);
         }
 
@@ -55,7 +56,7 @@ namespace APIService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Blog>> CreateBlogComment([FromBody] BlogCommentRequestDTO blogCommentdto)
+        public async Task<ActionResult<BlogCommentDTO>> CreateBlogComment([FromBody] BlogCommentRequestDTO blogCommentdto)
         {
             if (blogCommentdto == null)
             {
@@ -79,7 +80,7 @@ namespace APIService.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBlogComment(int id, [FromBody] BlogCommentRequestDTO blogCommentdto)
+        public async Task<IActionResult> UpdateBlogComment(int id, [FromBody] BlogCommentUpdateDTO blogCommentdto)
         {
             if (blogCommentdto == null)
             {

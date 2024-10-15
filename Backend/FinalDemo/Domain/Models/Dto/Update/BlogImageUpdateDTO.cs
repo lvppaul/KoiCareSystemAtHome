@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.Dto.Request
+namespace Domain.Models.Dto.Update
 {
-    public class BlogImageRequestDTO
+    public class BlogImageUpdateDTO
     {
         public string ImageUrl { get; set; } = null!;
-
-        public int BlogId { get; set; }
     }
 }
