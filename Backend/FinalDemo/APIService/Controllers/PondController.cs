@@ -6,6 +6,7 @@ using KCSAH.APIServer.Services;
 using Domain.Models.Entity;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Request;
+using Domain.Models.Dto.Update;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -102,14 +103,13 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePond(int id, [FromBody] PondRequestDTO ponddto)
+        public async Task<IActionResult> UpdatePond(int id, [FromBody] PondUpdateDTO ponddto)
         {
             if (ponddto == null)
             {
                 return BadRequest();
             }
 
-            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
             var existingPond = await _unitOfWork.PondRepository.GetByIdAsync(id);
             if (existingPond == null)
             {

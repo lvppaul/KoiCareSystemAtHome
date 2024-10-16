@@ -8,7 +8,6 @@ namespace Domain.Models.Dto.Update
 {
     public class PondUpdateDTO
     {
-        public string UserId { get; set; }
 
         public string Name { get; set; }
 
