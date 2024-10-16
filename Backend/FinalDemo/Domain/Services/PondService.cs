@@ -1,4 +1,5 @@
-﻿using Domain.Models.Entity;
+﻿using Domain.Models;
+using Domain.Models.Entity;
 using KCSAH.APIServer.Dto;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository;
@@ -29,6 +30,19 @@ namespace KCSAH.APIServer.Services
         public async Task<List<Pond>> GetPondByUserIdAsync(string id)
         {
             return await _context.Ponds.Where(p => p.UserId.Equals(id)).ToListAsync();
+        }
+
+        public async Task<List<Koi>> GetKoiInPond(int id)
+        {
+            return await _context.Kois.Include(k => k.KoiImages)
+                .Include(k => k.KoiReminds)
+                .Include(k => k.KoiRecords)
+                .Where(k => k.PondId.Equals(id)).ToListAsync();
+        }
+
+        public async Task<List<WaterParameter>> GetPondWaterParameter(int id)
+        {
+            return await _context.WaterParameters.Where(w => w.PondId == id).ToListAsync();
         }
     }
 }

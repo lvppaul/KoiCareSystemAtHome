@@ -24,14 +24,6 @@ namespace KCSAH.APIServer.Controllers
             _getService = getService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<PondDTO>>> GetAllAsync()
-        {
-            var ponds = await _unitOfWork.PondRepository.GetAllAsync();
-            var pondMap = _mapper.Map<IEnumerable<PondDTO>>(ponds);
-            return Ok(pondMap);
-        }
-
         [HttpGet("async/{id}")]
         public async Task<ActionResult<PondDTO>> GetByIdAsync(int id)
         {
@@ -64,11 +56,27 @@ namespace KCSAH.APIServer.Controllers
             return Ok(result);
         }
 
+        [HttpGet("ListKoiInPond/{id}")]
+        public async Task<IActionResult> GetFishInPond(int id)
+        {
+            var result = await _getService.GetKoiInPond(id);
+            var show = _mapper.Map<List<KoiDTO>>(result);
+            return Ok(show);
+        }
+
         [HttpGet("GetPondsByUserId/{id}")]
         public async Task<IActionResult> GetPondByUserIdAsync(string id)
         {
             var result = await _getService.GetPondByUserIdAsync(id);
             var show = _mapper.Map<List<PondDTO>>(result);
+            return Ok(show);
+        }
+
+        [HttpGet("ListWaterParameter/{id}")]
+        public async Task<IActionResult> WaterParameterListByPondId(int id)
+        {
+            var result = await _getService.GetPondWaterParameter(id);
+            var show = _mapper.Map<List<WaterParameterDTO>>(result);
             return Ok(show);
         }
         [HttpPost]

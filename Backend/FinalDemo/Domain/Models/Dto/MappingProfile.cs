@@ -40,7 +40,7 @@ namespace KCSAH.APIServer.Dto
             //Koi
             CreateMap<KoiRequestDTO, Koi>().ReverseMap();
             CreateMap<KoiRequestDTO, KoiDTO>().ReverseMap();
-         //   CreateMap<Koi, KoiDTO>().ReverseMap();
+            CreateMap<Koi, KoiDTO>().ReverseMap();
             CreateMap<KoiDTO, Koi>()
     .ForMember(dest => dest.KoiImages, opt => opt.MapFrom(src => src.Images))
     .ForMember(dest => dest.KoiReminds, opt => opt.MapFrom(src => src.Reminds))
