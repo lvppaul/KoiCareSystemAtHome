@@ -31,7 +31,7 @@ namespace Domain.Models.Dto.Request
         public int PaymentMethodId { get; set; }
 
         //public double TotalPrice { get; set; }
-
+        [JsonIgnore]
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
         public bool? OrderStatus { get; set; }

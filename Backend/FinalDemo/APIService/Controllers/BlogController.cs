@@ -97,14 +97,12 @@ namespace APIService.Controllers
                 return BadRequest();
             }
 
-            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
             var existingBlog = await _unitOfWork.BlogRepository.GetByIdAsync(id);
             if (existingBlog == null)
             {
                 return NotFound(); // Trả về 404 nếu không tìm thấy category
             }
 
-            // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
             _mapper.Map(blogdto, existingBlog);
 
             // Cập nhật vào cơ sở dữ liệu
@@ -133,10 +131,6 @@ namespace APIService.Controllers
             await _unitOfWork.BlogRepository.RemoveAsync(blog);
 
             return NoContent();
-        }
-        private bool BlogExists(int id)
-        {
-            return _unitOfWork.BlogRepository.GetByIdAsync(id) == null;
         }
     }
 }

@@ -118,7 +118,7 @@ namespace KCSAH.APIServer.Controllers
 
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(string id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(id);
 
@@ -130,10 +130,6 @@ namespace KCSAH.APIServer.Controllers
             await _unitOfWork.CategoryRepository.RemoveAsync(category);
 
             return NoContent();
-        }
-        private bool CategoryExists(string id)
-        {
-            return _unitOfWork.CategoryRepository.GetByIdAsync(id) == null;
         }
     }
 }

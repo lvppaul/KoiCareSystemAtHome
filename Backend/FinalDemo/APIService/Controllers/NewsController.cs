@@ -102,7 +102,6 @@ namespace APIService.Controllers
                 return BadRequest();
             }
 
-            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
             var existingNews = await _unitOfWork.NewRepository.GetByIdAsync(id);
             if (existingNews == null)
             {

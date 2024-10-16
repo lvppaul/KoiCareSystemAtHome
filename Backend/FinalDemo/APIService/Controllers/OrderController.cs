@@ -109,6 +109,14 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
             }
+            var revenue = _mapper.Map<Revenue>(orderMap);
+            revenue.CommissionFee = (total * 10/100);
+            var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
+            if (createResultRevenue <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
             var order = _mapper.Map<OrderDTO>(orderMap);
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
         }

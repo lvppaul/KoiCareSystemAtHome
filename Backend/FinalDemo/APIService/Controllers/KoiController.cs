@@ -85,17 +85,14 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest();
             }
 
-            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
             var existingKoi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
             if (existingKoi == null)
             {
-                return NotFound(); // Trả về 404 nếu không tìm thấy category
+                return NotFound(); 
             }
 
-            // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
             _mapper.Map(koidto, existingKoi);
 
-            // Cập nhật vào cơ sở dữ liệu
             var updateResult = await _unitOfWork.KoiRepository.UpdateAsync(existingKoi);
 
             if (updateResult <= 0)
@@ -118,10 +115,6 @@ namespace KCSAH.APIServer.Controllers
             await _unitOfWork.KoiRepository.RemoveAsync(koi);
 
             return NoContent();
-        }
-        private bool KoiExists(int id)
-        {
-            return _unitOfWork.KoiRepository.GetByIdAsync(id) != null;
         }
     }
 }

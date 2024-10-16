@@ -21,7 +21,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Order>> GetOrderById(int id)
         {
-            var orders = await _context.Orders
+            var orders = await _context.Orders.Include(o => o.OrderDetails)
                 .Where(o => o.ShopId == id)
                 .ToListAsync();
 

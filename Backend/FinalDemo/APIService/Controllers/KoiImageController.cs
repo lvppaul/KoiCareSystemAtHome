@@ -87,14 +87,12 @@ namespace APIService.Controllers
                 return BadRequest();
             }
 
-            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
             var existingKoiImage = await _unitOfWork.KoiImageRepository.GetByIdAsync(id);
             if (existingKoiImage == null)
             {
-                return NotFound(); // Trả về 404 nếu không tìm thấy category
+                return NotFound(); 
             }
 
-            // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
             _mapper.Map(koiImagedto, existingKoiImage);
 
             // Cập nhật vào cơ sở dữ liệu
@@ -123,10 +121,6 @@ namespace APIService.Controllers
             await _unitOfWork.KoiImageRepository.RemoveAsync(koiImage);
 
             return NoContent();
-        }
-        private bool KoiImageExists(int id)
-        {
-            return _unitOfWork.KoiImageRepository.GetByIdAsync(id) == null;
         }
     }
 }

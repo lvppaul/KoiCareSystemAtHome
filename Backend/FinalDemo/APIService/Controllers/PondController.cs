@@ -113,10 +113,9 @@ namespace KCSAH.APIServer.Controllers
             var existingPond = await _unitOfWork.PondRepository.GetByIdAsync(id);
             if (existingPond == null)
             {
-                return NotFound(); // Trả về 404 nếu không tìm thấy category
+                return NotFound();
             }
 
-            // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
             _mapper.Map(ponddto, existingPond);
 
             // Cập nhật vào cơ sở dữ liệu
@@ -124,7 +123,7 @@ namespace KCSAH.APIServer.Controllers
 
             if (updateResult <= 0)
             {
-                ModelState.AddModelError("", "Something went wrong while updating category");
+                ModelState.AddModelError("", "Something went wrong while updating Pond");
                 return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
             }
 
@@ -132,7 +131,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePond(string id)
+        public async Task<IActionResult> DeletePond(int id)
         {
             var pond = await _unitOfWork.PondRepository.GetByIdAsync(id);
             if (pond == null)
@@ -142,10 +141,6 @@ namespace KCSAH.APIServer.Controllers
             await _unitOfWork.PondRepository.RemoveAsync(pond);
 
             return NoContent();
-        }
-        private bool PondExists(string id)
-        {
-            return _unitOfWork.PondRepository.GetByIdAsync(id) != null;
         }
     }
 }

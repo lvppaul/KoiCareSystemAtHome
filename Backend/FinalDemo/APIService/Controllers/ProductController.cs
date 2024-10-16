@@ -145,7 +145,7 @@ namespace KCSAH.APIServer.Controllers
 
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(string id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
             if (product == null)
@@ -155,10 +155,6 @@ namespace KCSAH.APIServer.Controllers
             await _unitOfWork.ProductRepository.RemoveAsync(product);
 
             return NoContent();
-        }
-        private bool ProductExists(string id)
-        {
-            return _unitOfWork.ProductRepository.GetByIdAsync(id) != null;
         }
     }
 }
