@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Models.Dto.Request;
+using Domain.Models.Dto.Response;
 using Domain.Models.Entity;
 using KCSAH.APIServer.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,18 @@ namespace KCSAH.APIServer.Controllers
             }
             var result = _mapper.Map<ShopDTO>(shop);
             return result;
+        }
+
+        [HttpGet("UserId/{id}")]
+        public async Task<IActionResult> GetShopByUserIdAsync(string id)
+        {
+            var result = await _unitOfWork.ShopRepository.GetShopByUID(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<ShopDTO>(result);
+            return Ok(show);
         }
 
         [HttpGet("{id}")]

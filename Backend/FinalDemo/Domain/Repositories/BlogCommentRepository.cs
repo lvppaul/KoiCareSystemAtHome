@@ -24,5 +24,16 @@ namespace Domain.Repositories
 
             return result;
         }
+
+        public async Task<List<BlogComment>> GetBlogCommentsByBID(int id)
+        {
+            var comments = await _context.BlogComments
+                .Where(b => b.BlogId.Equals(id))
+                .ToListAsync();
+
+
+
+            return comments ?? new List<BlogComment>();
+        }
     }
 }

@@ -32,5 +32,12 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
             return orders;
         }
+
+        public async Task<Shop?> GetShopByUID(string id)
+        {
+            var shop = await _context.Shops.Where(u => u.UserId == id).FirstOrDefaultAsync();
+
+            return shop;
+        }
     }
 }
