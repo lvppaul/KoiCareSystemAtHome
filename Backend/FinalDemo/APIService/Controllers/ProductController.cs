@@ -55,6 +55,18 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
+        [HttpGet("UserId/{id}")]
+        public async Task<IActionResult> GetProductByUserIdAsync(string id)
+        {
+            var result = await _unitOfWork.ProductRepository.GetProductsByUID(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<ProductDTO>>(result);
+            return Ok(show);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductRequestDTO productdto)
         {
