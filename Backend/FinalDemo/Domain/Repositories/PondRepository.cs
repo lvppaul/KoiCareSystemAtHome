@@ -13,10 +13,6 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
     {
         public PondRepository(KoiCareSystemAtHomeContext context) => _context = context;
 
-        public async Task<List<Pond>> GetAllAsync()
-        {
-            return await _context.Ponds.Include(p => p.ApplicationUser).ToListAsync();
-        }
 
         public async Task<Pond> GetByIdAsync1(int id)
         {

@@ -24,14 +24,6 @@ namespace KCSAH.APIServer.Controllers
             _getService = getService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<PondDTO>>> GetAllAsync()
-        {
-            var ponds = await _unitOfWork.PondRepository.GetAllAsync();
-            var pondMap = _mapper.Map<IEnumerable<PondDTO>>(ponds);
-            return Ok(pondMap);
-        }
-
         [HttpGet("async/{id}")]
         public async Task<ActionResult<PondDTO>> GetByIdAsync(int id)
         {
@@ -64,11 +56,27 @@ namespace KCSAH.APIServer.Controllers
             return Ok(result);
         }
 
+        [HttpGet("ListKoiInPond/{id}")]
+        public async Task<IActionResult> GetFishInPond(int id)
+        {
+            var result = await _getService.GetKoiInPond(id);
+            var show = _mapper.Map<List<KoiDTO>>(result);
+            return Ok(show);
+        }
+
         [HttpGet("GetPondsByUserId/{id}")]
         public async Task<IActionResult> GetPondByUserIdAsync(string id)
         {
             var result = await _getService.GetPondByUserIdAsync(id);
             var show = _mapper.Map<List<PondDTO>>(result);
+            return Ok(show);
+        }
+
+        [HttpGet("ListWaterParameter/{id}")]
+        public async Task<IActionResult> WaterParameterListByPondId(int id)
+        {
+            var result = await _getService.GetPondWaterParameter(id);
+            var show = _mapper.Map<List<WaterParameterDTO>>(result);
             return Ok(show);
         }
         [HttpPost]
@@ -110,14 +118,12 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest();
             }
 
-            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
             var existingPond = await _unitOfWork.PondRepository.GetByIdAsync(id);
             if (existingPond == null)
             {
-                return NotFound(); // Trả về 404 nếu không tìm thấy category
+                return NotFound();
             }
 
-            // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
             _mapper.Map(ponddto, existingPond);
 
             // Cập nhật vào cơ sở dữ liệu
@@ -125,7 +131,7 @@ namespace KCSAH.APIServer.Controllers
 
             if (updateResult <= 0)
             {
-                ModelState.AddModelError("", "Something went wrong while updating pond");
+                ModelState.AddModelError("", "Something went wrong while updating Pond");
                 return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
             }
 
@@ -133,7 +139,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePond(string id)
+        public async Task<IActionResult> DeletePond(int id)
         {
             var pond = await _unitOfWork.PondRepository.GetByIdAsync(id);
             if (pond == null)
@@ -143,10 +149,6 @@ namespace KCSAH.APIServer.Controllers
             await _unitOfWork.PondRepository.RemoveAsync(pond);
 
             return NoContent();
-        }
-        private bool PondExists(string id)
-        {
-            return _unitOfWork.PondRepository.GetByIdAsync(id) != null;
         }
     }
 }

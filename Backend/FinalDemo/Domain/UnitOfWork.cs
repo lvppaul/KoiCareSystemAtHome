@@ -2,6 +2,7 @@
 using Domain.Models.Entity;
 using Domain.Repositories;
 using SWP391.KCSAH.Repository.KCSAH.Repository;
+using System.Text.RegularExpressions;
 
 namespace SWP391.KCSAH.Repository
 {
@@ -26,7 +27,10 @@ namespace SWP391.KCSAH.Repository
         private KoiImageRepository _koiImageRepository;
         private KoiRemindRepository _koiRemindRepository;
         private KoiRecordRepository _koiRecordRepository;
-
+        private PaymentMethodRepository _paymentMethodRepository;
+        private ProductImageRepository _productImageRepository;
+        private RevenueRepository _revenueRepository;
+        private WaterParameterRepository _waterParameterRepository;
         public UnitOfWork() => _context ??= new KoiCareSystemAtHomeContext();
 
         public KoiRepository KoiRepository
@@ -110,6 +114,26 @@ namespace SWP391.KCSAH.Repository
         public KoiRecordRepository KoiRecordRepository
         {
             get { return _koiRecordRepository ??= new KoiRecordRepository(_context); }
+        }
+
+        public PaymentMethodRepository PaymentMethodRepository
+        {
+            get { return _paymentMethodRepository ??= new PaymentMethodRepository(_context); }
+        }
+
+        public ProductImageRepository ProductImageRepository
+        {
+            get { return _productImageRepository ??= new ProductImageRepository(_context); }
+        }
+
+        public RevenueRepository RevenueRepository
+        {
+            get { return _revenueRepository ??= new RevenueRepository(_context); }
+        }
+
+        public WaterParameterRepository WaterParameterRepository
+        {
+            get { return _waterParameterRepository ??= new WaterParameterRepository(_context); }
         }
     }
 }

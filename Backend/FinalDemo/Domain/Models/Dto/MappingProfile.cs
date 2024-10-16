@@ -40,7 +40,7 @@ namespace KCSAH.APIServer.Dto
             //Koi
             CreateMap<KoiRequestDTO, Koi>().ReverseMap();
             CreateMap<KoiRequestDTO, KoiDTO>().ReverseMap();
-         //   CreateMap<Koi, KoiDTO>().ReverseMap();
+            CreateMap<Koi, KoiDTO>().ReverseMap();
             CreateMap<KoiDTO, Koi>()
     .ForMember(dest => dest.KoiImages, opt => opt.MapFrom(src => src.Images))
     .ForMember(dest => dest.KoiReminds, opt => opt.MapFrom(src => src.Reminds))
@@ -109,7 +109,27 @@ namespace KCSAH.APIServer.Dto
             CreateMap<BlogCommentRequestDTO, BlogComment>().ReverseMap();
             CreateMap<BlogCommentUpdateDTO, BlogComment>().ReverseMap();
 
+            //PaymentMethod
+            CreateMap<PaymentMethod, PaymentMethodUpdateDTO>().ReverseMap();
+            CreateMap<PaymentMethodDTO, PaymentMethod>().ReverseMap();
+            CreateMap<PaymentMethodUpdateDTO, PaymentMethodDTO>().ReverseMap();
 
+            //ProductImage
+            CreateMap<ProductImageDTO, ProductImageRequestDTO>().ReverseMap();
+            CreateMap<ProductImage, ProductImageRequestDTO>().ReverseMap();
+            CreateMap<ProductImage, ProductImageDTO>().ReverseMap();
+            CreateMap<ProductImageUpdateDTO, ProductImage>().ReverseMap();
+
+            //Revenue
+            CreateMap<Order, Revenue>().ReverseMap();
+            CreateMap<Revenue, RevenueDTO>().ReverseMap();
+
+            //Water Parameter
+            CreateMap<WaterParameterDTO, WaterParameterRequestDTO>().ReverseMap();
+            CreateMap<WaterParameter, WaterParameterDTO>().ReverseMap();
+            CreateMap<WaterParameter, WaterParameterRequestDTO>().ReverseMap();
+            CreateMap<WaterParameterUpdateDTO, WaterParameter>().ReverseMap();
+            CreateMap<WaterParameterDTO, WaterParameterUpdateDTO>().ReverseMap();
         }
     }
 }
