@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProducts } from '../../Config/ProductApi';
 import { getCategories } from '../../Config/CategoryApi';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { storage } from '../../Config/firebase';
 import './Shop.css';
 
 const Shop = () => {
@@ -19,17 +21,37 @@ const Shop = () => {
         setCategories([{ categoryId: 'All', name: 'All' }, ...validCategories]);
       })
       .catch(error => console.error('Error fetching categories:', error));
-    };
+  };
 
-    getProducts()
-      .then(data => {
-        setProducts(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching products:', error);
-        setLoading(false);
-      });
+
+  const fetchProducts = async () => {
+    try {
+      const allProducts = await getProducts();
+      const updatedProducts = await Promise.all(allProducts.map(async product => {
+        console.log('Fetched product:', product);
+        if (product.thumbnail) {
+          try {
+            const storageRef = ref(storage, product.thumbnail);
+            product.thumbnail = await getDownloadURL(storageRef);
+          } catch (error) {
+            console.error('The file does not exist in firebase anymore!', error);
+            const storageRef = ref(storage, 'others/NotFound.jpg');
+            product.thumbnail = await getDownloadURL(storageRef);
+          }
+        }
+        return product;
+      }));
+      setProducts(updatedProducts);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    };
+  };
+  
+useEffect(() => {
+    fetchCategories();
+    fetchProducts();
+}, []);
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
@@ -99,6 +121,6 @@ const Shop = () => {
       </main>
     </div>
   );
-};
 
+};
 export default Shop;
