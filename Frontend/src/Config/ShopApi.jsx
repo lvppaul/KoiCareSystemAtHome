@@ -43,7 +43,7 @@ const getShopByUserId = async (userId) => {
 // Function to update a product
 const updateShopDetails = async (data) => {
     try {
-        const response = await api.put(`Shop/${data.id}`, data, {
+        const response = await api.put(`Shop/${data.shopId}`, data, {
             headers: {
                 'Content-Type': 'application/json'
             }

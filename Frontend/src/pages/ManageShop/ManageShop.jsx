@@ -8,7 +8,6 @@ import AddNewProduct from '../../components/AddNewProduct/AddNewProduct';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import { useAuth } from '../Login/AuthProvider';
-import { getCategoryById } from '../../Config/CategoryApi';
 
 const ManageShop = () => {
     const [loading, setLoading] = useState(true);
@@ -53,7 +52,7 @@ const ManageShop = () => {
             const filteredProducts = allProducts.filter(product => product.userId === shopUserId);
 
             const updatedProducts = await Promise.all(filteredProducts.map(async product => {
-                console.log('Fetched product:', product); // Debug log to inspect product object
+                console.log('Fetched product:', product);
                 if (product.thumbnail) {
                     try {
                         const storageRef = ref(storage, product.thumbnail);
@@ -64,18 +63,13 @@ const ManageShop = () => {
                         product.thumbnail = await getDownloadURL(storageRef);
                     }
                 }
-                if (product.categoryId) {
-                    const category = await getCategoryById(product.categoryId);
-                    product.categoryName = category.name;
-                } else {
-                    product.categoryName = 'Unknown Category';
-                }
                 return product;
             }));
             setProducts(updatedProducts);
             setLoading(false);
         } catch (error) {
             console.error('Error fetching products:', error);
+            setLoading(false);
         }
     };
 
@@ -142,7 +136,7 @@ const ManageShop = () => {
                         <tr key={product.productId}>
                             <td><CardImg src={product.thumbnail} alt='Product Thumbnail' style={{ width: '70px', height: '70px' }} /></td>
                             <td>{product.name}</td>
-                            <td>{product.categoryName}</td>
+                            <td>{product.category.name}</td>
                             <td>{product.description}</td>
                             <td>{product.quantity}</td>
                             <td>${product.price.toFixed(2)}</td>

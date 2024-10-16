@@ -60,7 +60,9 @@ useEffect(() => {
 
   const filteredProducts = selectedCategory === 'All'
     ? products
-    : products.filter(product => product.categoryId === selectedCategory);
+    : products.filter(product => product.category.categoryId.toString() === selectedCategory);
+
+  console.log('Filtered products:', filteredProducts);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;

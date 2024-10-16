@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { Form, Button,  Modal } from 'react-bootstrap';
+import { Form, Button, Modal } from 'react-bootstrap';
 import { updateShopDetails } from '../../Config/ShopApi';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes, deleteObject } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
-
+import { useAuth } from '../../pages/Login/AuthProvider';
 
 const UpdateShopDetails = ({ shop, setShop, show, handleClose }) => {
     const [shopDetails, setShopDetails] = useState(shop);
+    const [file, setFile] = useState(null);
+    const [storageRef, setStorageRef] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
+    const { user } = useAuth();
+    const userId = user.userId;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -21,11 +26,13 @@ const UpdateShopDetails = ({ shop, setShop, show, handleClose }) => {
 
         input.onchange = async () => {
             const file = input.files[0];
-            const storageRef = ref(storage, `shop/shopThumbnails/${file.name}`);
+            const previewUrl = URL.createObjectURL(file);
+            const storageRef = ref(storage, `shop/shopThumbnails/${userId}/${file.name + Date.now()}`);
             try {
-                await uploadBytes(storageRef, file);
-                const imageUrl = await getDownloadURL(storageRef);
-                setShopDetails({ ...shopDetails, picture: imageUrl });
+                setFile(file);
+                setStorageRef(storageRef);
+                setPreviewImage(previewUrl);
+                setShopDetails({ ...shopDetails, thumbnail: storageRef.fullPath });
             } catch (error) {
                 console.error('Error uploading image:', error);
             }
@@ -34,10 +41,18 @@ const UpdateShopDetails = ({ shop, setShop, show, handleClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const previousThumbnail = shop.thumbnail;
         try {
+            await uploadBytes(storageRef, file);
+            const newThumbnailUrl = await getDownloadURL(storageRef);
             await updateShopDetails(shopDetails);
-            setShop(shopDetails);
+            setShop({...shopDetails, thumbnail: newThumbnailUrl});
             alert('Shop details updated successfully');
+            if (previousThumbnail) {
+                const previousStorageRef = ref(storage, previousThumbnail);
+                await deleteObject(previousStorageRef);
+                console.log('Previous image deleted successfully');
+            }
             handleClose();
         } catch (error) {
             console.error('Error updating shop details:', error);
@@ -96,7 +111,7 @@ const UpdateShopDetails = ({ shop, setShop, show, handleClose }) => {
                         <Form.Label>Shop Image</Form.Label>
                         <div>
                             <Button variant="secondary" onClick={handleImageUpload}>Upload Image</Button>
-                            {shopDetails.picture && <img src={shopDetails.picture} alt="Shop" style={{ width: '100px', marginLeft: '10px' }} />}
+                            {previewImage && <img src={previewImage} alt="Shop" style={{ width: '100px', marginLeft: '100px' }} />}
                         </div>
                     </Form.Group>
                     <Button variant="primary" type="submit">Update Shop Details</Button>
