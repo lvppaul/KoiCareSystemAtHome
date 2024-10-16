@@ -56,7 +56,7 @@ namespace APIService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Blog>> CreateBlogComment([FromBody] BlogCommentRequestDTO blogCommentdto)
+        public async Task<ActionResult<BlogCommentDTO>> CreateBlogComment([FromBody] BlogCommentRequestDTO blogCommentdto)
         {
             if (blogCommentdto == null)
             {

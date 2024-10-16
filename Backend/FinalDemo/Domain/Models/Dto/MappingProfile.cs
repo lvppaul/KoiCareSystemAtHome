@@ -10,34 +10,74 @@ namespace KCSAH.APIServer.Dto
     public class MappingProfile : Profile
     {
         public MappingProfile()
-        {
-            CreateMap<CategoryDTO, Category>().ReverseMap();
+        {            
+            //Shop
             CreateMap<Shop, ShopDTO>().ReverseMap();
-            CreateMap<PondDTO, Pond>().ReverseMap();
-            CreateMap<Koi, KoiDTO>().ReverseMap();
-            CreateMap<ProductRequestDTO, Product>().ReverseMap();
-            CreateMap<Order, OrderDTO>().ReverseMap();
-            CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
             CreateMap<ShopRequestDTO, Shop>().ReverseMap();
             CreateMap<ShopRequestDTO, ShopDTO>().ReverseMap();
+            //Product
+            CreateMap<ProductRequestDTO, Product>().ReverseMap();
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<ProductDTO, ProductRequestDTO>().ReverseMap();
+            //Order
+            CreateMap<Order, OrderDTO>().ReverseMap();
             CreateMap<OrderRequestDTO, Order>().ReverseMap();
             CreateMap<OrderRequestDTO, OrderDTO>().ReverseMap();
+            //OrderDetail
+            CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
             CreateMap<OrderDetailRequestDTO, OrderDetail>().ReverseMap();
             CreateMap<OrderDetailRequestDTO, OrderDetailDTO>().ReverseMap();
+            //Category
+            CreateMap<CategoryDTO, Category>().ReverseMap();
             CreateMap<CategoryRequestDTO, CategoryDTO>().ReverseMap();
             CreateMap<CategoryRequestDTO, Category>().ReverseMap();
+            //Pond
+            CreateMap<PondDTO, Pond>().ReverseMap();
+            CreateMap<PondUpdateDTO, Pond>().ReverseMap();
+            CreateMap<PondUpdateDTO, PondDTO>().ReverseMap();
             CreateMap<PondRequestDTO, PondDTO>().ReverseMap();
             CreateMap<PondRequestDTO, Pond>().ReverseMap();
+            //Koi
             CreateMap<KoiRequestDTO, Koi>().ReverseMap();
             CreateMap<KoiRequestDTO, KoiDTO>().ReverseMap();
+         //   CreateMap<Koi, KoiDTO>().ReverseMap();
+            CreateMap<KoiDTO, Koi>()
+    .ForMember(dest => dest.KoiImages, opt => opt.MapFrom(src => src.Images))
+    .ForMember(dest => dest.KoiReminds, opt => opt.MapFrom(src => src.Reminds))
+    .ForMember(dest => dest.KoiRecords, opt => opt.MapFrom(src => src.Records))
+    ;
+
+            CreateMap<Koi, KoiDTO>()
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.KoiImages))
+                .ForMember(dest => dest.Reminds, opt => opt.MapFrom(src => src.KoiReminds))
+                .ForMember(dest => dest.Records, opt => opt.MapFrom(src => src.KoiRecords))
+                ;
+
+            //KoiImage
+            CreateMap<KoiImageDTO, KoiImage>().ReverseMap();
+            CreateMap<KoiImageDTO, KoiImageRequestDTO>().ReverseMap();
+            CreateMap<KoiImageRequestDTO, KoiImage>().ReverseMap();
+            CreateMap<KoiImageUpdateDTO, KoiImage>().ReverseMap();
+
+            //KoiRemind
+            CreateMap<KoiRemindDTO, KoiRemind>().ReverseMap();
+            CreateMap<KoiRemindDTO, KoiRemindRequestDTO>().ReverseMap();
+            CreateMap<KoiRemindRequestDTO, KoiRemind>().ReverseMap();
+            CreateMap<KoiRemindUpdateDTO, KoiRemind>().ReverseMap();
+
+            //KoiRecord
+            CreateMap<KoiRecordDTO, KoiRecord>().ReverseMap();
+            CreateMap<KoiRecordDTO, KoiRecordRequestDTO>().ReverseMap();
+            CreateMap<KoiRecordRequestDTO, KoiRecord>().ReverseMap();
+            CreateMap<KoiRecordUpdateDTO, KoiRecord>().ReverseMap();
+
             //News
             CreateMap<News, NewsDTO>()
                 .ForMember(dest => dest.NewsImage, opt => opt.MapFrom(src => src.NewsImages));
-            CreateMap<NewsRequestDTO, News>()
-            .ForMember(dest => dest.NewsImages, opt => opt.MapFrom(src => src.NewsImage));
+            CreateMap<NewsRequestDTO, News>().ReverseMap();
             CreateMap<NewsDTO, NewsRequestDTO>().ReverseMap();
+
+            //NewsImage
             CreateMap<NewsImage, NewsImageDTO>().ReverseMap();
             CreateMap<NewsImageRequestDTO, NewsImage>().ReverseMap();
             CreateMap<NewsImageRequestDTO, NewsImageDTO>().ReverseMap();

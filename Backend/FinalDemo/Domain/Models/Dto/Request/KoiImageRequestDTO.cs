@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Dto.Request
 {
-    public class NewsImageRequestDTO
+    public class KoiImageRequestDTO
     {
-        //public int NewsId { get; set; }
-        public string ImageUrl { get; set; } = null!;
+        public int KoiId { get; set; }
+
+        public string? ImageUrl { get; set; }
     }
 }

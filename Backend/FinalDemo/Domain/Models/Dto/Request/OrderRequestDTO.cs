@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Domain.Models.Dto.Request
@@ -35,5 +36,7 @@ namespace Domain.Models.Dto.Request
 
         public bool? OrderStatus { get; set; }
         public List<OrderDetailRequestDTO> orderDetails { get; set; }
+        [JsonIgnore]
+        public double TotalPrice { get; set; }
     }
 }

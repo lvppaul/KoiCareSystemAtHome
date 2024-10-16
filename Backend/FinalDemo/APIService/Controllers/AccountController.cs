@@ -64,5 +64,63 @@ namespace ApiService.Controllers
             }
             return Ok(result);
         }
+        // Service
+
+        [HttpPut("ChangePassword{id}")]
+        public async Task<IActionResult> ChangePassword(string id, ChangePasswordModel model)
+        {
+            var result = await _accountRepository.ChangePasswordAsync(id, model);
+            if(!result.Equals("Successfully"))
+            {
+                return StatusCode(400, result);
+            }
+            return Ok(result);
+        }
+        [HttpPut("UpdateAccountDetail{id}")]
+        public async Task<IActionResult> UpdateAccountDetail(string id, AccountDetailModel model)
+        {
+            var result = await _accountRepository.UpdateAccountDetailAsync(id,model);
+            if (!result.Equals("Successfully"))
+            {
+                return StatusCode(400, result);
+            }
+            return Ok(result);
+        }
+        
+        [HttpPut("ChangeToVipAccount{id}")]
+        public async Task<IActionResult> ChangeRoleToVipAsync(string id)
+        {
+            var result = await _accountRepository.ChangeRoleToVipAsync(id);
+            if (!result.Equals("Successfully"))
+            {
+                return StatusCode(400, result);
+            }
+            return Ok(result);
+        }
+        [HttpPut("LockoutEnable{id}")]
+        public async Task<IActionResult> LockoutEnableAsync(string id)
+        {
+            var result = await _accountRepository.LockoutEnabled(id);
+           
+            if (result.Equals("Locked"))
+            {
+                return Ok(result);
+            }
+            return StatusCode(400,result);
+        }
+        [HttpPut("LockoutDisable{id}")]
+        public async Task<IActionResult> LockoutDisableAsync(string id)
+        {
+            var result = await _accountRepository.LockoutDisabled(id);
+
+            if (result.Equals("UnLocked"))
+            {
+                return Ok(result);
+            }
+            return StatusCode(400, result);
+        }
+
+
+
     }
 }

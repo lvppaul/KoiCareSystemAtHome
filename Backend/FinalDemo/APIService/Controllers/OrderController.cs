@@ -6,6 +6,7 @@ using KCSAH.APIServer.Dto;
 using Domain.Models.Entity;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Request;
+using Domain.Services;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -15,11 +16,13 @@ namespace KCSAH.APIServer.Controllers
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private UserService _getService;
 
-        public OrderController(UnitOfWork unitOfWork, IMapper mapper)
+        public OrderController(UnitOfWork unitOfWork, IMapper mapper, UserService getService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _getService = getService;
         }
 
         [HttpGet]
@@ -45,7 +48,7 @@ namespace KCSAH.APIServer.Controllers
         [HttpGet("OrderId/{id}")]
         public async Task<ActionResult<OrderDTO>> GetOrderByIdAsync(int id)
         {
-            var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+            var order = await _unitOfWork.OrderRepository.GetByOrderIdAsync(id);
             if (order == null)
             {
                 return NotFound();
@@ -66,6 +69,13 @@ namespace KCSAH.APIServer.Controllers
             return Ok(result);
         }
 
+        [HttpGet("UserId/{id}")]
+        public async Task<IActionResult> GetOrderByUserIdAsync(string id)
+        {
+            var result = await _getService.GetPondByUserIdAsync(id);
+            var show = _mapper.Map<List<OrderDTO>>(result);
+            return Ok(show);
+        }
         [HttpPost]
         public async Task<ActionResult<OrderDTO>> CreateOrder([FromBody] OrderRequestDTO orderdto)
         {
@@ -84,18 +94,20 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest("Mapping to order entity failed.");
             }
-
+            double total = 0; // Khởi tạo giá trị cho total
+            foreach (var detail in orderMap.OrderDetails)
+            {
+                var product = await GetProductAsync(detail.ProductId);
+                detail.UnitPrice = product.Price;
+                total += detail.UnitPrice * detail.Quantity;
+            }
+            orderMap.TotalPrice = total;
             // Lưu vào cơ sở dữ liệu
             var createResult = await _unitOfWork.OrderRepository.CreateAsync(orderMap);
             if (createResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
-            }
-            foreach(var detail in orderMap.OrderDetails)
-            {
-                var product = await GetProductAsync(detail.ProductId);
-                detail.UnitPrice = product.Price;
             }
             var order = _mapper.Map<OrderDTO>(orderMap);
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
@@ -104,8 +116,6 @@ namespace KCSAH.APIServer.Controllers
         private async Task<Product> GetProductAsync(int id)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
-
-            // Sử dụng AutoMapper để ánh xạ từ Category sang CategoryDTO
             return product;
         }
     }

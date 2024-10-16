@@ -15,12 +15,12 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
             public async Task<List<Order>> GetAllAsync()
             {
-                return await _context.Orders.ToListAsync();
+                return await _context.Orders.Include(p => p.OrderDetails).ToListAsync();
             }
 
             public async Task<Order> GetByOrderIdAsync(int id)
             {
-                return await _context.Orders.FirstOrDefaultAsync(p => p.OrderId == id);
+                return await _context.Orders.Include(p => p.OrderDetails).FirstOrDefaultAsync(p => p.OrderId == id);
             }
         }
     }

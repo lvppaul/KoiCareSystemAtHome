@@ -101,11 +101,11 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Blog).WithMany(p => p.BlogComments)
                 .HasForeignKey(d => d.BlogId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__BlogComme__BlogI__628FA481");
             entity.HasOne(d => d.ApplicationUser).WithMany(p => p.BlogComments)
                .HasForeignKey(d => d.UserId)
-               .OnDelete(DeleteBehavior.ClientSetNull)
+               .OnDelete(DeleteBehavior.Cascade)
                .HasConstraintName("FK__BlogComme__UserI__6D0D32F4");
         });
 
@@ -120,7 +120,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Blog).WithMany(p => p.BlogImages)
                 .HasForeignKey(d => d.BlogId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Blog_Imag__BlogI__68487DD7");
         });
 
@@ -178,7 +178,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Koi).WithMany(p => p.KoiImages)
                 .HasForeignKey(d => d.KoiId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Koi_Image__KoiID__4BAC3F29");
         });
 
@@ -197,13 +197,13 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Koi).WithMany(p => p.KoiRecords)
                 .HasForeignKey(d => d.KoiId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Koi_Recor__KoiID__48CFD27E");
 
 
             entity.HasOne(d => d.ApplicationUser).WithMany(p => p.KoiRecords)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Koi_Recor__UserI__4E88ABD4");
         });
 
@@ -223,11 +223,11 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Koi).WithMany(p => p.KoiReminds)
                 .HasForeignKey(d => d.KoiId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Koi_Remin__KoiID__4E88ABD4");
             entity.HasOne(d => d.ApplicationUser).WithMany(p => p.KoiReminds)
                .HasForeignKey(d => d.UserId)
-               .OnDelete(DeleteBehavior.ClientSetNull)
+               .OnDelete(DeleteBehavior.Cascade)
                .HasConstraintName("FK__Koi_Remin__UserI__5535A963");
         });
 
@@ -251,7 +251,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.News).WithMany(p => p.NewsImages)
                 .HasForeignKey(d => d.NewsId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__News_Imag__NewsI__6B24EA82");
         });
 
@@ -309,7 +309,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__OrderDeta__Order__5CD6CB2B");
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
@@ -386,7 +386,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductImages)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Product_I__Produ__3F466844");
         });
 
@@ -400,7 +400,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Order).WithMany(p => p.Revenues)
                 .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Revenue__OrderID__656C112C");
         });
 
@@ -426,7 +426,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.ApplicationUser).WithMany(p => p.Shops)
              .HasForeignKey(d => d.UserId)
-             .OnDelete(DeleteBehavior.ClientSetNull)
+             .OnDelete(DeleteBehavior.Cascade)
              .HasConstraintName("FK__Shop__UserID__46E78A0C");
         });
 
@@ -446,11 +446,11 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Pond).WithMany(p => p.WaterParameters)
                 .HasForeignKey(d => d.PondId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Water_Par__PondI__5535A963");
             entity.HasOne(d => d.ApplicationUser).WithMany(p => p.WaterParameters)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Water_Par__UserI__5DCAEF64");
         });
 

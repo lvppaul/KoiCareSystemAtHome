@@ -17,6 +17,6 @@ namespace Domain.Models.Dto.Response
 
         public string Content { get; set; } = null!;
 
-        public List<NewsImageDTO> NewsImage { get; set; }
+        public List<NewsImageDTO>? NewsImage { get; set; }
     }
 }

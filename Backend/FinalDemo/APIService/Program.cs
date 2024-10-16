@@ -1,6 +1,7 @@
 using Domain.Base;
 using Domain.Models.Entity;
 using Domain.Repositories;
+using Domain.Services;
 using KCSAH.APIServer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<PondService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddDbContext<KoiCareSystemAtHomeContext>(options =>

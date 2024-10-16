@@ -1,12 +1,13 @@
-﻿namespace Domain.Models.Dto.Response
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain.Models.Dto.Update
 {
-    public class KoiDTO
+    public class KoiUpdateDTO
     {
-        public int KoiId { get; set; }
-
-        public string UserId { get; set; }
-
-        public int PondId { get; set; }
 
         public int Age { get; set; }
 
@@ -25,12 +26,5 @@
         public bool Status { get; set; }
 
         public string? Thumbnail { get; set; }
-
-        public List<KoiImageDTO>? Images { get; set; } = new List<KoiImageDTO>();
-
-        public List<KoiRemindDTO>? Reminds { get; set; }
-
-        public List<KoiRecordDTO>? Records { get; set; }
-
     }
 }
