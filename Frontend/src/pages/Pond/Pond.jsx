@@ -1,40 +1,46 @@
-import AddNewPond from '../../components/AddNewPond/AddNewPond'
-import './Pond.css'
-import { Card, Container, Row, Col } from 'react-bootstrap';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPondByUserId } from '../../Config/PondApi';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
+import AddNewPond from '../../components/AddNewPond/AddNewPond';
+import { Card, Container, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../Login/AuthProvider';
-const Pond = () => {
-    const [showModalAddPond, setShowModalAddPond] = useState(false);
+import './Pond.css';
 
+const Pond = () => {
+    const navigate = useNavigate();
+    const [showModalAddPond, setShowModalAddPond] = useState(false);
     const [ponds, setPonds] = useState([]);
-    const user = useAuth();
-    const userId = user.user.userId;
     const [loading, setLoading] = useState(true);
- 
+    const userId = useAuth().user.userId;
 
     useEffect(() => {
-        const featchPondByUserId = async () => {
+        const fetchPondByUserId = async () => {
             try {
                 const data = await getPondByUserId(userId);
-                if (data) {
+                if (Array.isArray(data)) {
+                    console.log('Fetched ponds:', data);
                     setPonds(data);
-                    setLoading(false);
                 } else {
                     console.error('API response is not an array:', data);
                 }
-        } catch (error) {
-            console.error('Error fetching ponds:', error);
-        }
-    }
-    featchPondByUserId();
+            } catch (error) {
+                console.error('Error fetching ponds:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPondByUserId();
     }, [userId]);
-    
+
     const handlePondAdded = (newPond) => {
-        setPonds((prevPonds) => [...prevPonds, newPond]);
+        setPonds((prevPonds) => Array.isArray(prevPonds) ? [...prevPonds, newPond] : [newPond]);
+    };
+
+    const getImageUrl = (imagePath) => {
+        return imagePath; // Assuming imagePath is already a full URL from Firebase
     };
 
     return (
@@ -46,22 +52,23 @@ const Pond = () => {
                     setShow={setShowModalAddPond} 
                     onPondAdded={handlePondAdded}/>
                 <Container>
-                        
-                    <Row>
-                    {loading? <Spinner/> : ponds.map((pond) => (
-                        <Col>
-                            <Card md={4} className='pond-card'>
-                                <Link to={`/ponddetail/${pond.pondId}`} style={{textDecoration: 'none'}}>
-                                <Card.Body>
-                                    <Card.Img variant="header" src={pond.thumbnail} />
-                                </Card.Body>
-                                <Card.Body style={{textAlign: 'center'}}>
-                                    <h5 style={{color:'black'}}>{pond.name}</h5>
-                                </Card.Body>
-                                </Link>      
-                            </Card>
-                        </Col>
-                    ))}
+                    <Row style={{justifyContent: 'space-between'}}>
+                        {loading ? <Spinner animation="border" /> : ponds.map((pond) => (
+                            pond && pond.pondId ? (
+                                <Col key={pond.pondId}>
+                                    <Card md={4} className='pond-card'>
+                                        <Link to={`/ponddetail/${pond.pondId}`} style={{textDecoration: 'none'}}>
+                                            <Card.Body>
+                                                <Card.Img variant="header" src={getImageUrl(pond.thumbnailUrl)} />
+                                            </Card.Body>
+                                            <Card.Body style={{textAlign: 'center'}}>
+                                                <h5 style={{color:'black'}}>{pond.name}</h5>
+                                            </Card.Body>
+                                        </Link>      
+                                    </Card>
+                                </Col>
+                            ) : null
+                        ))}
                     </Row>
                 </Container>
                 <Col>
@@ -76,8 +83,7 @@ const Pond = () => {
                 </Col>
             </div>
         </>
-    )
-}
+    );
+};
 
-
-export default Pond
+export default Pond;

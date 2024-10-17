@@ -93,8 +93,8 @@ const PondDetail = () => {
             <li><strong>Volume:</strong> {pond.volume} liters</li>
             <li><strong>Depth:</strong> {pond.depth} meters</li>
             <li><strong>Pumping Capacity:</strong> {pond.pumpingCapacity} liters/hour</li>
-            <li><strong>Drain:</strong> {pond.drain ? 'Yes' : 'No'}</li>
-            <li><strong>Skimmer:</strong> {pond.skimmer ? 'Yes' : 'No'}</li>
+            <li><strong>Drain:</strong> {pond.drain}</li>
+            <li><strong>Skimmer:</strong> {pond.skimmer}</li>
             <li><strong>Note:</strong> {pond.note}</li>
             {/* <li></li> */}
           </ul>

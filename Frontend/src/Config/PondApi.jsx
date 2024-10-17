@@ -1,4 +1,6 @@
 import api from './AxiosConfig';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { storage } from '../Config/firebase'; // Adjust the import path as needed
 
 // Function to get ponds
 const getPonds = async () => {
@@ -17,13 +19,28 @@ const getPonds = async () => {
 
 const getPondByUserId = async (userId) => {
     try {
-        const allPond = await getPonds();
-        const pond = allPond.filter(pond => pond.userId === userId);
-        if(!pond){
+        const pondList = await api.get(`Pond/GetPondsByUserId/${userId}`);
+        
+        if (!pondList.data) {
             console.log('Pond not found');
             return null;
         } else {
-            return pond;
+            const ponds = pondList.data;
+            const pondsWithThumbnails = await Promise.all(ponds.map(async (pond) => {
+                if (pond.thumbnail) {
+                    try {
+                        const storageRef = ref(storage, pond.thumbnail);
+                        const thumbnailUrl = await getDownloadURL(storageRef);
+                        return { ...pond, thumbnailUrl };
+                    } catch (error) {
+                        console.error('Error fetching thumbnail:', error);
+                        return { ...pond, thumbnailUrl: null };
+                    }
+                } else {
+                    return { ...pond, thumbnailUrl: null };
+                }
+            }));
+            return pondsWithThumbnails;
         }
     } catch (error) {
         console.error('Error fetching ponds:', error);
@@ -38,27 +55,39 @@ const getPondsById = async (pondId) => {
                 'accept': 'text/plain'
             }
         });
-        return response.data;
+
+        const pond = response.data;
+
+        if (pond && pond.thumbnail) {
+            try {
+                const storageRef = ref(storage, pond.thumbnail);
+                const thumbnailUrl = await getDownloadURL(storageRef);
+                pond.thumbnail = thumbnailUrl; // Set the thumbnail URL back to the pond object
+                return pond;
+            } catch (error) {
+                console.error('Error fetching thumbnail:', error);
+                pond.thumbnail = null; // Set thumbnail to null in case of error
+                return pond;
+            }
+        } else {
+            pond.thumbnail = null; // Set thumbnail to null if it doesn't exist
+            return pond;
+        }
     } catch (error) {
-        console.error('Error fetching ponds:', error);
-        throw error;
+        console.error('Error fetching pond:', error);
+        return;
     }
 }
 
 // Function to post pond data
-const postPond = async (data) => {
+const postPond = async (pondData) => {
     try {
-        const response = await api.post(`Pond/`, data, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }
-        });
-        return response.data;
+        const response = await api.post('Pond', pondData);
+        return response;
     } catch (error) {
         console.error('Error posting pond data:', error);
-        //throw error;
-    }
+        return;
+        ;}
 };
 
-export { getPonds, getPondsById ,postPond, getPondByUserId };
+export { getPonds, getPondByUserId , getPondsById, postPond};
