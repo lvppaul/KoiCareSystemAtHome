@@ -15,7 +15,7 @@ const getShop = async () => {
         throw error;
     }
 }
-// Function to get shop by user ID
+// Function to get shop by userId
 const getShopByUserId = async (userId) => {
     try {
         const response = await api.get(`Shop/UserId/${userId}`, {

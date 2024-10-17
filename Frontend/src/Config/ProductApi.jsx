@@ -75,6 +75,7 @@ const getProductById = async (productId) => {
     }
 };
 
+// Function to get products by userId --> shopId
 const getProductByUserId = async (userId) => {
     try {
         const response = await api.get(`Product/UserId/${userId}`, {
@@ -89,9 +90,10 @@ const getProductByUserId = async (userId) => {
     }
 };
 
+// Function to get product image by productId
 const getProductImageByProductId = async (productId) => {
     try {
-        const response = await api.get(`ProductImage/ProductId/${productId}`, {
+        const response = await api.get(`Product/GetProductImageByProductId/${productId}`, {
             headers: {
                 'accept': 'text/plain'
             }
