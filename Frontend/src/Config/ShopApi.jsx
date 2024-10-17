@@ -18,24 +18,14 @@ const getShop = async () => {
 // Function to get shop by user ID
 const getShopByUserId = async (userId) => {
     try {
-        const allShop = await api.get('Shop', {
-            headers: {
-                'accept': 'text/plain'
-            }
-        });
-        const allShopData = allShop.data;
-        const shop = allShopData.find(shop => shop.userId === userId);
-        if (!shop) {
-            throw new Error('Shop not found for the given user ID');
-        }
-        const response = await api.get(`Shop/${shop.shopId}`, {
+        const response = await api.get(`Shop/UserId/${userId}`, {
             headers: {
                 'accept': 'text/plain'
             }
         });
         return response.data;
     } catch (error) {
-        console.error('Error fetching shop by user ID:', error);
+        console.error(`Error fetching shop with userId ${userId}:`, error);
         throw error;
     }
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Card, Button, Table, CardImg } from 'react-bootstrap';
 import { getShopByUserId } from '../../Config/ShopApi';
-import { getProducts } from '../../Config/ProductApi';
+import { getProductByUserId } from '../../Config/ProductApi';
 import UpdateShopDetails from '../../components/UpdateShopDetails/UpdateShopDetails';
 import UpdateShopProducts from '../../components/UpdateShopProducts/UpdateShopProducts';
 import AddNewProduct from '../../components/AddNewProduct/AddNewProduct';
@@ -48,10 +48,8 @@ const ManageShop = () => {
 
     const fetchProducts = async (shopUserId) => {
         try {
-            const allProducts = await getProducts();
-            const filteredProducts = allProducts.filter(product => product.userId === shopUserId);
-
-            const updatedProducts = await Promise.all(filteredProducts.map(async product => {
+            const allProducts = await getProductByUserId(shopUserId);
+            const updatedProducts = await Promise.all(allProducts.map(async product => {
                 console.log('Fetched product:', product);
                 if (product.thumbnail) {
                     try {

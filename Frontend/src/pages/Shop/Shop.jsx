@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+inport { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
 import { getProducts } from '../../Config/ProductApi';
 import { getCategories } from '../../Config/CategoryApi';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import './Shop.css';
+import { Container } from 'react-bootstrap';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -47,11 +49,11 @@ const Shop = () => {
       console.error('Error fetching products:', error);
     };
   };
-  
-useEffect(() => {
+
+  useEffect(() => {
     fetchCategories();
     fetchProducts();
-}, []);
+  }, []);
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
@@ -83,28 +85,37 @@ useEffect(() => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Container className="text-center">
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      </Container>
+    );
   }
 
   return (
-    <div className="shop-container">
+    <Container>  
       <header className="shop-header">
         <h1>Koi Care Shop</h1>
       </header>
-      <main className="shop-main">
-        <Link to={`/manageshop`} className="productLink">Manage Shop</Link>
-        <div className="shop-filter">
-          <label>
-            Sort by Category:
-            <select value={selectedCategory} onChange={handleCategoryChange} className="category-select">
-              {categories.map((category) => (
-                <option key={category.categoryId} value={category.categoryId}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
+      <Button as={Link} to="/manageshop" variant="primary" className="my-3">
+        Manage Shop
+      </Button>
+        <Row className="my-3">
+          <Col md={2}>
+            <Form.Label>Sort by Category:</Form.Label>
+            <Form.Group controlId="categorySelect">
+              <Form.Control as="select" value={selectedCategory} onChange={handleCategoryChange} className="category-select">
+                {categories.map((category) => (
+                  <option key={category.categoryId} value={category.categoryId}>
+                    {category.name}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Col>
+        </Row>
         <ul className="productList">
           {currentProducts.map(product => (
             <li key={product.productId} className="productItem">
@@ -120,8 +131,9 @@ useEffect(() => {
           <span>Page {currentPage} of {totalPages}</span>
           <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
         </div>
-      </main>
-    </div>
+      
+    
+    </Container>
   );
 
 };
