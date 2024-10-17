@@ -25,9 +25,9 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return result;
         }
 
-        public async Task<List<Category>> GetCategoryListShopId(int id)
-        {
-            var list = await _context.Categories.Where(c => c.Shop)
-        }
+        //public async Task<List<Category>> GetCategoryListShopId(int id)
+        //{
+        //    var list = await _context.Categories.Where(c => c.Shop)
+        //}
     }
 }

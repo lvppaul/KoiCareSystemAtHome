@@ -41,10 +41,10 @@ namespace KCSAH.APIServer.Controllers
             result.category = category;
             return result;
         }
-        [HttpGet("GetProductImageByProductId/{ImageId:int}")]
-        public async Task<ActionResult<List<ProductImageDTO>>> GetProductImage(int ImageId)
+        [HttpGet("GetProductImageByProductId/{ProductId:int}")]
+        public async Task<ActionResult<List<ProductImageDTO>>> GetProductImage(int ProductId)
         {
-            var image = await _unitOfWork.ProductImageRepository.GetImageByProductId(ImageId);
+            var image = await _unitOfWork.ProductImageRepository.GetImageByProductId(ProductId);
             if(image == null)
             {
                 return NotFound();
