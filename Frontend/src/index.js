@@ -21,8 +21,8 @@ import PondDetail from "./pages/PondDetail/PondDetail";
 import KoiDetail from "./pages/KoiDetails/KoiDetail";
 import Blog from "./pages/Blog/Blog";
 import { AuthProvider } from "./pages/Login/AuthProvider";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Import the ProtectedRoute component
-import News from './pages/News/News'; // Assuming you have a News component
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import News from './pages/News/News';
 import ManageShop from "./pages/ManageShop/ManageShop";
 import KoiRemind from "./pages/KoiRemind/KoiRemind";
 import NotAuthorized from "./pages/NotAuthorized/NotAuthorized";

@@ -75,4 +75,35 @@ const getProductById = async (productId) => {
     }
 };
 
-export { getProducts, addProduct, updateProduct, deleteProduct, getProductById };
+const getProductByUserId = async (userId) => {
+    try {
+        const response = await api.get(`Product/UserId/${userId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching products with userId ${userId}:`, error);
+        throw error;
+    }
+};
+
+const getProductImageByProductId = async (productId) => {
+    try {
+        const response = await api.get(`ProductImage/ProductId/${productId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching product image with productId ${productId}:`, error);
+        throw error;
+    }
+}
+
+export {
+    getProducts, addProduct, updateProduct, deleteProduct,
+    getProductById, getProductByUserId, getProductImageByProductId
+};
