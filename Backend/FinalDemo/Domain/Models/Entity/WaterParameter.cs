@@ -16,7 +16,7 @@ public partial class WaterParameter
 
     public double Nitrate { get; set; }
 
-    public DateTime DateTime { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public double Temperature { get; set; }
 

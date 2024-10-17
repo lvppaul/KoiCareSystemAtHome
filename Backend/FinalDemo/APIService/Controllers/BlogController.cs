@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Domain.Helper;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Update;
 using Domain.Models.Entity;
 using KCSAH.APIServer.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWP391.KCSAH.Repository;
@@ -58,6 +60,7 @@ namespace APIService.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<ActionResult<BlogDTO>> CreateBlog([FromBody] BlogRequestDTO blogdto)
         {
             if (blogdto == null)
@@ -90,6 +93,7 @@ namespace APIService.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> UpdateBlog(int id, [FromBody] BlogUpdateDTO blogdto)
         {
             if (blogdto == null)
@@ -119,6 +123,7 @@ namespace APIService.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> DeleteBlog(int id)
         {
             var blog = await _unitOfWork.BlogRepository.GetByIdAsync(id);

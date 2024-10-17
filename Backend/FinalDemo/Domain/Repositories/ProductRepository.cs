@@ -34,11 +34,11 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Product>> GetProductsByUID(string id)
         {
-            var products = await _context.Products.Include(c => c.Category)
-                .Where(u => u.UserId.Equals(id))
+            var products = await _context.Products.Include(c =>c.Category)
+                .Where(u => u.ShopId.Equals(id))
                 .ToListAsync();
 
-            return products ?? new List<Product>();
+            return products ?? new List<Product> ();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
     public virtual DbSet<BlogComment> BlogComments { get; set; }
 
     public virtual DbSet<BlogImage> BlogImages { get; set; }
+
+    public virtual DbSet<Cart> Carts { get; set; }
+
+    public virtual DbSet<CartItem> CartItems { get; set; }
 
     public virtual DbSet<Category> Categories { get; set; }
 
@@ -76,6 +81,18 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
     {
 
         base.OnModelCreating(modelBuilder);
+       //1:1
+        modelBuilder.Entity<ApplicationUser>()
+       .HasOne(a => a.Shop)
+       .WithOne(s => s.User)
+       .HasForeignKey<Shop>(s => s.UserId);
+
+        modelBuilder.Entity<ApplicationUser>()
+      .HasOne(a => a.Cart)
+      .WithOne(s => s.User)
+      .HasForeignKey<Cart>(s => s.UserId);
+
+        //
         modelBuilder.Entity<Blog>(entity =>
         {
             entity.HasKey(e => e.BlogId).HasName("PK__Blogs__54379E50F8B648A7");
@@ -124,6 +141,16 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .HasConstraintName("FK__Blog_Imag__BlogI__68487DD7");
         });
 
+
+        modelBuilder.Entity<Cart>(e =>
+        {
+            e.ToTable("Cart");
+            e.HasKey(e => e.CartId).HasName("PK__Cart__18103112");
+            e.Property(e => e.CartId).HasColumnName("CartId");
+            e.Property(e => e.TotalAmount).HasColumnName("TotalAmount").HasColumnType("decimal(4,2)");
+        });
+
+
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.CategoryId).HasName("PK__Category__19093A2BD3B2F4B4");
@@ -133,6 +160,34 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.Name).HasMaxLength(255);
         });
+
+
+        modelBuilder.Entity<CartItem>(entity =>
+        {
+            entity.HasKey(e => new { e.CartId, e.ProductId }).HasName("PK__Cart__Product__08D097C1B825DECE");
+
+            entity.ToTable("CartItem");
+
+            entity.Property(e => e.CartId).HasColumnName("CartID");
+            entity.Property(e => e.ProductId)
+                .ValueGeneratedOnAdd()
+                .IsUnicode(false)
+                .HasColumnName("ProductID");
+            entity.Property(e => e.Price).HasColumnName("Price").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.TotalPrice).HasColumnName("TotalPrice").HasColumnType("decimal(4,2)");
+
+
+            entity.HasOne(d => d.Cart).WithMany(p => p.CartItems)
+                .HasForeignKey(d => d.CartId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK__CartItem__Cart__5CD6CB2B");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.CartItems)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__CartItems__Product__5DCAEF64");
+        });
+
 
         modelBuilder.Entity<Koi>(entity =>
         {
@@ -366,10 +421,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Product__Categor__3C69FB99");
 
-            entity.HasOne(d => d.ApplicationUser).WithMany(p => p.Products)
-               .HasForeignKey(d => d.UserId)
+            entity.HasOne(d => d.Shop).WithMany(p => p.Products)
+               .HasForeignKey(d => d.ShopId)
                .OnDelete(DeleteBehavior.ClientSetNull)
-               .HasConstraintName("FK__Product__UserID__3F466844");
+               .HasConstraintName("FK__Product__Shop__3F466844");
         });
 
         modelBuilder.Entity<ProductImage>(entity =>
@@ -423,12 +478,9 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .HasColumnType("decimal(2, 1)");
             entity.Property(e => e.ShopName).HasMaxLength(255);
             entity.Property(e => e.Thumbnail).IsUnicode(false);
-
-            entity.HasOne(d => d.ApplicationUser).WithMany(p => p.Shops)
-             .HasForeignKey(d => d.UserId)
-             .OnDelete(DeleteBehavior.Cascade)
-             .HasConstraintName("FK__Shop__UserID__46E78A0C");
         });
+
+
 
         modelBuilder.Entity<WaterParameter>(entity =>
         {
@@ -437,7 +489,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.ToTable("Water_Parameter");
 
             entity.Property(e => e.MeasureId).HasColumnName("MeasureID");
-            entity.Property(e => e.DateTime).HasColumnType("datetime");
+            entity.Property(e => e.CreatedAt).HasColumnName("CreatedAt").HasDefaultValueSql("GETUTCDATE()").HasColumnType("datetime");
             entity.Property(e => e.PH).HasColumnName("pH");
             entity.Property(e => e.PondId)
                 .ValueGeneratedOnAdd()
