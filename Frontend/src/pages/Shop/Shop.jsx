@@ -85,9 +85,8 @@ const Shop = () => {
 
   if (loading) {
     return (
-      <Container className="text-center">
+      <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
         <Spinner animation="border" size="xl" role="status"/>
-        
       </Container>
     );
   }
@@ -146,6 +145,5 @@ const Shop = () => {
       </Row>
     </Container>
   );
-
 };
 export default Shop;

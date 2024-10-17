@@ -34,6 +34,7 @@ const ManageShop = () => {
                 }
             }
             setShop(shopData);
+            //need to change to shopData.shopId
             fetchProducts(shopData.userId);
             setLoading(false);
         } catch (error) {
@@ -48,7 +49,7 @@ const ManageShop = () => {
 
     const fetchProducts = async (shopUserId) => {
         try {
-            const allProducts = await getProductByUserId(shopUserId);
+            const allProducts = await getProductByUserId(shopUserId); //change this to shopId
             const updatedProducts = await Promise.all(allProducts.map(async product => {
                 if (product.thumbnail) {
                     try {
