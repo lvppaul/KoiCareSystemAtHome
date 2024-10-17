@@ -78,10 +78,10 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
-        [HttpGet("UserId/{id}")]
-        public async Task<IActionResult> GetProductByUserIdAsync(string id)
+        [HttpGet("ShopId/{id}")]
+        public async Task<IActionResult> GetProductByShopIdAsync(int id)
         {
-            var result = await _unitOfWork.ProductRepository.GetProductsByUID(id);
+            var result = await _unitOfWork.ProductRepository.GetProductsBySID(id);
             if (result == null)
             {
                 return NotFound();

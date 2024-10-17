@@ -423,7 +423,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Shop).WithMany(p => p.Products)
                .HasForeignKey(d => d.ShopId)
-               .OnDelete(DeleteBehavior.ClientSetNull)
+               .OnDelete(DeleteBehavior.Cascade)
                .HasConstraintName("FK__Product__Shop__3F466844");
         });
 
