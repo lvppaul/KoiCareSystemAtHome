@@ -28,7 +28,7 @@ namespace KCSAH.APIServer.Controllers
             return Ok(productDTOs);
         }
 
-        [HttpGet("async/{id}")]
+        [HttpGet("GetProductById/{id}")]
         public async Task<ActionResult<ProductDTO>> GetByIdAsync(int id)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
@@ -39,6 +39,29 @@ namespace KCSAH.APIServer.Controllers
             var result = _mapper.Map<ProductDTO>(product);
             var category = await GetCategoryAsync(product.CategoryId);
             result.category = category;
+            return result;
+        }
+        [HttpGet("GetProductImageByProductId/{ImageId:int}")]
+        public async Task<ActionResult<List<ProductImageDTO>>> GetProductImage(int ImageId)
+        {
+            var image = await _unitOfWork.ProductImageRepository.GetImageByProductId(ImageId);
+            if(image == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<ProductImageDTO>>(image);
+            return result;
+        }
+
+        [HttpGet("GetProductByCategoryId/{CategoryId}")]
+        public async Task<ActionResult<List<ProductDTO>>> GetProductByCategoryId(int CategoryId)
+        {
+            var product = await _unitOfWork.ProductRepository.GetProductByCategoryId(CategoryId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<ProductDTO>>(product);
             return result;
         }
 

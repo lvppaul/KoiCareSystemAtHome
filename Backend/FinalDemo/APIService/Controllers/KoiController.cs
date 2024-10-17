@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Domain.Helper;
 using Domain.Models;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository;
+using System.Security.Claims;
 //using SWP391.KCSAH.Repository.Models.;
 
 namespace KCSAH.APIServer.Controllers
@@ -22,16 +25,32 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<KoiDTO>>> GetAllAsync()
         {
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (userRole != AppRole.Admin)
+            {
+                return StatusCode(403, "Your Role is not supported"); // Trả về 403 với thông báo tùy chỉnh
+            }
+
             var kois = await _unitOfWork.KoiRepository.GetAllAsync();
             var koiDTOs = _mapper.Map<List<KoiDTO>>(kois);
             return Ok(koiDTOs);
         }
 
+
         [HttpGet("async/{id}")]
+        [Authorize]
         public async Task<ActionResult<KoiDTO>> GetByIdAsync(int id)
         {
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (userRole != AppRole.Member && userRole != AppRole.Vip)
+            {
+                return StatusCode(403, "Your Role is not supported"); // Trả về 403 với thông báo tùy chỉnh
+            }
             var koi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
             if (koi == null)
             {
@@ -55,8 +74,15 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Koi>> CreateKoi([FromBody] KoiRequestDTO koi)
         {
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (userRole != AppRole.Member && userRole != AppRole.Vip)
+            {
+                return StatusCode(403, "Your Role is not supported"); // Trả về 403 với thông báo tùy chỉnh
+            }
             if (koi == null)
             {
                 return BadRequest(ModelState);
@@ -78,8 +104,15 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateKoi(int id, [FromBody] KoiRequestDTO koidto)
         {
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (userRole != AppRole.Member && userRole != AppRole.Vip)
+            {
+                return StatusCode(403, "Your Role is not supported"); // Trả về 403 với thông báo tùy chỉnh
+            }
             if (koidto == null)
             {
                 return BadRequest();
@@ -105,8 +138,15 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteKoi(int id)
         {
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (userRole != AppRole.Member && userRole != AppRole.Vip)
+            {
+                return StatusCode(403, "Your Role is not supported"); // Trả về 403 với thông báo tùy chỉnh
+            }
             var koi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
             if (koi == null)
             {

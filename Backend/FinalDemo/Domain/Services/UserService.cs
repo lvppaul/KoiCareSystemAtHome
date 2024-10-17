@@ -20,7 +20,7 @@ namespace Domain.Services
             _context = context;
         }
 
-        public async Task<List<Order>> GetPondByUserIdAsync(string id)
+        public async Task<List<Order>> GetOrderByUserIdAsync(string id)
         {
             return await _context.Orders.Where(p => p.UserId.Equals(id)).ToListAsync();
         }

@@ -30,19 +30,23 @@ namespace APIService.Controllers
             return Ok(blogCommentDTOs);
         }
 
-        [HttpGet("async/{id}")]
-        public async Task<ActionResult<BlogCommentDTO>> GetByIdAsync(int id)
+        [HttpGet("{userid}")]
+        public async Task<ActionResult<List<BlogCommentDTO>>> GetCommentByUserId(string userid)
         {
-            var blogComment = await _unitOfWork.BlogCommentRepository.GetByIdAsync(id);
+
+            var blogComment = await _unitOfWork.BlogCommentRepository.GetByUserIdAsync(userid);
+
             if (blogComment == null)
             {
                 return NotFound();
             }
-            var result = _mapper.Map<BlogCommentDTO>(blogComment);
-            return result;
+
+            var result = _mapper.Map<List<BlogCommentDTO>>(blogComment);
+            return Ok(result);
         }
 
-        [HttpGet("{id}")]
+
+        [HttpGet("{id:int}")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<BlogCommentDTO> GetById(int id)
         {

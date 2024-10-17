@@ -24,5 +24,12 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
             return result;
         }
+
+        public async Task<List<Product>> GetProductByCategoryId(int categoryId)
+        {
+            var result = _context.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
+
+            return await result;
+        }
     }
 }
