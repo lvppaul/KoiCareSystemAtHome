@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Card, Button, Table, CardImg } from 'react-bootstrap';
+import { Container, Card, CardImg, ListGroup, Button, Table, Row, Col } from 'react-bootstrap';
 import { getShopByUserId } from '../../Config/ShopApi';
 import { getProductByUserId } from '../../Config/ProductApi';
 import UpdateShopDetails from '../../components/UpdateShopDetails/UpdateShopDetails';
@@ -50,7 +50,6 @@ const ManageShop = () => {
         try {
             const allProducts = await getProductByUserId(shopUserId);
             const updatedProducts = await Promise.all(allProducts.map(async product => {
-                console.log('Fetched product:', product);
                 if (product.thumbnail) {
                     try {
                         const storageRef = ref(storage, product.thumbnail);
@@ -89,24 +88,34 @@ const ManageShop = () => {
 
     return (
         <Container>
-            <Card>
-                <Card.Img variant="top" src={shop.thumbnail} alt="Shop Thumbnail" />
-                <Card.Body>
-                    <Card.Title>{shop.shopName}</Card.Title>
-                    <Card.Text>
-                        <strong>Description: </strong> {shop.description}
-                    </Card.Text>
-                    <Card.Text>
-                        <strong>Phone: </strong> {shop.phone}
-                    </Card.Text>
-                    <Card.Text>
-                        <strong>Email: </strong> {shop.email}
-                    </Card.Text>
-                    <Card.Text>
-                        <strong>Rating: </strong> {shop.rating}
-                    </Card.Text>
-                    <Button variant="primary" onClick={() => setShowShopModal(true)}>Edit Shop Details</Button>
-                </Card.Body>
+            <Card className="mb-4 shadow-sm">
+                <Row noGutters>
+                    <Col md={4}>
+                        <Card.Img variant="top" src={shop.thumbnail} alt="Shop Thumbnail" className="h-100" />
+                    </Col>
+                    <Col md={8}>
+                        <Card.Body>
+                            <Card.Title className="text-center">{shop.shopName}</Card.Title>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>
+                                    <strong>Description: </strong> {shop.description}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <strong>Phone: </strong> {shop.phone}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <strong>Email: </strong> {shop.email}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <strong>Rating: </strong> {shop.rating}
+                                </ListGroup.Item>
+                            </ListGroup>
+                            <div className="d-flex justify-content-center">
+                                <Button variant="primary" onClick={() => setShowShopModal(true)}>Edit Shop Details</Button>
+                            </div>
+                        </Card.Body>
+                    </Col>
+                </Row>
             </Card>
             <UpdateShopDetails
                 shop={shop}
@@ -115,7 +124,11 @@ const ManageShop = () => {
                 handleClose={() => setShowShopModal(false)}
             />
             <h2>Shop Products</h2>
-            <Button variant="success" onClick={() => setShowAddProductModal(true)}>Add New Product</Button>
+            <Row className="mb-3">
+                <Col className="d-flex justify-content-end">
+                    <Button variant="success" onClick={() => setShowAddProductModal(true)}>Add New Product</Button>
+                </Col>
+            </Row>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -140,12 +153,14 @@ const ManageShop = () => {
                             <td>${product.price.toFixed(2)}</td>
                             <td>{product.status ? 'Available' : 'Unavailable'}</td>
                             <td>
-                                <Button variant="warning" onClick={() => { setSelectedProduct(product); setShowProductModal(true); }}>
-                                    Update
-                                </Button>
-                                <Button variant="danger" onClick={() => handleDeleteProduct(product.productId)}>
-                                    Delete
-                                </Button>
+                                <div className="d-flex">
+                                    <Button variant="warning" className="me-2" onClick={() => { setSelectedProduct(product); setShowProductModal(true); }}>
+                                        Update
+                                    </Button>
+                                    <Button variant="danger"  onClick={() => handleDeleteProduct(product.productId)}>
+                                        Delete
+                                    </Button>
+                                </div>
                             </td>
                         </tr>
                     ))}

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-inport { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Spinner, Pagination, Image } from 'react-bootstrap';
 import { getProducts } from '../../Config/ProductApi';
 import { getCategories } from '../../Config/CategoryApi';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import './Shop.css';
-import { Container } from 'react-bootstrap';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -87,52 +86,64 @@ const Shop = () => {
   if (loading) {
     return (
       <Container className="text-center">
-        <Spinner animation="border" role="status">
-          <span className="sr-only">Loading...</span>
-        </Spinner>
+        <Spinner animation="border" size="xl" role="status"/>
+        
       </Container>
     );
   }
 
   return (
-    <Container>  
+    <Container>
       <header className="shop-header">
         <h1>Koi Care Shop</h1>
       </header>
       <Button as={Link} to="/manageshop" variant="primary" className="my-3">
         Manage Shop
       </Button>
-        <Row className="my-3">
-          <Col md={2}>
-            <Form.Label>Sort by Category:</Form.Label>
-            <Form.Group controlId="categorySelect">
-              <Form.Control as="select" value={selectedCategory} onChange={handleCategoryChange} className="category-select">
-                {categories.map((category) => (
-                  <option key={category.categoryId} value={category.categoryId}>
-                    {category.name}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+      <Row className="my-3">
+        <Col md={2}>
+          <Form.Group controlId="categorySelect">
+          <Form.Label>Sort by Category:</Form.Label>
+            <Form.Select value={selectedCategory} onChange={handleCategoryChange} className="category-select">
+              {categories.map((category) => (
+                <option key={category.categoryId} value={category.categoryId}>
+                  {category.name}
+                </option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row>
+        {currentProducts.map(product => (
+          <Col key={product.productId} md={3} className="mb-3">
+            <Link to={`/product/${product.productId}`} className='productLink'>
+            <div className="product-card">
+              <Image src={product.thumbnail} alt={product.name} className="img-fluid" rounded />
+              <h5>{product.name}</h5>
+              <p>${product.price}</p>
+            </div>
+            </Link>
           </Col>
-        </Row>
-        <ul className="productList">
-          {currentProducts.map(product => (
-            <li key={product.productId} className="productItem">
-              <Link to={`/product/${product.productId}`} className="productLink">
-                <img src={product.thumbnail} alt={product.name} className="productImage" />
-                <div>{product.name} - ${product.price}</div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="shop-pagination">
-          <button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</button>
-          <span>Page {currentPage} of {totalPages}</span>
-          <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
-        </div>
-      
-    
+        ))}
+      </Row>
+      <Row>
+        <Col className="d-flex justify-content-center">
+          <Pagination>
+            <Pagination.Prev onClick={handlePrevPage} disabled={currentPage === 1} />
+            {[...Array(totalPages).keys()].map(number => (
+              <Pagination.Item
+                key={number + 1}
+                active={number + 1 === currentPage}
+                onClick={() => setCurrentPage(number + 1)}
+              >
+                {number + 1}
+              </Pagination.Item>
+            ))}
+            <Pagination.Next onClick={handleNextPage} disabled={currentPage === totalPages} />
+          </Pagination>
+        </Col>
+      </Row>
     </Container>
   );
 
