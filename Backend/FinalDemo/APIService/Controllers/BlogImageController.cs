@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Domain.Helper;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Update;
 using Domain.Models.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWP391.KCSAH.Repository;
@@ -30,7 +32,7 @@ namespace APIService.Controllers
             return Ok(blogImageDTOs);
         }
 
-        [HttpGet("async/{id}")]
+        [HttpGet("GetBlogImageById/{id}")]
         public async Task<ActionResult<BlogImageDTO>> GetByIdAsync(int id)
         {
             var blogImage = await _unitOfWork.BlogImageRepository.GetByIdAsync(id);
@@ -56,6 +58,7 @@ namespace APIService.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<ActionResult<BlogImageDTO>> CreateBlogImage([FromBody] BlogImageRequestDTO blogImagedto)
         {
             if (blogImagedto == null)
@@ -80,6 +83,7 @@ namespace APIService.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> UpdateBlogImage(int id, [FromBody] BlogImageUpdateDTO blogImagedto)
         {
             if (blogImagedto == null)
@@ -109,6 +113,7 @@ namespace APIService.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> DeleteBlogImage(int id)
         {
             var blogImage = await _unitOfWork.BlogImageRepository.GetByIdAsync(id);

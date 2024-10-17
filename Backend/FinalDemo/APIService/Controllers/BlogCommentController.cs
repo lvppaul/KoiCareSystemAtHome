@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Domain.Helper;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Update;
 using Domain.Models.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWP391.KCSAH.Repository;
@@ -23,28 +25,13 @@ namespace APIService.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}, {AppRole.Admin}")]
         public async Task<ActionResult<IEnumerable<BlogCommentDTO>>> GetAllSync()
         {
             var blogComments = await _unitOfWork.BlogCommentRepository.GetAllAsync();
             var blogCommentDTOs = _mapper.Map<List<BlogCommentDTO>>(blogComments);
             return Ok(blogCommentDTOs);
         }
-
-        [HttpGet("{userid}")]
-        public async Task<ActionResult<List<BlogCommentDTO>>> GetCommentByUserId(string userid)
-        {
-
-            var blogComment = await _unitOfWork.BlogCommentRepository.GetByUserIdAsync(userid);
-
-            if (blogComment == null)
-            {
-                return NotFound();
-            }
-
-            var result = _mapper.Map<List<BlogCommentDTO>>(blogComment);
-            return Ok(result);
-        }
-
 
         [HttpGet("{id:int}")]
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -72,6 +59,7 @@ namespace APIService.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<ActionResult<BlogCommentDTO>> CreateBlogComment([FromBody] BlogCommentRequestDTO blogCommentdto)
         {
             if (blogCommentdto == null)
@@ -96,6 +84,7 @@ namespace APIService.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> UpdateBlogComment(int id, [FromBody] BlogCommentUpdateDTO blogCommentdto)
         {
             if (blogCommentdto == null)
@@ -125,6 +114,7 @@ namespace APIService.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> DeleteBlogComment(int id)
         {
             var blogComment = await _unitOfWork.BlogCommentRepository.GetByIdAsync(id);
