@@ -59,6 +59,18 @@ namespace APIService.Controllers
             return result;
         }
 
+        [HttpGet("BlogId/{id}")]
+        public async Task<IActionResult> GetBlogCommentsByBlogIdAsync(int id)
+        {
+            var result = await _unitOfWork.BlogCommentRepository.GetBlogCommentsByBID(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<BlogCommentDTO>>(result);
+            return Ok(show);
+        }
+
         [HttpPost]
         public async Task<ActionResult<BlogCommentDTO>> CreateBlogComment([FromBody] BlogCommentRequestDTO blogCommentdto)
         {
