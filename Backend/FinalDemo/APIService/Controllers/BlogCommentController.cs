@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWP391.KCSAH.Repository;
+using System.ComponentModel.DataAnnotations;
 
 namespace APIService.Controllers
 {
@@ -58,6 +59,18 @@ namespace APIService.Controllers
             return Ok(show);
         }
 
+        [HttpGet("BlogId/UserID")]
+        public async Task<IActionResult> GetBlogCommentsByUserIDInBlog([Required] string uid, [Required] int bid)
+        {
+            var result = await _unitOfWork.BlogCommentRepository.GetBlogCommentByUIDInBlog(uid,bid);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<BlogCommentDTO>>(result);
+            return Ok(show);
+        }
+
         [HttpPost]
         [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<ActionResult<BlogCommentDTO>> CreateBlogComment([FromBody] BlogCommentRequestDTO blogCommentdto)
@@ -92,14 +105,13 @@ namespace APIService.Controllers
                 return BadRequest();
             }
 
-            var existingBlogComment = await _unitOfWork.BlogCommentRepository.GetByIdAsync(id);
+            var existingBlogComment = await _unitOfWork.BlogCommentRepository.GetBlogCommentInBlog(id);
             if (existingBlogComment == null)
             {
                 return NotFound(); 
             }
 
             _mapper.Map(blogCommentdto, existingBlogComment);
-
             // Cập nhật vào cơ sở dữ liệu
             var updateResult = await _unitOfWork.BlogCommentRepository.UpdateAsync(existingBlogComment);
 
