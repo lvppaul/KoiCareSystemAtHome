@@ -25,13 +25,18 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return result;
         }
 
+        public async Task<List<Product>> GetProductByCategoryId(int categoryId)
+        {
+            var result = _context.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
+
+            return await result;
+        }
+
         public async Task<List<Product>> GetProductsByUID(string id)
         {
             var products = await _context.Products.Include(c => c.Category)
-                .Where(u => u.UserId.Equals( id))
+                .Where(u => u.UserId.Equals(id))
                 .ToListAsync();
-
-           
 
             return products ?? new List<Product>();
         }

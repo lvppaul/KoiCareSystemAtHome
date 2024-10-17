@@ -60,6 +60,10 @@ namespace KCSAH.APIServer.Controllers
         public async Task<IActionResult> GetFishInPond(int id)
         {
             var result = await _getService.GetKoiInPond(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
             var show = _mapper.Map<List<KoiDTO>>(result);
             return Ok(show);
         }
@@ -68,6 +72,10 @@ namespace KCSAH.APIServer.Controllers
         public async Task<IActionResult> GetPondByUserIdAsync(string id)
         {
             var result = await _getService.GetPondByUserIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
             var show = _mapper.Map<List<PondDTO>>(result);
             return Ok(show);
         }
@@ -76,6 +84,10 @@ namespace KCSAH.APIServer.Controllers
         public async Task<IActionResult> WaterParameterListByPondId(int id)
         {
             var result = await _getService.GetPondWaterParameter(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
             var show = _mapper.Map<List<WaterParameterDTO>>(result);
             return Ok(show);
         }

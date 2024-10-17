@@ -18,9 +18,9 @@ namespace Domain.Repositories
             return await _context.BlogComments.ToListAsync();
         }
 
-        public async Task<BlogComment> GetByIdAsync(int id)
+        public async Task<List<BlogComment>> GetByUserIdAsync(string userId)
         {
-            var result = await _context.BlogComments.FirstOrDefaultAsync(p => p.CommentId.Equals(id));
+            var result = await _context.BlogComments.Where(b => b.ApplicationUser.Id.Equals(userId)).ToListAsync();
 
             return result;
         }

@@ -1,7 +1,10 @@
 ﻿using Domain.Authentication;
 using Domain.Base;
+using Domain.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ApiService.Controllers
 {
@@ -16,7 +19,7 @@ namespace ApiService.Controllers
         }
         [HttpPost("CreateMemberAccount")]
         public async Task<IActionResult> SignUp(SignUpModel model)
-        {
+        {       
             var result = await _accountRepository.SignUpAsync(model);
             if (result.Succeeded)
             {

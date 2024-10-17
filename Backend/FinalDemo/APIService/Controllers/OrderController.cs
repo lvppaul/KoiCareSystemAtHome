@@ -72,7 +72,11 @@ namespace KCSAH.APIServer.Controllers
         [HttpGet("UserId/{id}")]
         public async Task<IActionResult> GetOrderByUserIdAsync(string id)
         {
-            var result = await _getService.GetPondByUserIdAsync(id);
+            var result = await _getService.GetOrderByUserIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
             var show = _mapper.Map<List<OrderDTO>>(result);
             return Ok(show);
         }
