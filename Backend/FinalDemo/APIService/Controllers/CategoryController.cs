@@ -56,11 +56,11 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
-        [HttpGet("GetCategoryListByShopId/{shopId}")]
-        public async Task<ActionResult<List<CategoryDTO>>> GetCategoryListShop(int shopId)
-        {
-            var categoryList = await _unitOfWork.CategoryRepository.
-        }
+        //[HttpGet("GetCategoryListByShopId/{shopId}")]
+        //public async Task<ActionResult<List<CategoryDTO>>> GetCategoryListShop(int shopId)
+        //{
+        //    var categoryList = await _unitOfWork.CategoryRepository.
+        //}
 
         [HttpPost]
         [Authorize(Roles = AppRole.Shop)]
