@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using System.Web;
+using Domain.Models.Entity;
 
 namespace Domain.Repositories
 {
