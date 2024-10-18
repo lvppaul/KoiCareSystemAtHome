@@ -40,6 +40,8 @@ namespace Domain.Models.Entity
 
         public virtual ICollection<Pond> Ponds { get; set; } = new List<Pond>();
 
+        public virtual ICollection<News> News { get; set; } = new List<News>();
+
         public virtual ICollection<WaterParameter> WaterParameters { get; set; } = new List<WaterParameter>();
     }
 }

@@ -27,7 +27,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Product>> GetProductByCategoryId(int categoryId)
         {
-            var result = _context.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
+            var result = _context.Products.Include(p => p.Category).Where(p => p.CategoryId == categoryId).ToListAsync();
 
             return await result;
         }
@@ -39,6 +39,15 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
                 .ToListAsync();
 
             return products ?? new List<Product> ();
+        }
+
+        public async Task<List<Product>> GetProductByCategoryIdInShop(int categoryId, int shopId)
+        {
+            var result = await _context.Products
+            .Include(p => p.Category)
+            .Where(p => p.CategoryId == categoryId && p.ShopId == shopId)
+            .ToListAsync();
+            return result;
         }
     }
 }

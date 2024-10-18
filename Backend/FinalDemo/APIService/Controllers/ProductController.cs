@@ -65,6 +65,18 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
+        [HttpGet("GetProductByCategoryIdInShop/{ShopId}/{CategoryId}")]
+        public async Task<ActionResult<List<ProductDTO>>> GetProductByCategoryIdInShop(int CategoryId, int ShopId)
+        {
+            var product = await _unitOfWork.ProductRepository.GetProductByCategoryIdInShop(CategoryId, ShopId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<ProductDTO>>(product);
+            return result;
+        }
+
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<ProductRequestDTO> GetById(int id)
