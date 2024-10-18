@@ -20,9 +20,7 @@ function Login() {
     e.preventDefault(); // Prevent default form submission
     try {
       const response = await signIn({ email, password });
-      console.log('Sign in response:', response);
       if (response) {
-
         login({ email, role: response.userRole, userId: response.userId });
         if (response.userRole === 'admin') {
           navigate('/admin');
