@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Card, CardImg, ListGroup, Button, Table, Row, Col } from 'react-bootstrap';
 import { getShopByUserId } from '../../Config/ShopApi';
-import { getProductByUserId } from '../../Config/ProductApi';
+import { getProductsByShopId } from '../../Config/ProductApi';
 import UpdateShopDetails from '../../components/UpdateShopDetails/UpdateShopDetails';
 import UpdateShopProducts from '../../components/UpdateShopProducts/UpdateShopProducts';
 import AddNewProduct from '../../components/AddNewProduct/AddNewProduct';
@@ -34,8 +34,7 @@ const ManageShop = () => {
                 }
             }
             setShop(shopData);
-            //need to change to shopData.shopId
-            fetchProducts(shopData.userId);
+            fetchProducts(shopData.shopId);
             setLoading(false);
         } catch (error) {
             console.error('Error fetching shop details:', error);
@@ -47,9 +46,9 @@ const ManageShop = () => {
         fetchShopDetails();
     }, [fetchShopDetails]);
 
-    const fetchProducts = async (shopUserId) => {
+    const fetchProducts = async (shopId) => {
         try {
-            const allProducts = await getProductByUserId(shopUserId); //change this to shopId
+            const allProducts = await getProductsByShopId(shopId);
             const updatedProducts = await Promise.all(allProducts.map(async product => {
                 if (product.thumbnail) {
                     try {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getBlogs } from '../../API/AxiosConfig';
+import { getBlogByBlogId } from '../../Config/BlogApi';
 import CommentSection from '../../components/CommentSection/CommentSection';
 import './BlogDetail.css';
 
@@ -10,10 +10,9 @@ const BlogDetail = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getBlogs()
+    getBlogByBlogId(blogId)
       .then(data => {
-        const foundBlog = data.find(blog => blog.blogId === blogId);
-        setBlog(foundBlog);
+        setBlog(data);
         setLoading(false);
       })
       .catch(error => {

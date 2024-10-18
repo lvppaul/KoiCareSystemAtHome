@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Container, Row, Col, Image, Button, Spinner, Carousel } from 'react-bootstrap';
-import { getProductById, getProductImageByProductId } from '../../Config/ProductApi';
+import { getProductById, getProductImagesByProductId } from '../../Config/ProductApi';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import { FaShoppingCart } from 'react-icons/fa';
@@ -15,8 +15,7 @@ const Product = () => {
 
   const fetchProductImages = useCallback(async () => {
     try {
-      const allImages = await getProductImageByProductId(productId);
-      console.log('All images:', allImages);
+      const allImages = await getProductImagesByProductId(productId);
       const updatedImages = await Promise.all(allImages.map(async image => {
         if (image.imageUrl) {
           try {

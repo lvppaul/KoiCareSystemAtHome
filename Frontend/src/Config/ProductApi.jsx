@@ -75,23 +75,38 @@ const getProductById = async (productId) => {
     }
 };
 
-// Function to get products by userId --> shopId
-const getProductByUserId = async (userId) => {
+// Function to get products by shopId
+const getProductsByShopId = async (shopId) => {
     try {
-        const response = await api.get(`Product/UserId/${userId}`, {
+        const response = await api.get(`Product/ShopId/${shopId}`, {
             headers: {
                 'accept': 'text/plain'
             }
         });
         return response.data;
     } catch (error) {
-        console.error(`Error fetching products with userId ${userId}:`, error);
+        console.error(`Error fetching products with shopId ${shopId}:`, error);
+        throw error;
+    }
+};
+
+// Function to get products by categoryId
+const getProductsByCategoryId = async (categoryId) => {
+    try {
+        const response = await api.get(`Product/GetProductByCategoryId/${categoryId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching products with categoryId ${categoryId}:`, error);
         throw error;
     }
 };
 
 // Function to get product image by productId
-const getProductImageByProductId = async (productId) => {
+const getProductImagesByProductId = async (productId) => {
     try {
         const response = await api.get(`Product/GetProductImageByProductId/${productId}`, {
             headers: {
@@ -107,5 +122,5 @@ const getProductImageByProductId = async (productId) => {
 
 export {
     getProducts, addProduct, updateProduct, deleteProduct,
-    getProductById, getProductByUserId, getProductImageByProductId
+    getProductById, getProductsByShopId, getProductsByCategoryId, getProductImagesByProductId
 };

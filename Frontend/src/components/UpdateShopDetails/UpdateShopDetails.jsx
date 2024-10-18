@@ -42,22 +42,21 @@ const UpdateShopDetails = ({ shop, setShop, show, handleClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const previousThumbnail = shop.thumbnail;
+        const previousStorageRef = ref(storage, shop.thumbnail);
+        const NotFound = 'others/NotFound.jpg';
         try {
             if (file) {
                 await uploadBytes(storageRef, file);
                 const newThumbnailUrl = await getDownloadURL(storageRef);
                 await updateShopDetails(shopDetails);
                 setShop({ ...shopDetails, thumbnail: newThumbnailUrl });
-
-                if (previousThumbnail) {
-                    const previousStorageRef = ref(storage, previousThumbnail);
+                if (previousStorageRef.fullPath !== NotFound) {                  
                     await deleteObject(previousStorageRef);
-                    console.log('Previous image de  leted successfully');
+                    console.log('Previous image deleted successfully');
                 }
             } else {
                 await updateShopDetails(shopDetails);
-                setShop({ ...shopDetails, thumbnail: previousThumbnail });
+                setShop({ ...shopDetails, thumbnail: previousStorageRef.fullPath });
             }
             setFile(null);
             setPreviewImage(null);
