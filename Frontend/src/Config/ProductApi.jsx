@@ -63,7 +63,7 @@ const deleteProduct = async (productId) => {
 // Function to get product by ID
 const getProductById = async (productId) => {
     try {
-        const response = await api.get(`Product/${productId}`, {
+        const response = await api.get(`Product/GetProductById/${productId}`, {
             headers: {
                 'accept': 'text/plain'
             }
