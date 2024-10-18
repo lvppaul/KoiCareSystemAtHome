@@ -1,6 +1,6 @@
 --drop database KoiCareSystemAtHome;
 
-use KoiCareSystemAtHome2;
+use KoiCareSystemAtHome6789;
 
 --Disable Foreign Key Constraints
 --EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL';
@@ -27,11 +27,11 @@ use KoiCareSystemAtHome2;
 --1.
 INSERT INTO [AspNetUsers] (Id, FirstName, LastName, Sex, Street, District, City, Country, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'member', 'a', NULL, NULL, NULL, NULL, NULL, 'member@example.com', 'MEMBER@EXAMPLE.COM', 'member@example.com', 'MEMBER@EXAMPLE.COM', 0, 'AQAAAAIAAYagAAAAEIu0gnPvb0zhWrk4NNA3wEMiOewPTGZLrYqgAOJs5OwUbuKXyPKTBekE9OveJ020gg==', 'RWVHVDP7IWP22CE4U3VXIEKH4ZOXHD2W', '71aae56b-e997-4ae0-8215-2e0f71381a88', NULL, 0, 0, NULL, 1, 0),
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip', 'b', NULL, NULL, NULL, NULL, NULL, 'vip@example.com', 'VIP@EXAMPLE.COM', 'vip@example.com', 'VIP@EXAMPLE.COM', 0, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', NULL, 0, 0, NULL, 1, 0),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'admin', 'd', NULL, NULL, NULL, NULL, NULL, 'admin@example.com', 'ADMIN@EXAMPLE.COM', 'admin@example.com', 'ADMIN@EXAMPLE.COM', 0, 'AQAAAAIAAYagAAAAEMSsXYBri40up6lHG2s0YHq4+fVyvxAGIKkIXHGh1lHXfFRNq79FWJ/oka/KX0OusA==', 'UF5GBLSGV3DSLXRSIDKRAXKGEEIIM3TL', '82c5fd3e-d565-43d1-a031-8af185d68916', NULL, 0, 0, NULL, 1, 0),
-('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'sho2p', 'c2', NULL, NULL, NULL, NULL, NULL, 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 0, 'AQAAAAIAAYagAAAAEAAinoUzd5JbC2ZXIsjuzrMAwLklvMaW0XlwQpaoRZHof+FMlGnMJSiNThEoQJ3C/Q==', '5YQ266SGHHXQ2W3KRSLNZKZSM7BB4XWC', 'fbd64607-02bd-47ca-8cb3-22d7c2f6a6c8', NULL, 0, 0, NULL, 1, 0),
-('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'shop', 'c', NULL, NULL, NULL, NULL, NULL, 'shop@example.com', 'SHOP@EXAMPLE.COM', 'shop@example.com', 'SHOP@EXAMPLE.COM', 0, 'AQAAAAIAAYagAAAAEMFEM383aESJByWGKS3TlzTnvQdLT1LzwWblpe2+AzVDIOIBfUqsZHnQkzC1oSo72g==', '5CIZCKPIKKLLFBIRJDJHT45DZ3V7DL2Q', '98bef99c-d585-4b37-be2d-6e57540bb48b', NULL, 0, 0, NULL, 1, 0);
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'member', 'a', NULL, NULL, NULL, NULL, NULL, 'member@example.com', 'MEMBER@EXAMPLE.COM', 'member@example.com', 'MEMBER@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEIu0gnPvb0zhWrk4NNA3wEMiOewPTGZLrYqgAOJs5OwUbuKXyPKTBekE9OveJ020gg==', 'RWVHVDP7IWP22CE4U3VXIEKH4ZOXHD2W', '71aae56b-e997-4ae0-8215-2e0f71381a88', NULL, 0, 0, NULL, 1, 0),
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip', 'b', NULL, NULL, NULL, NULL, NULL, 'vip@example.com', 'VIP@EXAMPLE.COM', 'vip@example.com', 'VIP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', NULL, 0, 0, NULL, 1, 0),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'admin', 'd', NULL, NULL, NULL, NULL, NULL, 'admin@example.com', 'ADMIN@EXAMPLE.COM', 'admin@example.com', 'ADMIN@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMSsXYBri40up6lHG2s0YHq4+fVyvxAGIKkIXHGh1lHXfFRNq79FWJ/oka/KX0OusA==', 'UF5GBLSGV3DSLXRSIDKRAXKGEEIIM3TL', '82c5fd3e-d565-43d1-a031-8af185d68916', NULL, 0, 0, NULL, 1, 0),
+('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'sho2p', 'c2', NULL, NULL, NULL, NULL, NULL, 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEAAinoUzd5JbC2ZXIsjuzrMAwLklvMaW0XlwQpaoRZHof+FMlGnMJSiNThEoQJ3C/Q==', '5YQ266SGHHXQ2W3KRSLNZKZSM7BB4XWC', 'fbd64607-02bd-47ca-8cb3-22d7c2f6a6c8', NULL, 0, 0, NULL, 1, 0),
+('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'shop', 'c', NULL, NULL, NULL, NULL, NULL, 'shop@example.com', 'SHOP@EXAMPLE.COM', 'shop@example.com', 'SHOP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMFEM383aESJByWGKS3TlzTnvQdLT1LzwWblpe2+AzVDIOIBfUqsZHnQkzC1oSo72g==', '5CIZCKPIKKLLFBIRJDJHT45DZ3V7DL2Q', '98bef99c-d585-4b37-be2d-6e57540bb48b', NULL, 0, 0, NULL, 1, 0);
 
 --All roles password: Abc@123
 
@@ -196,16 +196,16 @@ VALUES
 (27, 'product/productImages/b02dfef5-997d-49cd-89f5-1c44499ecdef/product_p027_img3.png');
 
 
-INSERT INTO Koi (UserID, PondID, Physique, Thumbnail, Age, Sex, Name, Note, Origin, Variety, Length, Weight, Color, Status, CreateAt)
+INSERT INTO Koi (UserID, PondID, Thumbnail, Age, Name, Note, Origin, Length, Weight, Color, CreateAt, Sex, Variety, Physique, Status)
 VALUES
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'Slim','koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi1_thumbnail.png', 2, 'female','Koi A', 'A beautiful koi with bright colors.', 'Japan', 'Koromo',30, 5, 'Orange and White', 1, GETDATE()),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'Slim','koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi2_thumbnail.png', 1, 'male','Koi B', 'Young koi, growing fast.', 'USA', 'Hariwake',20, 2, 'Black and Yellow', 1, GETDATE()),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'Normal','koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi3_thumbnail.png', 3, 'female','Koi C', 'A stunning koi with unique patterns.', 'China', 'Shusui', 35, 6, 'Red and White', 1, GETDATE()),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'Slim','koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi4_thumbnail.png', 4, 'male','Koi D', 'Very active koi, loves to swim.', 'Thailand', 'Tancho', 32, 7, 'Blue and Orange', 1, GETDATE()),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'Corpulent','koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi5_thumbnail.png', 2, 'female','Koi E', 'Friendly koi, often interacts with people.', 'Japan', 'Kikusui', 28, 4, 'White with Black Spots', 1, GETDATE()),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'Slim','koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi6_thumbnail.png', 1, 'male','Koi F', 'Small but very colorful.', 'USA', 'Taisho Sanshoku', 15, 1, 'Yellow and Black', 1, GETDATE()),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'Normal','koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi7_thumbnail.png', 3, 'female','Koi G', 'A rare breed of koi.', 'China', 'Yamato Nishiki', 40, 8, 'Orange and Black', 1, GETDATE()),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'Corpulent','koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi8_thumbnail.png', 5, 'male','Koi H', 'An older koi with lots of personality.', 'Thailand', 'Ochiba Shigure',38, 9, 'Calico', 1, GETDATE());  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi1_thumbnail.png', 2, 'Koi A', 'A beautiful koi with bright colors.', 'Japan', 30, 5, 'Orange and White', GETDATE(), 'Male','Kohaku','Small', 1),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi2_thumbnail.png', 1, 'Koi B', 'Young koi, growing fast.', 'USA', 20, 2, 'Black and Yellow', GETDATE(), 'Female','Sanke','Thin', 1),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi3_thumbnail.png', 3, 'Koi C', 'A stunning koi with unique patterns.', 'China', 35, 6, 'Red and White', GETDATE(), 'Male','Hikari','Large', 1),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi4_thumbnail.png', 4, 'Koi D', 'Very active koi, loves to swim.', 'Thailand', 32, 7, 'Blue and Orange', GETDATE(), 'Female','Kohaku','Round', 1),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi5_thumbnail.png', 2, 'Koi E', 'Friendly koi, often interacts with people.', 'Japan', 28, 4, 'White with Black Spots', GETDATE(), 'Female','Asagi','Smooth', 1),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi6_thumbnail.png', 1, 'Koi F', 'Small but very colorful.', 'USA', 15, 1, 'Yellow and Black', GETDATE(), 'Male','Sanke','Long', 1),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi7_thumbnail.png', 3, 'Koi G', 'A rare breed of koi.', 'China', 40, 8, 'Orange and Black', GETDATE(), 'Female','Shusui','Short', 1),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi8_thumbnail.png', 5, 'Koi H', 'An older koi with lots of personality.', 'Thailand', 38, 9, 'Calico', GETDATE(), 'Male','Hikari','Sleek', 1);  -- Member user
 
 
 INSERT INTO Koi_Record (UserID, KoiID, Weight, Length, UpdatedTime)
@@ -297,10 +297,10 @@ VALUES
 
 INSERT INTO News (UserId, Thumbnail, Title, PublishDate, Content)
 VALUES
-('979a42a8-ecc7-4d15-ab6f-410755b9e593','news/newsThumbnails/news1_thumbnail.png', 'Koi Care Tips', GETDATE(), 'Learn essential tips for taking care of your koi fish.'),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593','news/newsThumbnails/news2_thumbnail.png', 'Pond Maintenance Guide', GETDATE(), 'A comprehensive guide to maintaining a healthy pond environment.'),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593','news/newsThumbnails/news3_thumbnail.png', 'Koi Health and Nutrition', GETDATE(), 'Understanding the dietary needs of your koi fish.'),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593','news/newsThumbnails/news4_thumbnail.png', 'Seasonal Care for Koi', GETDATE(), 'Seasonal tips to keep your koi healthy year-round.');
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news1_thumbnail.png', 'Koi Care Tips', GETDATE(), 'Learn essential tips for taking care of your koi fish.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news2_thumbnail.png', 'Pond Maintenance Guide', GETDATE(), 'A comprehensive guide to maintaining a healthy pond environment.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news3_thumbnail.png', 'Koi Health and Nutrition', GETDATE(), 'Understanding the dietary needs of your koi fish.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news4_thumbnail.png', 'Seasonal Care for Koi', GETDATE(), 'Seasonal tips to keep your koi healthy year-round.');
 
 
 INSERT INTO BlogComments (UserID, BlogId, Content, CreateDate)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { Form, Button, InputGroup, FormControl, Nav } from 'react-bootstrap';
 import { signIn } from '../../Config/LogInApi';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
@@ -20,9 +20,7 @@ function Login() {
     e.preventDefault(); // Prevent default form submission
     try {
       const response = await signIn({ email, password });
-      console.log('Sign in response:', response);
       if (response) {
-        // Call the login function with the user data and role
         login({ email, role: response.userRole, userId: response.userId });
         if (response.userRole === 'admin') {
           navigate('/admin');
@@ -46,20 +44,34 @@ function Login() {
   return (
     <div className='login-container'>
       
-        <button style={{
-          position: 'absolute', top:'10px', left:'0px', 
-          fontSize:'20px', fontWeight:'bold',
-          width:'200px', height:'50px', backgroundColor:'#FF8433',
-          borderTopRightRadius:'25px', borderBottomRightRadius:'25px', border:'none'}}
-          onClick={() => {navigate('/')}}>
-            <BiArrowBack size={30} style={{marginRight:'10px'}} />
-            Back to home
-        </button>
-      
-      <div className='login-form'>
-        <img src={logo} alt="FPT TT Koi logo" className="logo" />
-        <h2>Login to FPT TT Koi</h2>
+      <button style={{
+        position: 'absolute', top: '10px', left: '0px',
+        fontSize: '20px', fontWeight: 'bold',
+        width: '200px', height: '50px', backgroundColor: '#FF8433',
+        borderTopRightRadius: '25px', borderBottomRightRadius: '25px', border: 'none'
+      }}
+        onClick={() => { navigate('/') }}>
+        <BiArrowBack size={30} style={{ marginRight: '10px' }} />
+        Back to home
+      </button>
+
+      <img src={logo} alt="FPT TTKoi logo" className="logo" />
+        <h2>Login to FPT TTKoi</h2>
         <p className="description">{description}</p>
+
+      <Nav variant="tabs" defaultActiveKey="/login" className="mb-3">
+        <Nav.Item>
+          <Nav.Link href="/login">Log In</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="/signup" href="/signup">Sign Up</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="signupshop" href="/signupshop">Sign Up as a Shop Owner</Nav.Link>
+        </Nav.Item>
+      </Nav>
+
+      <div className='login-form'>
         {err && <p className="error-message">{err}</p>}
         <Form onSubmit={handleLogin}>
           <Form.Group>
