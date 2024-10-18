@@ -21,7 +21,7 @@ namespace ApiService.Controllers
         public async Task<IActionResult> SignIn(SignInModel model)
         {
             var result = await _accountRepository.SignInAsync(model);
-            if (!result.Equals(Success)) return BadRequest(result);
+            if (!(result.Length>100)) return BadRequest(result);
             return Ok(result);
         }
 

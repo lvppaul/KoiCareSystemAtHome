@@ -27,10 +27,11 @@ namespace Domain.Repositories
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _config;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public static string Success = "Successfully";
-        public static string notExistAcc = "Account does not exist";
-        public static string noInfor = "Fields must not be blank";
-        public static string notConfirmEmail = "You must confirm your email before login";
+        private static string Success = "Successfully";
+        private static string notExistAcc = "Account does not exist";
+        private static string noInfor = "Fields must not be blank";
+        private static string notConfirmEmail = "You must confirm your email before login";
+        private static string wrongPass = "Wrong password";
 
         public AccountRepository(UserManager<ApplicationUser> userManager,
             IConfiguration configuration,
@@ -44,22 +45,17 @@ namespace Domain.Repositories
         public async Task<string> SignInAsync(SignInModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-
+            if(user==null) return notExistAcc;
             bool isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user!);
             if (!isEmailConfirmed) return notConfirmEmail;
 
             var passwordValid = await _userManager.CheckPasswordAsync(user!, model.Password);
-            if (user == null || !passwordValid)
-            {
-                return noInfor;
-            }
-            
+            if (!passwordValid) return wrongPass;
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, model.Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
-
             };
 
             var userRoles = await _userManager.GetRolesAsync(user);
@@ -77,7 +73,8 @@ namespace Domain.Repositories
                 signingCredentials: new SigningCredentials(authenKey, SecurityAlgorithms.HmacSha512)
 
                 );
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            string validToken = HttpUtility.UrlEncode(new JwtSecurityTokenHandler().WriteToken(token));
+            return validToken;
         }
 
         public async Task<string> SignUpAsync(SignUpModel model)
