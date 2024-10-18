@@ -33,8 +33,8 @@ namespace KCSAH.APIServer.Controllers
         }
 
 
-        [HttpGet("async/{id}")]
-        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        [HttpGet("GetKoiById/{id}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<ActionResult<KoiDTO>> GetByIdAsync(int id)
         {
             var koi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
@@ -60,7 +60,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<ActionResult<Koi>> CreateKoi([FromBody] KoiRequestDTO koi)
         {
             if (koi == null)
@@ -84,7 +84,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> UpdateKoi(int id, [FromBody] KoiRequestDTO koidto)
         {
             if (koidto == null)
@@ -112,7 +112,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> DeleteKoi(int id)
         {
             var koi = await _unitOfWork.KoiRepository.GetByIdAsync(id);

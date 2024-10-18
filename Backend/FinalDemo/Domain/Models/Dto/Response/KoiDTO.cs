@@ -12,6 +12,12 @@
 
         public string Name { get; set; }
 
+        public string Sex { get; set; }
+
+        public string Variety { get; set; }
+
+        public string Physique { get; set; }
+
         public string Note { get; set; }
 
         public string Origin { get; set; }
@@ -25,6 +31,8 @@
         public bool Status { get; set; }
 
         public string? Thumbnail { get; set; }
+
+        public DateTime CreateAt { get; set; } = DateTime.Now;
 
         public List<KoiImageDTO>? Images { get; set; } = new List<KoiImageDTO>();
 
