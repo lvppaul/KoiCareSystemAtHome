@@ -26,6 +26,8 @@ import News from './pages/News/News';
 import ManageShop from "./pages/ManageShop/ManageShop";
 import KoiRemind from "./pages/KoiRemind/KoiRemind";
 import NotAuthorized from "./pages/NotAuthorized/NotAuthorized";
+import NewsDetail from "./pages/NewsDetail/NewsDetail";
+import BlogDetail from "./pages/BlogDetail/BlogDetail";
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -42,7 +44,9 @@ root.render(
                     <Route path="/" element={<App />}>
                         <Route index element={<Home />} />
                         <Route path="news" element={<News />} />
+                        <Route path="news/:newsId" element={<NewsDetail />} />
                         <Route path="blogs" element={<Blog />} />
+                        <Route path="blog/:blogId" element={<BlogDetail />} />
                         <Route path="shop" element={<Shop />} />
                         <Route path="product/:productId" element={<Product />} />
                         <Route path="notauthorized" element={<NotAuthorized />} />

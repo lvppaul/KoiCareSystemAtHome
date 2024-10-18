@@ -1,6 +1,6 @@
 --drop database KoiCareSystemAtHome;
 
-use KoiCareSystemAtHome6789;
+use KoiCareSystemAtHome2;
 
 --Disable Foreign Key Constraints
 --EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL';
@@ -196,16 +196,16 @@ VALUES
 (27, 'product/productImages/b02dfef5-997d-49cd-89f5-1c44499ecdef/product_p027_img3.png');
 
 
-INSERT INTO Koi (UserID, PondID, Thumbnail, Age, Name, Note, Origin, Length, Weight, Color, Status)
+INSERT INTO Koi (UserID, PondID, Physique, Thumbnail, Age, Sex, Name, Note, Origin, Variety, Length, Weight, Color, Status, CreateAt)
 VALUES
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi1_thumbnail.png', 2, 'Koi A', 'A beautiful koi with bright colors.', 'Japan', 30, 5, 'Orange and White', 1),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi2_thumbnail.png', 1, 'Koi B', 'Young koi, growing fast.', 'USA', 20, 2, 'Black and Yellow', 1),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi3_thumbnail.png', 3, 'Koi C', 'A stunning koi with unique patterns.', 'China', 35, 6, 'Red and White', 1),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi4_thumbnail.png', 4, 'Koi D', 'Very active koi, loves to swim.', 'Thailand', 32, 7, 'Blue and Orange', 1),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi5_thumbnail.png', 2, 'Koi E', 'Friendly koi, often interacts with people.', 'Japan', 28, 4, 'White with Black Spots', 1),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi6_thumbnail.png', 1, 'Koi F', 'Small but very colorful.', 'USA', 15, 1, 'Yellow and Black', 1),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi7_thumbnail.png', 3, 'Koi G', 'A rare breed of koi.', 'China', 40, 8, 'Orange and Black', 1),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi8_thumbnail.png', 5, 'Koi H', 'An older koi with lots of personality.', 'Thailand', 38, 9, 'Calico', 1);  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'Slim','koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi1_thumbnail.png', 2, 'female','Koi A', 'A beautiful koi with bright colors.', 'Japan', 'Koromo',30, 5, 'Orange and White', 1, GETDATE()),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'Slim','koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi2_thumbnail.png', 1, 'male','Koi B', 'Young koi, growing fast.', 'USA', 'Hariwake',20, 2, 'Black and Yellow', 1, GETDATE()),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'Normal','koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi3_thumbnail.png', 3, 'female','Koi C', 'A stunning koi with unique patterns.', 'China', 'Shusui', 35, 6, 'Red and White', 1, GETDATE()),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'Slim','koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi4_thumbnail.png', 4, 'male','Koi D', 'Very active koi, loves to swim.', 'Thailand', 'Tancho', 32, 7, 'Blue and Orange', 1, GETDATE()),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'Corpulent','koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi5_thumbnail.png', 2, 'female','Koi E', 'Friendly koi, often interacts with people.', 'Japan', 'Kikusui', 28, 4, 'White with Black Spots', 1, GETDATE()),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'Slim','koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi6_thumbnail.png', 1, 'male','Koi F', 'Small but very colorful.', 'USA', 'Taisho Sanshoku', 15, 1, 'Yellow and Black', 1, GETDATE()),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'Normal','koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi7_thumbnail.png', 3, 'female','Koi G', 'A rare breed of koi.', 'China', 'Yamato Nishiki', 40, 8, 'Orange and Black', 1, GETDATE()),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'Corpulent','koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi8_thumbnail.png', 5, 'male','Koi H', 'An older koi with lots of personality.', 'Thailand', 'Ochiba Shigure',38, 9, 'Calico', 1, GETDATE());  -- Member user
 
 
 INSERT INTO Koi_Record (UserID, KoiID, Weight, Length, UpdatedTime)
@@ -295,12 +295,12 @@ VALUES
 (4, 18, 1, 75.00); -- OrderID 4, Product P018
 
 
-INSERT INTO News (Thumbnail, Title, PublishDate, Content)
+INSERT INTO News (UserId, Thumbnail, Title, PublishDate, Content)
 VALUES
-('news/newsThumbnails/news1_thumbnail.png', 'Koi Care Tips', GETDATE(), 'Learn essential tips for taking care of your koi fish.'),
-('news/newsThumbnails/news2_thumbnail.png', 'Pond Maintenance Guide', GETDATE(), 'A comprehensive guide to maintaining a healthy pond environment.'),
-('news/newsThumbnails/news3_thumbnail.png', 'Koi Health and Nutrition', GETDATE(), 'Understanding the dietary needs of your koi fish.'),
-('news/newsThumbnails/news4_thumbnail.png', 'Seasonal Care for Koi', GETDATE(), 'Seasonal tips to keep your koi healthy year-round.');
+('979a42a8-ecc7-4d15-ab6f-410755b9e593','news/newsThumbnails/news1_thumbnail.png', 'Koi Care Tips', GETDATE(), 'Learn essential tips for taking care of your koi fish.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593','news/newsThumbnails/news2_thumbnail.png', 'Pond Maintenance Guide', GETDATE(), 'A comprehensive guide to maintaining a healthy pond environment.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593','news/newsThumbnails/news3_thumbnail.png', 'Koi Health and Nutrition', GETDATE(), 'Understanding the dietary needs of your koi fish.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593','news/newsThumbnails/news4_thumbnail.png', 'Seasonal Care for Koi', GETDATE(), 'Seasonal tips to keep your koi healthy year-round.');
 
 
 INSERT INTO BlogComments (UserID, BlogId, Content, CreateDate)

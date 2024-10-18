@@ -35,7 +35,7 @@ namespace KCSAH.APIServer.Controllers
             return Ok(shopDTOs);
         }
 
-        [HttpGet("async/{id}")]
+        [HttpGet("GetShopByShopId/{id}")]
         //[Authorize(Roles = AppRole.Admin)]
         //[Authorize(Roles = AppRole.Member)]
         //[Authorize(Roles = AppRole.Vip)]
@@ -60,6 +60,20 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
             var show = _mapper.Map<ShopDTO>(result);
+            return Ok(show);
+        }
+
+
+        [HttpGet("GetShopCategoryList/{shopId}")]
+        //     [Authorize(Roles =AppRole.Admin)]
+        public async Task<IActionResult> GetShopByUserIdAsync(int shopId)
+        {
+            var result = await _unitOfWork.ShopRepository.GetCategoryListByShopId(shopId);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<CategoryDTO>>(result);
             return Ok(show);
         }
 

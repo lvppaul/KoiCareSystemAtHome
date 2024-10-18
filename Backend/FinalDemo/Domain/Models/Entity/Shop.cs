@@ -14,7 +14,7 @@ public partial class Shop
 
     public string Description { get; set; } = null!;
 
-    public string Phone { get; set; } = null!;
+    public string Phone { get; set; }
 
     public string Email { get; set; } = null!;
 
