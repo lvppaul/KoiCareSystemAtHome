@@ -110,11 +110,9 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Kiểm tra danh mục có tồn tại hay không
-            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(productdto.CategoryId);
+            var product = await _unitOfWork.ProductRepository.GetByIdAsync(productdto.CategoryId);
 
-            // Nếu danh mục không tồn tại, tạo danh mục mới
-            if (category == null)
+            if (product == null)
             {
                 ModelState.AddModelError("", "This category does not exist.");
                 return BadRequest(ModelState);
@@ -137,7 +135,7 @@ namespace KCSAH.APIServer.Controllers
 
             // Ánh xạ từ ProductDTO sang Product và liên kết với danh mục đã có hoặc mới tạo
             var productMap = _mapper.Map<Product>(productdto);
-            productMap.CategoryId = category.CategoryId;  // Liên kết với danh mục hiện tại
+            productMap.CategoryId = product.CategoryId;  // Liên kết với danh mục hiện tại
 
             var createResult = await _unitOfWork.ProductRepository.CreateAsync(productMap);
 

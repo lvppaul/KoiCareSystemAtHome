@@ -147,7 +147,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             e.ToTable("Cart");
             e.HasKey(e => e.CartId).HasName("PK__Cart__18103112");
             e.Property(e => e.CartId).HasColumnName("CartId");
-            e.Property(e => e.TotalAmount).HasColumnName("TotalAmount").HasColumnType("decimal(4,2)");
+            e.Property(e => e.TotalAmount).HasColumnName("TotalAmount").HasColumnType("decimal(6,2)");
         });
 
 

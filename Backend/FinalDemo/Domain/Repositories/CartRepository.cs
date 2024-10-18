@@ -20,7 +20,13 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<Cart> GetByIdAsync(string id)
         {
-            var result = await _context.Carts.FirstOrDefaultAsync(p => p.CartId.Equals(id));
+            var result = await _context.Carts.Include(c => c.CartItems).FirstOrDefaultAsync(p => p.UserId.Equals(id));
+
+            return result;
+        }
+        public async Task<Cart> GetByCartIdAsync(int id)
+        {
+            var result = await _context.Carts.Include(c => c.CartItems).FirstOrDefaultAsync(p => p.CartId == id);
 
             return result;
         }

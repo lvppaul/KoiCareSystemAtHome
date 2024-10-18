@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Domain.Models.Dto.Response
+namespace Domain.Models.Dto.Request
 {
-    public class OrderDetailDTO
+    public class CartItemRequestDTO
     {
-
-        public int OrderId { get; set; }
-
         public int ProductId { get; set; }
 
         public int Quantity { get; set; }
-
-        public double UnitPrice { get; set; }
-
+        [JsonIgnore]
+        public string? Thumbnail { get; set; }
     }
 }

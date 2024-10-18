@@ -15,7 +15,7 @@ namespace SWP391.KCSAH.Repository
         private PondRepository _pondRepository;
         private ProductRepository _productRepository;
         private CategoryRepository _categoryRepository;
-        //private CartRepository _cartRepository;
+        private CartRepository _cartRepository;
         private UserRepository _userRepository;
         private OrderRepository _orderRepository;
         private OrderDetailRepository _orderDetailRepository;
@@ -58,10 +58,10 @@ namespace SWP391.KCSAH.Repository
             get { return _categoryRepository ??= new CategoryRepository(_context); }
         }
 
-        //public CartRepository CartRepository
-        //{
-        //    get { return _cartRepository ??= new CartRepository(_context); }
-        //}
+        public CartRepository CartRepository
+        {
+            get { return _cartRepository ??= new CartRepository(_context); }
+        }
         public OrderRepository OrderRepository
         {
             get { return _orderRepository ??= new OrderRepository(_context); }
