@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Form, Button, Spinner, Pagination, Image } from 'react-bootstrap';
-import { getProducts } from '../../Config/ProductApi';
+import { getProducts, getProductsByCategoryId } from '../../Config/ProductApi';
 import { getCategories } from '../../Config/CategoryApi';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
@@ -29,7 +29,6 @@ const Shop = () => {
     try {
       const allProducts = await getProducts();
       const updatedProducts = await Promise.all(allProducts.map(async product => {
-        console.log('Fetched product:', product);
         if (product.thumbnail) {
           try {
             const storageRef = ref(storage, product.thumbnail);
@@ -61,9 +60,7 @@ const Shop = () => {
 
   const filteredProducts = selectedCategory === 'All'
     ? products
-    : products.filter(product => product.category.categoryId.toString() === selectedCategory);
-
-  console.log('Filtered products:', filteredProducts);
+    : getProductsByCategoryId(selectedCategory);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
