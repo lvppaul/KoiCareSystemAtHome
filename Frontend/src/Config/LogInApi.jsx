@@ -19,24 +19,21 @@ const signUp = async (userData) => {
 
 // Function to sign in
 const signIn = async (credentials) => {
-    try {
+    try{
         const response = await api.post('Account/SignIn', credentials, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
         });
-        const token = response.data;
-        // Decode the JWT token to get user role
-        const decoded = jwtDecode(token)
-        // Extract the role from the decoded token
-        const userRole = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]; 
-        const email = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
-        const userId = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+        const decoded = jwtDecode(response.data);
+        const email = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
+        const userId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+        const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
-        // Return both the user data and the role
-        localStorage.setItem('user', JSON.stringify({ email, userRole, userId })); // Save the user data to local storage
-        return { userRole, email, userId }; // Return email and role, userid
+        localStorage.setItem('user', JSON.stringify({ email, userId, userRole }));
+
+        return { email, userId, userRole };
     } catch (error) {
         return error.response.data;
     }
