@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { getComments, addComment } from '../../API/AxiosConfig';
+import  { getComments, addComment } from '../../Config/BlogApi';
 
 const CommentSection = ({ blogId }) => {
     const [comments, setComments] = useState([]);
