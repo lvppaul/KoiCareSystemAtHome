@@ -9,11 +9,11 @@ public partial class Pond
     public string UserId { get; set; } = null!;
     public string Name { get; set; } = null!;
 
-    public double Volume { get; set; }
+    public int Volume { get; set; }
 
     public string? Thumbnail { get; set; }
 
-    public int Depth { get; set; }
+    public float Depth { get; set; }
 
     public int PumpingCapacity { get; set; }
 
