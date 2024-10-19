@@ -1,4 +1,5 @@
 ﻿using Domain.Models.Entity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository.Base;
 using System;
@@ -24,11 +25,22 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
             return result;
         }
-        public async Task<Cart> GetByCartIdAsync(int id)
+        public async Task<Cart> GetCartByIdAsync(int id)
         {
             var result = await _context.Carts.Include(c => c.CartItems).FirstOrDefaultAsync(p => p.CartId == id);
 
             return result;
         }
+        public async Task<Cart> GetCartByUserIdAsync(string id)
+        {
+            var result = await _context.Carts.Include(c => c.CartItems).FirstOrDefaultAsync(p => p.UserId == id);
+
+            return result;
+        }
+
+        //public async Task<bool> AddItem(int ProductId, int qty, string userId)
+        //{
+            
+        //}
     }
 }

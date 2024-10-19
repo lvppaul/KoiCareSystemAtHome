@@ -46,7 +46,19 @@ namespace APIService.Controllers
         [HttpGet("CartId/{id}")]
         public async Task<ActionResult<CartDTO>> GetCartByIdAsync(int id)
         {
-            var cart = await _unitOfWork.CartRepository.GetByCartIdAsync(id);
+            var cart = await _unitOfWork.CartRepository.GetCartByIdAsync(id);
+            if (cart == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<CartDTO>(cart);
+            return Ok(result);
+        }
+
+        [HttpGet("UserId/{UserId}")]
+        public async Task<ActionResult<CartDTO>> GetCartByUserIdAsync(string UserId)
+        {
+            var cart = await _unitOfWork.CartRepository.GetCartByUserIdAsync(UserId);
             if (cart == null)
             {
                 return NotFound();
