@@ -15,27 +15,17 @@ const getShop = async () => {
         throw error;
     }
 }
-// Function to get shop by user ID
+// Function to get shop by userId
 const getShopByUserId = async (userId) => {
     try {
-        const allShop = await api.get('Shop', {
-            headers: {
-                'accept': 'text/plain'
-            }
-        });
-        const allShopData = allShop.data;
-        const shop = allShopData.find(shop => shop.userId === userId);
-        if (!shop) {
-            throw new Error('Shop not found for the given user ID');
-        }
-        const response = await api.get(`Shop/${shop.shopId}`, {
+        const response = await api.get(`Shop/UserId/${userId}`, {
             headers: {
                 'accept': 'text/plain'
             }
         });
         return response.data;
     } catch (error) {
-        console.error('Error fetching shop by user ID:', error);
+        console.error(`Error fetching shop with userId ${userId}:`, error);
         throw error;
     }
 };
@@ -43,7 +33,7 @@ const getShopByUserId = async (userId) => {
 // Function to update a product
 const updateShopDetails = async (data) => {
     try {
-        const response = await api.put(`Shop/${data.id}`, data, {
+        const response = await api.put(`Shop/${data.shopId}`, data, {
             headers: {
                 'Content-Type': 'application/json'
             }

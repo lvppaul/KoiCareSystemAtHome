@@ -22,7 +22,7 @@ namespace Domain.Models.Dto.Response
 
         public CategoryDTO category { get; set; }
 
-        public string UserId { get; set; }
+        public int shopId { get; set; }
 
         public string? Thumbnail { get; set; }
     }

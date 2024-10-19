@@ -21,11 +21,14 @@ import PondDetail from "./pages/PondDetail/PondDetail";
 import KoiDetail from "./pages/KoiDetails/KoiDetail";
 import Blog from "./pages/Blog/Blog";
 import { AuthProvider } from "./pages/Login/AuthProvider";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Import the ProtectedRoute component
-import News from './pages/News/News'; // Assuming you have a News component
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import News from './pages/News/News';
 import ManageShop from "./pages/ManageShop/ManageShop";
 import KoiRemind from "./pages/KoiRemind/KoiRemind";
 import NotAuthorized from "./pages/NotAuthorized/NotAuthorized";
+import NewsDetail from "./pages/NewsDetail/NewsDetail";
+import BlogDetail from "./pages/BlogDetail/BlogDetail";
+import CreateShopAcc from "./pages/CreateShopAcc/CreateShopAcc";
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -38,11 +41,14 @@ root.render(
                     {/* Public Routes (accessible to everyone) */}
                     <Route path="login" element={<Login />} />
                     <Route path="signup" element={<Signup />} />
+                    <Route path="createshopacc" element={<CreateShopAcc />} />
 
                     <Route path="/" element={<App />}>
                         <Route index element={<Home />} />
                         <Route path="news" element={<News />} />
+                        <Route path="news/:newsId" element={<NewsDetail />} />
                         <Route path="blogs" element={<Blog />} />
+                        <Route path="blog/:blogId" element={<BlogDetail />} />
                         <Route path="shop" element={<Shop />} />
                         <Route path="product/:productId" element={<Product />} />
                         <Route path="notauthorized" element={<NotAuthorized />} />

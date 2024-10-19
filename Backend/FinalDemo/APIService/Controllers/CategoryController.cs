@@ -5,6 +5,8 @@ using AutoMapper;
 using Domain.Models.Entity;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Request;
+using Domain.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -42,7 +44,7 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
-        [HttpGet("async/{id}")]
+        [HttpGet("GetCategoryById/{id}")]
         public async Task<ActionResult<CategoryDTO>> GetByIdAsync(int id)
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(id);
@@ -54,7 +56,9 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
+
         [HttpPost]
+        [Authorize(Roles = AppRole.Shop)]
         public async Task<ActionResult<Category>> CreateCategory([FromBody] CategoryRequestDTO category)
         {
             if (category == null)
@@ -87,6 +91,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = AppRole.Shop)]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryRequestDTO categoryDto)
         {
             if (categoryDto == null)
@@ -118,6 +123,7 @@ namespace KCSAH.APIServer.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = AppRole.Shop)]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(id);

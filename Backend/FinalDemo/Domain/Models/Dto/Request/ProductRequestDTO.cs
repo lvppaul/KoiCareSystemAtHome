@@ -15,7 +15,7 @@
 
         public int CategoryId { get; set; }
 
-        public string UserId { get; set; }
+        public int ShopId { get; set; }
 
         public string? Thumbnail { get; set; }
 

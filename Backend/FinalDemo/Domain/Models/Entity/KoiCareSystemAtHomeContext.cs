@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
     public virtual DbSet<BlogComment> BlogComments { get; set; }
 
     public virtual DbSet<BlogImage> BlogImages { get; set; }
+
+    public virtual DbSet<Cart> Carts { get; set; }
+
+    public virtual DbSet<CartItem> CartItems { get; set; }
 
     public virtual DbSet<Category> Categories { get; set; }
 
@@ -76,16 +81,28 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
     {
 
         base.OnModelCreating(modelBuilder);
+       //1:1
+        modelBuilder.Entity<ApplicationUser>()
+       .HasOne(a => a.Shop)
+       .WithOne(s => s.User)
+       .HasForeignKey<Shop>(s => s.UserId);
+
+        modelBuilder.Entity<ApplicationUser>()
+      .HasOne(a => a.Cart)
+      .WithOne(s => s.User)
+      .HasForeignKey<Cart>(s => s.UserId);
+
+        //
         modelBuilder.Entity<Blog>(entity =>
         {
             entity.HasKey(e => e.BlogId).HasName("PK__Blogs__54379E50F8B648A7");
 
-            entity.Property(e => e.BlogId).HasColumnName("BlogID");
+            entity.Property(e => e.BlogId).HasColumnName("BlogId");
             entity.Property(e => e.PublishDate).HasColumnType("datetime");
             entity.Property(e => e.Title).HasMaxLength(255);
             entity.Property(e => e.UserId)
                .HasMaxLength(450)
-               .HasColumnName("UserID");
+               .HasColumnName("UserId");
 
             entity.HasOne(d => d.ApplicationUser).WithMany(p => p.Blogs)
                 .HasForeignKey(d => d.UserId)
@@ -115,8 +132,8 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("Blog_Image");
 
-            entity.Property(e => e.ImageId).HasColumnName("ImageID");
-            entity.Property(e => e.BlogId).HasColumnName("BlogID");
+            entity.Property(e => e.ImageId).HasColumnName("ImageId");
+            entity.Property(e => e.BlogId).HasColumnName("BlogId");
 
             entity.HasOne(d => d.Blog).WithMany(p => p.BlogImages)
                 .HasForeignKey(d => d.BlogId)
@@ -124,15 +141,53 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .HasConstraintName("FK__Blog_Imag__BlogI__68487DD7");
         });
 
+
+        modelBuilder.Entity<Cart>(e =>
+        {
+            e.ToTable("Cart");
+            e.HasKey(e => e.CartId).HasName("PK__Cart__18103112");
+            e.Property(e => e.CartId).HasColumnName("CartId");
+            e.Property(e => e.TotalAmount).HasColumnName("TotalAmount").HasColumnType("decimal(6,2)");
+        });
+
+
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.CategoryId).HasName("PK__Category__19093A2BD3B2F4B4");
 
             entity.ToTable("Category");
 
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryId");
             entity.Property(e => e.Name).HasMaxLength(255);
         });
+
+
+        modelBuilder.Entity<CartItem>(entity =>
+        {
+            entity.HasKey(e => new { e.CartId, e.ProductId }).HasName("PK__Cart__Product__08D097C1B825DECE");
+
+            entity.ToTable("CartItem");
+
+            entity.Property(e => e.CartId).HasColumnName("CartId");
+            entity.Property(e => e.ProductId)
+                .ValueGeneratedOnAdd()
+                .IsUnicode(false)
+                .HasColumnName("ProductId");
+            entity.Property(e => e.Price).HasColumnName("Price").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.TotalPrice).HasColumnName("TotalPrice").HasColumnType("decimal(4,2)");
+
+
+            entity.HasOne(d => d.Cart).WithMany(p => p.CartItems)
+                .HasForeignKey(d => d.CartId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK__CartItem__Cart__5CD6CB2B");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.CartItems)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__CartItems__Product__5DCAEF64");
+        });
+
 
         modelBuilder.Entity<Koi>(entity =>
         {
@@ -143,14 +198,14 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.KoiId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
-                .HasColumnName("KoiID");
+                .HasColumnName("KoiId");
             entity.Property(e => e.Color).HasMaxLength(200);
             entity.Property(e => e.Name).HasMaxLength(255);
             entity.Property(e => e.Origin).HasMaxLength(255);
             entity.Property(e => e.PondId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
-                .HasColumnName("PondID");
+                .HasColumnName("PondId");
             entity.Property(e => e.Status).HasDefaultValue(true);
 
             entity.HasOne(d => d.Pond).WithMany(p => p.Kois)
@@ -170,11 +225,11 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("Koi_Image");
 
-            entity.Property(e => e.ImageId).HasColumnName("ImageID");
+            entity.Property(e => e.ImageId).HasColumnName("ImageId");
             entity.Property(e => e.KoiId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
-                .HasColumnName("KoiID");
+                .HasColumnName("KoiId");
 
             entity.HasOne(d => d.Koi).WithMany(p => p.KoiImages)
                 .HasForeignKey(d => d.KoiId)
@@ -188,11 +243,11 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("Koi_Record");
 
-            entity.Property(e => e.RecordId).HasColumnName("RecordID");
+            entity.Property(e => e.RecordId).HasColumnName("RecordId");
             entity.Property(e => e.KoiId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
-                .HasColumnName("KoiID");
+                .HasColumnName("KoiId");
             entity.Property(e => e.UpdatedTime).HasColumnType("datetime");
 
             entity.HasOne(d => d.Koi).WithMany(p => p.KoiRecords)
@@ -213,12 +268,12 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("Koi_Remind");
 
-            entity.Property(e => e.RemindId).HasColumnName("RemindID");
+            entity.Property(e => e.RemindId).HasColumnName("RemindId");
             entity.Property(e => e.DateRemind).HasColumnType("datetime");
             entity.Property(e => e.KoiId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
-                .HasColumnName("KoiID");
+                .HasColumnName("KoiId");
             entity.Property(e => e.RemindDescription).HasMaxLength(255);
 
             entity.HasOne(d => d.Koi).WithMany(p => p.KoiReminds)
@@ -235,9 +290,14 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
         {
             entity.HasKey(e => e.NewsId).HasName("PK__News__954EBDD35052CA30");
 
-            entity.Property(e => e.NewsId).HasColumnName("NewsID");
+            entity.Property(e => e.NewsId).HasColumnName("NewsId");
+            entity.Property(e => e.UserId).HasColumnName("UserId");
             entity.Property(e => e.PublishDate).HasColumnType("datetime");
             entity.Property(e => e.Title).HasMaxLength(255);
+
+            entity.HasOne(d => d.User).WithMany(p => p.News)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__News__Users__6B24EA83");
         });
 
         modelBuilder.Entity<NewsImage>(entity =>
@@ -246,8 +306,8 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("News_Image");
 
-            entity.Property(e => e.ImageId).HasColumnName("ImageID");
-            entity.Property(e => e.NewsId).HasColumnName("NewsID");
+            entity.Property(e => e.ImageId).HasColumnName("ImageId");
+            entity.Property(e => e.NewsId).HasColumnName("NewsId");
 
             entity.HasOne(d => d.News).WithMany(p => p.NewsImages)
                 .HasForeignKey(d => d.NewsId)
@@ -259,7 +319,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
         {
             entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BAF8E052D03");
 
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
+            entity.Property(e => e.OrderId).HasColumnName("OrderId");
             entity.Property(e => e.City).HasMaxLength(50);
             entity.Property(e => e.Country).HasMaxLength(50);
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
@@ -269,15 +329,15 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .IsUnicode(false);
             entity.Property(e => e.FullName).HasMaxLength(200);
             entity.Property(e => e.OrderStatus).HasDefaultValue(false);
-            entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodID");
+            entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodId");
             entity.Property(e => e.Phone)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.ShopId).HasColumnName("ShopID");
+            entity.Property(e => e.ShopId).HasColumnName("ShopId");
             entity.Property(e => e.Street).HasMaxLength(50);
             entity.Property(e => e.UserId)
                 .HasMaxLength(450)
-                .HasColumnName("UserID");
+                .HasColumnName("UserId");
 
             entity.HasOne(d => d.PaymentMethod).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.PaymentMethodId)
@@ -301,11 +361,11 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("OrderDetail");
 
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
+            entity.Property(e => e.OrderId).HasColumnName("OrderId");
             entity.Property(e => e.ProductId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
-                .HasColumnName("ProductID");
+                .HasColumnName("ProductId");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
@@ -324,7 +384,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("PaymentMethod");
 
-            entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodID");
+            entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodId");
             entity.Property(e => e.PaymentName).HasMaxLength(255);
         });
 
@@ -337,7 +397,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.PondId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
-                .HasColumnName("PondID");
+                .HasColumnName("PondId");
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Thumbnail).IsUnicode(false);
 
@@ -356,8 +416,8 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.ProductId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
-                .HasColumnName("ProductID");
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+                .HasColumnName("ProductId");
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryId");
             entity.Property(e => e.Name).HasMaxLength(255);
             entity.Property(e => e.Status).HasDefaultValue(true);
 
@@ -366,10 +426,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Product__Categor__3C69FB99");
 
-            entity.HasOne(d => d.ApplicationUser).WithMany(p => p.Products)
-               .HasForeignKey(d => d.UserId)
-               .OnDelete(DeleteBehavior.ClientSetNull)
-               .HasConstraintName("FK__Product__UserID__3F466844");
+            entity.HasOne(d => d.Shop).WithMany(p => p.Products)
+               .HasForeignKey(d => d.ShopId)
+               .OnDelete(DeleteBehavior.Cascade)
+               .HasConstraintName("FK__Product__Shop__3F466844");
         });
 
         modelBuilder.Entity<ProductImage>(entity =>
@@ -378,11 +438,11 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("Product_Image");
 
-            entity.Property(e => e.ImageId).HasColumnName("ImageID");
+            entity.Property(e => e.ImageId).HasColumnName("ImageId");
             entity.Property(e => e.ProductId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
-                .HasColumnName("ProductID");
+                .HasColumnName("ProductId");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductImages)
                 .HasForeignKey(d => d.ProductId)
@@ -396,7 +456,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("Revenue");
 
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
+            entity.Property(e => e.OrderId).HasColumnName("OrderId");
 
             entity.HasOne(d => d.Order).WithMany(p => p.Revenues)
                 .HasForeignKey(d => d.OrderId)
@@ -410,7 +470,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("Shop");
 
-            entity.Property(e => e.ShopId).HasColumnName("ShopID");
+            entity.Property(e => e.ShopId).HasColumnName("ShopId");
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
@@ -423,12 +483,9 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .HasColumnType("decimal(2, 1)");
             entity.Property(e => e.ShopName).HasMaxLength(255);
             entity.Property(e => e.Thumbnail).IsUnicode(false);
-
-            entity.HasOne(d => d.ApplicationUser).WithMany(p => p.Shops)
-             .HasForeignKey(d => d.UserId)
-             .OnDelete(DeleteBehavior.Cascade)
-             .HasConstraintName("FK__Shop__UserID__46E78A0C");
         });
+
+
 
         modelBuilder.Entity<WaterParameter>(entity =>
         {
@@ -436,13 +493,13 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("Water_Parameter");
 
-            entity.Property(e => e.MeasureId).HasColumnName("MeasureID");
-            entity.Property(e => e.DateTime).HasColumnType("datetime");
+            entity.Property(e => e.MeasureId).HasColumnName("MeasureId");
+            entity.Property(e => e.CreatedAt).HasColumnName("CreatedAt").HasDefaultValueSql("GETUTCDATE()").HasColumnType("datetime");
             entity.Property(e => e.PH).HasColumnName("pH");
             entity.Property(e => e.PondId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
-                .HasColumnName("PondID");
+                .HasColumnName("PondId");
 
             entity.HasOne(d => d.Pond).WithMany(p => p.WaterParameters)
                 .HasForeignKey(d => d.PondId)

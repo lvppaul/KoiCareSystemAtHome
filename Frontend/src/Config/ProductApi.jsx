@@ -63,7 +63,7 @@ const deleteProduct = async (productId) => {
 // Function to get product by ID
 const getProductById = async (productId) => {
     try {
-        const response = await api.get(`Product/${productId}`, {
+        const response = await api.get(`Product/GetProductById/${productId}`, {
             headers: {
                 'accept': 'text/plain'
             }
@@ -75,4 +75,52 @@ const getProductById = async (productId) => {
     }
 };
 
-export { getProducts, addProduct, updateProduct, deleteProduct, getProductById };
+// Function to get products by shopId
+const getProductsByShopId = async (shopId) => {
+    try {
+        const response = await api.get(`Product/ShopId/${shopId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching products with shopId ${shopId}:`, error);
+        throw error;
+    }
+};
+
+// Function to get products by categoryId
+const getProductsByCategoryId = async (categoryId) => {
+    try {
+        const response = await api.get(`Product/GetProductByCategoryId/${categoryId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching products with categoryId ${categoryId}:`, error);
+        throw error;
+    }
+};
+
+// Function to get product image by productId
+const getProductImagesByProductId = async (productId) => {
+    try {
+        const response = await api.get(`Product/GetProductImageByProductId/${productId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching product image with productId ${productId}:`, error);
+        throw error;
+    }
+}
+
+export {
+    getProducts, addProduct, updateProduct, deleteProduct,
+    getProductById, getProductsByShopId, getProductsByCategoryId, getProductImagesByProductId
+};

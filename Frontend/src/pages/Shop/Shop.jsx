@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getProducts } from '../../Config/ProductApi';
+import { Container, Row, Col, Form, Button, Spinner, Pagination, Image } from 'react-bootstrap';
+import { getProducts, getProductsByCategoryId } from '../../Config/ProductApi';
 import { getCategories } from '../../Config/CategoryApi';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { storage } from '../../Config/firebase';
 import './Shop.css';
 
 const Shop = () => {
@@ -19,18 +22,36 @@ const Shop = () => {
         setCategories([{ categoryId: 'All', name: 'All' }, ...validCategories]);
       })
       .catch(error => console.error('Error fetching categories:', error));
-    };
-    
+  };
 
-    // getProducts()
-    //   .then(data => {
-    //     setProducts(data);
-    //     setLoading(false);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error fetching products:', error);
-    //     setLoading(false);
-    //   });
+
+  const fetchProducts = async () => {
+    try {
+      const allProducts = await getProducts();
+      const updatedProducts = await Promise.all(allProducts.map(async product => {
+        if (product.thumbnail) {
+          try {
+            const storageRef = ref(storage, product.thumbnail);
+            product.thumbnail = await getDownloadURL(storageRef);
+          } catch (error) {
+            console.error('The file does not exist in firebase anymore!', error);
+            const storageRef = ref(storage, 'others/NotFound.jpg');
+            product.thumbnail = await getDownloadURL(storageRef);
+          }
+        }
+        return product;
+      }));
+      setProducts(updatedProducts);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    };
+  };
+
+  useEffect(() => {
+    fetchCategories();
+    fetchProducts();
+  }, []);
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
@@ -39,7 +60,7 @@ const Shop = () => {
 
   const filteredProducts = selectedCategory === 'All'
     ? products
-    : products.filter(product => product.categoryId === selectedCategory);
+    : getProductsByCategoryId(selectedCategory);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -59,47 +80,65 @@ const Shop = () => {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div className="shop-container">
-      <header className="shop-header">
-        <h1>Koi Care Shop</h1>
-      </header>
-      <main className="shop-main">
-        <Link to={`/manageshop`} className="productLink">Manage Shop</Link>
-        <div className="shop-filter">
-          <label>
-            Sort by Category:
-            <select value={selectedCategory} onChange={handleCategoryChange} className="category-select">
-              {categories.map((category) => (
-                <option key={category.categoryId} value={category.categoryId}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </label>
+    <Container>
+      <h1 className="d-flex justify-content-center mt-3" style={{ color: "#E47E39" }}>Koi Care Shops</h1>
+      <Button as={Link} to="/manageshop" variant="primary" className="my-3">
+        Manage Shop
+      </Button>
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '50vh' }}>
+          <Spinner animation="border" size="xl" role="status" />
         </div>
-        <ul className="productList">
-          {currentProducts.map(product => (
-            <li key={product.productId} className="productItem">
-              <Link to={`/product/${product.productId}`} className="productLink">
-                <img src={product.thumbnail} alt={product.name} className="productImage" />
-                <div>{product.name} - ${product.price}</div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="shop-pagination">
-          <button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</button>
-          <span>Page {currentPage} of {totalPages}</span>
-          <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
+      ) : (
+        <div>
+          <Row className="my-3">
+            <Col md={2}>
+              <Form.Group controlId="categorySelect">
+                <Form.Label>Sort by Category:</Form.Label>
+                <Form.Select value={selectedCategory} onChange={handleCategoryChange} className="category-select">
+                  {categories.map((category) => (
+                    <option key={category.categoryId} value={category.categoryId}>
+                      {category.name}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            {currentProducts.map(product => (
+              <Col key={product.productId} md={3} className="mb-3">
+                <Link to={`/product/${product.productId}`} className='productLink'>
+                  <div className="product-card">
+                    <Image src={product.thumbnail} alt={product.name} className="img-fluid" rounded />
+                    <h5>{product.name}</h5>
+                    <p>${product.price}</p>
+                  </div>
+                </Link>
+              </Col>
+            ))}
+          </Row>
+          <Row>
+            <Col className="d-flex justify-content-center">
+              <Pagination>
+                <Pagination.Prev onClick={handlePrevPage} disabled={currentPage === 1} />
+                {[...Array(totalPages).keys()].map(number => (
+                  <Pagination.Item
+                    key={number + 1}
+                    active={number + 1 === currentPage}
+                    onClick={() => setCurrentPage(number + 1)}
+                  >
+                    {number + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next onClick={handleNextPage} disabled={currentPage === totalPages} />
+              </Pagination>
+            </Col>
+          </Row>
         </div>
-      </main>
-    </div>
+      )}
+    </Container>
   );
 };
-
 export default Shop;

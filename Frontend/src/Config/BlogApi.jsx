@@ -15,6 +15,21 @@ const getBlogs = async () => {
     }
 };
 
+// Function to get a blog by blog ID
+const getBlogByBlogId = async (blogId) => {
+    try {
+        const response = await api.get(`Blog/async/${blogId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching blog:', error);
+        throw error;
+    }
+}
+
 // Function to add a new blog
 const addBlog = async (token, data) => {
     try {
@@ -62,4 +77,4 @@ const addComment = async (token, data) => {
     }
 };
 
-export { getBlogs, addBlog, getComments, addComment };
+export { getBlogs, getBlogByBlogId, addBlog, getComments, addComment };

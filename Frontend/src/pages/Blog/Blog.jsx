@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Button } from 'react-bootstrap';
+import { Container, Button, Row, Col, Pagination, Card, Spinner } from 'react-bootstrap';
 import { getBlogs } from '../../Config/BlogApi';
 import AddNewBlog from '../../components/AddNewBlog/AddNewBlog';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { storage } from '../../Config/firebase';
+import { formatDistanceToNow } from 'date-fns';
 import './Blog.css';
 
 const Blog = () => {
@@ -10,19 +13,33 @@ const Blog = () => {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [showAddBlog, setShowAddBlog] = useState(false);
-    const blogsPerPage = 12;
+    const blogsPerPage = 6;
+
+    const fetchBlogs = async () => {
+        try {
+            const blogs = await getBlogs();
+            const updatedBlogs = await Promise.all(blogs.map(async blog => {
+                if (blog.thumbnail) {
+                    try {
+                        const storageRef = ref(storage, blog.thumbnail);
+                        blog.thumbnail = await getDownloadURL(storageRef);
+                    } catch (error) {
+                        console.error('The file does not exist in firebase anymore!', error);
+                        const storageRef = ref(storage, 'others/NotFound.jpg');
+                        blog.thumbnail = await getDownloadURL(storageRef);
+                    }
+                }
+                return blog;
+            }));
+            setBlogs(updatedBlogs);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        };
+    };
 
     useEffect(() => {
-        getBlogs()
-            .then(data => {
-                console.log('Fetched blogs:', data);
-                setBlogs(data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching blogs:', error);
-                setLoading(false);
-            });
+        fetchBlogs();
     }, []);
 
     const indexOfLastBlog = currentPage * blogsPerPage;
@@ -50,32 +67,55 @@ const Blog = () => {
 
     return (
         <Container>
-            <h1>Blogs</h1>
-            <Button variant="primary" onClick={() => setShowAddBlog(true)}>Add New Blog</Button>
+            <h1 className="d-flex justify-content-center mt-3" style={{ color: "#E47E39" }}>Blogs</h1>
+            <Row className="mb-3">
+                <Col className="d-flex justify-content-end">
+                    <Button variant="primary" onClick={() => setShowAddBlog(true)}>Write a Blog</Button>
+                </Col>
+            </Row>
             {showAddBlog && <AddNewBlog onAddBlog={handleAddBlog} />}
             {loading ? (
-                <p>Loading...</p>
+                <div className="d-flex justify-content-center align-items-center" style={{ height: '50vh' }}>
+                    <Spinner animation="border" size="xl" role="status" />
+                </div>
             ) : (
                 <div>
-                    <ul className="blogList">
+                    <Row className="blogList">
                         {currentBlogs.map(blog => (
-                            <li key={blog.blogId} className="blogItem">
-                                <Link to={`/blog/${blog.blogId}`} className="blogLink">
-                                    <h2>{blog.title}</h2>
-                                    <p>{blog.content.substring(0, 100)}...</p>
-                                    <p>Published on: {blog.publishDate}</p>
-                                </Link>
-                            </li>
+                            <Col key={blog.blogId} md={4} className="mb-4">
+                                <Card>
+                                    <Card.Img style={{ height: "100%", width: "100%", objectFit: "cover" }} variant="top" src={blog.thumbnail} alt={blog.title} />
+                                    <Card.Body>
+                                        <Card.Title className="mb-2">{blog.title}</Card.Title>
+                                        <Card.Subtitle className="mb-2 text-muted">
+                                            Published {formatDistanceToNow(new Date(blog.publishDate), { addSuffix: true })}
+                                        </Card.Subtitle>
+                                        <Button as={Link} to={`/blog/${blog.blogId}`} variant="primary" className="mt-auto">Read More</Button>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
                         ))}
-                    </ul>
-                    <div className="blog-pagination">
-                        <Button variant="secondary" onClick={handlePrevPage} disabled={currentPage === 1}>Previous</Button>
-                        <span>Page {currentPage} of {totalPages}</span>
-                        <Button variant="secondary" onClick={handleNextPage} disabled={currentPage >= totalPages}>Next</Button>
-                    </div>
+                    </Row>
+                    <Row>
+                        <Col className="d-flex justify-content-center">
+                            <Pagination>
+                                <Pagination.Prev onClick={handlePrevPage} disabled={currentPage === 1} />
+                                {[...Array(totalPages).keys()].map(number => (
+                                    <Pagination.Item
+                                        key={number + 1}
+                                        active={number + 1 === currentPage}
+                                        onClick={() => setCurrentPage(number + 1)}
+                                    >
+                                        {number + 1}
+                                    </Pagination.Item>
+                                ))}
+                                <Pagination.Next onClick={handleNextPage} disabled={currentPage === totalPages} />
+                            </Pagination>
+                        </Col>
+                    </Row>
                 </div>
             )}
-        </Container>
+        </Container >
     );
 };
 

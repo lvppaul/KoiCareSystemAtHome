@@ -41,10 +41,10 @@ namespace KCSAH.APIServer.Controllers
             result.category = category;
             return result;
         }
-        [HttpGet("GetProductImageByProductId/{ImageId:int}")]
-        public async Task<ActionResult<List<ProductImageDTO>>> GetProductImage(int ImageId)
+        [HttpGet("GetProductImageByProductId/{ProductId:int}")]
+        public async Task<ActionResult<List<ProductImageDTO>>> GetProductImage(int ProductId)
         {
-            var image = await _unitOfWork.ProductImageRepository.GetImageByProductId(ImageId);
+            var image = await _unitOfWork.ProductImageRepository.GetImageByProductId(ProductId);
             if(image == null)
             {
                 return NotFound();
@@ -57,6 +57,18 @@ namespace KCSAH.APIServer.Controllers
         public async Task<ActionResult<List<ProductDTO>>> GetProductByCategoryId(int CategoryId)
         {
             var product = await _unitOfWork.ProductRepository.GetProductByCategoryId(CategoryId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<ProductDTO>>(product);
+            return result;
+        }
+
+        [HttpGet("GetProductByCategoryIdInShop/{ShopId}/{CategoryId}")]
+        public async Task<ActionResult<List<ProductDTO>>> GetProductByCategoryIdInShop(int CategoryId, int ShopId)
+        {
+            var product = await _unitOfWork.ProductRepository.GetProductByCategoryIdInShop(CategoryId, ShopId);
             if (product == null)
             {
                 return NotFound();
@@ -78,10 +90,10 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
-        [HttpGet("UserId/{id}")]
-        public async Task<IActionResult> GetProductByUserIdAsync(string id)
+        [HttpGet("ShopId/{id}")]
+        public async Task<IActionResult> GetProductByShopIdAsync(int id)
         {
-            var result = await _unitOfWork.ProductRepository.GetProductsByUID(id);
+            var result = await _unitOfWork.ProductRepository.GetProductsBySID(id);
             if (result == null)
             {
                 return NotFound();
@@ -98,11 +110,9 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Kiểm tra danh mục có tồn tại hay không
-            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(productdto.CategoryId);
+            var product = await _unitOfWork.ProductRepository.GetByIdAsync(productdto.CategoryId);
 
-            // Nếu danh mục không tồn tại, tạo danh mục mới
-            if (category == null)
+            if (product == null)
             {
                 ModelState.AddModelError("", "This category does not exist.");
                 return BadRequest(ModelState);
@@ -125,7 +135,7 @@ namespace KCSAH.APIServer.Controllers
 
             // Ánh xạ từ ProductDTO sang Product và liên kết với danh mục đã có hoặc mới tạo
             var productMap = _mapper.Map<Product>(productdto);
-            productMap.CategoryId = category.CategoryId;  // Liên kết với danh mục hiện tại
+            productMap.CategoryId = product.CategoryId;  // Liên kết với danh mục hiện tại
 
             var createResult = await _unitOfWork.ProductRepository.CreateAsync(productMap);
 

@@ -22,6 +22,10 @@ namespace Domain.Models.Entity
 
         public string? Country { get; set; }
 
+        public virtual Shop? Shop { get; set; }
+
+        public virtual Cart Cart { get; set; } = null!;
+
         public virtual ICollection<BlogComment> BlogComments { get; set; } = new List<BlogComment>();
 
         public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();
@@ -36,9 +40,7 @@ namespace Domain.Models.Entity
 
         public virtual ICollection<Pond> Ponds { get; set; } = new List<Pond>();
 
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
-
-        public virtual ICollection<Shop> Shops { get; set; } = new List<Shop>();
+        public virtual ICollection<News> News { get; set; } = new List<News>();
 
         public virtual ICollection<WaterParameter> WaterParameters { get; set; } = new List<WaterParameter>();
     }

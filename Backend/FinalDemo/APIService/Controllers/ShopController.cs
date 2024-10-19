@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Domain.Helper;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
 using Domain.Models.Entity;
 using KCSAH.APIServer.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository;
@@ -23,6 +25,9 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet]
+        //[Authorize(Roles = AppRole.Admin)]
+        //[Authorize(Roles = AppRole.Member)]
+        //[Authorize(Roles = AppRole.Vip)]
         public async Task<ActionResult<IEnumerable<ShopDTO>>> GetAllSync()
         {
             var shops = await _unitOfWork.ShopRepository.GetAllAsync();
@@ -30,7 +35,10 @@ namespace KCSAH.APIServer.Controllers
             return Ok(shopDTOs);
         }
 
-        [HttpGet("async/{id}")]
+        [HttpGet("GetShopByShopId/{id}")]
+        //[Authorize(Roles = AppRole.Admin)]
+        //[Authorize(Roles = AppRole.Member)]
+        //[Authorize(Roles = AppRole.Vip)]
         public async Task<ActionResult<ShopDTO>> GetByIdAsync(int id)
         {
             var shop = await _unitOfWork.ShopRepository.GetByIdAsync(id);
@@ -43,6 +51,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("UserId/{id}")]
+   //     [Authorize(Roles =AppRole.Admin)]
         public async Task<IActionResult> GetShopByUserIdAsync(string id)
         {
             var result = await _unitOfWork.ShopRepository.GetShopByUID(id);
@@ -51,6 +60,20 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
             var show = _mapper.Map<ShopDTO>(result);
+            return Ok(show);
+        }
+
+
+        [HttpGet("GetShopCategoryList/{shopId}")]
+        //     [Authorize(Roles =AppRole.Admin)]
+        public async Task<IActionResult> GetShopByUserIdAsync(int shopId)
+        {
+            var result = await _unitOfWork.ShopRepository.GetCategoryListByShopId(shopId);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<CategoryDTO>>(result);
             return Ok(show);
         }
 

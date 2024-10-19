@@ -130,6 +130,17 @@ namespace KCSAH.APIServer.Dto
             CreateMap<WaterParameter, WaterParameterRequestDTO>().ReverseMap();
             CreateMap<WaterParameterUpdateDTO, WaterParameter>().ReverseMap();
             CreateMap<WaterParameterDTO, WaterParameterUpdateDTO>().ReverseMap();
+
+            //Cart
+            CreateMap<Cart, CartDTO>().ReverseMap();
+            CreateMap<CartRequestDTO, Cart>()
+            .ForMember(dest => dest.CartItems, opt => opt.MapFrom(src => src.cartItemDTOs));
+            CreateMap<CartRequestDTO, CartDTO>().ReverseMap();
+
+            //CartItem
+            CreateMap<CartItem, CartItemDTO>().ReverseMap();
+            CreateMap<CartItemRequestDTO, CartItem>().ReverseMap();
+            CreateMap<CartItemRequestDTO, CartItemDTO>().ReverseMap();
         }
     }
 }

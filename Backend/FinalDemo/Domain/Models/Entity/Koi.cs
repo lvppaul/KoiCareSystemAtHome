@@ -18,13 +18,20 @@ public partial class Koi
 
     public string? Note { get; set; }
 
-    public string Origin { get; set; } = null!;
+    public string Origin { get; set; }
 
     public int Length { get; set; }
 
-    public int Weight { get; set; }
+    public float Weight { get; set; }
 
-    public string Color { get; set; } = null!;
+    public string Color { get; set; }
+
+    public DateTime CreateAt { get; set; }
+    public string Sex { get; set; }
+
+    public string Variety { get; set; }
+
+    public string Physique { get; set; } = null!;
 
     public bool? Status { get; set; }
 
