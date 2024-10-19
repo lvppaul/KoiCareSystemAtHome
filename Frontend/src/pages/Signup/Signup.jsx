@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl } from 'react-bootstrap';
 import "./Signup.css";
 import logo from "../../assets/logo.svg";
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { signUp } from '../../Config/LogInApi';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import LoginGoogle from '../Login/LoginGoogle';
+import ConfirmEmail from '../../components/ConfirmEmail/ConfirmEmail';
 
 function Signup() {
     const navigate = useNavigate();
@@ -19,31 +20,29 @@ function Signup() {
     const [signupError, setSignupError] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showConfirmEmailModal, setShowConfirmEmailModal] = useState(false);
 
     const handleSignup = (e) => {
         e.preventDefault();
         const userData = { email, password, confirmPassword, firstName, lastName };
-        if(password !== confirmPassword) {
+        if (password !== confirmPassword) {
             setSignupError('Passwords do not match');
             return;
         }
+
         signUp(userData)
             .then((response) => {
                 if (response !== 200) {
                     setSignupError(response);
                 } else {
-                    setEmail('');
-                    setPassword('');
-                    setConfirmPassword('');
-                    setFirstName('');
-                    setLastName('');
-                    navigate('/login');
+                    setShowConfirmEmailModal(true);;
                 }
             })
             .catch((error) => {
                 setSignupError(error.message);
             });
-    };
+    }
+
 
     return (
         <Container fluid className="login-container vh-100">
@@ -167,6 +166,11 @@ function Signup() {
                                         </div>
                                     </InputGroup>
                                 </Form.Group>
+                                {/* <Form.Text className='d-flex justify-content-start align-items-left text-muted'>
+                                    Password must be at least 6 characters long, 
+                                    contain at least one uppercase letter, 
+                                    one lowercase letter, one number and one special character.
+                                </Form.Text> */}
                             </Row>
                             <Row className='mb-3'>
                                 <Form.Group>
@@ -213,6 +217,11 @@ function Signup() {
                     </Col>
                 </Row>
             </Container>
+            <ConfirmEmail
+                show={showConfirmEmailModal}
+                handleClose={() => setShowConfirmEmailModal(false)}
+                email={email}
+            />
         </Container >
     );
 };

@@ -10,7 +10,7 @@ const signUp = async (userData) => {
                 'Accept': 'application/json'
             }
         });
-        
+
         return response.status;
     } catch (error) {
         console.error('Error during sign-up:', error);
@@ -25,7 +25,7 @@ const signUp = async (userData) => {
 
 // Function to sign in
 const signIn = async (credentials) => {
-    try{
+    try {
         const response = await api.post('Account/SignIn', credentials, {
             headers: {
                 'Content-Type': 'application/json',
@@ -52,4 +52,20 @@ const signIn = async (credentials) => {
     }
 };
 
-export { signUp, signIn };
+// Function to confirm email
+const confirmEmail = async (email, confirmationCode) => {
+    try {
+        const response = await api.post(`Account/ConfirmEmail/${encodeURIComponent(email)}/${encodeURIComponent(confirmationCode)}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        });
+        return response.status;
+    } catch (error) {
+        console.error('Error during email confirmation:', error.response.data);
+        throw error;
+    }
+}
+
+export { signUp, signIn, confirmEmail };
