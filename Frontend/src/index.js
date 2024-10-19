@@ -28,6 +28,7 @@ import KoiRemind from "./pages/KoiRemind/KoiRemind";
 import NotAuthorized from "./pages/NotAuthorized/NotAuthorized";
 import NewsDetail from "./pages/NewsDetail/NewsDetail";
 import BlogDetail from "./pages/BlogDetail/BlogDetail";
+import CreateShopAcc from "./pages/CreateShopAcc/CreateShopAcc";
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -40,6 +41,7 @@ root.render(
                     {/* Public Routes (accessible to everyone) */}
                     <Route path="login" element={<Login />} />
                     <Route path="signup" element={<Signup />} />
+                    <Route path="createshopacc" element={<CreateShopAcc />} />
 
                     <Route path="/" element={<App />}>
                         <Route index element={<Home />} />

@@ -63,8 +63,8 @@ function Login() {
       <Container className='d-flex flex-row justify-content-between '>
         <Row className='d-flex justify-content-between align-items-center'>
           <Col md={6} className='d-flex flex-column align-items-center justify-content-center me-4'>
-            <Image src={logo} alt="FPT TTKoi logo" className="logo" fluid />
-            <h1 className=' fw-bold' style={{ color: "#D6691E" }}>Login to FPT TTKoi</h1>
+            <Image src={logo} alt="FPT TTKoi logo" className="login-logo" fluid />
+            <h1 className=' fw-bold' style={{ color: "#D6691E" }}>Welcome to FPT TTKoi</h1>
             <div className='text-dark fs-5 fw-bold text-center'>
               <p>
                 Our website will provide the best solution to help Koi enthusiasts manage and care for your Koi fish at home.
@@ -83,13 +83,13 @@ function Login() {
                 <Nav.Link eventKey="/signup" href="/signup">Sign Up</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="signupshop" href="/signupshop">Sign Up as a Shop Owner</Nav.Link>
+                <Nav.Link eventKey="createShopAcc" href="/createshopacc">Sign Up as a Shop Owner</Nav.Link>
               </Nav.Item>
             </Nav>
             <Form className='login-form' onSubmit={handleLogin}>
               <Row>
                 <Form.Group>
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label className='login-label'>Email</Form.Label>
                   <InputGroup>
                     <FormControl
                       type="email"
@@ -103,8 +103,8 @@ function Login() {
                 </Form.Group>
               </Row>
               <Row className='mb-3'>
-                <Form.Group className="position-relative">
-                  <Form.Label>Password</Form.Label>
+                <Form.Group>
+                  <Form.Label className='login-label'>Password</Form.Label>
                   <InputGroup>
                     <FormControl
                       type={showPassword ? "text" : "password"}
@@ -121,9 +121,9 @@ function Login() {
                         position: 'absolute',
                         right: '10px',
                         top: '50%',
-                        transform: 'translateY(-50%)',
+                        transform: 'translateY(-70%)',
                         cursor: 'pointer',
-                        zIndex: 2,
+                        zIndex: 1,
                       }}
                     >
                       {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -131,7 +131,7 @@ function Login() {
                   </InputGroup>
                 </Form.Group>
               </Row>
-              <Row className='form-action'>
+              <Row className='mb-3'>
                 <Col className='d-flex justify-content-start'>
                   <Link to='#' className="forgot-password"><p>Forgot password?</p> </Link>
                 </Col>
@@ -141,13 +141,13 @@ function Login() {
               </Row>
               {err && <p className="error-message">{err}!</p>}
               <p style={{ fontSize: "20px", fontWeight: "bold", textShadow: "black 0 0 1px" }}>Or</p>
-              <LoginGoogle />
+              <LoginGoogle/>
             </Form>
           </Col>
         </Row>
       </Container>
     </Container >
-  )
-}
+  );
+};
 
 export default Login;

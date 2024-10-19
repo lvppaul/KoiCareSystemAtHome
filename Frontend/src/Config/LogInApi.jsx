@@ -11,9 +11,15 @@ const signUp = async (userData) => {
             }
         });
         
-        return response.data;
+        return response.status;
     } catch (error) {
-        return error.response.data;
+        console.error('Error during sign-up:', error);
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            return error.response.data;
+        } else {
+            return { error: 'Unknown error occurred' };
+        }
     }
 };
 

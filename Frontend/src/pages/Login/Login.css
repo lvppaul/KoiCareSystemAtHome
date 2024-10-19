@@ -7,14 +7,14 @@
     background-position: center;
 }
 
-.logo {
+.login-logo {
     width: 40%;
 }
 
 .nav-tabs {
     display: flex;
     text-align: center;
-    color:#333;
+    color: #333;
     max-width: 600px;
     width: 100%;
     height: auto;
@@ -55,7 +55,7 @@
     height: auto;
 }
 
-label {
+.login-label {
     display: block;
     text-align: left;
     width: 100%;
@@ -65,13 +65,12 @@ label {
     font-weight: bold;
 }
 
-.form-control {
+.login-form .form-control {
     position: relative;
-    background-color: transparent;
-}
-
-.form-actions {
-    align-items: top;
+    margin-bottom: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgb(192, 192, 192);
 }
 
 .forgot-password {
@@ -91,6 +90,7 @@ label {
     border: none;
     display: inline-block;
 }
+
 .login-button:hover {
     background-color: #8d4321;
     color: white;
