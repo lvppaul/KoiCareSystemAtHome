@@ -30,5 +30,24 @@ const getKoiById = async (koiId) => {
         throw error;
     }
 };
+const postKoi = async (koi) => {
+    try {
+        const response = await api.post('Koi', koi);
+        return response.data;
+    } catch (error) {
+        console.error('Error posting koi:', error);
+        throw error;
+    }
+};
 
-export { getKois, getKoiById };
+const updateKoi = async (koi) => {
+    try {
+        const response = await api.put(`Koi/${koi.koiId}`, koi);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating koi:', error);
+        throw error;
+    }
+};
+
+export { getKois, getKoiById, postKoi };

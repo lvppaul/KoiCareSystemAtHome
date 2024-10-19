@@ -20,27 +20,11 @@ const getPonds = async () => {
 const getPondByUserId = async (userId) => {
     try {
         const pondList = await api.get(`Pond/GetPondsByUserId/${userId}`);
-        
         if (!pondList.data) {
             console.log('Pond not found');
             return null;
         } else {
-            const ponds = pondList.data;
-            const pondsWithThumbnails = await Promise.all(ponds.map(async (pond) => {
-                if (pond.thumbnail) {
-                    try {
-                        const storageRef = ref(storage, pond.thumbnail);
-                        const thumbnailUrl = await getDownloadURL(storageRef);
-                        return { ...pond, thumbnailUrl };
-                    } catch (error) {
-                        console.error('Error fetching thumbnail:', error);
-                        return { ...pond, thumbnailUrl: null };
-                    }
-                } else {
-                    return { ...pond, thumbnailUrl: null };
-                }
-            }));
-            return pondsWithThumbnails;
+            return pondList.data;
         }
     } catch (error) {
         console.error('Error fetching ponds:', error);
@@ -49,20 +33,24 @@ const getPondByUserId = async (userId) => {
 }
 
 const getPondsById = async (pondId) => {
+    const notFound = 'others/NotFound.jpg';
     try {
         const response = await api.get(`Pond/async/${pondId}`, {
             headers: {
                 'accept': 'text/plain'
             }
         });
-
         const pond = response.data;
-
-        if (pond && pond.thumbnail) {
+        
+        if (pond) {
             try {
                 const storageRef = ref(storage, pond.thumbnail);
-                const thumbnailUrl = await getDownloadURL(storageRef);
-                pond.thumbnail = thumbnailUrl; // Set the thumbnail URL back to the pond object
+                try {
+                    pond.thumbnail = await getDownloadURL(storageRef);
+                } catch (error) {
+                    const notFoundStorageRef = ref(storage, notFound);
+                    pond.thumbnail = await getDownloadURL(notFoundStorageRef);
+                }
                 return pond;
             } catch (error) {
                 console.error('Error fetching thumbnail:', error);
@@ -82,7 +70,8 @@ const getPondsById = async (pondId) => {
 // Function to post pond data
 const postPond = async (pondData) => {
     try {
-        const response = await api.post('Pond', pondData);
+        const response = await api.post(`Pond`, pondData);
+        console.log('Pond data posted:', response);
         return response;
     } catch (error) {
         console.error('Error posting pond data:', error);
@@ -90,4 +79,54 @@ const postPond = async (pondData) => {
         ;}
 };
 
-export { getPonds, getPondByUserId , getPondsById, postPond};
+const updatePond = async (pondData) => {
+    try {
+        const response = await api.put(`Pond/${pondData.pondId}`, pondData);
+        return response;
+    } catch (error) {
+        console.error('Error updating pond:', error);
+        throw error;
+    }
+}
+
+const deletePond = async (pondId) => {
+    try {
+        await api.delete(`Pond/${pondId}`);
+    } catch (error) {
+        console.error('Error deleting pond:', error);
+        throw error;
+    }
+}
+
+const getKoiInPond = async (pondId) => {
+    const notFound = 'others/NotFound.jpg';
+    try {
+        const response = await api.get(`Pond/ListKoiInPond/${pondId}`);
+        const koiStatus = response.data;
+        const koiList = koiStatus.filter(koi => koi.status === true);
+        if (Array.isArray(koiList)) {
+            for (let i = 0; i < koiList.length; i++) {
+                if (koiList[i].thumbnail) {
+                    const storageRef = ref(storage, koiList[i].thumbnail);
+                    try {
+                        koiList[i].thumbnail = await getDownloadURL(storageRef);
+                    } catch (error) {
+                        console.error(`Error fetching thumbnail for pond ${koiList[i].pondId}:`, error);
+                        const notFoundStorageRef = ref(storage, notFound);
+                        koiList[i].thumbnail = await getDownloadURL(notFoundStorageRef);
+                    }
+                } else {
+                    const notFoundStorageRef = ref(storage, notFound);
+                    koiList[i].thumbnail = await getDownloadURL(notFoundStorageRef);
+                }
+            }
+            return koiList;
+        } else {
+            console.log('Fetched ponds is not array:');
+        }
+    } catch (error) {
+        console.error('Error fetching koi in pond:', error);
+        throw error;
+    }
+}
+export { getPonds, getPondByUserId , getPondsById, postPond, updatePond, deletePond, getKoiInPond};

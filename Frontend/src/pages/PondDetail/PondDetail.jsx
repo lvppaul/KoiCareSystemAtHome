@@ -2,62 +2,45 @@ import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Button, Card, Pagination } from 'react-bootstrap';
 import { MdDelete, MdAdd } from "react-icons/md";
 import './PondDetail.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import AddNewFish from '../../components/AddNewFish/AddNewFish';
 import { storage } from '../../Config/firebase';
-import {ref, deleteObject} from 'firebase/storage'
+import {ref, getDownloadURL} from 'firebase/storage'
 import { getPondsById } from '../../Config/PondApi';
 import { Spinner } from 'react-bootstrap';
-//   const { pondId } = useParams();
-
+import UpdatePondDetail from '../../components/UpdatePondDetail/UpdatePondDetail';
+import DeletePond from '../../components/DeletePond/DeletePond';
+import { getKoiInPond } from '../../Config/PondApi';
 // Use pondId to fetch or display pond details
 const PondDetail = () => {
-  const image = "https://firebasestorage.googleapis.com/v0/b/koi-care-system-at-home-32e49.appspot.com/o/pond%2FpondThumbnails%2FScreenshot%202024-09-13%20210015.png?alt=media&token=631a1c70-5f2b-44d3-8c94-de2c901c5ff4";
-  const koiList = [
-    { name: 'Wagon', age: '2 months', variety: 'Kohaku', length: '42 cm' },
-    { name: 'Wagon', age: '2 years', variety: 'Goshiki', length: '40 cm' },
-    { name: 'Chagoi', age: '2 years', variety: 'Kohaku', length: '40 cm' },
-    { name: 'Wagon', age: '1 year', variety: 'Chagoi', length: '39 cm' },
-    { name: 'Asagi', age: '20 years', variety: 'Kohaku', length: '42 cm' },
-    { name: 'Showa', age: '2 years', variety: 'Goshiki', length: '40 cm' }
-  ];
-  const [showModalAddFish, setShowModalAddFish] = useState(false);
-  const [loading, setLoading] = useState(true); // Loading state
-  const handleDeleteImage = () => {
-    const imageUrl =  image;// Replace with the actual image URL
-
-    const imageRef = ref(storage, imageUrl);
-
-    deleteObject(imageRef)
-      .then(() => {
-        console.log("Image deleted successfully");
-      })
-      .catch((error) => {
-        console.error("Error deleting image:", error);
-      });
-  }
-
   const [pond, setPond] = useState(null);
   const { pondId } = useParams();
-
+  const [loading, setLoading] = useState(true); // Loading state
+  const [koiList, setKoiList] = useState([]);
+  const [showModalAddPond, setShowModalAddPond] = useState(false);
+  const [showModalAddFish, setShowModalAddFish] = useState(false);
+  const notFound = 'others/NotFound.jpg';
+  const [loadingKoi, setLoadingKoi] = useState(true);
   //handle fetch data koi pond by pondId
   useEffect(() => {
-    const fetchPondDetails = async () => {
-      try {
-        const data = await getPondsById(pondId);
-        console.log('Fetched koi pond:', data);
-        setPond(data);
-      } catch (error) {
-        console.error('Error fetching koi pond:', error);
-      } finally {
+      getPondsById(pondId)
+      .then(data => {
+        setPond(data);  
         setLoading(false);
-      }
-    };
-    if (pondId) {
-      fetchPondDetails();
-    }
-  }, [pondId]);
-  if (loading){
+      })
+      .catch (error => {
+        console.error('Error fetching koi pond:', error);
+        setLoading(false);        
+      });
+      getKoiInPond(pondId)
+      .then(data => {
+        setKoiList(data);
+        if(data.length > 0) setLoadingKoi(false);
+      })
+      
+    }, [pondId]);
+    
+  if (loading || !pond) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Spinner animation="border" variant="primary" />
@@ -65,18 +48,20 @@ const PondDetail = () => {
     );
   }
 
-  if (!pond) {
-    return <h1>Pond not found</h1>;
-  }
+  
+  
 
   return (
     <Container className='pond-detail-container' style={{ marginTop: '100px', marginBottom: '100px' }}>
       <Row style={{ justifyContent: 'flex-end' }}>
         <h1 style={{fontWeight:'bolder'}}>{pond.name}</h1>
-        <Button onClick={handleDeleteImage} style={{ width: '180px', height: '70px', fontWeight: 'bold', fontSize: '18px', borderRadius: '15px', backgroundColor: '#FF8433' }}>
-          <MdDelete size={25} />
-          Delete Pond
-        </Button>
+        <UpdatePondDetail 
+          pond={pond}
+          show={showModalAddPond}
+          setShow={setShowModalAddPond} 
+          setPond={setPond}/>
+        <DeletePond 
+        pondData={pond}/>
       </Row>
       <Row>
         <Col md={6}>
@@ -107,8 +92,14 @@ const PondDetail = () => {
           show={showModalAddFish}
           setShow={setShowModalAddFish} />
         <Row>
-          {koiList.map((koi, index) => (
-            <Col md={6} key={index} className="mb-4">
+          {loadingKoi ? (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <h3>No Koi in this pond </h3>
+        <Spinner size='50' variant="primary" />
+      </div>
+    ) : null}
+          {koiList.map((koi) => (
+            <Col md={6}  className="mb-4">
               <Card 
               style={{ backgroundColor: '#E2C3C3', borderRadius: '15px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
               > <span><a href='/koidetail'></a></span>

@@ -20,16 +20,17 @@ const Shop = () => {
       })
       .catch(error => console.error('Error fetching categories:', error));
     };
+    
 
-    getProducts()
-      .then(data => {
-        setProducts(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching products:', error);
-        setLoading(false);
-      });
+    // getProducts()
+    //   .then(data => {
+    //     setProducts(data);
+    //     setLoading(false);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error fetching products:', error);
+    //     setLoading(false);
+    //   });
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);

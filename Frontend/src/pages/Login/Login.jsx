@@ -23,6 +23,7 @@ function Login() {
       console.log('Sign in response:', response);
       if (response) {
         // Call the login function with the user data and role
+        console.log('response', response);
         login({ email, role: response.userRole, userId: response.userId });
         if (response.userRole === 'admin') {
           navigate('/admin');
