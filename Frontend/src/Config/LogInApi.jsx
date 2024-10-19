@@ -11,9 +11,15 @@ const signUp = async (userData) => {
             }
         });
         
-        return response.data;
+        return response.status;
     } catch (error) {
-        return error.response.data;
+        console.error('Error during sign-up:', error);
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            return error.response.data;
+        } else {
+            return { error: 'Unknown error occurred' };
+        }
     }
 };
 
@@ -26,6 +32,7 @@ const signIn = async (credentials) => {
                 'Accept': 'application/json'
             }
         });
+
         const decoded = jwtDecode(response.data);
         const email = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
         const userId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
@@ -35,7 +42,13 @@ const signIn = async (credentials) => {
 
         return { email, userId, userRole };
     } catch (error) {
-        return error.response.data;
+        console.error('Error during sign-in:', error);
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            return error.response.data;
+        } else {
+            return { error: 'Unknown error occurred' };
+        }
     }
 };
 

@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl } from 'react-bootstrap';
-import "./Signup.css";
+
 import logo from "../../assets/logo.svg";
 import { Link } from 'react-router-dom';
 import { signUp } from '../../Config/LogInApi';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import LoginGoogle from '../Login/LoginGoogle';
 
-function Signup() {
+
+function CreateShopAcc() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -90,7 +90,7 @@ function Signup() {
                                 <Nav.Link href="/signup">Sign Up</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link eventKey="createShopAcc" href="/createshopacc">Sign Up as a Shop Owner</Nav.Link>
+                                <Nav.Link eventKey="signupshop" href="/signupshop">Sign Up as a Shop Owner</Nav.Link>
                             </Nav.Item>
                         </Nav>
                         <Form className='signup-form' onSubmit={handleSignup}>
@@ -208,7 +208,7 @@ function Signup() {
                             </Row>
                             {signupError && <p className="error-message">{signupError}</p>}
                             <p style={{ fontSize: "20px", fontWeight: "bold", textShadow: "black 0 0 1px" }}>Or</p>
-                            <LoginGoogle />
+                            
                         </Form>
                     </Col>
                 </Row>
@@ -217,4 +217,4 @@ function Signup() {
     );
 };
 
-export default Signup;
+export default CreateShopAcc;
