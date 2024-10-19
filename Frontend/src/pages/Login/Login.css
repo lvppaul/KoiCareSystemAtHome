@@ -102,7 +102,8 @@
 }
 
 .google-login {
-    background-color: transparent black;
+    background-color: rgb(209, 208, 208);
+    background-color: transparent rgb(0, 0, 0);
     border: 1px solid black;
     box-shadow: black 0 0 4px;
     padding: 10px 130px;
