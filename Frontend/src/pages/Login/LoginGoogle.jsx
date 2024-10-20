@@ -1,7 +1,7 @@
 import { FcGoogle } from "react-icons/fc";
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { signInWithPopup, signInWithRedirect } from "firebase/auth";
+import {  signInWithPopup } from "firebase/auth";
 import { signIn } from "../../Config/LogInApi";
 import { auth, provider } from "../../Config/firebase";
 //import { useAuth } from './AuthProvider';
@@ -15,6 +15,7 @@ const LoginGoogle = () => {
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
+            console.log('result', result);
 
             // Get the token from Firebase
             const token = await user.getIdToken();
@@ -25,15 +26,13 @@ const LoginGoogle = () => {
             localStorage.setItem('result', result); // Store the user data
             localStorage.setItem('token', token); // Store the Firebase token
             localStorage.setItem('user', user); // Store the user data
-            console.log(localStorage.getItem('user'));
-            console.log(localStorage.getItem('token'));
             //console.log('Login Success:', data);
             //console.log("custom JWT token:", data.token);
             //localStorage.setItem('token', data.token); // Store the JWT token
 
             // Decode the JWT token to get user role
             const decodedToken = jwtDecode(token);
-            console.log('Decoded token:', token);
+            console.log('token:', token);
             console.log('Decoded token:', decodedToken);
             const email = decodedToken.email;
             

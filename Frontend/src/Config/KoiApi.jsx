@@ -50,4 +50,12 @@ const updateKoi = async (koi) => {
     }
 };
 
-export { getKois, getKoiById, postKoi };
+const deleteKoi = async (koiId) => {
+    try {
+        await api.delete(`Koi/${koiId}`);
+    } catch (error) {
+        console.error('Error deleting koi:', error);
+        throw error;
+    }
+}
+export { getKois, getKoiById, postKoi, deleteKoi, updateKoi };

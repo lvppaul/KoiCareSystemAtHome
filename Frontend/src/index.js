@@ -57,7 +57,7 @@ root.render(
                         {/* Protected Routes for Authenticated Users */}
                         <Route path="pond" element={<ProtectedRoute requiredRole="member"><Pond /></ProtectedRoute>} />
                         <Route path="ponddetail/:pondId" element={<ProtectedRoute requiredRole="member"><PondDetail /></ProtectedRoute>} />
-                        <Route path="koidetail" element={<ProtectedRoute requiredRole="member"><KoiDetail /></ProtectedRoute>} />
+                        <Route path="koidetail/:koiId" element={<ProtectedRoute requiredRole="member"><KoiDetail /></ProtectedRoute>} />
 
                         {/* Protected Routes for Shop Users */}
                         <Route path="manageshop" element={<ProtectedRoute requiredRole="shop"><ManageShop /></ProtectedRoute>} />

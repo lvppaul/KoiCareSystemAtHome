@@ -37,7 +37,18 @@ const DeletePond = ({ pondData }) => {
         <>
             <Button 
             onClick={handleDelete}
-            style={{ width: '180px', height: '70px', fontWeight: 'bold', fontSize: '18px', borderRadius: '15px', backgroundColor: '#FF8433' }}>
+            style={{ 
+                width: '180px', 
+                height: '70px', 
+                fontWeight: 'bold', 
+                fontSize: '18px', 
+                borderRadius: '15px', 
+                backgroundColor: '#F94050',
+                transition: 'background-color 0.3s ease',
+            }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#FF8433'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#F94050'}
+            >
                 <MdDelete size={25} />
                 Delete Pond
             </Button>

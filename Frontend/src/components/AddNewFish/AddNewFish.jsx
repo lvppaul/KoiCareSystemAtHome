@@ -7,9 +7,10 @@ import { storage } from '../../Config/firebase';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import { useAuth } from '../../pages/Login/AuthProvider';
 import { postKoi } from '../../Config/KoiApi';
+import { useParams } from 'react-router-dom';
 
 const AddNewFish = ({ show, setShow, onKoiAdded }) => {
-    const newKoi = useState({ name: '', age: '', note: '', origin: '', length: '', weight: '', color: '', status: false, thumbnail: '' });
+    const newKoi = { name: '', age: '', sex: '', variety: '', physique: '', note: '', origin: '', length: '', weight: '', color: '', status: true, thumbnail: '', pondId: '' };
     const[loading, setLoading] = useState(false);
     const handleClose = () => setShow(false);
     const [koidetail, setKoiDetail] = useState(newKoi);
@@ -22,6 +23,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
     const [file, setFile] = useState(null);
     const [storageRef, setStorageRef] = useState(null);
     const [previewImage, setPreviewImage] = useState("");
+    const pondId = useParams().pondId;
 
     // upload image
     const handleUploadImg = (event) => {
@@ -41,25 +43,21 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
         }
     };
 
-    const handleSubmitFish = async () => {
+    const handleSubmitFish = async (event) => {
+        event.preventDefault();
         setLoading(true);
         try {
-            console.log('koidetail', koidetail);
-            console.log('file', file);
-            console.log('newkoi', newKoi);
             if (file) {
                 await uploadBytes(storageRef, file);
-                const thumbnail = await getDownloadURL(storageRef);
-                await postKoi(koidetail);
-                //onPondAdded(newKoi);
-            } else {
-                await postKoi(koidetail);
-                //onPondAdded(koidetail);
             }
-            setLoading(false);
-            setShow(false);
+                await postKoi({ ...koidetail, pondId: pondId, userId: userId });
+                onKoiAdded(newKoi);
+                setKoiDetail(newKoi);
+                setPreviewImage(null);
+                setShow(false);
         } catch (error) {
             console.error('Error adding pond:', error);
+        } finally {
             setLoading(false);
         }
     }
@@ -127,6 +125,33 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                         </Form.Group>
                                     </Row>
                                     <Row>
+                                        <Form.Group as={Col} controlId="formGridSex">
+                                            <Form.Label>Sex:</Form.Label>
+                                            <Form.Control type="text" placeholder="male / female"
+                                                name='sex'
+                                                value={koidetail.sex}
+                                                onChange={handleInputChange} />
+                                        </Form.Group>
+                                    </Row>
+                                    <Row>
+                                        <Form.Group as={Col} controlId="formGridVariety">
+                                            <Form.Label>Variety:</Form.Label>
+                                            <Form.Control type="text" placeholder="Enter fish variety"
+                                                name='variety'
+                                                value={koidetail.variety}
+                                                onChange={handleInputChange} />
+                                        </Form.Group>
+                                    </Row>
+                                    <Row>
+                                        <Form.Group as={Col} controlId="formGridPhysique">
+                                            <Form.Label>Physique:</Form.Label>
+                                            <Form.Control type="text" placeholder="Enter fish physique"
+                                                name='physique'
+                                                value={koidetail.physique}
+                                                onChange={handleInputChange} />
+                                        </Form.Group>
+                                    </Row>
+                                    <Row>
                                         <Form.Group as={Col} controlId="formGridLength">
                                             <Form.Label>Length (cm):</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish length"
@@ -173,12 +198,14 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                     </Row>
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridStatus">
-                                            <Form.Check type="checkbox" label="Status"
-                                                name='status'
+                                            <Form.Label>Status:</Form.Label>
+                                            <Form.Check type="checkbox" label="Active"
+                                                name='status'   
                                                 checked={koidetail.status}
-                                                onChange={handleInputChange} />
+                                                onChange={(event) => setKoiDetail({ ...koidetail, status: event.target.checked })}  />
                                         </Form.Group>
                                     </Row>
+
                                 </Col>
                             </Row>
                     <Button variant="secondary" onClick={handleClose}>
