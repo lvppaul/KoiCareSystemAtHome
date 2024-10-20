@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { addBlog, addBlogImage } from '../../Config/BlogApi';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import MyEditor from '../MyEditor/MyEditor';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import { useAuth } from '../../pages/Login/AuthProvider';
 
 const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
+    const [blog, setBlog] = useState({});
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [thumbnail, setThumbnail] = useState('');
@@ -21,23 +21,36 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
     const { user } = useAuth();
     const userId = user.userId;
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setBlog({...blog, [name]: value, publishDate: new Date().toISOString().split('T')[0], userId: userId});
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newBlog = {
-            title,
-            content,
-            thumbnail,
-            publishDate: new Date().toISOString().split('T')[0],
-            userId: userId,
-        };
-
-        try {
-            const addedBlog = await addBlog(newBlog);
-            await uploadBytes(thumbnailRef, thumbnailFile);
-            const addedImage = await addBlogImage({ blogId: addedBlog.blogId, imagePath });
-            await uploadBytes(imageRef, imageFile);
-            onAddBlog(addedBlog);
+        setBlog({...blog, thumbnail: thumbnailFile ? thumbnail : 'others/NotFound.jpg'});
             
+        try {
+            const addedBlog = await addBlog(blog);
+            if (thumbnailFile) {
+                await uploadBytes(thumbnailRef, thumbnailFile);
+            }
+            if (imageFile) {
+                await addBlogImage({ blogId: addedBlog.blogId, imageUrl: imagePath });
+                await uploadBytes(imageRef, imageFile);
+            }
+            const newThumbnail = await getDownloadURL(thumbnailRef);
+            onAddBlog({ ...addedBlog, thumbnail: newThumbnail });
+            setTitle('');
+            setContent('');
+            setThumbnail('');
+            setPreviewThumbnail('');
+            setThumbnailFile(null);
+            setThumbnailRef(null);
+            setImagePath('');
+            setImageFile(null);
+            setImageRef(null);
+
             handleClose();
         } catch (error) {
             console.error('Error adding blog:', error);
@@ -60,7 +73,11 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
                 const imageUrl = await getDownloadURL(storageRef);
                 const quill = quillRef.current.getEditor();
                 const range = quill.getSelection();
-                quill.insertEmbed(range.index, 'image', imageUrl);
+                if (range) {
+                    quill.insertEmbed(range.index, 'image', imageUrl);
+                } else {
+                    console.error('No valid range found for inserting image');
+                }
             } catch (error) {
                 console.error('Error uploading image:', error);
             }
@@ -110,31 +127,32 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBlogImage">
+                    <Form.Group className='mb-3' controlId="formBlogImage">
                         <Form.Label>Shop Thumbnail</Form.Label>
                         <div>
                             <Form.Control type="file" accept="image/*" onChange={handleThumbnailChange} />
                             {previewThumbnail && <img src={previewThumbnail} alt="Blog Thumbnail" style={{ width: '100px', margin: '5px' }} />}
                         </div>
                     </Form.Group>
-                    <Form.Group controlId="formTitle">
+                    <Form.Group className='mb-3' controlId="formTitle">
                         <Form.Label>Title</Form.Label>
                         <Form.Control
                             type="text"
                             placeholder="Enter title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
+                            required
                         />
                     </Form.Group>
-                    <Form.Group controlId="formContent">
+                    <Form.Group className='mb-3' controlId="formContent">
                         <Form.Label>Content</Form.Label>
-                        <ReactQuill
+                        <MyEditor 
+                            name="content"
                             value={content}
-                            onChange={setContent}
+                            onChange={handleInputChange}
                             placeholder="Enter content"
-                            theme="snow"
                             modules={modules}
-                            ref={quillRef}
+                            required
                         />
                     </Form.Group>
                     <Button variant="primary" type="submit">
