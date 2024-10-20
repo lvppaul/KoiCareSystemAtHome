@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Form, Button, Spinner, Pagination, Image } from 'react-bootstrap';
 import { getProducts, getProductsByCategoryId } from '../../Config/ProductApi';
@@ -9,6 +9,7 @@ import './Shop.css';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
+  const [productByCategory, setProductByCategory] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
@@ -24,43 +25,61 @@ const Shop = () => {
       .catch(error => console.error('Error fetching categories:', error));
   };
 
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
-      const allProducts = await getProducts();
-      const updatedProducts = await Promise.all(allProducts.map(async product => {
-        if (product.thumbnail) {
-          try {
-            const storageRef = ref(storage, product.thumbnail);
-            product.thumbnail = await getDownloadURL(storageRef);
-          } catch (error) {
-            console.error('The file does not exist in firebase anymore!', error);
-            const storageRef = ref(storage, 'others/NotFound.jpg');
-            product.thumbnail = await getDownloadURL(storageRef);
+      if (selectedCategory === 'All') {
+        const allProducts = await getProducts();
+        const updatedProducts = await Promise.all(allProducts.map(async product => {
+          if (product.thumbnail) {
+            try {
+              const storageRef = ref(storage, product.thumbnail);
+              product.thumbnail = await getDownloadURL(storageRef);
+            } catch (error) {
+              console.error('The file does not exist in firebase anymore!', error);
+              const storageRef = ref(storage, 'others/NotFound.jpg');
+              product.thumbnail = await getDownloadURL(storageRef);
+            }
           }
-        }
-        return product;
-      }));
-      setProducts(updatedProducts);
+          return product;
+        }));
+        setProducts(updatedProducts);
+      } else {
+        const filteredProducts = await getProductsByCategoryId(selectedCategory);
+        const updatedFilteredProducts = await Promise.all(filteredProducts.map(async product => {
+          if (product.thumbnail) {
+            try {
+              const storageRef = ref(storage, product.thumbnail);
+              product.thumbnail = await getDownloadURL(storageRef);
+            } catch (error) {
+              console.error('The file does not exist in firebase anymore!', error);
+              const storageRef = ref(storage, 'others/NotFound.jpg');
+              product.thumbnail = await getDownloadURL(storageRef);
+            }
+          }
+          return product;
+        }));
+        setProductByCategory(updatedFilteredProducts);
+      }
       setLoading(false);
     } catch (error) {
       console.error('Error fetching products:', error);
-    };
-  };
+    }
+  }, [selectedCategory]);
 
   useEffect(() => {
     fetchCategories();
     fetchProducts();
-  }, []);
+  }, [selectedCategory, fetchProducts]);
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
+    setLoading(true);
     setCurrentPage(1);
   };
 
   const filteredProducts = selectedCategory === 'All'
     ? products
-    : getProductsByCategoryId(selectedCategory);
+    : productByCategory;
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -86,26 +105,26 @@ const Shop = () => {
       <Button as={Link} to="/manageshop" variant="primary" className="my-3">
         Manage Shop
       </Button>
+      <Row className="my-3">
+        <Col md={2}>
+          <Form.Group controlId="categorySelect">
+            <Form.Label>Sort by Category:</Form.Label>
+            <Form.Select value={selectedCategory} onChange={handleCategoryChange} className="category-select">
+              {categories.map((category) => (
+                <option key={category.categoryId} value={category.categoryId}>
+                  {category.name}
+                </option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+        </Col>
+      </Row>
       {loading ? (
         <div className="d-flex justify-content-center align-items-center" style={{ height: '50vh' }}>
           <Spinner animation="border" size="xl" role="status" />
         </div>
       ) : (
         <div>
-          <Row className="my-3">
-            <Col md={2}>
-              <Form.Group controlId="categorySelect">
-                <Form.Label>Sort by Category:</Form.Label>
-                <Form.Select value={selectedCategory} onChange={handleCategoryChange} className="category-select">
-                  {categories.map((category) => (
-                    <option key={category.categoryId} value={category.categoryId}>
-                      {category.name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-            </Col>
-          </Row>
           <Row>
             {currentProducts.map(product => (
               <Col key={product.productId} md={3} className="mb-3">
@@ -141,4 +160,5 @@ const Shop = () => {
     </Container>
   );
 };
+
 export default Shop;
