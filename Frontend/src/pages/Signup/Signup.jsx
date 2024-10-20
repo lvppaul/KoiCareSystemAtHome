@@ -51,7 +51,7 @@ function Signup() {
 
 
     return (
-        <Container fluid className="login-container vh-100">
+        <Container fluid className="signup-container vh-100">
             <Button
                 variant="light"
                 className="position-absolute"
@@ -75,7 +75,7 @@ function Signup() {
             <Container className='d-flex flex-row justify-content-between '>
                 <Row className='d-flex justify-content-between align-items-center'>
                     <Col md={6} className='d-flex flex-column align-items-center justify-content-center me-4'>
-                        <Image src={logo} alt="FPT TTKoi logo" className="sigup-logo" fluid />
+                        <Image src={logo} alt="FPT TTKoi logo" className="signup-logo" fluid />
                         <h1 className=' fw-bold' style={{ color: "#D6691E" }}>Welcome to FPT TTKoi</h1>
                         <div className='text-dark fs-5 fw-bold text-center'>
                             <p>

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl } from 'react-bootstrap';
-
+import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl, Spinner } from 'react-bootstrap';
+import ConfirmEmail from '../../components/ConfirmEmail/ConfirmEmail';
 import logo from "../../assets/logo.svg";
-import { Link } from 'react-router-dom';
-import { signUp } from '../../Config/LogInApi';
+import './CreateShopAcc.css';
+import { signUpShop } from '../../Config/LogInApi';
+import { addShop } from '../../Config/ShopApi';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -16,37 +17,52 @@ function CreateShopAcc() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [signupError, setSignupError] = useState(null);
+    const [shopName, setShopName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [description, setDescription] = useState('This is your shop description');
+    const [userId, setUserId] = useState('');
+    const [createShopError, setCreateShopError] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showConfirmEmailModal, setShowConfirmEmailModal] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const handleSignup = (e) => {
+    const handleCreateShop = (e) => {
         e.preventDefault();
+        setLoading(true);
         const userData = { email, password, confirmPassword, firstName, lastName };
-        if(password !== confirmPassword) {
-            setSignupError('Passwords do not match');
+        if (password !== confirmPassword) {
+            setCreateShopError('Passwords do not match');
+            setLoading(false);
             return;
         }
-        signUp(userData)
-            .then((response) => {
-                if (response !== 200) {
-                    setSignupError(response);
-                } else {
-                    setEmail('');
-                    setPassword('');
-                    setConfirmPassword('');
-                    setFirstName('');
-                    setLastName('');
-                    navigate('/login');
+        signUpShop(userData)
+        .then((response) => {
+            if (response !== 200) {
+                setCreateShopError(response);
+            } else {
+                    setUserId(response.userId);
+                    const shopData = { userId, shopName, description, phone, email };
+                    addShop(shopData)
+                        .then((response) => {
+                            if (response !== 200) {
+                                setCreateShopError(response);
+                            } else {
+                                setShowConfirmEmailModal(true);
+                            }
+                        })
                 }
             })
             .catch((error) => {
-                setSignupError(error.message);
+                setCreateShopError(error.message);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
     return (
-        <Container fluid className="login-container vh-100">
+        <Container fluid className="createShop-container vh-100">
             <Button
                 variant="light"
                 className="position-absolute"
@@ -67,153 +83,191 @@ function CreateShopAcc() {
                 <BiArrowBack size={30} className="me-2" />
                 Back to home
             </Button>
-            <Container className='d-flex flex-row justify-content-between '>
+            <Container className='d-flex flex-row justify-content-between'>
                 <Row className='d-flex justify-content-between align-items-center'>
                     <Col md={6} className='d-flex flex-column align-items-center justify-content-center me-4'>
-                        <Image src={logo} alt="FPT TTKoi logo" className="sigup-logo" fluid />
-                        <h1 className=' fw-bold' style={{ color: "#D6691E" }}>Welcome to FPT TTKoi</h1>
+                        <Image src={logo} alt="FPT TTKoi logo" className="createShop-logo" fluid />
+                        <h1 className='fw-bold' style={{ color: "#D6691E" }}>Welcome to FPT TTKoi</h1>
                         <div className='text-dark fs-5 fw-bold text-center'>
                             <p>
-                                Our website will provide the best solution to help Koi enthusiasts manage and care for your Koi fish at home.
+                                Become a shop owner with FPT TTKoi and connect with a broader audience looking for quality koi products.
                             </p>
                             <p>
-                                We provide a range of features to monitor, track and maintain optimal conditions for Koi ponds and fish health.
+                                Expand your business online and make your products more accessible to customers, driving growth and success.
                             </p>
                         </div>
                     </Col>
                     <Col md={5} className='ms-4'>
-                        <Nav className='nav-tabs' variant="tabs" defaultActiveKey="/signup" >
+                        <Nav className='nav-tabs' variant="tabs" defaultActiveKey="/createshopacc">
                             <Nav.Item>
                                 <Nav.Link eventKey="/login" href='/login'>Log In</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link href="/signup">Sign Up</Nav.Link>
+                                <Nav.Link eventKey="/signup" href="/signup">Sign Up</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link eventKey="signupshop" href="/signupshop">Sign Up as a Shop Owner</Nav.Link>
+                                <Nav.Link href="/createshopacc">Sign Up as a Shop Owner</Nav.Link>
                             </Nav.Item>
                         </Nav>
-                        <Form className='signup-form' onSubmit={handleSignup}>
+                        <Form className='createShop-form' onSubmit={handleCreateShop}>
                             <Row>
-                                <Form.Group>
-                                    <Form.Label className='signup-label'>First Name</Form.Label>
-                                    <InputGroup>
-                                        <FormControl
-                                            type="text"
-                                            placeholder="First Name"
-                                            value={firstName}
-                                            onChange={(e) => setFirstName(e.target.value)}
-                                            required
-                                            autoComplete='given-name'
-                                        />
-                                    </InputGroup>
-                                </Form.Group>
-                            </Row>
-                            <Row>
-                                <Form.Group>
-                                    <Form.Label className='signup-label'>Last Name</Form.Label>
-                                    <InputGroup>
-                                        <FormControl
-                                            type="text"
-                                            placeholder="Last Name"
-                                            value={lastName}
-                                            onChange={(e) => setLastName(e.target.value)}
-                                            required
-                                            autoComplete='family-name'
-                                        />
-                                    </InputGroup>
-                                </Form.Group>
-                            </Row>
-                            <Row>
-                                <Form.Group>
-                                    <Form.Label className='signup-label'>Email</Form.Label>
-                                    <InputGroup>
-                                        <FormControl
-                                            type="email"
-                                            placeholder="Email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required
-                                            autoComplete='email'
-                                        />
-                                    </InputGroup>
-                                </Form.Group>
-                            </Row>
-                            <Row>
-                                <Form.Group>
-                                    <Form.Label className='signup-label'>Password</Form.Label>
-                                    <InputGroup>
-                                        <FormControl
-                                            type={showPassword ? "text" : "password"}
-                                            placeholder="Password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            required
-                                            autoComplete='current-password'
-                                            style={{ borderRadius: '5px' }}
-                                        />
-                                        <div
-                                            onClick={() => setShowPassword(!showPassword)}
-                                            style={{
-                                                position: 'absolute',
-                                                right: '10px',
-                                                top: '50%',
-                                                transform: 'translateY(-70%)',
-                                                cursor: 'pointer',
-                                                zIndex: 1,
-                                            }}
-                                        >
-                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                        </div>
-                                    </InputGroup>
-                                </Form.Group>
-                            </Row>
-                            <Row className='mb-3'>
-                                <Form.Group>
-                                    <Form.Label className='signup-label'>Confirm Password</Form.Label>
-                                    <InputGroup>
-                                        <FormControl
-                                            type={showConfirmPassword ? "text" : "password"}
-                                            placeholder="Confirm Password"
-                                            value={confirmPassword}
-                                            onChange={(e) => setConfirmPassword(e.target.value)}
-                                            required
-                                            autoComplete='current-password'
-                                            style={{ borderRadius: '5px' }}
-                                        />
-                                        <div
-                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                            style={{
-                                                position: 'absolute',
-                                                right: '10px',
-                                                top: '50%',
-                                                transform: 'translateY(-70%)',
-                                                cursor: 'pointer',
-                                                zIndex: 1,
-                                            }}
-                                        >
-                                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                                        </div>
-                                    </InputGroup>
-                                </Form.Group>
-                            </Row>
-                            <Row className='already mb-3'>
-                                <Col className='d-flex flex-column justify-content-start'>
-                                    <p className='mb-0'>Already have an account? </p>
-                                    <Link to='/login' style={{ color: '#D6691E' }}>Log in</Link>
+                                <Col md={12}>
+                                    <Row>
+                                        <Col md={6}>
+                                            <Form.Group>
+                                                <Form.Label className='createShop-label'>First Name</Form.Label>
+                                                <InputGroup>
+                                                    <FormControl
+                                                        type="text"
+                                                        placeholder="First Name"
+                                                        value={firstName}
+                                                        onChange={(e) => setFirstName(e.target.value)}
+                                                        required
+                                                        autoComplete='given-name'
+                                                    />
+                                                </InputGroup>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Label className='createShop-label'>Last Name</Form.Label>
+                                                <InputGroup>
+                                                    <FormControl
+                                                        type="text"
+                                                        placeholder="Last Name"
+                                                        value={lastName}
+                                                        onChange={(e) => setLastName(e.target.value)}
+                                                        required
+                                                        autoComplete='family-name'
+                                                    />
+                                                </InputGroup>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Label className='createShop-label'>Email</Form.Label>
+                                                <InputGroup>
+                                                    <FormControl
+                                                        type="email"
+                                                        placeholder="Email"
+                                                        value={email}
+                                                        onChange={(e) => setEmail(e.target.value)}
+                                                        required
+                                                        autoComplete='email'
+                                                    />
+                                                </InputGroup>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Label className='createShop-label'>Password</Form.Label>
+                                                <InputGroup>
+                                                    <FormControl
+                                                        type={showPassword ? "text" : "password"}
+                                                        placeholder="Password"
+                                                        value={password}
+                                                        onChange={(e) => setPassword(e.target.value)}
+                                                        required
+                                                        autoComplete='current-password'
+                                                        style={{ borderRadius: '5px' }}
+                                                    />
+                                                    <div
+                                                        onClick={() => setShowPassword(!showPassword)}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            right: '10px',
+                                                            top: '50%',
+                                                            transform: 'translateY(-70%)',
+                                                            cursor: 'pointer',
+                                                            zIndex: 1,
+                                                        }}
+                                                    >
+                                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                                    </div>
+                                                </InputGroup>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Label className='createShop-label'>Confirm Password</Form.Label>
+                                                <InputGroup>
+                                                    <FormControl
+                                                        type={showConfirmPassword ? "text" : "password"}
+                                                        placeholder="Confirm Password"
+                                                        value={confirmPassword}
+                                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                                        required
+                                                        autoComplete='current-password'
+                                                        style={{ borderRadius: '5px' }}
+                                                    />
+                                                    <div
+                                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            right: '10px',
+                                                            top: '50%',
+                                                            transform: 'translateY(-70%)',
+                                                            cursor: 'pointer',
+                                                            zIndex: 1,
+                                                        }}
+                                                    >
+                                                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                                    </div>
+                                                </InputGroup>
+                                            </Form.Group>
+                                        </Col>
+                                        <Col md={6}>
+                                            <Form.Group>
+                                                <Form.Label className='createShop-label'>Shop Name</Form.Label>
+                                                <InputGroup>
+                                                    <FormControl
+                                                        type="text"
+                                                        placeholder="Shop Name"
+                                                        value={shopName}
+                                                        onChange={(e) => setShopName(e.target.value)}
+                                                        required
+                                                        autoComplete='shop-name'
+                                                    />
+                                                </InputGroup>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Label className='createShop-label'>Phone</Form.Label>
+                                                <InputGroup>
+                                                    <FormControl
+                                                        type="text"
+                                                        placeholder="Phone"
+                                                        value={phone}
+                                                        onChange={(e) => setPhone(e.target.value)}
+                                                        required
+                                                        autoComplete='tel'
+                                                    />
+                                                </InputGroup>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Form.Label className='createShop-label'>Description</Form.Label>
+                                                <InputGroup>
+                                                    <FormControl
+                                                        as="textarea"
+                                                        rows="4"
+                                                        placeholder="Description"
+                                                        value={description}
+                                                        onChange={(e) => setDescription(e.target.value)}
+                                                        autoComplete='description'
+                                                    />
+                                                </InputGroup>
+                                            </Form.Group>
+                                            <Col className='d-flex justify-content-end mt-4'>
+                                                <Button type='submit' className='create-button' disabled={loading}>
+                                                    {loading ? <Spinner animation="border" size="sm" /> : 'Create'}
+                                                </Button>
+                                            </Col>
+                                        </Col>
+                                    </Row>
+                                    {createShopError && <p className="error-message mt-3">{createShopError}</p>}
                                 </Col>
-                                <Col className='d-flex justify-content-end'>
-                                    <Button type='submit' className='create-button'>Create</Button>
-                                </Col>
                             </Row>
-                            {signupError && <p className="error-message">{signupError}</p>}
-                            <p style={{ fontSize: "20px", fontWeight: "bold", textShadow: "black 0 0 1px" }}>Or</p>
-                            
                         </Form>
                     </Col>
                 </Row>
             </Container>
-        </Container >
+            <ConfirmEmail
+                show={showConfirmEmailModal}
+                handleClose={() => setShowConfirmEmailModal(false)}
+                email={email}
+            />
+        </Container>
     );
 };
 
