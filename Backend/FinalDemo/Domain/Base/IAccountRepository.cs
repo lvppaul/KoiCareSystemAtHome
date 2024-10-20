@@ -11,19 +11,24 @@ namespace Domain.Base
 {
     public interface IAccountRepository
     {
-        public Task<string> SignInAsync(SignInModel model);
-        public Task<string> SignUpAsync(SignUpModel model); 
-        public Task<string> CreateShopAccount(SignUpModel model); 
-        public Task<string> CreateVipAccount(SignUpModel model);
-        public Task<string> CreateAdminAccount(SignUpModel model);
-        public Task<string> RequestPasswordReset(string email);
-        public Task<string> ResetPassword(string email, string token, NewPasswordModel model);
-        public Task<string> ChangePasswordAsync(string userId,ChangePasswordModel model);
-        public Task<string> ConfirmEmailAsync(string email, string code);
-        public Task<string> UpdateAccountDetailAsync(string userId, AccountDetailModel model);
-        public Task<string> ChangeRoleToVipAsync(string userId);
-        public Task<string> LockoutEnabled(string userId);
-        public Task<string> LockoutDisabled(string userId);
+        Task<string> SignInAsync(SignInModel model);
+        Task<string> GetUserIdByEmailAsync(string email);
+        Task<string> SignUpAsync(SignUpModel model); 
+
+
+        Task<string> CreateShopAccount(SignUpModel model); 
+        Task<string> CreateVipAccount(SignUpModel model);
+        Task<string> CreateAdminAccount(SignUpModel model);
+
+        Task<string> RequestPasswordResetAsync(string email);
+        Task<string> ResetPasswordAsync(string email, string token, NewPasswordModel model);
+        Task<string> ChangePasswordAsync(string userId,ChangePasswordModel model);
+        Task<string> ConfirmEmailAsync(string email, string code);
+        Task<string> UpdateAccountDetailAsync(string userId, AccountDetailModel model);
+        Task<string> ChangeRoleToVipAsync(string userId);
+
+        Task<string> LockoutEnabledAsync(string userId);
+        Task<string> LockoutDisabledAsync(string userId);
         //public Task<bool> CheckLockoutEnabledAsync(ApplicationUser user);
        
 
