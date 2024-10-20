@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SWP391.KCSAH.Repository;
+using SWP391.KCSAH.Repository.KCSAH.Repository;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -49,6 +50,8 @@ builder.Services.AddSwaggerGen(option =>
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<PondService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ShopRepository>();
+builder.Services.AddScoped<BlogRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddDbContext<KoiCareSystemAtHomeContext>(options =>
@@ -98,8 +101,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 app.UseCors("AllowAllOrigins");
+app.UseAuthorization();
+app.UseStaticFiles();
+app.UseRouting();
 app.MapControllers();
 
 app.Run();
