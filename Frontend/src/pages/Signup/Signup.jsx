@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl } from 'react-bootstrap';
+import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl, Spinner } from 'react-bootstrap';
 import "./Signup.css";
 import logo from "../../assets/logo.svg";
 import { useNavigate } from 'react-router-dom';
@@ -21,12 +21,15 @@ function Signup() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [showConfirmEmailModal, setShowConfirmEmailModal] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleSignup = (e) => {
         e.preventDefault();
+        setLoading(true);
         const userData = { email, password, confirmPassword, firstName, lastName };
         if (password !== confirmPassword) {
             setSignupError('Passwords do not match');
+            setLoading(false);
             return;
         }
 
@@ -40,6 +43,9 @@ function Signup() {
             })
             .catch((error) => {
                 setSignupError(error.message);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }
 
@@ -207,7 +213,9 @@ function Signup() {
                                     <Link to='/login' style={{ color: '#D6691E' }}>Log in</Link>
                                 </Col>
                                 <Col className='d-flex justify-content-end'>
-                                    <Button type='submit' className='create-button'>Create</Button>
+                                    <Button type='submit' className='create-button' disabled={loading}>
+                                        {loading ? <Spinner animation="border" size="sm" /> : 'Create'}
+                                    </Button>
                                 </Col>
                             </Row>
                             {signupError && <p className="error-message">{signupError}</p>}

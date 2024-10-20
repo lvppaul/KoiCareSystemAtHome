@@ -18,13 +18,15 @@ const ConfirmEmail = ({ show, handleClose, email }) => {
             const response = await confirmEmail(email, confirmationCode);
             if (response === 200) {
                 setIsConfirmed(true);
-                navigate('/login');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 3000);
             } else {
-                setError('Invalid confirmation code');
+                setError(response);
             }
         } catch (error) {
             console.error('Error during email confirmation:', error);
-            setError('An error occurred while confirming your email');
+            setError(error.message);
         }
     };
 
@@ -35,7 +37,7 @@ const ConfirmEmail = ({ show, handleClose, email }) => {
             </Modal.Header>
             <Modal.Body>
                 {isConfirmed ? (
-                    <p>Your email has been confirmed!</p>
+                    <p>Your email has been confirmed! Proceeding to login</p>
                 ) : (
                     <Form className='mb-3'>
                         <Form.Text className='mb-5' style={{fontWeight: 'bold'}} >

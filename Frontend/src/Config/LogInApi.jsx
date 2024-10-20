@@ -64,7 +64,12 @@ const confirmEmail = async (email, confirmationCode) => {
         return response.status;
     } catch (error) {
         console.error('Error during email confirmation:', error.response.data);
-        throw error;
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            return error.response.data;
+        } else {
+            return { error: 'Unknown error occurred' };
+        }
     }
 }
 
