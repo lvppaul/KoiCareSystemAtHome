@@ -25,6 +25,14 @@ namespace ApiService.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetUserIdByEmail/{email}")]
+        public async Task<IActionResult> GetUserIdByEmailAsync(string email)
+        {
+            var result = await _accountRepository.GetUserIdByEmailAsync(email);
+            if (!(result.Length > 29)) return BadRequest(result);
+            return Ok(result);
+        } 
+
         [HttpPost("CreateMemberAccount")]
         public async Task<IActionResult> SignUp(SignUpModel model)
         {
@@ -71,7 +79,7 @@ namespace ApiService.Controllers
         [HttpGet("RequestResetPassword/{email}")]
         public async Task<IActionResult> RequestResetPassword(string email)
         {
-            var result = await _accountRepository.RequestPasswordReset(email);
+            var result = await _accountRepository.RequestPasswordResetAsync(email);
             if (!result.Equals(Success))
             {
                 return BadRequest(result);
@@ -82,7 +90,7 @@ namespace ApiService.Controllers
         [HttpPut("ResetPassword/{email}/{token}")]
         public async Task<IActionResult> ResetPassword(string email, string token, NewPasswordModel newPass)
         {
-            var result = await _accountRepository.ResetPassword(email, token, newPass);
+            var result = await _accountRepository.ResetPasswordAsync(email, token, newPass);
             if (!result.Equals("Successfully"))
             {
                 return BadRequest(result);
@@ -117,7 +125,7 @@ namespace ApiService.Controllers
         [HttpPut("LockoutEnable{id}")]
         public async Task<IActionResult> LockoutEnableAsync(string id)
         {
-            var result = await _accountRepository.LockoutEnabled(id);
+            var result = await _accountRepository.LockoutEnabledAsync(id);
            if(!result.Equals("Locked")) return BadRequest(result);
            return Ok(result);
         }
@@ -125,7 +133,7 @@ namespace ApiService.Controllers
         [HttpPut("LockoutDisable{id}")]
         public async Task<IActionResult> LockoutDisableAsync(string id)
         {
-            var result = await _accountRepository.LockoutDisabled(id);
+            var result = await _accountRepository.LockoutDisabledAsync(id);
             if (!result.Equals("Unlocked")) return BadRequest(result);
             return Ok(result);
         }

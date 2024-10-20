@@ -30,7 +30,7 @@ namespace Domain.Repositories
         private static string Success = "Successfully";
         private static string notExistAcc = "Account does not exist";
         private static string noInfor = "Fields must not be blank";
-        private static string notConfirmEmail = "You must confirm your email before login";
+        private static string notConfirmEmail = "Confirm Your Email";
         private static string wrongPass = "Wrong password";
 
         public AccountRepository(UserManager<ApplicationUser> userManager,
@@ -75,6 +75,14 @@ namespace Domain.Repositories
                 );
             string validToken = HttpUtility.UrlEncode(new JwtSecurityTokenHandler().WriteToken(token));
             return validToken;
+        }
+
+        public async Task<string> GetUserIdByEmailAsync(string email)
+        {
+           var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return notExistAcc;
+             string uid = user.Id.ToString();
+            return uid;
         }
 
         public async Task<string> SignUpAsync(SignUpModel model)
@@ -266,7 +274,7 @@ namespace Domain.Repositories
             return Success;
         }
 
-        public async Task<string> RequestPasswordReset(string email)
+        public async Task<string> RequestPasswordResetAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null) return notExistAcc;
@@ -313,7 +321,7 @@ namespace Domain.Repositories
             return "Successfully";
         }
 
-        public async Task<string> ResetPassword(string email, string token, NewPasswordModel model)
+        public async Task<string> ResetPasswordAsync(string email, string token, NewPasswordModel model)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null) return notExistAcc;
@@ -410,7 +418,7 @@ namespace Domain.Repositories
             return Success;
         }
 
-        public async Task<string> LockoutEnabled(string userId)
+        public async Task<string> LockoutEnabledAsync(string userId)
         {
             string mes = "This account is locked already";
             var user = await _userManager.FindByIdAsync(userId);
@@ -433,7 +441,7 @@ namespace Domain.Repositories
             return mes;
         }
 
-        public async Task<string> LockoutDisabled(string userId)
+        public async Task<string> LockoutDisabledAsync(string userId)
         {
             string mes = "This account is not locked yet";
             var user = await _userManager.FindByIdAsync(userId);
@@ -457,12 +465,16 @@ namespace Domain.Repositories
             return mes;
         }
 
+        
+
+
+
         //public async Task<bool> CheckLockoutEnabledAsync(ApplicationUser user)
         //{
         //    var result = await _userManager.GetLockoutEnabledAsync(user);
         //    return result;
         //}
 
-       
+
     }
 }
