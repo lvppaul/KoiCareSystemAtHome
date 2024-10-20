@@ -33,7 +33,7 @@ namespace Domain.Models.Dto.Response
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        public bool? OrderStatus { get; set; }
+        public string OrderStatus { get; set; } = null!;
         public List<OrderDetailDTO> orderDetails { get; set; }
         public double TotalPrice => orderDetails.Sum(od => od.Quantity * od.UnitPrice);
     }
