@@ -23,6 +23,27 @@ const signUp = async (userData) => {
     }
 };
 
+const signUpShop = async (userData) => {
+    try {
+        const response = await api.post('Account/CreateShopAccount', userData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        console.log(response);
+        return response.status;
+    } catch (error) {
+        console.error('Error during sign-up:', error);
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            return error.response.data;
+        } else {
+            return { error: 'Unknown error occurred' };
+        }
+    }
+}
+
 // Function to sign in
 const signIn = async (credentials) => {
     try {
@@ -64,8 +85,13 @@ const confirmEmail = async (email, confirmationCode) => {
         return response.status;
     } catch (error) {
         console.error('Error during email confirmation:', error.response.data);
-        throw error;
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            return error.response.data;
+        } else {
+            return { error: 'Unknown error occurred' };
+        }
     }
 }
 
-export { signUp, signIn, confirmEmail };
+export { signUp, signUpShop, signIn, confirmEmail };

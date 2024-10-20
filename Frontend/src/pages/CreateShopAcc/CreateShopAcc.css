@@ -1,4 +1,4 @@
-.signup-container {
+.createShop-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,11 +7,11 @@
     background-position: center;
 }
 
-.signup-logo {
+.createShop-logo {
     width: 40%;
 }
 
-.signup-form {
+.createShop-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -24,7 +24,7 @@
     height: auto;
 }
 
-.signup-label {
+.createShop-label {
     display: block;
     text-align: left;
     width: 100%;
@@ -34,20 +34,12 @@
     font-weight: bold;
 }
 
-.signup-form .form-control {
+.createShop-form .form-control {
     position: relative;
     margin-bottom: 5px;
     border: 1px solid black;
     border-radius: 5px;
     background-color: rgb(201, 201, 201);
-}
-
-.already {
-    color: black;
-    font-size: 16px;
-    font-weight: bold;
-    text-shadow: black 0 0 1px;
-    text-align: left;
 }
 
 .create-button {

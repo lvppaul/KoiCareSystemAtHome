@@ -15,6 +15,21 @@ const getShop = async () => {
         throw error;
     }
 }
+
+const addShop = async (data) => {
+    try {
+        const response = await api.post('Shop', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.status;
+    } catch (error) {
+        console.error('Error adding shop:', error);
+        throw error;
+    }
+}
+
 // Function to get shop by userId
 const getShopByUserId = async (userId) => {
     try {
@@ -45,4 +60,4 @@ const updateShopDetails = async (data) => {
     }
 };
 
-export { getShop, getShopByUserId, updateShopDetails };
+export { getShop, addShop, getShopByUserId, updateShopDetails };

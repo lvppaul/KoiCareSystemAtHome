@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl } from 'react-bootstrap';
+import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl, Spinner } from 'react-bootstrap';
 import "./Signup.css";
 import logo from "../../assets/logo.svg";
 import { useNavigate } from 'react-router-dom';
@@ -21,12 +21,15 @@ function Signup() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [showConfirmEmailModal, setShowConfirmEmailModal] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleSignup = (e) => {
         e.preventDefault();
+        setLoading(true);
         const userData = { email, password, confirmPassword, firstName, lastName };
         if (password !== confirmPassword) {
             setSignupError('Passwords do not match');
+            setLoading(false);
             return;
         }
 
@@ -40,12 +43,15 @@ function Signup() {
             })
             .catch((error) => {
                 setSignupError(error.message);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }
 
 
     return (
-        <Container fluid className="login-container vh-100">
+        <Container fluid className="signup-container vh-100">
             <Button
                 variant="light"
                 className="position-absolute"
@@ -69,7 +75,7 @@ function Signup() {
             <Container className='d-flex flex-row justify-content-between '>
                 <Row className='d-flex justify-content-between align-items-center'>
                     <Col md={6} className='d-flex flex-column align-items-center justify-content-center me-4'>
-                        <Image src={logo} alt="FPT TTKoi logo" className="sigup-logo" fluid />
+                        <Image src={logo} alt="FPT TTKoi logo" className="signup-logo" fluid />
                         <h1 className=' fw-bold' style={{ color: "#D6691E" }}>Welcome to FPT TTKoi</h1>
                         <div className='text-dark fs-5 fw-bold text-center'>
                             <p>
@@ -207,7 +213,9 @@ function Signup() {
                                     <Link to='/login' style={{ color: '#D6691E' }}>Log in</Link>
                                 </Col>
                                 <Col className='d-flex justify-content-end'>
-                                    <Button type='submit' className='create-button'>Create</Button>
+                                    <Button type='submit' className='create-button' disabled={loading}>
+                                        {loading ? <Spinner animation="border" size="sm" /> : 'Create'}
+                                    </Button>
                                 </Col>
                             </Row>
                             {signupError && <p className="error-message">{signupError}</p>}

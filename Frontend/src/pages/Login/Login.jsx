@@ -9,17 +9,20 @@ import LoginGoogle from './LoginGoogle';
 import { useAuth } from './AuthProvider';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import ConfirmEmail from '../../components/ConfirmEmail/ConfirmEmail';
 
 function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth(); // Use the login function from AuthProvider
+  const { login } = useAuth();
   const [err, setErr] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmEmailModal, setShowConfirmEmailModal] = useState(false);
+  const [showConfirmLink, setShowConfirmLink] = useState(false);
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     try {
       const response = await signIn({ email, password });
       if (response.userId) {
@@ -29,6 +32,9 @@ function Login() {
         } else {
           navigate('/');
         }
+      } if (response === 'You must confirm your email before login') {
+        setErr(response ? response : 'No response from server');
+        setShowConfirmLink(true);
       } else {
         setErr(response ? response : 'No response from server');
       }
@@ -113,7 +119,7 @@ function Login() {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                       autoComplete='current-password'
-                      style={{borderRadius: '5px' }}
+                      style={{ borderRadius: '5px' }}
                     />
                     <div
                       onClick={() => setShowPassword(!showPassword)}
@@ -127,7 +133,7 @@ function Login() {
                       }}
                     >
                       {showPassword ? <FaEyeSlash /> : <FaEye />}
-                    </div> 
+                    </div>
                   </InputGroup>
                 </Form.Group>
               </Row>
@@ -140,12 +146,21 @@ function Login() {
                 </Col>
               </Row>
               {err && <p className="error-message">{err}!</p>}
+              {showConfirmLink ? (<Button
+                variant='link'
+                onClick={() => setShowConfirmEmailModal(true)}
+              >Click here to confirm your Email</Button>) : null}
               <p style={{ fontSize: "20px", fontWeight: "bold", textShadow: "black 0 0 1px" }}>Or</p>
-              <LoginGoogle/>
+              <LoginGoogle />
             </Form>
           </Col>
         </Row>
       </Container>
+      <ConfirmEmail
+        show={showConfirmEmailModal}
+        handleClose={() => setShowConfirmEmailModal(false)}
+        email={email}
+      />
     </Container >
   );
 };
