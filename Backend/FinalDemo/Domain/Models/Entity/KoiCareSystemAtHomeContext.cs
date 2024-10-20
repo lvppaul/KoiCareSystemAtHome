@@ -328,7 +328,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .HasMaxLength(200)
                 .IsUnicode(false);
             entity.Property(e => e.FullName).HasMaxLength(200);
-            entity.Property(e => e.OrderStatus).HasDefaultValue(false);
+            entity.Property(e => e.OrderStatus).HasMaxLength(200);
             entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodId");
             entity.Property(e => e.Phone)
                 .HasMaxLength(20)

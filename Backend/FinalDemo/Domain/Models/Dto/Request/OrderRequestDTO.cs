@@ -34,7 +34,7 @@ namespace Domain.Models.Dto.Request
         [JsonIgnore]
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        public bool? OrderStatus { get; set; }
+        public string OrderStatus { get; set; } = null!;
         public List<OrderDetailRequestDTO> orderDetails { get; set; }
         [JsonIgnore]
         public double TotalPrice { get; set; }

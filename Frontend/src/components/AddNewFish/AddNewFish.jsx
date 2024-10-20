@@ -2,107 +2,65 @@ import { useState } from 'react';
 import { Button, Modal, Form, Row, Col, Spinner } from 'react-bootstrap/';
 import { BiImport } from "react-icons/bi";
 import FishIcon from "../../assets/Addfish.svg";
-import api from '../../Config/AxiosConfig';
 import { MdAdd } from "react-icons/md";
 import { storage } from '../../Config/firebase';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
+import { useAuth } from '../../pages/Login/AuthProvider';
+import { postKoi } from '../../Config/KoiApi';
 
-const AddNewFish = (props) => {
-    const { show, setShow } = props;
+const AddNewFish = ({ show, setShow, onKoiAdded }) => {
+    const newKoi = useState({ name: '', age: '', note: '', origin: '', length: '', weight: '', color: '', status: false, thumbnail: '' });
     const[loading, setLoading] = useState(false);
     const handleClose = () => setShow(false);
+    const [koidetail, setKoiDetail] = useState(newKoi);
 
-    // useState modal form
-    const [koiId, setKoiId] = useState("");
-    const [userId, setUserId] = useState("");
-    const [pondId, setPondId] = useState("");
-    const [age, setAge] = useState("");
-    const [name, setName] = useState("");
-    const [note, setNote] = useState("");
-    const [origin, setOrigin] = useState("");
-    const [length, setLength] = useState("");
-    const [weight, setWeight] = useState("");
-    const [color, setColor] = useState("");
-    const [status, setStatus] = useState(false);
-    const [koiThumbnails, setkoiThumbnails] = useState([]);
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setKoiDetail({ ...koidetail, [name]: value });
+    }
+    const userId = useAuth().user.userId;
+    const [file, setFile] = useState(null);
+    const [storageRef, setStorageRef] = useState(null);
     const [previewImage, setPreviewImage] = useState("");
-
-    
-    const metadata = {
-        contentType: 'image/jpeg',
-    };
 
     // upload image
     const handleUploadImg = (event) => {
-        try {
-            const file = event.target.files[0];
-            if (file) {
-                setPreviewImage(URL.createObjectURL(file));
-                setkoiThumbnails(file);
+        const file = event.target.files[0];
+        if(file && file.type.startsWith('image/')) {
+            setPreviewImage(URL.createObjectURL(file));
+            const storageRef = ref(storage, `/koi/koiThumbnails/${userId}/${file.name + Date.now()}`);
+            try {
+                setFile(file);
+                setStorageRef(storageRef);
+                setKoiDetail({ ...koidetail, thumbnail: storageRef.fullPath, userId: userId });
+            } catch (error) {
+                console.error("Error uploading image: ", error);
             }
-        } catch (error) {
-            console.error("Error uploading image: ", error);
+        } else {
+            console.log("Invalid file type");
         }
-    }
+    };
 
     const handleSubmitFish = async () => {
-        // validate form
-        if(!koiThumbnails) {
-            alert('no image selected');
-            return;
-        }
         setLoading(true);
-        const storageRef = ref (storage, `/koi/koiThumbnails/${koiThumbnails.name}`);
-
-        try{
-            const snapshot = await uploadBytes(storageRef, koiThumbnails, metadata);
-            const downloadURL = await getDownloadURL(snapshot.ref);
-            setkoiThumbnails(downloadURL);
-
-        const koiData = {
-            koiId,
-            userId,
-            pondId,
-            age,
-            name,
-            note,
-            origin,
-            length,
-            weight,
-            color,
-            status,
-            koiThumbnails: downloadURL
-        };
-
-        // koiThumbnails.forEach((image, index) => {
-
-        // });
-
         try {
-            // const response = await api.post("fish", koiData);
-            console.log(koiData);
-        } catch (error) {
-            console.log(error);
-        }
-        } catch (error) {
-            console.log(error);
-        } finally {
+            console.log('koidetail', koidetail);
+            console.log('file', file);
+            console.log('newkoi', newKoi);
+            if (file) {
+                await uploadBytes(storageRef, file);
+                const thumbnail = await getDownloadURL(storageRef);
+                await postKoi(koidetail);
+                //onPondAdded(newKoi);
+            } else {
+                await postKoi(koidetail);
+                //onPondAdded(koidetail);
+            }
             setLoading(false);
             setShow(false);
-            setKoiId("");
-            setUserId("");
-            setPondId("");
-            setAge("");
-            setName("");
-            setNote("");
-            setOrigin("");
-            setLength("");
-            setWeight("");
-            setColor("");
-            setStatus(false);
-            setkoiThumbnails();
-            setPreviewImage("");
-            alert("adding new fish complete");
+        } catch (error) {
+            console.error('Error adding pond:', error);
+            setLoading(false);
         }
     }
 
@@ -128,7 +86,7 @@ const AddNewFish = (props) => {
                             </Spinner>
                         </div>
                     ) : (
-                        <Form>
+                        <Form onSubmit={handleSubmitFish}>
                             <Row className="mb-3">
                                 <Col className='image-fish' style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
                                     <div>
@@ -154,79 +112,87 @@ const AddNewFish = (props) => {
                                         <Form.Group as={Col} controlId="formGridName">
                                             <Form.Label>Name:</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish name"
-                                                value={name}
-                                                onChange={(event) => setName(event.target.value)} />
+                                                name='name'
+                                                value={koidetail.name}
+                                                onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridAge">
                                             <Form.Label>Age (years):</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish age"
-                                                value={age}
-                                                onChange={(event) => setAge(event.target.value)} />
+                                                name='age'
+                                                value={koidetail.age}
+                                                onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridLength">
                                             <Form.Label>Length (cm):</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish length"
-                                                value={length}
-                                                onChange={(event) => setLength(event.target.value)} />
+                                                name='length'
+                                                value={koidetail.length}
+                                                onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridWeight">
                                             <Form.Label>Weight (g):</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish weight"
-                                                value={weight}
-                                                onChange={(event) => setWeight(event.target.value)} />
+                                                name='weight'
+                                                value={koidetail.weight}
+                                                onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridColor">
                                             <Form.Label>Color:</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish color"
-                                                value={color}
-                                                onChange={(event) => setColor(event.target.value)} />
+                                                name='color'
+                                                value={koidetail.color}
+                                                onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridOrigin">
                                             <Form.Label>Origin:</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish origin"
-                                                value={origin}
-                                                onChange={(event) => setOrigin(event.target.value)} />
+                                                name='origin'
+                                                value={koidetail.origin}
+                                                onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridNote">
                                             <Form.Label>Note:</Form.Label>
                                             <Form.Control type="text" placeholder="Enter note"
-                                                value={note}
-                                                onChange={(event) => setNote(event.target.value)} />
+                                                name='note'
+                                                value={koidetail.note}
+                                                onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridStatus">
                                             <Form.Check type="checkbox" label="Status"
-                                                checked={status}
-                                                onChange={(event) => setStatus(event.target.checked)} />
+                                                name='status'
+                                                checked={koidetail.status}
+                                                onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
                                 </Col>
                             </Row>
-                        </Form>
-                    )}
-                </Modal.Body>
-                <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button variant="primary" onClick={() => handleSubmitFish()} style={{ backgroundColor: '#00C92C' }}>
+                    <Button variant="primary" type='submit' style={{ backgroundColor: '#00C92C' }}>
                         Save
                     </Button>
-                </Modal.Footer>
+                        </Form>
+                    )}
+                </Modal.Body>
+               
             </Modal>
+                
         </>
     );
 }

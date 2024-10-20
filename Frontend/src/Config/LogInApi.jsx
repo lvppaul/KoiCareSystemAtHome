@@ -10,22 +10,50 @@ const signUp = async (userData) => {
                 'Accept': 'application/json'
             }
         });
-        
-        return response.data;
+
+        return response.status;
     } catch (error) {
-        return error.response.data;
+        console.error('Error during sign-up:', error);
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            return error.response.data;
+        } else {
+            return { error: 'Unknown error occurred' };
+        }
     }
 };
 
+const signUpShop = async (userData) => {
+    try {
+        const response = await api.post('Account/CreateShopAccount', userData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        console.log(response);
+        return response.status;
+    } catch (error) {
+        console.error('Error during sign-up:', error);
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            return error.response.data;
+        } else {
+            return { error: 'Unknown error occurred' };
+        }
+    }
+}
+
 // Function to sign in
 const signIn = async (credentials) => {
-    try{
+    try {
         const response = await api.post('Account/SignIn', credentials, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
         });
+
         const decoded = jwtDecode(response.data);
         const email = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
         const userId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
@@ -35,8 +63,35 @@ const signIn = async (credentials) => {
 
         return { email, userId, userRole };
     } catch (error) {
-        return error.response.data;
+        console.error('Error during sign-in:', error);
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            return error.response.data;
+        } else {
+            return { error: 'Unknown error occurred' };
+        }
     }
 };
 
-export { signUp, signIn };
+// Function to confirm email
+const confirmEmail = async (email, confirmationCode) => {
+    try {
+        const response = await api.post(`Account/ConfirmEmail/${encodeURIComponent(email)}/${encodeURIComponent(confirmationCode)}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        });
+        return response.status;
+    } catch (error) {
+        console.error('Error during email confirmation:', error.response.data);
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            return error.response.data;
+        } else {
+            return { error: 'Unknown error occurred' };
+        }
+    }
+}
+
+export { signUp, signUpShop, signIn, confirmEmail };

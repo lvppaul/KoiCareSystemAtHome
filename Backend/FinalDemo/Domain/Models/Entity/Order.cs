@@ -29,7 +29,7 @@ public partial class Order
 
     public double TotalPrice { get; set; }
 
-    public bool? OrderStatus { get; set; }
+    public string OrderStatus { get; set; } = null!;
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
