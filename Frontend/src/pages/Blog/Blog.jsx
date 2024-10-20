@@ -12,7 +12,7 @@ const Blog = () => {
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [showAddBlog, setShowAddBlog] = useState(false);
+    const [showAddBlogModal, setShowAddBlogModal] = useState(false);
     const blogsPerPage = 6;
 
     const fetchBlogs = async () => {
@@ -62,7 +62,7 @@ const Blog = () => {
 
     const handleAddBlog = (newBlog) => {
         setBlogs([newBlog, ...blogs]);
-        setShowAddBlog(false);
+        setShowAddBlogModal(false);
     };
 
     return (
@@ -70,10 +70,10 @@ const Blog = () => {
             <h1 className="d-flex justify-content-center mt-3" style={{ color: "#E47E39" }}>Blogs</h1>
             <Row className="mb-3">
                 <Col className="d-flex justify-content-end">
-                    <Button variant="primary" onClick={() => setShowAddBlog(true)}>Write a Blog</Button>
+                    <Button variant="primary" onClick={() => setShowAddBlogModal(true)}>Write a Blog</Button>
                 </Col>
             </Row>
-            {showAddBlog && <AddNewBlog onAddBlog={handleAddBlog} />}
+            <AddNewBlog show={showAddBlogModal} handleClose={() => setShowAddBlogModal(false)} onAddBlog={handleAddBlog} />
             {loading ? (
                 <div className="d-flex justify-content-center align-items-center" style={{ height: '50vh' }}>
                     <Spinner animation="border" size="xl" role="status" />
