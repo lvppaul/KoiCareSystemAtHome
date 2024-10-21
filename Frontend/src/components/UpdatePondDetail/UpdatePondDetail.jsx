@@ -71,7 +71,13 @@ const UpdatePondDetail = ({ show, setShow, pond, setPond }) => {
 
     return (
         <>
-            <Button onClick={setShow} style={{ width: '180px', height: '70px', fontWeight: 'bold', fontSize: '18px', borderRadius: '15px', backgroundColor: '#FF8433' }}>
+            <Button variant='success' onClick={setShow} 
+            style={{ width: '180px', height: '70px', 
+            fontWeight: 'bold', fontSize: '18px', 
+            borderRadius: '15px', backgroundColor: '#FF8433', transition: 'background-color 0.3s ease'}}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#FF6204'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#FF8433'}
+            >
                 <BiInfoCircle size={35}/> Update Pond
             </Button>
             <Modal show={show} onHide={setShow} size='xl' className='modal-updatepond'>

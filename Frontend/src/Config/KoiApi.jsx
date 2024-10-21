@@ -1,5 +1,6 @@
 import api from './AxiosConfig';
-
+import { getDownloadURL, ref } from 'firebase/storage';
+import { storage } from './firebase';
 // Function to get kois
 const getKois = async () => {
     try {
@@ -18,13 +19,33 @@ const getKois = async () => {
 
 // Function to get product by ID
 const getKoiById = async (koiId) => {
+    const notFound = 'others/NotFound.jpg';
     try {
-        const response = await api.get(`Koi/${koiId}`, {
+        const response = await api.get(`Koi/GetKoiById/${koiId}`, {
             headers: {
                 'accept': 'text/plain'
             }
         });
-        return response.data;
+        const koi = response.data;
+        if (koi) {
+            try{
+                const storageRef = ref(storage, koi.thumbnail);
+                try {
+                    koi.thumbnail = await getDownloadURL(storageRef);
+                } catch (error) {
+                    const notFoundStorageRef = ref(storage, notFound);
+                    koi.thumbnail = await getDownloadURL(notFoundStorageRef);
+                }
+                return koi;
+            } catch (error) {
+                console.error('Error fetching thumbnail:', error);
+                koi.thumbnail = null;
+                return koi;
+            }
+        } else {
+            koi.thumbnail = null;
+            return koi;
+        }
     } catch (error) {
         console.error(`Error fetching koi with ID ${koiId}:`, error);
         throw error;

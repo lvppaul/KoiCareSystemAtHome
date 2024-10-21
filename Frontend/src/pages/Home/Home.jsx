@@ -43,7 +43,7 @@ const Home = () => {
         <h1>Features</h1>
         <Row>
           {/* Manage Ponds */}
-          <Col className="md-3">
+          <Col md={3} sm={3}>
             <Card className="h-100 text-center home-card">
               <div className="icon-container">
                 <img src={logoFeature1} alt="Manage Ponds Icon" />
@@ -63,7 +63,7 @@ const Home = () => {
           </Col>
 
           {/* Calculation Tools */}
-          <Col className="md-3">
+          <Col md={3} sm={3}>
             <Card className="h-100 text-center home-card">
               <div className="icon-container">
                 <img src={logoFeature2} alt="Manage Ponds Icon" />
@@ -83,13 +83,13 @@ const Home = () => {
           </Col>
 
           {/* Shop */}
-          <Col className="md-3">
+          <Col md={3} sm={3}>
             <Card className="h-100 text-center home-card">
               <div className="icon-container">
                 <img src={logoFeature3} alt="Manage Ponds Icon" />
                 <h2>Shop</h2>
               </div>
-              <Card.Img variant="top" src={feaure3} className="p-2 card-img-top" />
+              <Card.Img variant="top" src={feaure3} className="p-2 card-img-top"  />
               <Card.Body>
                 <Card.Text>
                 Lets users open their own store or buy Koi-related products 
@@ -102,7 +102,7 @@ const Home = () => {
             </Card>
           </Col>
           {/* News / Blogs */}
-          <Col className="md-3">
+          <Col md={3} sm={3}>
             <Card className="h-100 text-center home-card">
               <div className="icon-container">
                 <img src={logoFeature4} alt="Manage Ponds Icon" />

@@ -29,6 +29,7 @@ import NotAuthorized from "./pages/NotAuthorized/NotAuthorized";
 import NewsDetail from "./pages/NewsDetail/NewsDetail";
 import BlogDetail from "./pages/BlogDetail/BlogDetail";
 import CreateShopAcc from "./pages/CreateShopAcc/CreateShopAcc";
+import KoiList from "./pages/KoiList/KoiList";
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -54,7 +55,9 @@ root.render(
                         <Route path="notauthorized" element={<NotAuthorized />} />
                         <Route path="*" element={<NotPage />} />
 
+                        
                         {/* Protected Routes for Authenticated Users */}
+                        <Route path="koilist" element={<ProtectedRoute requiredRole="member"><KoiList /></ProtectedRoute>} />
                         <Route path="pond" element={<ProtectedRoute requiredRole="member"><Pond /></ProtectedRoute>} />
                         <Route path="ponddetail/:pondId" element={<ProtectedRoute requiredRole="member"><PondDetail /></ProtectedRoute>} />
                         <Route path="koidetail/:koiId" element={<ProtectedRoute requiredRole="member"><KoiDetail /></ProtectedRoute>} />

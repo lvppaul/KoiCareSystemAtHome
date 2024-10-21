@@ -1,84 +1,84 @@
-import { useState } from 'react';
-import { Button, Modal, Form, Row, Col, Spinner } from 'react-bootstrap/';
-import { BiImport } from "react-icons/bi";
-import FishIcon from "../../assets/Addfish.svg";
-import { MdAdd } from "react-icons/md";
+import {useState, useEffect} from 'react'
+import {Button, Modal, Col, Row, Form} from 'react-bootstrap'
+import { BiImport, BiInfoCircle } from "react-icons/bi";
+import {Spinner} from 'react-bootstrap'
 import { storage } from '../../Config/firebase';
-import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { useAuth } from '../../pages/Login/AuthProvider';
-import { postKoi } from '../../Config/KoiApi';
-import { useParams } from 'react-router-dom';
+import {updateKoi} from '../../Config/KoiApi'
 
-const AddNewFish = ({ show, setShow, onKoiAdded }) => {
-    const newKoi = { name: '', age: '', sex: '', variety: '', physique: '', note: '', origin: '', length: '', weight: '', color: '', status: true, thumbnail: '', pondId: '' };
-    const[loading, setLoading] = useState(false);
-    const handleClose = () => setShow(false);
-    const [koidetail, setKoiDetail] = useState(newKoi);
-
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setKoiDetail({ ...koidetail, [name]: value });
-    }
-    const userId = useAuth().user.userId;
+const UpdateKoiDetail = ({show, setShow, koidetail, setKoiDetail}) => {
+    const [loading, setLoading] = useState(false);
+    const [koi, setKoi] = useState(koidetail);
     const [file, setFile] = useState(null);
     const [storageRef, setStorageRef] = useState(null);
-    const [previewImage, setPreviewImage] = useState("");
-    const pondId = useParams().pondId;
+    const [previewImage, setPreviewImage] = useState(null);
+    const handleClose = () => setShow(false);
+    const userId = useAuth().user.userId;
+                                  
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setKoi({ ...koi, [name]: value });
+    };
 
-    // upload image
+    // handle preview image
     const handleUploadImg = (event) => {
         const file = event.target.files[0];
-        if(file && file.type.startsWith('image/')) {
+        if (file && file.type.startsWith('image/')) { // Check if the file is an image
             setPreviewImage(URL.createObjectURL(file));
-            const storageRef = ref(storage, `/koi/koiThumbnails/${userId}/${file.name + Date.now()}`);
+            const storageRef = ref(storage, `/pond/pondThumbnails/${userId}/${file.name + Date.now()}`);
             try {
                 setFile(file);
                 setStorageRef(storageRef);
-                setKoiDetail({ ...koidetail, thumbnail: storageRef.fullPath, userId: userId });
+                setKoi({ ...koi, thumbnail: storageRef.fullPath });
             } catch (error) {
-                console.error("Error uploading image: ", error);
+                console.error('Error setting image:', error);
             }
         } else {
-            console.log("Invalid file type");
+            console.log('Invalid file type');
         }
     };
-
-    const handleSubmitFish = async (event) => {
+    
+    const handleSubmitKoiUpdate = async (event) => {
         event.preventDefault();
+        const previousThumbnail = koi.thumbnail;
         setLoading(true);
         try {
             if (file) {
                 await uploadBytes(storageRef, file);
+                const newThumbnail = await getDownloadURL(storageRef);
+                await updateKoi(koidetail);
+                setKoiDetail({ ...koi, thumbnail: newThumbnail });
+
+                if (previousThumbnail) {
+                    const imageRef = ref(storage, previousThumbnail);
+                    await deleteObject(imageRef);
+                    console.log('Image deleted successfully');
+                }
+            } else {
+                await updateKoi(koi);
+                setKoiDetail({ ...koi, thumbnail: previousThumbnail });
             }
-                await postKoi({ ...koidetail, pondId: pondId, userId: userId });
-                onKoiAdded(newKoi);
-                setKoiDetail(newKoi);
-                setPreviewImage(null);
-                setShow(false);
+            setFile(null);
+            setPreviewImage(null);
+            setLoading(false);
+            handleClose();
         } catch (error) {
-            console.error('Error adding pond:', error);
-        } finally {
+            console.error('Error updating pond:', error);
             setLoading(false);
         }
-    }
-
+    };
     return (
         <>
-            <Row className='fish-item' 
-            style={{justifyContent:'flex-end', margin:'20px 0'}} >
-                <Button  
-                onClick={setShow} 
-                style={{width:'180px', height:'70px', 
-                fontWeight:'bold', fontSize: '18px', 
-                borderRadius:'15px', backgroundColor: '#FF8433', transition: 'background-color 0.3s ease'}}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#FF6204'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#FF8433'}
-                >
-                    <img src={FishIcon} alt='add fish icon' />
-                     <MdAdd size={20} style={{marginBottom:'30px'}}/>
-                    Add Fish
-                </Button>
-            </Row>
+            <Button onClick={setShow} 
+            style={{ width: '180px', height: '70px', fontWeight: 'bold', fontSize: '18px', 
+            borderRadius: '15px', backgroundColor: '#FF8433', transition: 'background-color 0.3s ease'}}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#FF6204'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#FF8433'}
+            >
+                <BiInfoCircle size={35} /> Update Pond
+            </Button>
+
             <Modal show={show} onHide={setShow} size='xl' className='modal-addblog'>
                 <Modal.Header closeButton>
                     <Modal.Title> <h1>Adding Fish</h1></Modal.Title>
@@ -91,13 +91,13 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                             </Spinner>
                         </div>
                     ) : (
-                        <Form onSubmit={handleSubmitFish}>
+                        <Form onSubmit={handleSubmitKoiUpdate}>
                             <Row className="mb-3">
                                 <Col className='image-fish' style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
                                     <div>
                                         <Row className="file-input-container">
                                             <Form.Control type="file" id='file-input' hidden
-                                                onChange={(event) => handleUploadImg(event)}
+                                                onChange={handleUploadImg}
                                             />
                                             <label htmlFor="file-input" className="btn btn-primary btn-lg file-input-label">
                                                 Import Image <BiImport size={30} />
@@ -118,7 +118,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                             <Form.Label>Name:</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish name"
                                                 name='name'
-                                                value={koidetail.name}
+                                                value={koi.name}
                                                 onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
@@ -127,7 +127,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                             <Form.Label>Age (years):</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish age"
                                                 name='age'
-                                                value={koidetail.age}
+                                                value={koi.age}
                                                 onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
@@ -136,7 +136,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                             <Form.Label>Sex:</Form.Label>
                                             <Form.Control type="text" placeholder="male / female"
                                                 name='sex'
-                                                value={koidetail.sex}
+                                                value={koi.sex}
                                                 onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
@@ -145,7 +145,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                             <Form.Label>Variety:</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish variety"
                                                 name='variety'
-                                                value={koidetail.variety}
+                                                value={koi.variety}
                                                 onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
@@ -154,7 +154,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                             <Form.Label>Physique:</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish physique"
                                                 name='physique'
-                                                value={koidetail.physique}
+                                                value={koi.physique}
                                                 onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
@@ -163,7 +163,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                             <Form.Label>Length (cm):</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish length"
                                                 name='length'
-                                                value={koidetail.length}
+                                                value={koi.length}
                                                 onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
@@ -172,7 +172,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                             <Form.Label>Weight (g):</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish weight"
                                                 name='weight'
-                                                value={koidetail.weight}
+                                                value={koi.weight}
                                                 onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
@@ -181,7 +181,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                             <Form.Label>Color:</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish color"
                                                 name='color'
-                                                value={koidetail.color}
+                                                value={koi.color}
                                                 onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
@@ -190,7 +190,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                             <Form.Label>Origin:</Form.Label>
                                             <Form.Control type="text" placeholder="Enter fish origin"
                                                 name='origin'
-                                                value={koidetail.origin}
+                                                value={koi.origin}
                                                 onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
@@ -199,7 +199,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                             <Form.Label>Note:</Form.Label>
                                             <Form.Control type="text" placeholder="Enter note"
                                                 name='note'
-                                                value={koidetail.note}
+                                                value={koi.note}
                                                 onChange={handleInputChange} />
                                         </Form.Group>
                                     </Row>
@@ -207,28 +207,26 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                         <Form.Group as={Col} controlId="formGridStatus">
                                             <Form.Label>Status:</Form.Label>
                                             <Form.Check type="checkbox" label="Active"
-                                                name='status'   
-                                                checked={koidetail.status}
-                                                onChange={(event) => setKoiDetail({ ...koidetail, status: event.target.checked })}  />
+                                                name='status'
+                                                checked={koi.status}
+                                                onChange={(event) => setKoi({ ...koi, status: event.target.checked })} />
                                         </Form.Group>
                                     </Row>
 
                                 </Col>
                             </Row>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="primary" type='submit' style={{ backgroundColor: '#00C92C' }}>
-                        Save
-                    </Button>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Cancel
+                            </Button>
+                            <Button variant="primary" type='submit' style={{ backgroundColor: '#00C92C' }}>
+                                {loading ? <Spinner animation="border" size='sm' /> : 'Save'}
+                            </Button>
                         </Form>
                     )}
                 </Modal.Body>
-               
             </Modal>
-                
         </>
-    );
+    )
 }
 
-export default AddNewFish;
+export default UpdateKoiDetail
