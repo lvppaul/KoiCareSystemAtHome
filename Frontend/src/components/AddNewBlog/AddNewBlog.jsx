@@ -7,7 +7,6 @@ import { storage } from '../../Config/firebase';
 import { useAuth } from '../../pages/Login/AuthProvider';
 
 const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
-    const [blog, setBlog] = useState({});
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [thumbnail, setThumbnail] = useState('');
@@ -21,17 +20,18 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
     const { user } = useAuth();
     const userId = user.userId;
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setBlog({...blog, [name]: value, publishDate: new Date().toISOString().split('T')[0], userId: userId});
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setBlog({...blog, thumbnail: thumbnailFile ? thumbnail : 'others/NotFound.jpg'});
-            
+        const newBlog = {
+            title,
+            content,
+            thumbnail: thumbnailFile ? thumbnail : 'others/NotFound.jpg',
+            publishDate: new Date().toISOString().split('T')[0],
+            userId: userId,
+        };
+
         try {
-            const addedBlog = await addBlog(blog);
+            const addedBlog = await addBlog(newBlog);
             if (thumbnailFile) {
                 await uploadBytes(thumbnailRef, thumbnailFile);
             }
@@ -39,7 +39,7 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
                 await addBlogImage({ blogId: addedBlog.blogId, imageUrl: imagePath });
                 await uploadBytes(imageRef, imageFile);
             }
-            const newThumbnail = await getDownloadURL(thumbnailRef);
+            const newThumbnail = await getDownloadURL(ref(storage, addedBlog.thumbnail));
             onAddBlog({ ...addedBlog, thumbnail: newThumbnail });
             setTitle('');
             setContent('');
@@ -62,9 +62,14 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
         input.setAttribute('type', 'file');
         input.setAttribute('accept', 'image/*');
         input.click();
-
+        
         input.onchange = async () => {
             const file = input.files[0];
+            if (!file) {
+                console.error('No file selected');
+                return;
+            }    
+            console.log('input:', input);
             const storageRef = ref(storage, `/blog/blogImages/${userId}/${file.name + Date.now()}`);
             try {
                 setImageRef(storageRef);
@@ -137,6 +142,7 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
                     <Form.Group className='mb-3' controlId="formTitle">
                         <Form.Label>Title</Form.Label>
                         <Form.Control
+                            name='title'
                             type="text"
                             placeholder="Enter title"
                             value={title}
@@ -146,14 +152,14 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
                     </Form.Group>
                     <Form.Group className='mb-3' controlId="formContent">
                         <Form.Label>Content</Form.Label>
-                        <MyEditor 
-                            name="content"
-                            value={content}
-                            onChange={handleInputChange}
-                            placeholder="Enter content"
-                            modules={modules}
-                            required
-                        />
+                            <MyEditor
+                                value={content}
+                                onChange={setContent}
+                                placeholder="Enter content"
+                                modules={modules}
+                                ref={quillRef}
+                                required
+                            />
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Add Blog
