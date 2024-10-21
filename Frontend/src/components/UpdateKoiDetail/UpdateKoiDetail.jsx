@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import {Button, Modal, Col, Row, Form} from 'react-bootstrap'
 import { BiImport, BiInfoCircle } from "react-icons/bi";
 import {Spinner} from 'react-bootstrap'
@@ -134,10 +134,12 @@ const UpdateKoiDetail = ({show, setShow, koidetail, setKoiDetail}) => {
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridSex">
                                             <Form.Label>Sex:</Form.Label>
-                                            <Form.Control type="text" placeholder="male / female"
-                                                name='sex'
-                                                value={koi.sex}
-                                                onChange={handleInputChange} />
+                                            <Form.Control as="select" name='sex' value={koi.sex}
+                                                onChange={handleInputChange} >
+                                                <option value={koi.sex}>{koi.sex}</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Unknown">Unknown</option>
+                                            </Form.Control>        
                                         </Form.Group>
                                     </Row>
                                     <Row>

@@ -5,8 +5,6 @@ import {Spinner   } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import DeleteKoi from '../../components/DeleteKoi/DeleteKoi'
 import { getKoiByUserId } from '../../Config/KoiApi'
-import AddNewFish from '../../components/AddNewFish/AddNewFish'
-
 
 const KoiList = () => {
   const [koiList, setKoiList] = useState([])

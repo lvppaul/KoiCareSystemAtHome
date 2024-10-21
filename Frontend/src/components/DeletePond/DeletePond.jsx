@@ -16,8 +16,7 @@ const DeletePond = ({ pondData, koiInPond }) => {
             alert('Please delete all koi in the pond before deleting the pond');
             return;
         } else {
-        // Call the onDelete function passed as a prop
-        if (pondThumbnail) {
+            if (pondThumbnail) {
             const imageRef = ref(storage, pondThumbnail);
             try{
                 if(imageRef.fullPath === notFound || imageRef.fullPath === '') {

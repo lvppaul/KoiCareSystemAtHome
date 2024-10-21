@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
-import { Container, Row, Col, Button, Card, Pagination } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import './PondDetail.css';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import AddNewFish from '../../components/AddNewFish/AddNewFish';
 import { getPondsById } from '../../Config/PondApi';
 import { Spinner } from 'react-bootstrap';
@@ -9,6 +9,7 @@ import UpdatePondDetail from '../../components/UpdatePondDetail/UpdatePondDetail
 import DeletePond from '../../components/DeletePond/DeletePond';
 import { getKoiInPond } from '../../Config/PondApi';
 import DeleteKoi from '../../components/DeleteKoi/DeleteKoi';
+
 // Use pondId to fetch or display pond details
 const PondDetail = () => {
   const [pond, setPond] = useState(null);
@@ -17,8 +18,8 @@ const PondDetail = () => {
   const [koiList, setKoiList] = useState([]);
   const [showModalAddPond, setShowModalAddPond] = useState(false);
   const [showModalAddFish, setShowModalAddFish] = useState(false);
-  const notFound = 'others/NotFound.jpg';
   const [loadingKoi, setLoadingKoi] = useState(true);
+
   //handle fetch data koi pond by pondId
   const fetchPond = (pondId) => {
     getPondsById(pondId)
