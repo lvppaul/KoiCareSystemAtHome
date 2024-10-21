@@ -20,6 +20,6 @@ namespace Domain.Models.Dto.Request
 
         public decimal Rating { get; set; }
 
-        public string? Thumbnail { get; set; }
+        //public string? Thumbnail { get; set; }
     }
 }

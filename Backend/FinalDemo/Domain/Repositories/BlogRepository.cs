@@ -18,9 +18,10 @@ namespace Domain.Repositories
             return await _context.Blogs.Include(p => p.BlogComments).Include(p => p.BlogImages).ToListAsync();
         }
 
-        public async Task<Blog> GetByIdAsync(int id)
+        public async Task<Blog> GetByUserIdAsync(string userid)
         {
-            var result = await _context.Blogs.Include(p => p.BlogComments).Include(p => p.BlogImages).FirstOrDefaultAsync(p => p.BlogId.Equals(id));
+            var result = await _context.Blogs.Where(b => b.UserId.Equals(userid))
+                .FirstOrDefaultAsync();
 
             return result;
         }

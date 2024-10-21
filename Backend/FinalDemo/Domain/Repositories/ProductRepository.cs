@@ -40,6 +40,14 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
             return products ?? new List<Product> ();
         }
+        public async Task<Product> GetProductsByProductID(int id)
+        {
+            var products = await _context.Products
+                .Where(u => u.ProductId == id)
+                .FirstOrDefaultAsync();
+
+            return products;
+        }
 
         public async Task<List<Product>> GetProductByCategoryIdInShop(int categoryId, int shopId)
         {
