@@ -22,22 +22,23 @@ const Pond = () => {
         try {
             const data = await getPondByUserId(userId);
             if (Array.isArray(data)) {
-                for (let i = 0; i < data.length; i++) {
-                    if (data[i].thumbnail) {
-                        const storageRef = ref(storage, data[i].thumbnail);
+                const updatedData = await Promise.all(data.map(async (pond) => {
+                    if (pond.thumbnail) {
+                        const storageRef = ref(storage, pond.thumbnail);
                         try {
-                            data[i].thumbnail = await getDownloadURL(storageRef);
+                            pond.thumbnail = await getDownloadURL(storageRef);
                         } catch (error) {
-                            console.error(`Error fetching thumbnail for pond ${data[i].pondId}:`, error);
+                            console.error(`Error fetching thumbnail for pond ${pond.pondId}:`, error);
                             const notFoundStorageRef = ref(storage, notFound);
-                            data[i].thumbnail = await getDownloadURL(notFoundStorageRef);
+                            pond.thumbnail = await getDownloadURL(notFoundStorageRef);
                         }
                     } else {
                         const notFoundStorageRef = ref(storage, notFound);
-                        data[i].thumbnail = await getDownloadURL(notFoundStorageRef);
+                        pond.thumbnail = await getDownloadURL(notFoundStorageRef);
                     }
-                }
-                setPonds(data);
+                    return pond;
+                }));
+                setPonds(updatedData);
             } else {
                 console.log('Fetched ponds is not array:');
             }
@@ -51,7 +52,7 @@ const Pond = () => {
     
     useEffect(() => {
         fetchPondByUserId();
-    }, [fetchPondByUserId]);
+    }, []);
     
     const handlePondAdded = async (newPond) => {
         try {
