@@ -23,7 +23,8 @@ const addShop = async (data) => {
                 'Content-Type': 'application/json'
             }
         });
-        return response.status;
+
+        return response.data;
     } catch (error) {
         console.error('Error adding shop:', error);
         throw error;

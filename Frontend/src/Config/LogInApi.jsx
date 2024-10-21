@@ -31,7 +31,7 @@ const signUpShop = async (userData) => {
                 'Accept': 'application/json'
             }
         });
-        console.log(response);
+
         return response.status;
     } catch (error) {
         console.error('Error during sign-up:', error);
@@ -94,4 +94,20 @@ const confirmEmail = async (email, confirmationCode) => {
     }
 }
 
-export { signUp, signUpShop, signIn, confirmEmail };
+const getUserIdByEmail = async (email) => {
+    try {
+        const response = await api.get(`Account/GetUserIdByEmail/${encodeURIComponent(email)}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        });
+        
+        return response.data;
+    } catch (error) {
+        console.error('Error getting user ID by email:', error);
+        return null;
+    }
+}
+
+export { signUp, signUpShop, signIn, confirmEmail, getUserIdByEmail };

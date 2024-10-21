@@ -4,7 +4,7 @@ import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl,
 import ConfirmEmail from '../../components/ConfirmEmail/ConfirmEmail';
 import logo from "../../assets/logo.svg";
 import './CreateShopAcc.css';
-import { signUpShop } from '../../Config/LogInApi';
+import { getUserIdByEmail, signUpShop } from '../../Config/LogInApi';
 import { addShop } from '../../Config/ShopApi';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -36,21 +36,33 @@ function CreateShopAcc() {
             setLoading(false);
             return;
         }
+        
         signUpShop(userData)
-        .then((response) => {
-            if (response !== 200) {
-                setCreateShopError(response);
-            } else {
-                    setUserId(response.userId);
-                    const shopData = { userId, shopName, description, phone, email };
+            .then((response) => {
+                if (response === 200) {
+                    getUserIdByEmail(email)
+                    .then((response) => {
+                        setUserId(response);
+                    });
+                    const thumbnail = 'others/NotFound.jpg';
+                    const rating = 0;
+                    const shopData = { userId, shopName, description, phone, email, rating, thumbnail };
+                    console.log('shop:',shopData);
                     addShop(shopData)
                         .then((response) => {
-                            if (response !== 200) {
-                                setCreateShopError(response);
-                            } else {
+                            if (response.shopId) {
                                 setShowConfirmEmailModal(true);
+                            } else {
+                                setCreateShopError(response.error);
                             }
                         })
+                        .catch((error) => {
+                            if(error.message ==='Request failed with status code 422'){
+                                setCreateShopError('Shop name already taken');
+                            }
+                        });
+                } else {
+                    setCreateShopError(response);
                 }
             })
             .catch((error) => {
