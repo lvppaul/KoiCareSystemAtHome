@@ -5,6 +5,8 @@ using AutoMapper;
 using Domain.Models.Entity;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Request;
+using Firebase.Auth;
+using Firebase.Storage;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -14,6 +16,11 @@ namespace KCSAH.APIServer.Controllers
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+
+        private static string apiKey = "AIzaSyBGY901ggyY4ugb7tHNHGDgOKmzRUo_5oI";
+        private static string Bucket = "koi-care-system-at-home-32e49.appspot.com";
+        private static string AuthEmail = "minhquan141104@gmail.com";
+        private static string AuthPassword = "Mquan141104@";
         public ProductController(UnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -127,7 +134,23 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "This name has already existed.");
                 return StatusCode(422, ModelState);
             }
+            // Upload ảnh lên Firebase
+            var auth = new FirebaseAuthProvider(new FirebaseConfig(apiKey));
+            var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+            var cancellation = new CancellationTokenSource();
 
+            //var task = new FirebaseStorage(
+            //            Bucket,
+            //            new FirebaseStorageOptions
+            //            {
+            //                AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+            //                ThrowOnCancel = true
+            //            })
+            //            .Child("product")
+            //            .Child("productThumbnails")
+            //            .Child(productdto.U)  // Thư mục theo userId
+            //            .Child(fileNameWithDate)  // Sử dụng tên file kèm ngày giờ
+            //            .PutAsync(fs, cancellation.Token);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
