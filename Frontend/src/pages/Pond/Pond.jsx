@@ -52,7 +52,7 @@ const Pond = () => {
     
     useEffect(() => {
         fetchPondByUserId();
-    }, []);
+    }, [fetchPondByUserId]);
     
     const handlePondAdded = async (newPond) => {
         try {

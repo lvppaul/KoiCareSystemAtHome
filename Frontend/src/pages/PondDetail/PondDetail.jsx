@@ -78,7 +78,8 @@ const PondDetail = () => {
           setShow={setShowModalAddPond} 
           setPond={setPond}/>
         <DeletePond 
-        pondData={pond}/>
+        pondData={pond}
+        koiInPond={koiList}/>
       </Row>
       <Row>
         <Col md={6}>

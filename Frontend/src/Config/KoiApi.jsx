@@ -2,7 +2,7 @@ import api from './AxiosConfig';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from './firebase';
 // Function to get kois
-const getKois = async () => {
+const getKoiByUserId = async (userId) => {
     try {
         const response = await api.get('Koi', {
             headers: {
@@ -10,14 +10,42 @@ const getKois = async () => {
 
             }
         });
-        return response.data;
+        const kois = response.data;
+        const koiByUserId = kois.filter(koi => koi.userId === userId);
+        const koiWithThumbnail = getKoiWithThumbnail(koiByUserId);
+        return koiWithThumbnail;
+
     } catch (error) {
         console.error('Error fetching kois:', error);
         throw error;
     }
 }
+//Get Koi by userId 
+const getKoiWithThumbnail= async (koiList) => {
+    const notFound = 'others/NotFound.jpg';
+    try {
+        if(koiList)
+        {
+            const koiWithThumbnail = await Promise.all(koiList.map(async (koi) => {
+                const storageRef = ref(storage, koi.thumbnail);
+                try {
+                    koi.thumbnail = await getDownloadURL(storageRef);
+                } catch (error) {
+                    console.error(`Error fetching thumbnail for koi ${koi.koiId}:`, error);
+                    const notFoundStorageRef = ref(storage, notFound);
+                    koi.thumbnail = await getDownloadURL(notFoundStorageRef);
+                }
+                return koi;
+            }));
+            return koiWithThumbnail;
+        }
+    } catch (error) {
+        console.error('Error fetching thumbnail for koi:', error);
+        throw error;
+    }
+}
 
-// Function to get product by ID
+// Function to get Koi by ID
 const getKoiById = async (koiId) => {
     const notFound = 'others/NotFound.jpg';
     try {
@@ -79,4 +107,4 @@ const deleteKoi = async (koiId) => {
         throw error;
     }
 }
-export { getKois, getKoiById, postKoi, deleteKoi, updateKoi };
+export { getKoiByUserId, getKoiById, postKoi, deleteKoi, updateKoi };
