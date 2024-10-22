@@ -46,9 +46,9 @@ const addBlog = async (data) => {
     }
 };
 
-const addBlogImage = async (data) => {
+const addBlogImages = async ({ blogId, imageUrl }) => {
     try {
-        const response = await api.post('BlogImage', data, {
+        const response = await api.post('BlogImage', { blogId, imageUrl }, {
             headers: {
                 'accept': 'text/plain'
             }
@@ -91,4 +91,4 @@ const addComment = async (token, data) => {
     }
 };
 
-export { getBlogs, getBlogByBlogId, addBlog, getComments, addComment, addBlogImage };
+export { getBlogs, getBlogByBlogId, addBlog, getComments, addComment, addBlogImages };

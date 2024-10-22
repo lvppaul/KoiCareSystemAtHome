@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { addBlog, addBlogImage } from '../../Config/BlogApi';
-import MyEditor from '../MyEditor/MyEditor';
+import { addBlog, addBlogImages } from '../../Config/BlogApi';
+import CKEditorComponent from '../CKEditorComponent/CKEditorComponent';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import { useAuth } from '../../pages/Login/AuthProvider';
@@ -13,15 +13,26 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
     const [previewThumbnail, setPreviewThumbnail] = useState('');
     const [thumbnailFile, setThumbnailFile] = useState(null);
     const [thumbnailRef, setThumbnailRef] = useState(null);
-    const [imagePath, setImagePath] = useState('');
-    const [imageRef, setImageRef] = useState(null);
-    const [imageFile, setImageFile] = useState(null);
-    const quillRef = useRef(null);
+    const [imagePaths, setImagePaths] = useState([]);
+
     const { user } = useAuth();
     const userId = user.userId;
 
+    const editorRef = useRef(null);
+    const [error, setError] = useState('');
+
+    const handleImageUpload = (path) => {
+        setImagePaths(prevPaths => [...prevPaths, path]);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        if (!content) {
+            setError('Content is required.');
+            return;
+        }
+        
         const newBlog = {
             title,
             content,
@@ -29,16 +40,18 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
             publishDate: new Date().toISOString().split('T')[0],
             userId: userId,
         };
-
+    
         try {
             const addedBlog = await addBlog(newBlog);
             if (thumbnailFile) {
                 await uploadBytes(thumbnailRef, thumbnailFile);
             }
-            if (imageFile) {
-                await addBlogImage({ blogId: addedBlog.blogId, imageUrl: imagePath });
-                await uploadBytes(imageRef, imageFile);
+    
+            for (let i = 0; i < imagePaths.length; i++) {
+                console.log(`Adding image to blog: ${addedBlog.blogId}, Path: ${imagePaths[i]}`);
+                await addBlogImages({ blogId: addedBlog.blogId, imageUrl: imagePaths[i] });
             }
+    
             const newThumbnail = await getDownloadURL(ref(storage, addedBlog.thumbnail));
             onAddBlog({ ...addedBlog, thumbnail: newThumbnail });
             setTitle('');
@@ -47,46 +60,16 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
             setPreviewThumbnail('');
             setThumbnailFile(null);
             setThumbnailRef(null);
-            setImagePath('');
-            setImageFile(null);
-            setImageRef(null);
-
+            setImagePaths([]);
+            setError('');
+    
             handleClose();
         } catch (error) {
+            if (error.message === 'Request failed with status code 422') {
+                setError("This title has already existed.");
+            }
             console.error('Error adding blog:', error);
         }
-    };
-
-    const handleImageUpload = () => {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('accept', 'image/*');
-        input.click();
-        
-        input.onchange = async () => {
-            const file = input.files[0];
-            if (!file) {
-                console.error('No file selected');
-                return;
-            }    
-            console.log('input:', input);
-            const storageRef = ref(storage, `/blog/blogImages/${userId}/${file.name + Date.now()}`);
-            try {
-                setImageRef(storageRef);
-                setImageFile(file);
-                setImagePath(storageRef.fullPath);
-                const imageUrl = await getDownloadURL(storageRef);
-                const quill = quillRef.current.getEditor();
-                const range = quill.getSelection();
-                if (range) {
-                    quill.insertEmbed(range.index, 'image', imageUrl);
-                } else {
-                    console.error('No valid range found for inserting image');
-                }
-            } catch (error) {
-                console.error('Error uploading image:', error);
-            }
-        };
     };
 
     const handleThumbnailChange = (e) => {
@@ -101,26 +84,6 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
                 setThumbnail(storageRef.fullPath);
             } catch (error) {
                 console.error('Error uploading image:', error);
-            }
-        } else {
-            // setToastMessage('Please upload a valid image file.');   
-            // setShowToast(true);
-        }
-    };
-
-    const modules = {
-        toolbar: {
-            container: [
-                [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-                [{ size: [] }],
-                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' },
-                { 'indent': '-1' }, { 'indent': '+1' }],
-                ['link', 'image'],
-                ['clean']
-            ],
-            handlers: {
-                image: handleImageUpload
             }
         }
     };
@@ -150,16 +113,16 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
                             required
                         />
                     </Form.Group>
+                    {error && <p className="error-message mt-3">{error}</p>}
                     <Form.Group className='mb-3' controlId="formContent">
                         <Form.Label>Content</Form.Label>
-                            <MyEditor
-                                value={content}
-                                onChange={setContent}
-                                placeholder="Enter content"
-                                modules={modules}
-                                ref={quillRef}
-                                required
-                            />
+                        <CKEditorComponent
+                            ref={editorRef}
+                            value={content}
+                            onChange={setContent}
+                            uploadPath="blog/blogImages"
+                            onImageUpload={handleImageUpload}
+                        />
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Add Blog
