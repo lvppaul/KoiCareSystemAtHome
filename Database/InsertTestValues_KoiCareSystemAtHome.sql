@@ -1,6 +1,6 @@
 --drop database KoiCareSystemAtHome;
 
-use KoiCareSystemAtHome6789;
+use KoiCareSystemAtHome2;
 
 --Disable Foreign Key Constraints
 --EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL';
@@ -310,6 +310,10 @@ VALUES
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 3, 'I appreciate the dietary advice for koi.', GETDATE()),  -- VIP user
 ('979a42a8-ecc7-4d15-ab6f-410755b9e593', 4, 'Very informative article on seasonal care.', GETDATE());  -- Admin user
 
+INSERT INTO ShopRatings (UserId, ShopId, Rating, CreateAt)
+VALUES 
+('156e10b8-ca91-4925-938f-1d872a357ebe', 1, 4, GETDATE()),
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 5, GETDATE());
 
 -- ComissionFee = 15% Order total price
 INSERT INTO Revenue (OrderID, CommissionFee)

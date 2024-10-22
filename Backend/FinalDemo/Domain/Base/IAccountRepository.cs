@@ -1,5 +1,6 @@
 ﻿using Domain.Authentication;
 using Domain.Models;
+using Domain.Models.Entity;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,8 @@ namespace Domain.Base
         Task<string> LockoutEnabledAsync(string userId);
         Task<string> LockoutDisabledAsync(string userId);
         //public Task<bool> CheckLockoutEnabledAsync(ApplicationUser user);
-       
 
+        Task<ApplicationUser> GetAccountByUserIdAsync(string id);
+       
     }
 }

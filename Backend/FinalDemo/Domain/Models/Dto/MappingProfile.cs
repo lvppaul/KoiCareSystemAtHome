@@ -15,6 +15,11 @@ namespace KCSAH.APIServer.Dto
             CreateMap<Shop, ShopDTO>().ReverseMap();
             CreateMap<ShopRequestDTO, Shop>().ReverseMap();
             CreateMap<ShopRequestDTO, ShopDTO>().ReverseMap();
+            CreateMap<ShopUpdateDTO, Shop>().ReverseMap().ReverseMap();
+            //ShopRating
+            CreateMap<ShopRating, ShopRatingDTO>().ReverseMap();
+            CreateMap<ShopRatingRequestDTO, ShopRating>().ReverseMap();
+            CreateMap<ShopRatingRequestDTO, ShopRatingDTO>().ReverseMap();
             //Product
             CreateMap<ProductRequestDTO, Product>().ReverseMap();
             CreateMap<Product, ProductDTO>().ReverseMap();

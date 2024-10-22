@@ -58,6 +58,8 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     public virtual DbSet<Shop> Shops { get; set; }
 
+    public virtual DbSet<ShopRating> ShopRatings { get; set; }
+
     public virtual DbSet<WaterParameter> WaterParameters { get; set; }
 
     public static string GetConnectionString(string connectionStringName)
@@ -485,7 +487,30 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.Thumbnail).IsUnicode(false);
         });
 
+        modelBuilder.Entity<ShopRating>(entity =>
+        {
+            entity.HasKey(e => e.RatingId).HasName("PK__ShopRating__C3905BAF8E052D03");
 
+            entity.Property(e => e.RatingId).HasColumnName("RatingId").IsUnicode(false);
+            entity.Property(e => e.Rating).HasDefaultValue(1);
+            entity.Property(e => e.CreateAt).HasColumnType("datetime");
+
+            entity.Property(e => e.ShopId).HasColumnName("ShopId");
+            entity.Property(e => e.UserId)
+                .HasMaxLength(450)
+                .HasColumnName("UserId");
+
+
+            entity.HasOne(d => d.Shop).WithMany(p => p.ShopRatings)
+                .HasForeignKey(d => d.ShopId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK__ShopRating__ShopID__59063A47");
+
+            entity.HasOne(d => d.ApplicationUser).WithMany(p => p.ShopRatings)
+               .HasForeignKey(d => d.UserId)
+               .OnDelete(DeleteBehavior.ClientSetNull)
+               .HasConstraintName("FK__ShopRating__UserID__628FA481");
+        });
 
         modelBuilder.Entity<WaterParameter>(entity =>
         {
