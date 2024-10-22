@@ -2,6 +2,7 @@
 using Domain.Helper;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
+using Domain.Models.Dto.Update;
 using Domain.Models.Entity;
 using KCSAH.APIServer.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -98,14 +99,18 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            var shop = _unitOfWork.ShopRepository.GetAll().Where(c => c.ShopName.ToUpper() == shopdto.ShopName.ToUpper()).FirstOrDefault();
-
-            if (shop != null)
+            var phone = _unitOfWork.ShopRepository.GetAll().Where(c => c.Phone == shopdto.Phone).FirstOrDefault();
+            var email = _unitOfWork.ShopRepository.GetAll().Where(c => c.Email == shopdto.Email).FirstOrDefault();
+            if (phone != null)
             {
-                ModelState.AddModelError("", "This name has already existed.");
+                ModelState.AddModelError("", "This phone number has already existed.");
                 return StatusCode(422, ModelState);
             }
-
+            if(email != null)
+            {
+                ModelState.AddModelError("", "This email has already registered.");
+                return StatusCode(422, ModelState);
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -123,7 +128,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateShop(int id, [FromBody] ShopRequestDTO shopdto)
+        public async Task<IActionResult> UpdateShop(int id, [FromBody] ShopUpdateDTO shopdto)
         {
             if (shopdto == null)
             {

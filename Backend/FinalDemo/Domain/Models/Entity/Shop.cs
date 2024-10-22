@@ -22,5 +22,7 @@ public partial class Shop
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<ShopRating> ShopRatings { get; set; } = new List<ShopRating>();
     public virtual ApplicationUser User { get; set; } = null!;
 }

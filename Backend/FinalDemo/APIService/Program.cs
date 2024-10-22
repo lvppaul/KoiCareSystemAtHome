@@ -50,8 +50,6 @@ builder.Services.AddSwaggerGen(option =>
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<PondService>();
 builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<ShopRepository>();
-builder.Services.AddScoped<BlogRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddDbContext<KoiCareSystemAtHomeContext>(options =>
@@ -103,7 +101,6 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowAllOrigins");
 app.UseAuthorization();
-app.UseStaticFiles();
 app.UseRouting();
 app.MapControllers();
 
