@@ -31,7 +31,14 @@ namespace ApiService.Controllers
             var result = await _accountRepository.GetUserIdByEmailAsync(email);
             if (!(result.Length > 29)) return BadRequest(result);
             return Ok(result);
-        } 
+        }
+        [HttpGet("GetAccountByUserId/{id}")]
+        public async Task<IActionResult> GetAccountByUserIdAsync(string id)
+        {
+            var result = await _accountRepository.GetAccountByUserIdAsync(id);
+            if (result==null) return BadRequest(result);
+            return Ok(result);
+        }
 
         [HttpPost("CreateMemberAccount")]
         public async Task<IActionResult> SignUp(SignUpModel model)
