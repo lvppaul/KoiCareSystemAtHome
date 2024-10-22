@@ -47,8 +47,7 @@ namespace APIService.Controllers
             var existRating = await _unitOfWork.ShopRatingRepository.RatingExist(ratingdto.ShopId, ratingdto.UserId);
             if(existRating != null)
             {
-                ModelState.AddModelError("", "You have rated for this shop already.");
-                return StatusCode(422, ModelState);
+                return StatusCode(422, "You have rated for this shop already.");
             }
             // Map dữ liệu
             var ratingMap = _mapper.Map<ShopRating>(ratingdto);

@@ -96,36 +96,39 @@ namespace KCSAH.APIServer.Controllers
         {
             if (shopdto == null)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Invalid request. Shop data cannot be null.");
             }
 
             var phone = _unitOfWork.ShopRepository.GetAll().Where(c => c.Phone == shopdto.Phone).FirstOrDefault();
             var email = _unitOfWork.ShopRepository.GetAll().Where(c => c.Email == shopdto.Email).FirstOrDefault();
+
             if (phone != null)
             {
-                ModelState.AddModelError("", "This phone number has already existed.");
-                return StatusCode(422, ModelState);
+                return StatusCode(422, "This phone number has already existed.");
             }
-            if(email != null)
+
+            if (email != null)
             {
-                ModelState.AddModelError("", "This email has already registered.");
-                return StatusCode(422, ModelState);
+                return StatusCode(422, "This email has already been registered.");
             }
+
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Invalid model state.");
             }
+
             var shopMap = _mapper.Map<Shop>(shopdto);
             var createResult = await _unitOfWork.ShopRepository.CreateAsync(shopMap);
+
             if (createResult <= 0)
             {
-                ModelState.AddModelError("", "Something went wrong while saving.");
-                return StatusCode(500, ModelState);
+                return StatusCode(500, "Something went wrong while saving the shop.");
             }
-            // Cập nhật lại giá trị ShopId cho shopdto từ shopMap
+
             var shopReturn = _mapper.Map<ShopDTO>(shopMap);
             return CreatedAtAction("GetById", new { id = shopReturn.ShopId }, shopReturn);
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateShop(int id, [FromBody] ShopUpdateDTO shopdto)

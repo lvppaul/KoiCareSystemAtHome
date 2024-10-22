@@ -12,7 +12,7 @@ namespace Domain.Models.Dto.Request
         public int KoiId { get; set; }
         public string UserId { get; set; } = null!;
 
-        public int Weight { get; set; }
+        public float Weight { get; set; }
 
         public int Length { get; set; }
         public DateTime UpdatedTime { get; set; }

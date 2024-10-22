@@ -30,6 +30,18 @@ namespace APIService.Controllers
             return Ok(koiRecordDTOs);
         }
 
+        [HttpGet("GetKoiRecordByKoiId/{KoiId}")]
+        public async Task<IActionResult> GetKoiRecordByKoiIdAsync(int KoiId)
+        {
+            var result = await _unitOfWork.KoiRecordRepository.GetRecordByKoiIdAsync(KoiId);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<KoiRecordDTO>>(result);
+            return Ok(show);
+        }
+
         [HttpGet("async/{id}")]
         public async Task<ActionResult<KoiRecordDTO>> GetByIdAsync(int id)
         {
