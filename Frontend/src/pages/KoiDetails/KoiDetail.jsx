@@ -110,6 +110,9 @@ const KoiDetail = () => {
             <li>
               <strong>Note:</strong> {koidetail.note}
             </li>
+            <li>
+              <strong>Status:</strong> {koidetail.status ? <>Active</> : <>Inactive</>}
+            </li>
           </ul>
 
           {/* Growth History */}

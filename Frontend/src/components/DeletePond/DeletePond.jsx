@@ -4,32 +4,36 @@ import { deletePond } from '../../Config/PondApi';
 import { storage } from '../../Config/firebase';
 import { ref, deleteObject } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
-import Pond from '../../pages/Pond/Pond';
+// Removed unused import for Pond
 
-const DeletePond = ({ pondData }) => {
+const DeletePond = ({ pondData, koiInPond }) => {
     const pondId = pondData.pondId;
     const notFound = 'others/NotFound.jpg';
     const pondThumbnail = pondData.thumbnail;
     const navigate = useNavigate();
     const handleDelete = () => {
-        // Call the onDelete function passed as a prop
-        if (pondThumbnail) {
+        if (koiInPond.length > 0) {
+            alert('Please delete all koi in the pond before deleting the pond');
+            return;
+        } else {
+            if (pondThumbnail) {
             const imageRef = ref(storage, pondThumbnail);
             try{
-                if(imageRef.fullPath === notFound){
+                if(imageRef.fullPath === notFound || imageRef.fullPath === '') {
                     deletePond(pondId);
-                    navigate('/pond');
+                    navigate('/pond', { replace: true });
                 } else {
                     deleteObject(imageRef)
                     .then(() => {
                         console.log("Image deleted successfully");
                         deletePond(pondId)
-                        navigate('/pond');
+                        navigate('/pond', { replace: true });
                     })
                 }
             } catch (error) {
                 console.error('Error deleting thumbnail:', error);
             }
+        }
         }
     }
 
