@@ -134,10 +134,12 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridSex">
                                             <Form.Label>Sex:</Form.Label>
-                                            <Form.Control type="text" placeholder="male / female"
-                                                name='sex'
-                                                value={koidetail.sex}
-                                                onChange={handleInputChange} />
+                                            <Form.Control as="select" name='sex' value={koidetail.sex} onChange={handleInputChange}>
+                                                <option value="">Select sex</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Unknown">Unknown</option>
+                                            </Form.Control>
                                         </Form.Group>
                                     </Row>
                                     <Row>
@@ -152,10 +154,14 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                                     <Row>
                                         <Form.Group as={Col} controlId="formGridPhysique">
                                             <Form.Label>Physique:</Form.Label>
-                                            <Form.Control type="text" placeholder="Enter fish physique"
-                                                name='physique'
+                                            <Form.Control as="select" name='physique'
                                                 value={koidetail.physique}
-                                                onChange={handleInputChange} />
+                                                onChange={handleInputChange} >
+                                                <option value="">Select physique</option>
+                                                <option value="Slim">Slim</option>
+                                                <option value="Normal">Normal</option>
+                                                <option value="Corpulent">Corpulent</option>
+                                            </Form.Control>
                                         </Form.Group>
                                     </Row>
                                     <Row>

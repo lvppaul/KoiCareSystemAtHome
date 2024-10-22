@@ -3,12 +3,11 @@ import { getPondByUserId } from '../../Config/PondApi';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import AddNewPond from '../../components/AddNewPond/AddNewPond';
-import { Pagination,Card, Container, Row, Col, Button } from 'react-bootstrap';
+import { Pagination,Card, Container, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../Login/AuthProvider';
 import './Pond.css';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
-import { useNavigate } from 'react-router-dom';
 
 const Pond = () => {
     const [ponds, setPonds] = useState([]);
@@ -52,7 +51,7 @@ const Pond = () => {
     
     useEffect(() => {
         fetchPondByUserId();
-    }, []);
+    }, [fetchPondByUserId]);
     
     const handlePondAdded = async (newPond) => {
         try {
