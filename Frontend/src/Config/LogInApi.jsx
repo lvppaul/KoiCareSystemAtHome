@@ -102,7 +102,7 @@ const getUserIdByEmail = async (email) => {
                 'Accept': 'application/json'
             },
         });
-        
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Error getting user ID by email:', error);

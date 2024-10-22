@@ -59,6 +59,8 @@ function CreateShopAcc() {
                         .catch((error) => {
                             if(error.message ==='Request failed with status code 422'){
                                 setCreateShopError('Shop name already taken');
+                            } else {
+                                setCreateShopError(error.message);
                             }
                         });
                 } else {
