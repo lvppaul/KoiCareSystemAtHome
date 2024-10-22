@@ -17,7 +17,7 @@ const DeleteKoi = ({koiData, handleKoiDelete}) => {
             try{
                 if(imageRef.fullPath === notFound){
                     deleteKoi(koiId);
-                    navigate('/koi');
+                    handleKoiDelete(koiId);
                 } else {
                     deleteObject(imageRef)
                     .then(() => {
