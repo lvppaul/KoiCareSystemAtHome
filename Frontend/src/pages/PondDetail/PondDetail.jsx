@@ -1,16 +1,15 @@
-import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Button, Card, Pagination } from 'react-bootstrap';
-import { MdDelete, MdAdd } from "react-icons/md";
+import { Link, useParams } from 'react-router-dom';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import './PondDetail.css';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import AddNewFish from '../../components/AddNewFish/AddNewFish';
-import { storage } from '../../Config/firebase';
-import {ref, getDownloadURL} from 'firebase/storage'
 import { getPondsById } from '../../Config/PondApi';
 import { Spinner } from 'react-bootstrap';
 import UpdatePondDetail from '../../components/UpdatePondDetail/UpdatePondDetail';
 import DeletePond from '../../components/DeletePond/DeletePond';
 import { getKoiInPond } from '../../Config/PondApi';
+import DeleteKoi from '../../components/DeleteKoi/DeleteKoi';
+
 // Use pondId to fetch or display pond details
 const PondDetail = () => {
   const [pond, setPond] = useState(null);
@@ -19,11 +18,11 @@ const PondDetail = () => {
   const [koiList, setKoiList] = useState([]);
   const [showModalAddPond, setShowModalAddPond] = useState(false);
   const [showModalAddFish, setShowModalAddFish] = useState(false);
-  const notFound = 'others/NotFound.jpg';
   const [loadingKoi, setLoadingKoi] = useState(true);
+
   //handle fetch data koi pond by pondId
-  useEffect(() => {
-      getPondsById(pondId)
+  const fetchPond = (pondId) => {
+    getPondsById(pondId)
       .then(data => {
         setPond(data);  
         setLoading(false);
@@ -32,12 +31,24 @@ const PondDetail = () => {
         console.error('Error fetching koi pond:', error);
         setLoading(false);        
       });
-      getKoiInPond(pondId)
+  };
+
+  const fetchKoiInPond = (pondId) => {
+    getKoiInPond(pondId)
       .then(data => {
         setKoiList(data);
         if(data.length > 0) setLoadingKoi(false);
-      })
-      
+      }
+      )
+      .catch (error => {
+        console.error('Error fetching koi in pond:', error);
+        setLoadingKoi(false);
+      });
+  };
+
+  useEffect(() => {
+      fetchPond(pondId);
+      fetchKoiInPond(pondId);
     }, [pondId]);
     
   if (loading || !pond) {
@@ -48,8 +59,15 @@ const PondDetail = () => {
     );
   }
 
-  
-  
+  const handleOnFishAdded = (newKoi) => {
+    setKoiList([...koiList, newKoi]);
+    fetchKoiInPond(pondId);
+  }
+
+  const handleOnFishDeleted = (koiId) => {
+    const updatedKoiList = koiList.filter(koi => koi.koiId !== koiId);
+    setKoiList(updatedKoiList);
+  }
 
   return (
     <Container className='pond-detail-container' style={{ marginTop: '100px', marginBottom: '100px' }}>
@@ -61,7 +79,8 @@ const PondDetail = () => {
           setShow={setShowModalAddPond} 
           setPond={setPond}/>
         <DeletePond 
-        pondData={pond}/>
+        pondData={pond}
+        koiInPond={koiList}/>
       </Row>
       <Row>
         <Col md={6}>
@@ -81,7 +100,6 @@ const PondDetail = () => {
             <li><strong>Drain:</strong> {pond.drain}</li>
             <li><strong>Skimmer:</strong> {pond.skimmer}</li>
             <li><strong>Note:</strong> {pond.note}</li>
-            {/* <li></li> */}
           </ul>
         </Col>
       </Row>
@@ -90,37 +108,46 @@ const PondDetail = () => {
         <h1>Koi list in the pond</h1>
         <AddNewFish
           show={showModalAddFish}
-          setShow={setShowModalAddFish} />
+          setShow={setShowModalAddFish} 
+          onKoiAdded={handleOnFishAdded}/>
         <Row>
           {loadingKoi ? (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <h3>No Koi in this pond </h3>
         <Spinner size='50' variant="primary" />
-      </div>
-    ) : null}
-          {koiList.map((koi) => (
-            <Col md={6}  className="mb-4">
+            </div>
+          ) : null}
+          {koiList.map((koi) => ( koi && koi.koiId ? (
+            <Col md={6}  className="mb-4" key={koi.koiId}>
               <Card 
-              style={{ backgroundColor: '#E2C3C3', borderRadius: '15px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
-              > <span><a href='/koidetail'></a></span>
-                 
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+              style={{  backgroundColor: '#E2C3C3', borderRadius: '15px', boxShadow: '0 4px 8px rgba(0, 0, 1, 1)', width: '90%', height: '225px'}}
+              >
+                 <Link to={`/koidetail/${koi.koiId}`} style={{ textDecoration: 'none', color: 'black'}}>
+                <div style={{ display: 'flex', alignItems: 'center'}}>
                   <Card.Img
-                    src="https://upload.wikimedia.org/wikipedia/commons/1/10/Ojiya_Nishikigoi_no_Sato_ac_%283%29.jpg"
-                    style={{ width: '40%', height: '100%', borderRadius: '15px 0 0 15px', objectFit: 'cover' }}
-                    
-                  />
-                  <Card.Body style={{ padding: '20px' }}>
+                    src={koi.thumbnail}
+                    style={{ width:'223px', height:'223px', borderRadius: '15px 0 0 15px', objectFit: 'cover', marginBottom:'15px' }}
+                    />
+                  <Card.Body style={{ marginLeft:'10px' }}>
                     <Card.Title style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{`Name: ${koi.name}`}</Card.Title>
-                    <Card.Text style={{ fontSize: '1rem' }}>
-                      Age: {koi.age} <br />
-                      Variety: {koi.variety} <br />
-                      Length: {koi.length}
-                    </Card.Text>
+                    <p style={{ fontSize: '18px'}}>
+                      <strong>Age:</strong> {koi.age} <br/>
+                      <strong>Variety:</strong> {koi.variety}<br/>
+                      <strong>Length:</strong> {koi.length}<br/>
+                      <strong>Weight:</strong> {koi.weight}<br/>
+                    </p>                     
                   </Card.Body>
                 </div>
+                </Link>
+                <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                  <DeleteKoi
+                    koiData={koi}
+                    handleKoiDelete={handleOnFishDeleted}/> 
+                </div>
               </Card>
+              
             </Col>
+          ) : null
           ))}
         </Row>
       </Row>

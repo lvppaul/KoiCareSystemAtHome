@@ -1,55 +1,117 @@
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import UpdateKoiDetail from '../../components/UpdateKoiDetail/UpdateKoiDetail';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getKoiById } from '../../Config/KoiApi';
+import { Spinner } from 'react-bootstrap';
 
 const KoiDetail = () => {
-  const koi = {
-    name: 'Koikoi',
-    pond: 'Pond In front house',
-    age: '2 months',
-    length: '17 cm',
-    weight: '88 g',
-    growthHistory: {
-      date: '09.09.2024',
-      lastLength: '17 cm',
-      lastWeight: '88 g',
-    },
-    remarks: {
-      date: '09.09.2024',
-      length: '17 cm',
-      weight: '88 g',
-    },
-    imageSrc:
-      'https://upload.wikimedia.org/wikipedia/commons/1/10/Ojiya_Nishikigoi_no_Sato_ac_%283%29.jpg', // Replace with actual image URL
+  const {koiId} = useParams()
+  const [koidetail, setKoiDetail] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [showModalUpdateKoi, setShowModalUpdateKoi] = useState(false);
+
+  const fetchKoiDetail = async (koiId) => {
+    setLoading(true);
+    try {
+      const data = await getKoiById(koiId);
+      console.log('koi detail', data);
+      setKoiDetail(data);
+    } catch (error) {
+      console.error('Error fetching koi detail:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    fetchKoiDetail(koiId);
+  },[koiId])
+
+  if (loading || !koidetail) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Spinner animation="border" variant="primary" />
+      </div>
+    );
+  }
+
+  //adding mockup 
+  const koi = {
+    name: 'Mock Koi',
+    pond: 'Mock Pond',
+    age: 2,
+    length: '30 cm',
+    weight: '1.5 kg',
+    thumbnail: 'https://via.placeholder.com/650x1000',
+    growthHistory: {
+      date: '2023-01-01',
+      lastLength: '28 cm',
+      lastWeight: '1.4 kg',
+    },
+    remarks: {
+      date: '2023-02-01',
+      length: '30 cm',
+      weight: '1.5 kg',
+    },
+  };
+
+  
   return (
     <Container style={{ maxWidth: '1536px', marginTop:'100px', marginBottom:'100px'}}>
       <h1 style={{paddingBottom:'100px'}}>Koi Details</h1>
+      <Row style={{justifyContent: 'flex-end'}}>
+        <UpdateKoiDetail
+        show={showModalUpdateKoi}
+        setShow={setShowModalUpdateKoi}
+        koidetail={koidetail}
+        setKoiDetail={setKoiDetail}
+        />
+      </Row>
       <Row>
         {/* Koi Image */}
-        <Col md={6}>
+        <Col md={6} mb={6}>
             <img
-              src={koi.imageSrc}
+              src={koidetail.thumbnail}
               style={{ objectFit:'fill',width: '650px', height: '1000px' }}
             />
         </Col>
 
         {/* Koi Details */}
-        <Col md={6} style={{padding: '20px'}}>
+        <Col md={6} mb={6}>
           <ul style={{ paddingLeft:'50px', fontSize:'30px', paddingBottom: '50px' }}>
             <li>
-              <strong>Name:</strong> {koi.name}
+              <strong>Name:</strong> {koidetail.name}
             </li>
             <li>
-              <strong>Pond:</strong> {koi.pond}
+              <strong>Age:</strong> {koidetail.age}
             </li>
             <li>
-              <strong>Age:</strong> {koi.age}
+              <strong>Sex:</strong> {koidetail.sex}
             </li>
             <li>
-              <strong>Length:</strong> {koi.length}
+              <strong>Length:</strong> {koidetail.length}
             </li>
             <li>
-              <strong>Weight:</strong> {koi.weight}
+              <strong>Weight:</strong> {koidetail.weight}
+            </li>
+            <li>
+              <strong>Color:</strong> {koidetail.color}
+            </li>
+            <li>
+              <strong>Variety:</strong> {koidetail.variety}
+            </li>
+            <li>
+              <strong>Physique:</strong> {koidetail.physique}
+            </li>
+            <li>
+              <strong>Origin:</strong> {koidetail.origin}
+            </li>
+            <li>
+              <strong>Note:</strong> {koidetail.note}
+            </li>
+            <li>
+              <strong>Status:</strong> {koidetail.status ? <>Active</> : <>Inactive</>}
             </li>
           </ul>
 

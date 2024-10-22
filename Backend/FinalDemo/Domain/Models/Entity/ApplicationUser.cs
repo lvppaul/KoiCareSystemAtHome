@@ -42,6 +42,8 @@ namespace Domain.Models.Entity
 
         public virtual ICollection<News> News { get; set; } = new List<News>();
 
+        public virtual ICollection<ShopRating> ShopRatings { get; set; } = new List<ShopRating>();
+
         public virtual ICollection<WaterParameter> WaterParameters { get; set; } = new List<WaterParameter>();
     }
 }

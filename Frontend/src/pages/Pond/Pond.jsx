@@ -3,12 +3,12 @@ import { getPondByUserId } from '../../Config/PondApi';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import AddNewPond from '../../components/AddNewPond/AddNewPond';
-import { Card, Container, Row, Col, Button } from 'react-bootstrap';
+import { Pagination,Card, Container, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../Login/AuthProvider';
 import './Pond.css';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
-import { useNavigate } from 'react-router-dom';
+
 const Pond = () => {
     const [ponds, setPonds] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,25 +17,27 @@ const Pond = () => {
     const notFound = 'others/NotFound.jpg';
     
     const fetchPondByUserId = useCallback(async () => {
+        console.time('fetchPondByUserId');
         try {
             const data = await getPondByUserId(userId);
             if (Array.isArray(data)) {
-                for (let i = 0; i < data.length; i++) {
-                    if (data[i].thumbnail) {
-                        const storageRef = ref(storage, data[i].thumbnail);
+                const updatedData = await Promise.all(data.map(async (pond) => {
+                    if (pond.thumbnail) {
+                        const storageRef = ref(storage, pond.thumbnail);
                         try {
-                            data[i].thumbnail = await getDownloadURL(storageRef);
+                            pond.thumbnail = await getDownloadURL(storageRef);
                         } catch (error) {
-                            console.error(`Error fetching thumbnail for pond ${data[i].pondId}:`, error);
+                            console.error(`Error fetching thumbnail for pond ${pond.pondId}:`, error);
                             const notFoundStorageRef = ref(storage, notFound);
-                            data[i].thumbnail = await getDownloadURL(notFoundStorageRef);
+                            pond.thumbnail = await getDownloadURL(notFoundStorageRef);
                         }
                     } else {
                         const notFoundStorageRef = ref(storage, notFound);
-                        data[i].thumbnail = await getDownloadURL(notFoundStorageRef);
+                        pond.thumbnail = await getDownloadURL(notFoundStorageRef);
                     }
-                }
-                setPonds(data);
+                    return pond;
+                }));
+                setPonds(updatedData);
             } else {
                 console.log('Fetched ponds is not array:');
             }
@@ -43,6 +45,7 @@ const Pond = () => {
             console.error('Error fetching ponds:', error);
         } finally {
             setLoading(false);
+            console.timeEnd('fetchPondByUserId');
         }
     }, [userId]);
     
@@ -72,7 +75,26 @@ const Pond = () => {
         }
     };
     
-    
+    //handle paging
+    const [currentPage, setCurrentPage] = useState(1);
+    const pondsPerPage = 6;
+    const indexOfLastProduct = currentPage * pondsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - pondsPerPage;
+    const currentPonds = ponds.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    const totalPages = Math.ceil(ponds.length / pondsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
     
     return (
         <>
@@ -85,7 +107,7 @@ const Pond = () => {
                     />
                 <Container>
                     <Row style={{ justifyContent: 'space-between' }}>
-                        {loading ? <Spinner animation="border" /> : ponds.map((pond) => (
+                        {loading ? <Spinner animation="border" /> : currentPonds.map((pond) => (
                             pond && pond.pondId ? (
                                 <Col key={pond.pondId}>
                                     <Card md={4} className='pond-card'>
@@ -102,6 +124,23 @@ const Pond = () => {
                             ) : null
                         ))}
                     </Row>
+                    <Row>
+            <Col className="d-flex justify-content-center">
+              <Pagination>
+                <Pagination.Prev onClick={handlePrevPage} disabled={currentPage === 1} />
+                {[...Array(totalPages).keys()].map(number => (
+                  <Pagination.Item
+                    key={number + 1}
+                    active={number + 1 === currentPage}
+                    onClick={() => setCurrentPage(number + 1)}
+                  >
+                    {number + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next onClick={handleNextPage} disabled={currentPage === totalPages} />
+              </Pagination>
+            </Col>
+          </Row>
                 </Container>
             </div>
         </>

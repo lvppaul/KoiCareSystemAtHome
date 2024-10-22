@@ -51,9 +51,9 @@ namespace Domain.Repositories
 
             var passwordValid = await _userManager.CheckPasswordAsync(user!, model.Password);
             if (!passwordValid) return wrongPass;
+
             var authClaims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email, model.Email),
+            {   
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
             };
@@ -465,7 +465,14 @@ namespace Domain.Repositories
             return mes;
         }
 
-        
+        public async Task<ApplicationUser> GetAccountByUserIdAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null) return null;
+            return user;
+        }
+
+
 
 
 

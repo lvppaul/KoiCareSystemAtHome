@@ -14,6 +14,7 @@ public partial class KoiRecord
 
     public int Length { get; set; }
 
+    public string? Thumbnail { get; set; }
     public DateTime UpdatedTime { get; set; }
 
     public virtual Koi Koi { get; set; } = null!;

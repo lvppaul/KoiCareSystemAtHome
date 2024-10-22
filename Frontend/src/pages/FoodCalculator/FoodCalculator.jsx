@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getPonds } from '../../Config/PondApi';
-import { getKois } from '../../Config/KoiApi';
+import { getKoiByUserId } from '../../Config/KoiApi';
 import './FoodCalculator.css';
+import { useAuth } from '../Login/AuthProvider';
 
 const FoodCalculator = () => {
   const [ponds, setPonds] = useState([]);
@@ -12,13 +13,14 @@ const FoodCalculator = () => {
   const [growthSpeed, setGrowthSpeed] = useState('medium');
   const [totalWeight, setTotalWeight] = useState(0);
   const [foodRequirement, setFoodRequirement] = useState(0);
+  const userId = useAuth().user.userId;
 
   useEffect(() => {
     const fetchPondsAndKois = async () => {
       try {
         const pondsData = await getPonds();
         setPonds(pondsData);
-        const koisData = await getKois();
+        const koisData = await getKoiByUserId(userId);
         setKois(koisData);
       } catch (error) {
         console.error('Error fetching data:', error);

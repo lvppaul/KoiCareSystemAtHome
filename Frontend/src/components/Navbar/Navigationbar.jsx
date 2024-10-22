@@ -57,6 +57,9 @@ const Navigationbar = () => {
               id="basic-nav-dropdown"
               className="custom-dropdown"
             >
+              <NavDropdown.Item as={NavLink} to="/koilist">
+                Koi Fish List
+              </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/pond">
                 Pond
               </NavDropdown.Item>

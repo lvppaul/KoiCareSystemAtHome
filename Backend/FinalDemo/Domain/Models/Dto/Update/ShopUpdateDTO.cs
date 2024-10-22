@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.Dto.Request
+namespace Domain.Models.Dto.Update
 {
-    public class ShopRequestDTO
+    public class ShopUpdateDTO
     {
-        public string UserId { get; set; }
-
         public string ShopName { get; set; }
 
         public string Description { get; set; }
@@ -18,7 +16,6 @@ namespace Domain.Models.Dto.Request
 
         public string Email { get; set; }
 
-        //public decimal Rating { get; set; }
 
         public string? Thumbnail { get; set; }
     }
