@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { addBlog, addBlogImages } from '../../Config/BlogApi';
-import CKEditorComponent from '../JoditEditor/CKEditorComponent';
+import CKEditorComponent from '../CKEditorComponent/CKEditorComponent';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import { useAuth } from '../../pages/Login/AuthProvider';
