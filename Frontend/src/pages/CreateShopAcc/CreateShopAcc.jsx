@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl, Spinner } from 'react-bootstrap';
 import ConfirmEmail from '../../components/ConfirmEmail/ConfirmEmail';
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/Fpt_TTKoi_logo.svg";
 import './CreateShopAcc.css';
 import { getUserIdByEmail, signUpShop } from '../../Config/LogInApi';
 import { addShop } from '../../Config/ShopApi';

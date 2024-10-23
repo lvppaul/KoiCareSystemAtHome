@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { addBlog, addBlogImages } from '../../Config/BlogApi';
-import CKEditorComponent from '../CKEditorComponent/CKEditorComponent';
+import CKEditorComponent from '../JoditEditor/CKEditorComponent';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import { useAuth } from '../../pages/Login/AuthProvider';
@@ -27,12 +27,12 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         if (!content) {
             setError('Content is required.');
             return;
         }
-        
+
         const newBlog = {
             title,
             content,
@@ -40,18 +40,18 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
             publishDate: new Date().toISOString().split('T')[0],
             userId: userId,
         };
-    
+
         try {
             const addedBlog = await addBlog(newBlog);
             if (thumbnailFile) {
                 await uploadBytes(thumbnailRef, thumbnailFile);
             }
-    
+
             for (let i = 0; i < imagePaths.length; i++) {
                 console.log(`Adding image to blog: ${addedBlog.blogId}, Path: ${imagePaths[i]}`);
                 await addBlogImages({ blogId: addedBlog.blogId, imageUrl: imagePaths[i] });
             }
-    
+
             const newThumbnail = await getDownloadURL(ref(storage, addedBlog.thumbnail));
             onAddBlog({ ...addedBlog, thumbnail: newThumbnail });
             setTitle('');
@@ -62,7 +62,7 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
             setThumbnailRef(null);
             setImagePaths([]);
             setError('');
-    
+
             handleClose();
         } catch (error) {
             if (error.message === 'Request failed with status code 422') {
@@ -89,7 +89,7 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
     };
 
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} size='xl'>
             <Modal.Header closeButton>
                 <Modal.Title>Add New Blog</Modal.Title>
             </Modal.Header>

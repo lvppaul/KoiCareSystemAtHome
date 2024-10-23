@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Button, InputGroup, FormControl, Nav, Container, Col, Row, Image } from 'react-bootstrap';
 import { signIn } from '../../Config/LogInApi';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/Fpt_TTKoi_logo.svg';
 import './Login.css';
 import LoginGoogle from './LoginGoogle';
 import { useAuth } from './AuthProvider';
