@@ -219,13 +219,13 @@ namespace Domain.Repositories
 
         public string SendEmailConfirmEmail(string email, string emailCode)
         {
+            string confirmLink = $"https://localhost:7031//account/reset-password/{emailCode}";
             StringBuilder emailMessage = new StringBuilder();
             emailMessage.AppendLine("<html>");
             emailMessage.AppendLine("<body>");
             emailMessage.AppendLine($"<p>Dear {email},</p>");
-            emailMessage.AppendLine("<p>Verify your email address by using this code:</p>");
-            emailMessage.AppendLine($"<h2>Verification Code: {emailCode}</h2>");
-            emailMessage.AppendLine("<p>Please enter this code on our website to complete your registration.</p>");
+            emailMessage.AppendLine("<p>Verify your email address:</p>");
+            emailMessage.AppendLine($"<p><a href=\"{confirmLink}\">Click this link to confirm your email</a> </p>");
             emailMessage.AppendLine("<p>If you did not request this, please ignore this email.</p>");
             emailMessage.AppendLine("<br>");
             emailMessage.AppendLine("<p>Best regards,</p>");

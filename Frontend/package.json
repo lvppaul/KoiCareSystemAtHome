@@ -14,7 +14,7 @@
     "bootstrap-icons": "^1.11.3",
     "ckeditor5": "^43.2.0",
     "ckeditor5-premium-features": "^43.2.0",
-    "firebase": "^10.14.0",
+    "firebase": "^10.14.1",
     "font-awesome": "^4.7.0",
     "gapi-script": "^1.2.0",
     "jodit": "^4.2.27",
