@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getKoiById } from '../../Config/KoiApi';
 import { Spinner } from 'react-bootstrap';
+import GrowHistory from '../../components/GrowthHistory/GrowHistory';
 
 const KoiDetail = () => {
   const {koiId} = useParams()
   const [koidetail, setKoiDetail] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showModalUpdateKoi, setShowModalUpdateKoi] = useState(false);
+  const [showGrowHistory, setShowGrowHistory] = useState(false);
 
   const fetchKoiDetail = async (koiId) => {
     setLoading(true);
@@ -36,30 +38,11 @@ const KoiDetail = () => {
     );
   }
 
-  //adding mockup 
-  const koi = {
-    name: 'Mock Koi',
-    pond: 'Mock Pond',
-    age: 2,
-    length: '30 cm',
-    weight: '1.5 kg',
-    thumbnail: 'https://via.placeholder.com/650x1000',
-    growthHistory: {
-      date: '2023-01-01',
-      lastLength: '28 cm',
-      lastWeight: '1.4 kg',
-    },
-    remarks: {
-      date: '2023-02-01',
-      length: '30 cm',
-      weight: '1.5 kg',
-    },
-  };
 
   
   return (
     <Container style={{ maxWidth: '1536px', marginTop:'100px', marginBottom:'100px'}}>
-      <h1 style={{paddingBottom:'100px'}}>Koi Details</h1>
+      <h1 >Koi Details</h1>
       <Row style={{justifyContent: 'flex-end'}}>
         <UpdateKoiDetail
         show={showModalUpdateKoi}
@@ -117,24 +100,20 @@ const KoiDetail = () => {
 
           {/* Growth History */}
           <h4>Growth history</h4>
-          <Card style={{ padding: '10px', borderRadius: '10px' }}>
-            <p>{koi.growthHistory.date}</p>
-            <p>
-              Length: {koi.growthHistory.lastLength} (last measure)
-              <br />
-              Weight: {koi.growthHistory.lastWeight}
-            </p>
-          </Card>
+          <GrowHistory
+            show={showGrowHistory}
+            setShow={setShowGrowHistory}
+            koiData={koidetail}/>
 
           {/* Remarks */}
           <h4 style={{paddingTop:'50px', }}>Remarks</h4>
-          <p style={{fontSize:'30px'}}>
+          {/* <p style={{fontSize:'30px'}}>
             <strong>{koi.remarks.date}</strong>
             <br />
             Length: {koi.remarks.length} (last measure)
             <br />
             Weight: {koi.remarks.weight}
-          </p>
+          </p> */}
         </Col>
       </Row>
     </Container>

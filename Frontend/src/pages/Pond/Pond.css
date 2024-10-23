@@ -9,25 +9,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    padding-top: 200px;
 }
 .pond-card{
     background-color: #D9D9D9 !important;
-    width: 300px;
-    height: 400px;
+    width: 100%; 
+    max-width: 300px; 
+    height: 450px; 
     margin: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 15px;
+    margin-top: 70px;
 }
 
 .pond-card img{
     width: 300px;
     height: 300px;
     object-fit: cover;
-
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
+
 .pond-card h5 {
     font-size: 20px;
     font-weight: bold;

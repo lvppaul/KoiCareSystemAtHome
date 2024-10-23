@@ -8,6 +8,8 @@ import { useAuth } from '../Login/AuthProvider';
 import './Pond.css';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
+import DeletePond from '../../components/DeletePond/DeletePond';
+import { getKoiInPond } from '../../Config/PondApi';
 
 const Pond = () => {
     const [ponds, setPonds] = useState([]);
@@ -35,6 +37,9 @@ const Pond = () => {
                         const notFoundStorageRef = ref(storage, notFound);
                         pond.thumbnail = await getDownloadURL(notFoundStorageRef);
                     }
+                    const koiInPond = await getKoiInPond(pond.pondId);
+                    pond.koiInPond = koiInPond;
+
                     return pond;
                 }));
                 setPonds(updatedData);
@@ -48,6 +53,7 @@ const Pond = () => {
             console.timeEnd('fetchPondByUserId');
         }
     }, [userId]);
+    
     
     useEffect(() => {
         fetchPondByUserId();
@@ -73,6 +79,11 @@ const Pond = () => {
         } catch (error) {
             console.error('Error fetching thumbnail for new pond:', error);
         }
+    };
+
+    const handlePondDeleted = (pondId) => {
+        const updatedPonds = ponds.filter(pond => pond.pondId !== pondId);
+        setPonds(updatedPonds);
     };
     
     //handle paging
@@ -100,17 +111,21 @@ const Pond = () => {
         <>
             <div className='pond-list-header'>
                 <h1>Pond List</h1>
+            </div>
+                
+                <Container>
+                <Row style={{display:'flex',justifyContent: 'flex-end',marginBottom:'50px'}}>
                 <AddNewPond
                     show={showModalAddPond}
                     setShow={setShowModalAddPond}
                     onPondAdded={handlePondAdded}
                     />
-                <Container>
-                    <Row style={{ justifyContent: 'space-between' }}>
+                </Row>
+                    <Row style={{ justifyContent: 'space-between', paddingBottom:'200px' }}>
                         {loading ? <Spinner animation="border" /> : currentPonds.map((pond) => (
                             pond && pond.pondId ? (
-                                <Col key={pond.pondId}>
-                                    <Card md={4} className='pond-card'>
+                                <Col key={pond.pondId} xs={12} sm={6} md={4} lg={4} className="d-flex align-items-stretch">
+                                    <Card   className='pond-card'>
                                         <Link to={`/ponddetail/${pond.pondId}`} style={{ textDecoration: 'none' }}>
                                             <Card.Body>
                                                 <Card.Img variant="header" src={pond.thumbnail} />
@@ -119,11 +134,17 @@ const Pond = () => {
                                                 <h5 style={{ color: 'black' }}>{pond.name}</h5>
                                             </Card.Body>
                                         </Link>
+                                        <Card.Footer style={{marginBottom:'70px'}}>
+                                        <DeletePond 
+                                        pondData={pond} 
+                                        koiInPond={pond.koiInPond}
+                                        onPondDelete={handlePondDeleted} />
+                                        </Card.Footer>
                                     </Card>
                                 </Col>
                             ) : null
                         ))}
-                    </Row>
+                        </Row>
                     <Row>
             <Col className="d-flex justify-content-center">
               <Pagination>
@@ -142,7 +163,6 @@ const Pond = () => {
             </Col>
           </Row>
                 </Container>
-            </div>
         </>
     );
 };
