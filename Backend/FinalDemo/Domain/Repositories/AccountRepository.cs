@@ -19,6 +19,9 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using System.Web;
 using Domain.Models.Entity;
+using System.Security.Cryptography;
+using Domain.Models.Dto.Response;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Repositories
 {
@@ -41,41 +44,137 @@ namespace Domain.Repositories
             _config = configuration;
             _roleManager = roleManager;
         }
-      
-        public async Task<string> SignInAsync(SignInModel model)
+
+        //public async Task<string> SignInAsync(SignInModel model)
+        //{
+        //    var user = await _userManager.FindByEmailAsync(model.Email);
+        //    if(user==null) return notExistAcc;
+        //    bool isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user!);
+        //    if (!isEmailConfirmed) return notConfirmEmail;
+
+        //    var passwordValid = await _userManager.CheckPasswordAsync(user!, model.Password);
+        //    if (!passwordValid) return wrongPass;
+
+        //    var authClaims = new List<Claim>
+        //    {   
+        //        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+        //        new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
+        //    };
+
+        //    var userRoles = await _userManager.GetRolesAsync(user);
+        //    foreach (var role in userRoles)
+        //    {
+        //        authClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+        //    }
+
+
+        //   string token = GenerateJwtToken(authClaims);
+
+
+        //    return token;
+        //}
+
+        public async Task<AuthenticationResponse> SignInAsync(SignInModel model)
         {
+            
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if(user==null) return notExistAcc;
+            if (user == null) return new AuthenticationResponse { Message = notExistAcc };
+
             bool isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user!);
-            if (!isEmailConfirmed) return notConfirmEmail;
+            if (!isEmailConfirmed) return new AuthenticationResponse { Message = notConfirmEmail };
 
             var passwordValid = await _userManager.CheckPasswordAsync(user!, model.Password);
-            if (!passwordValid) return wrongPass;
+            if (!passwordValid) return new AuthenticationResponse { Message = wrongPass };
 
             var authClaims = new List<Claim>
-            {   
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
-            };
+    {
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+    };
 
             var userRoles = await _userManager.GetRolesAsync(user);
             foreach (var role in userRoles)
             {
                 authClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
             }
+
+            // Tạo Access Token
+            string token = GenerateJwtToken(authClaims);
+
+            // Tạo Refresh Token
+            string refreshToken = GenerateRefreshToken();
+
+            // Lưu Refresh Token vào bảng User
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiration = DateTime.Now.AddDays(7); // Ví dụ: refresh token có hạn 7 ngày
+            await _userManager.UpdateAsync(user);
+
+            return new AuthenticationResponse { AccessToken = token, RefreshToken = refreshToken };
+        }
+
+        // GenerateRefreshToken
+        private string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
+
+        // GenerateJwtToken
+        private string GenerateJwtToken(List<Claim> authClaims)
+        {
             var authenKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Secret"]));
 
             var token = new JwtSecurityToken(
                 issuer: _config["JWT:ValidIssuer"],
                 audience: _config["JWT:ValidAudience"],
-                expires: DateTime.Now.AddMinutes(26),
+                expires: DateTime.Now.AddMinutes(1),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authenKey, SecurityAlgorithms.HmacSha512)
+            );
 
-                );
-            string validToken = HttpUtility.UrlEncode(new JwtSecurityTokenHandler().WriteToken(token));
-            return validToken;
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
+        // RefreshTokenAsync
+        public async Task<AuthenticationResponse> RefreshTokenAsync(string refreshToken)
+        {
+            
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+
+            if (user == null || user.RefreshTokenExpiration <= DateTime.Now)
+            {
+                return new AuthenticationResponse { Message = "Invalid refresh token or token has expired" };
+            }
+
+            // Tạo Access Token mới
+            var authClaims = new List<Claim>
+                 {
+                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                 };
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            foreach (var role in userRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+            }
+
+            string newAccessToken = GenerateJwtToken(authClaims);
+
+            // Tùy thuộc vào yêu cầu của bạn, bạn có thể tạo refresh token mới tại đây
+            string newRefreshToken = GenerateRefreshToken();
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiration = DateTime.Now.AddDays(7); // Refresh token mới có hạn 7 ngày
+            await _userManager.UpdateAsync(user);
+           
+            return new AuthenticationResponse { AccessToken = newAccessToken, RefreshToken = newRefreshToken };
+        }
+
+
 
         public async Task<string> GetUserIdByEmailAsync(string email)
         {
@@ -471,6 +570,23 @@ namespace Domain.Repositories
             if (user == null) return null;
             return user;
         }
+
+        public async Task<string> RemoveAccountByIdAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return notExistAcc;
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    return  error.Description;
+                }
+            }
+            return Success;
+        }
+
+
 
 
 
