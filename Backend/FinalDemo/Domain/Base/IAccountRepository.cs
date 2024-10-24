@@ -38,5 +38,6 @@ namespace Domain.Base
         Task<ApplicationUser> GetAccountByUserIdAsync(string id);
         Task<string> RemoveAccountByIdAsync(string userId);
 
+        Task<AuthenticationResponse> GmailSignIn(TokenRequest firebaseToken);
     }
 }

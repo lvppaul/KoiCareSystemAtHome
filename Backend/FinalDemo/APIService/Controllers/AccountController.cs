@@ -1,12 +1,14 @@
 ﻿using Domain.Authentication;
 using Domain.Base;
 using Domain.Models.Dto.Response;
+using Google.Apis.Auth.OAuth2.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using TokenRequest = Domain.Authentication.TokenRequest;
 
 namespace ApiService.Controllers
 {
@@ -39,6 +41,13 @@ namespace ApiService.Controllers
            return Ok(result);
         }
 
+        [HttpPost("gmail-signin")]
+        public async Task<IActionResult> GmailSignIn(TokenRequest token)
+        {
+            var result = await _accountRepository.GmailSignIn(token);
+            if (!(result.Message.IsNullOrEmpty())) return BadRequest(result);
+            return Ok(result);
+        }
 
         [HttpGet("GetUserIdByEmail/{email}")]
         public async Task<IActionResult> GetUserIdByEmailAsync(string email)
