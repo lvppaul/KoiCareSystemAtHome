@@ -1,5 +1,6 @@
 ﻿using Domain.Authentication;
 using Domain.Models;
+using Domain.Models.Dto.Response;
 using Domain.Models.Entity;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -12,10 +13,10 @@ namespace Domain.Base
 {
     public interface IAccountRepository
     {
-        Task<string> SignInAsync(SignInModel model);
+        Task<AuthenticationResponse> SignInAsync(SignInModel model);
         Task<string> GetUserIdByEmailAsync(string email);
-        Task<string> SignUpAsync(SignUpModel model); 
-
+        Task<string> SignUpAsync(SignUpModel model);
+        Task<AuthenticationResponse> RefreshTokenAsync(string refreshToken);
 
         Task<string> CreateShopAccount(SignUpModel model); 
         Task<string> CreateVipAccount(SignUpModel model);
