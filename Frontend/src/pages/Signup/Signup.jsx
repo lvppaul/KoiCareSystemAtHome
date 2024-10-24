@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl, Spinner } from 'react-bootstrap';
 import "./Signup.css";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/Fpt_TTKoi_logo.svg";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { signUp } from '../../Config/LogInApi';

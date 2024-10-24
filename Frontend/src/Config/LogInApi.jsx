@@ -23,6 +23,7 @@ const signUp = async (userData) => {
     }
 };
 
+// Function to sign up shop
 const signUpShop = async (userData) => {
     try {
         const response = await api.post('Account/CreateShopAccount', userData, {
@@ -94,4 +95,20 @@ const confirmEmail = async (email, confirmationCode) => {
     }
 }
 
-export { signUp, signUpShop, signIn, confirmEmail };
+const getUserIdByEmail = async (email) => {
+    try {
+        const response = await api.get(`Account/GetUserIdByEmail/${encodeURIComponent(email)}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error getting user ID by email:', error);
+        return null;
+    }
+}
+
+export { signUp, signUpShop, signIn, confirmEmail, getUserIdByEmail };

@@ -58,7 +58,7 @@ namespace APIService.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<ActionResult<BlogImageDTO>> CreateBlogImage([FromBody] BlogImageRequestDTO blogImagedto)
         {
             if (blogImagedto == null)
