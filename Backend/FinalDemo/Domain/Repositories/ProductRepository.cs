@@ -20,7 +20,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            var result = await _context.Products.FirstAsync(p => p.ProductId.Equals(id));
+            var result = await _context.Products.Include(p => p.Category).FirstAsync(p => p.ProductId.Equals(id));
 
             return result;
         }
