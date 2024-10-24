@@ -1,7 +1,7 @@
 import { Sidebar, Menu, MenuItem  } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 import './SideBar.css';
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/Fpt_TTKoi_logo.svg";
 import React from 'react';
 
 const SideBar = () =>{

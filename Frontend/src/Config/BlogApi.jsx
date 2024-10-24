@@ -31,20 +31,34 @@ const getBlogByBlogId = async (blogId) => {
 }
 
 // Function to add a new blog
-const addBlog = async (token, data) => {
+const addBlog = async (data) => {
     try {
         const response = await api.post('Blog', data, {
             headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                'accept': 'text/plain'
             }
         });
+        console.log('response:', response);
         return response.data;
     } catch (error) {
         console.error('Error adding blog:', error);
         throw error;
     }
 };
+
+const addBlogImages = async ({ blogId, imageUrl }) => {
+    try {
+        const response = await api.post('BlogImage', { blogId, imageUrl }, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error adding blog image:', error);
+        throw error;
+    }
+}
 
 // Function to get comments for a blog
 const getComments = async (blogId) => {
@@ -77,4 +91,4 @@ const addComment = async (token, data) => {
     }
 };
 
-export { getBlogs, getBlogByBlogId, addBlog, getComments, addComment };
+export { getBlogs, getBlogByBlogId, addBlog, getComments, addComment, addBlogImages };
