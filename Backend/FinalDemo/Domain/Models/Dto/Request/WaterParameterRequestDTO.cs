@@ -17,9 +17,9 @@ namespace Domain.Models.Dto.Request
         public double Oxygen { get; set; }
 
         public double Nitrate { get; set; }
-
         [JsonIgnore]
-        public DateTime DateTime { get; set; } = DateTime.Now;
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public double Temperature { get; set; }
 
