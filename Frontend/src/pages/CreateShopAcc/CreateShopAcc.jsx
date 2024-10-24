@@ -44,6 +44,7 @@ function CreateShopAcc() {
                     .then((response) => {
                         setUserId(response);
                     });
+                    console.log('userId:',userId);
                     const thumbnail = 'others/NotFound.jpg';
                     const rating = 0;
                     const shopData = { userId, shopName, description, phone, email, rating, thumbnail };
@@ -59,8 +60,10 @@ function CreateShopAcc() {
                         .catch((error) => {
                             if(error.message ==='Request failed with status code 422'){
                                 setCreateShopError('Shop name already taken');
+                                //logic to delete user
                             } else {
                                 setCreateShopError(error.message);
+                                //logic to delete user
                             }
                         });
                 } else {
