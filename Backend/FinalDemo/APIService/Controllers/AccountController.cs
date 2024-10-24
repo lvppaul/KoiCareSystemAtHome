@@ -161,6 +161,14 @@ namespace ApiService.Controllers
         }
 
 
+        [HttpPut("DeleteAccount/{userId}")]
+        public async Task<IActionResult> RemoveAccountById(string userId)
+        {
+            var result = await _accountRepository.RemoveAccountByIdAsync(userId);
+            if (!result.Equals(Success)) return BadRequest(result);
+            return Ok(result);
+        }
+
 
     }
 }

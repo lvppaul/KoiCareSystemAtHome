@@ -571,7 +571,22 @@ namespace Domain.Repositories
             return user;
         }
 
-      
+        public async Task<string> RemoveAccountByIdAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return notExistAcc;
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    return  error.Description;
+                }
+            }
+            return Success;
+        }
+
+
 
 
 

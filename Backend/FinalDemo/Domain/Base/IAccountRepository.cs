@@ -31,9 +31,12 @@ namespace Domain.Base
 
         Task<string> LockoutEnabledAsync(string userId);
         Task<string> LockoutDisabledAsync(string userId);
+
+
         //public Task<bool> CheckLockoutEnabledAsync(ApplicationUser user);
 
         Task<ApplicationUser> GetAccountByUserIdAsync(string id);
-       
+        Task<string> RemoveAccountByIdAsync(string userId);
+
     }
 }
