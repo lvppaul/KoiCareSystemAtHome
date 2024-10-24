@@ -141,14 +141,13 @@ namespace Domain.Repositories
         // RefreshTokenAsync
         public async Task<AuthenticationResponse> RefreshTokenAsync(string refreshToken)
         {
-            AuthenticationResponse response =  new AuthenticationResponse();
+            
 
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
 
             if (user == null || user.RefreshTokenExpiration <= DateTime.Now)
             {
-                response.Message = "Invalid refresh token or token has expired";
-                return response;
+                return new AuthenticationResponse { Message = "Invalid refresh token or token has expired" };
             }
 
             // Tạo Access Token mới
@@ -171,9 +170,8 @@ namespace Domain.Repositories
             user.RefreshToken = newRefreshToken;
             user.RefreshTokenExpiration = DateTime.Now.AddDays(7); // Refresh token mới có hạn 7 ngày
             await _userManager.UpdateAsync(user);
-            response.AccessToken = newAccessToken;
-            response.RefreshToken = newRefreshToken;
-            return response;
+           
+            return new AuthenticationResponse { AccessToken = newAccessToken, RefreshToken = newRefreshToken };
         }
 
 

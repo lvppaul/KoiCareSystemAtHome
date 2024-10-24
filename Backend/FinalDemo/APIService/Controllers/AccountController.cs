@@ -35,7 +35,7 @@ namespace ApiService.Controllers
         public async Task<IActionResult> RefreshTokenAsync([FromBody] string refreshToken)
         {
             var result = await _accountRepository.RefreshTokenAsync(refreshToken);
-            if(result.Message.IsNullOrEmpty()) return Unauthorized(result.Message);
+            if(!(result.Message.IsNullOrEmpty())) return Unauthorized(result.Message);
            return Ok(result);
         }
 
