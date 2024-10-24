@@ -24,6 +24,7 @@ namespace KCSAH.APIServer.Dto
             CreateMap<ProductRequestDTO, Product>().ReverseMap();
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<ProductDTO, ProductRequestDTO>().ReverseMap();
+            CreateMap<ProductUpdateDTO, Product>().ReverseMap();
             //Order
             CreateMap<Order, OrderDTO>().ReverseMap();
             CreateMap<OrderRequestDTO, Order>().ReverseMap();
@@ -57,7 +58,7 @@ namespace KCSAH.APIServer.Dto
                 .ForMember(dest => dest.Reminds, opt => opt.MapFrom(src => src.KoiReminds))
                 .ForMember(dest => dest.Records, opt => opt.MapFrom(src => src.KoiRecords))
                 ;
-
+            CreateMap<KoiUpdateDTO, Koi>().ReverseMap();
             //KoiImage
             CreateMap<KoiImageDTO, KoiImage>().ReverseMap();
             CreateMap<KoiImageDTO, KoiImageRequestDTO>().ReverseMap();

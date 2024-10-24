@@ -3,6 +3,7 @@ using Domain.Helper;
 using Domain.Models;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
+using Domain.Models.Dto.Update;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,19 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
+        [HttpGet("GetKoiByUserId/{userid}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetByIdAsync(string userid)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetByUserIdAsync(userid);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<KoiDTO> GetById(int id)
@@ -85,7 +99,7 @@ namespace KCSAH.APIServer.Controllers
 
         [HttpPut("{id}")]
         //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
-        public async Task<IActionResult> UpdateKoi(int id, [FromBody] KoiRequestDTO koidto)
+        public async Task<IActionResult> UpdateKoi(int id, [FromBody] KoiUpdateDTO koidto)
         {
             if (koidto == null)
             {

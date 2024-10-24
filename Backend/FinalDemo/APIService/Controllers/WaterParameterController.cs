@@ -42,6 +42,18 @@ namespace APIService.Controllers
             return result;
         }
 
+        [HttpGet("WaterParameterByPondId/{pondId}")]
+        public async Task<ActionResult<List<WaterParameterDTO>>> GetByPondIdAsync(int pondId)
+        {
+            var waterParameter = await _unitOfWork.WaterParameterRepository.GetByPondId(pondId);
+            if (waterParameter == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<WaterParameterDTO>>(waterParameter);
+            return result;
+        }
+
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<WaterParameterDTO> GetById(int id)
@@ -56,7 +68,7 @@ namespace APIService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<WaterParameter>> CreatePond([FromBody] WaterParameterRequestDTO waterparameterDto)
+        public async Task<ActionResult<WaterParameter>> CreateWaterParameter([FromBody] WaterParameterRequestDTO waterparameterDto)
         {
             if (waterparameterDto == null)
             {

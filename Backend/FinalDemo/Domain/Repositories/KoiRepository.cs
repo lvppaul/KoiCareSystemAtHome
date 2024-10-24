@@ -26,5 +26,11 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return result;
         }
 
+        public async Task<List<Koi>> GetByUserIdAsync(string id)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id)).ToListAsync();
+
+            return result;
+        }
     }
 }

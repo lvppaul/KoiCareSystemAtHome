@@ -1,7 +1,12 @@
 ﻿using Domain.Authentication;
 using Domain.Base;
+using Domain.Models.Dto.Response;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace ApiService.Controllers
 {
@@ -21,9 +26,19 @@ namespace ApiService.Controllers
         public async Task<IActionResult> SignIn(SignInModel model)
         {
             var result = await _accountRepository.SignInAsync(model);
-            if (!(result.Length>100)) return BadRequest(result);
+            if (!(result.Message.IsNullOrEmpty())) return BadRequest(result);
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("refresh-token")]
+        public async Task<IActionResult> RefreshTokenAsync([FromBody] string refreshToken)
+        {
+            var result = await _accountRepository.RefreshTokenAsync(refreshToken);
+            if(!(result.Message.IsNullOrEmpty())) return Unauthorized(result.Message);
+           return Ok(result);
+        }
+
 
         [HttpGet("GetUserIdByEmail/{email}")]
         public async Task<IActionResult> GetUserIdByEmailAsync(string email)
@@ -145,6 +160,14 @@ namespace ApiService.Controllers
             return Ok(result);
         }
 
+
+        [HttpPut("DeleteAccount/{userId}")]
+        public async Task<IActionResult> RemoveAccountById(string userId)
+        {
+            var result = await _accountRepository.RemoveAccountByIdAsync(userId);
+            if (!result.Equals(Success)) return BadRequest(result);
+            return Ok(result);
+        }
 
 
     }

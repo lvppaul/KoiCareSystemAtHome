@@ -7,6 +7,7 @@ using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Request;
 using Firebase.Auth;
 using Firebase.Storage;
+using Domain.Models.Dto.Update;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -117,8 +118,7 @@ namespace KCSAH.APIServer.Controllers
 
             if (product == null)
             {
-                ModelState.AddModelError("", "This category does not exist.");
-                return BadRequest(ModelState);
+                return BadRequest("This product does not exist.");
             }
 
             if (!ModelState.IsValid)
@@ -144,7 +144,7 @@ namespace KCSAH.APIServer.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductRequestDTO productdto)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductUpdateDTO productdto)
         {
             if (productdto == null)
             {
