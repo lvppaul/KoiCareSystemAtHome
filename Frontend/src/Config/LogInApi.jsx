@@ -23,6 +23,7 @@ const signUp = async (userData) => {
     }
 };
 
+// Function to sign up shop
 const signUpShop = async (userData) => {
     try {
         const response = await api.post('Account/CreateShopAccount', userData, {
@@ -31,7 +32,7 @@ const signUpShop = async (userData) => {
                 'Accept': 'application/json'
             }
         });
-
+        console.log(response);
         return response.status;
     } catch (error) {
         console.error('Error during sign-up:', error);

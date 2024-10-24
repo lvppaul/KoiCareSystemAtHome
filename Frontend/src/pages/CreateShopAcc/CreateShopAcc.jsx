@@ -9,7 +9,6 @@ import { addShop } from '../../Config/ShopApi';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-
 function CreateShopAcc() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -20,14 +19,14 @@ function CreateShopAcc() {
     const [shopName, setShopName] = useState('');
     const [phone, setPhone] = useState('');
     const [description, setDescription] = useState('This is your shop description');
-    const [userId, setUserId] = useState('');
     const [createShopError, setCreateShopError] = useState(null);
+    const [createShopSuccess, setCreateShopSuccess] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [showConfirmEmailModal, setShowConfirmEmailModal] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const handleCreateShop = (e) => {
+    const handleCreateShop = async (e) => {
         e.preventDefault();
         setLoading(true);
         const userData = { email, password, confirmPassword, firstName, lastName };
@@ -36,46 +35,40 @@ function CreateShopAcc() {
             setLoading(false);
             return;
         }
-        
-        signUpShop(userData)
-            .then((response) => {
-                if (response === 200) {
-                    getUserIdByEmail(email)
-                    .then((response) => {
-                        setUserId(response);
-                    });
-                    console.log('userId:',userId);
-                    const thumbnail = 'others/NotFound.jpg';
-                    const rating = 0;
-                    const shopData = { userId, shopName, description, phone, email, rating, thumbnail };
-                    console.log('shop:',shopData);
-                    addShop(shopData)
-                        .then((response) => {
-                            if (response.shopId) {
-                                setShowConfirmEmailModal(true);
-                            } else {
-                                setCreateShopError(response.error);
-                            }
-                        })
-                        .catch((error) => {
-                            if(error.message ==='Request failed with status code 422'){
-                                setCreateShopError('Shop name already taken');
-                                //logic to delete user
-                            } else {
-                                setCreateShopError(error.message);
-                                //logic to delete user
-                            }
-                        });
+
+        try {
+            const signUpResponse = await signUpShop(userData);
+
+            if (signUpResponse === 200) {
+                const userIdResponse = await getUserIdByEmail(email);
+                setCreateShopError(null);
+                setCreateShopSuccess(signUpResponse);
+                const thumbnail = 'others/NotFound.jpg';
+                const rating = 0;
+                const shopData = { userId: userIdResponse, shopName, description, phone, email, rating, thumbnail };
+                console.log('shop:', shopData);
+
+                const addShopResponse = await addShop(shopData);
+
+                if (addShopResponse.shopId) {
+                    setShowConfirmEmailModal(true);
                 } else {
-                    setCreateShopError(response);
+                    setCreateShopError(addShopResponse.error);
                 }
-            })
-            .catch((error) => {
+            } else {
+                setCreateShopError(signUpResponse);
+            }
+        } catch (error) {
+            if (error.message === 'Request failed with status code 422') {
+                setCreateShopError('Shop name already taken');
+                // logic to delete user
+            } else {
                 setCreateShopError(error.message);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+                // logic to delete user
+            }
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -273,6 +266,7 @@ function CreateShopAcc() {
                                         </Col>
                                     </Row>
                                     {createShopError && <p className="error-message mt-3">{createShopError}</p>}
+                                    {createShopSuccess && <p className="success-message mt-3">{createShopSuccess}</p>}
                                 </Col>
                             </Row>
                         </Form>

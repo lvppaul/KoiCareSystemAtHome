@@ -32,7 +32,7 @@ function Login() {
         } else {
           navigate('/');
         }
-      } if (response === 'You must confirm your email before login') {
+      } if (response === "Confirm Your Email") {
         setErr(response ? response : 'No response from server');
         setShowConfirmLink(true);
       } else {

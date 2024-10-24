@@ -16,6 +16,7 @@ const getShop = async () => {
     }
 }
 
+// Function to add a shop
 const addShop = async (data) => {
     try {
         const response = await api.post('Shop', data, {

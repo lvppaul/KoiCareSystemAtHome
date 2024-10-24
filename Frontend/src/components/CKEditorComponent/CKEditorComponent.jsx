@@ -68,14 +68,13 @@ const CKEditorComponent = forwardRef(({ value, onChange, uploadPath, onImageUplo
                 extraPlugins: [CustomUploadAdapterPlugin],
                 toolbar: [
                     'heading', '|', 
-                    'bold', 'italic', 'underline', 'strikethrough', '|', 
+                    'bold', 'italic','|', 
                     'fontSize', 'highlight', '|',
                     'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 
                     'imageUpload', '|', 
                     'undo', 'redo', '|',
-                    'alignment', 'outdent', 'indent', 'blockQuote', '|',
-                    'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
-                    'codeBlock', 'horizontalLine', 'removeFormat'
+                    'alignment:left', 'alignment:center', 'alignment:right', 'alignment:justify', '|',
+                    'removeFormat'
                 ],
                 alignment: {
                     options: [ 'left', 'center', 'right', 'justify' ]

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Card, CardImg, ListGroup, Button, Table, Row, Col } from 'react-bootstrap';
 import { getShopByUserId } from '../../Config/ShopApi';
-import { getProductsByShopId } from '../../Config/ProductApi';
+import { getProductsByShopId, addProduct } from '../../Config/ProductApi';
 import UpdateShopDetails from '../../components/UpdateShopDetails/UpdateShopDetails';
 import UpdateShopProducts from '../../components/UpdateShopProducts/UpdateShopProducts';
 import AddNewProduct from '../../components/AddNewProduct/AddNewProduct';
@@ -78,8 +78,13 @@ const ManageShop = () => {
         setProducts(products.filter(product => product.productId !== productId));
     };
 
-    const handleAddProduct = (newProduct) => {
-        setProducts([...products, { ...newProduct, userId }]);
+    const handleAddProduct = async (newProduct) => {
+        try {
+            const addedProduct = await addProduct(newProduct);
+            setProducts([...products, addedProduct]);
+        } catch (error) {
+            console.error('Error adding product:', error);
+        }
     };
 
     if (loading) {
@@ -178,6 +183,7 @@ const ManageShop = () => {
                 show={showAddProductModal}
                 handleClose={() => setShowAddProductModal(false)}
                 handleAddProduct={handleAddProduct}
+                shopId={shop.shopId}
             />
         </Container>
     );
