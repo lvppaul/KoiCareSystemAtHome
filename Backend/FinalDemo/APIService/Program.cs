@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Domain.Base;
 using Domain.Models.Entity;
 using Domain.Repositories;
@@ -18,6 +19,11 @@ using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+var keyVaultURL = new Uri(builder.Configuration["KeyVaultURL"]);
+var azureCredential = new DefaultAzureCredential();
+builder.Configuration.AddAzureKeyVault(keyVaultURL, azureCredential);
+var authenticationId = builder.Configuration["testKoiId"];
+var authenticationSecret = builder.Configuration["testKoiSecret"];
 
 // Add services to the container.
 builder.Services.AddAuthentication(options =>
@@ -29,8 +35,8 @@ builder.Services.AddAuthentication(options =>
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
 }).AddGoogle(GoogleDefaults.AuthenticationScheme, googleOptions =>
 {
-    googleOptions.ClientId = builder.Configuration["Authentication:GoogleKeys:ClientId"];
-    googleOptions.ClientSecret = builder.Configuration["Authentication:GoogleKeys:ClientSecret"];
+    googleOptions.ClientId = authenticationId;
+    googleOptions.ClientSecret = authenticationSecret;
 });
 
 builder.Services.AddControllers();
