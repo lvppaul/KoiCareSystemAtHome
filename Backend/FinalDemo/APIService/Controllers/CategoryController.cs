@@ -58,7 +58,7 @@ namespace KCSAH.APIServer.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = AppRole.Shop)]
+        //[Authorize(Roles = AppRole.Shop)]
         public async Task<ActionResult<Category>> CreateCategory([FromBody] CategoryRequestDTO category)
         {
             if (category == null)
@@ -91,7 +91,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = AppRole.Shop)]
+        //[Authorize(Roles = AppRole.Shop)]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryRequestDTO categoryDto)
         {
             if (categoryDto == null)
@@ -123,7 +123,7 @@ namespace KCSAH.APIServer.Controllers
 
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = AppRole.Shop)]
+        //[Authorize(Roles = AppRole.Shop)]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(id);

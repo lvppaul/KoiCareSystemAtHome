@@ -114,7 +114,7 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            var product = await _unitOfWork.ProductRepository.GetByIdAsync(productdto.CategoryId);
+            var product = await _unitOfWork.ProductRepository.GetProductByCategoryId(productdto.CategoryId);
 
             if (product == null)
             {
@@ -128,7 +128,7 @@ namespace KCSAH.APIServer.Controllers
 
             // Ánh xạ từ ProductDTO sang Product và liên kết với danh mục đã có hoặc mới tạo
             var productMap = _mapper.Map<Product>(productdto);
-            productMap.CategoryId = product.CategoryId;  // Liên kết với danh mục hiện tại
+            productMap.CategoryId = productdto.CategoryId;  // Liên kết với danh mục hiện tại
 
             var createResult = await _unitOfWork.ProductRepository.CreateAsync(productMap);
 
@@ -138,7 +138,7 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
             var productShow = _mapper.Map<ProductDTO>(productMap);
-            return CreatedAtAction("GetById",new { id = productShow.ProductId }, productShow);
+            return CreatedAtAction("GetById", new { id = productShow.ProductId }, productShow);
         }
 
 

@@ -55,7 +55,7 @@ const signIn = async (credentials) => {
             }
         });
 
-        const decoded = jwtDecode(response.data);
+        const decoded = jwtDecode(response.data.accessToken);
         const email = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
         const userId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
         const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
@@ -67,7 +67,7 @@ const signIn = async (credentials) => {
         console.error('Error during sign-in:', error);
         if (error.response) {
             console.error('Error response data:', error.response.data);
-            return error.response.data;
+            return error.response.data.message;
         } else {
             return { error: 'Unknown error occurred' };
         }
