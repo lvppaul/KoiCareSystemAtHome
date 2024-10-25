@@ -19,25 +19,15 @@ using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-var keyVaultURL = new Uri(builder.Configuration["KeyVaultURL"]);
-var azureCredential = new DefaultAzureCredential();
-builder.Configuration.AddAzureKeyVault(keyVaultURL, azureCredential);
-var authenticationId = builder.Configuration["testKoiId"];
-var authenticationSecret = builder.Configuration["testKoiSecret"];
+//var keyVaultURL = new Uri(builder.Configuration["KeyVaultURL"]);
+//var azureCredential = new DefaultAzureCredential();
+//builder.Configuration.AddAzureKeyVault(keyVaultURL, azureCredential);
+//var authenticationId = builder.Configuration["testKoiId"];
+//var authenticationSecret = builder.Configuration["testKoiSecret"];
+//var authenticationFirebase = builder.Configuration["FirebaseId"];
+
 
 // Add services to the container.
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-}).AddCookie(options =>
-{
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-}).AddGoogle(GoogleDefaults.AuthenticationScheme, googleOptions =>
-{
-    googleOptions.ClientId = authenticationId;
-    googleOptions.ClientSecret = authenticationSecret;
-});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -71,7 +61,8 @@ builder.Services.AddSwaggerGen(option =>
 });
 FirebaseApp.Create(new AppOptions()
 {
-    Credential = GoogleCredential.FromJson(@"{
+    Credential = GoogleCredential.FromJson(
+        @"{
       ""type"": ""service_account"",
   ""project_id"": ""koi-care-system-at-home-32e49"",
   ""private_key_id"": ""4d9429749fb003de05ead8303d15fba2b8346f87"",
