@@ -29,8 +29,8 @@ builder.Services.AddAuthentication(options =>
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
 }).AddGoogle(GoogleDefaults.AuthenticationScheme, googleOptions =>
 {
-    googleOptions.ClientId = "589677478934-90332ji6u5kunmncflrd964sjo4il9t8.apps.googleusercontent.com";
-    googleOptions.ClientSecret = "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";
+    googleOptions.ClientId = builder.Configuration["Authentication:GoogleKeys:ClientId"];
+    googleOptions.ClientSecret = builder.Configuration["Authentication:GoogleKeys:ClientSecret"];
 });
 
 builder.Services.AddControllers();
