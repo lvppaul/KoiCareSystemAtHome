@@ -125,10 +125,10 @@ const Pond = () => {
                         {loading ? <Spinner animation="border" /> : currentPonds.map((pond) => (
                             pond && pond.pondId ? (
                                 <Col key={pond.pondId} xs={12} sm={6} md={4} lg={4} className="d-flex align-items-stretch">
-                                    <Card   className='pond-card'>
+                                    <Card   className='pond-card w-100'>
                                         <Link to={`/ponddetail/${pond.pondId}`} style={{ textDecoration: 'none' }}>
-                                            <Card.Body>
-                                                <Card.Img variant="header" src={pond.thumbnail} />
+                                            <Card.Body style={{justifyContent:'flex-start'}} >
+                                                <Card.Img  src={pond.thumbnail} style={{display:'flex'}} />
                                             </Card.Body>
                                             <Card.Body style={{ textAlign: 'center' }}>
                                                 <h5 style={{ color: 'black' }}>{pond.name}</h5>

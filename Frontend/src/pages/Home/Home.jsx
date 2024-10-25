@@ -27,7 +27,7 @@ const Home = () => {
               <p>
                 This website is designed for Koi enthusiasts, offering features to assist with feeding, pond maintenance, and health monitoring, helping ensure your Koi thrive.
               </p>
-              <Button class="get-sta ted" variant="primary" onClick={() => {user ?  navigate('pond') : navigate('login')} } >Get Started</Button>
+              <Button className="get-sta ted" variant="primary" onClick={() => {user ?  navigate('pond') : navigate('login')} } >Get Started</Button>
             </div>
             </Col>
             <Col md={8} className="image-section">

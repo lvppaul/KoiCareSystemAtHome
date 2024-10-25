@@ -27,7 +27,7 @@ function CreateShopAcc() {
     const [showConfirmEmailModal, setShowConfirmEmailModal] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const handleCreateShop = (e) => {
+    const handleCreateShop = async (e) => {
         e.preventDefault();
         setLoading(true);
         const userData = { email, password, confirmPassword, firstName, lastName };
@@ -36,7 +36,7 @@ function CreateShopAcc() {
             setLoading(false);
             return;
         }
-        signUpShop(userData)
+        await signUpShop(userData)
         .then((response) => {
             if (response !== 200) {
                 setCreateShopError(response);

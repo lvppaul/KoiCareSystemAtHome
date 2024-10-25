@@ -99,7 +99,7 @@ const KoiDetail = () => {
           </ul>
 
           {/* Growth History */}
-          <h4>Growth history</h4>
+          <h1 style={{fontWeight:'bold'}}>Growth history</h1>
           <GrowHistory
             show={showGrowHistory}
             setShow={setShowGrowHistory}
