@@ -18,9 +18,9 @@ namespace Domain.Base
         Task<ConfirmEmailResponse> SignUpAsync(SignUpModel model);
         Task<AuthenticationResponse> RefreshTokenAsync(string refreshToken);
 
-        Task<string> CreateShopAccount(SignUpModel model); 
-        Task<string> CreateVipAccount(SignUpModel model);
-        Task<string> CreateAdminAccount(SignUpModel model);
+        Task<ConfirmEmailResponse> CreateShopAccount(SignUpModel model); 
+        Task<ConfirmEmailResponse> CreateVipAccount(SignUpModel model);
+        Task<ConfirmEmailResponse> CreateAdminAccount(SignUpModel model);
 
         Task<string> RequestPasswordResetAsync(string email);
         Task<string> ResetPasswordAsync(string email, string token, NewPasswordModel model);

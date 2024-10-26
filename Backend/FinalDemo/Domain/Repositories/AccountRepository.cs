@@ -282,7 +282,7 @@ namespace Domain.Repositories
 
         }
 
-        public async Task<string> CreateVipAccount(SignUpModel model)
+        public async Task<ConfirmEmailResponse> CreateVipAccount(SignUpModel model)
         {
             var user = new ApplicationUser
             {
@@ -296,7 +296,7 @@ namespace Domain.Repositories
             {
                 foreach (var claim in result.Errors)
                 {
-                    return claim.Description;
+                    return new ConfirmEmailResponse { Message = claim.Description };
                 }
             }
             // role
@@ -309,13 +309,13 @@ namespace Domain.Repositories
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
             var encodedToken = HttpUtility.UrlEncode(emailCode);
-           SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
-           
-            return Success;
+            SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
+
+            return new ConfirmEmailResponse { Email = createdUser.Email, ConfirmToken = emailCode };
 
         }
 
-        public async Task<string> CreateShopAccount(SignUpModel model)
+        public async Task<ConfirmEmailResponse> CreateShopAccount(SignUpModel model)
         {
             var user = new ApplicationUser
             {
@@ -329,7 +329,7 @@ namespace Domain.Repositories
             {
                 foreach (var claim in result.Errors)
                 {
-                    return claim.Description;
+                    return new ConfirmEmailResponse { Message = claim.Description };
                 }
             }
             // role
@@ -342,13 +342,13 @@ namespace Domain.Repositories
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
             var encodedToken = HttpUtility.UrlEncode(emailCode);
-             SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
-            
-            return Success;
+            SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
+
+            return new ConfirmEmailResponse { Email = createdUser.Email, ConfirmToken = emailCode };
 
         }
 
-        public async Task<string> CreateAdminAccount(SignUpModel model)
+        public async Task<ConfirmEmailResponse> CreateAdminAccount(SignUpModel model)
         {
             var user = new ApplicationUser
             {
@@ -362,22 +362,19 @@ namespace Domain.Repositories
             {
                 foreach (var claim in result.Errors)
                 {
-                    return claim.Description;
+                    return new ConfirmEmailResponse { Message = claim.Description };
                 }
             }
             // role
-            if (!await _roleManager.RoleExistsAsync(AppRole.Member))
+            if (!await _roleManager.RoleExistsAsync(AppRole.Admin))
             {
-                await _roleManager.CreateAsync(new IdentityRole(AppRole.Member));
+                await _roleManager.CreateAsync(new IdentityRole(AppRole.Admin));
             }
-            await _userManager.AddToRoleAsync(user, AppRole.Member);
-            // email
-            //var createdUser = await _userManager.FindByEmailAsync(user.Email);
-            //var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
-            //var encodedToken = HttpUtility.UrlEncode(emailCode);
-            //string sendEmail = SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
-            //if (!sendEmail.Equals(Success)) return "Your email is not exist";
-            return Success;
+            await _userManager.AddToRoleAsync(user, AppRole.Admin);
+            var createdUser = await _userManager.FindByEmailAsync(user.Email);
+            var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
+
+            return new ConfirmEmailResponse { Email = createdUser!.Email, ConfirmToken = emailCode };
 
         }
 
