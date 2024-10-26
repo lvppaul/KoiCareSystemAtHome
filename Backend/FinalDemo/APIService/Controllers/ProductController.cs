@@ -138,7 +138,7 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
             var productShow = _mapper.Map<ProductDTO>(productMap);
-            return CreatedAtAction("GetById",new { id = productShow.ProductId }, productShow);
+            return CreatedAtAction("GetById", new { id = productShow.ProductId }, productShow);
         }
 
 

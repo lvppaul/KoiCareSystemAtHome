@@ -1,6 +1,6 @@
 --drop database KoiCareSystemAtHome;
 
-use KoiCareSystemAtHome2;
+use KoiCareSystemAtHome;
 
 --Disable Foreign Key Constraints
 --EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL';
@@ -30,7 +30,7 @@ VALUES
 ('156e10b8-ca91-4925-938f-1d872a357ebe', 'member', 'a', NULL, NULL, NULL, NULL, NULL, 'member@example.com', 'MEMBER@EXAMPLE.COM', 'member@example.com', 'MEMBER@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEIu0gnPvb0zhWrk4NNA3wEMiOewPTGZLrYqgAOJs5OwUbuKXyPKTBekE9OveJ020gg==', 'RWVHVDP7IWP22CE4U3VXIEKH4ZOXHD2W', '71aae56b-e997-4ae0-8215-2e0f71381a88', NULL, 0, 0, NULL, 1, 0),
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip', 'b', NULL, NULL, NULL, NULL, NULL, 'vip@example.com', 'VIP@EXAMPLE.COM', 'vip@example.com', 'VIP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', NULL, 0, 0, NULL, 1, 0),
 ('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'admin', 'd', NULL, NULL, NULL, NULL, NULL, 'admin@example.com', 'ADMIN@EXAMPLE.COM', 'admin@example.com', 'ADMIN@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMSsXYBri40up6lHG2s0YHq4+fVyvxAGIKkIXHGh1lHXfFRNq79FWJ/oka/KX0OusA==', 'UF5GBLSGV3DSLXRSIDKRAXKGEEIIM3TL', '82c5fd3e-d565-43d1-a031-8af185d68916', NULL, 0, 0, NULL, 1, 0),
-('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'sho2p', 'c2', NULL, NULL, NULL, NULL, NULL, 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEAAinoUzd5JbC2ZXIsjuzrMAwLklvMaW0XlwQpaoRZHof+FMlGnMJSiNThEoQJ3C/Q==', '5YQ266SGHHXQ2W3KRSLNZKZSM7BB4XWC', 'fbd64607-02bd-47ca-8cb3-22d7c2f6a6c8', NULL, 0, 0, NULL, 1, 0),
+('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'shop', 'c2', NULL, NULL, NULL, NULL, NULL, 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEAAinoUzd5JbC2ZXIsjuzrMAwLklvMaW0XlwQpaoRZHof+FMlGnMJSiNThEoQJ3C/Q==', '5YQ266SGHHXQ2W3KRSLNZKZSM7BB4XWC', 'fbd64607-02bd-47ca-8cb3-22d7c2f6a6c8', NULL, 0, 0, NULL, 1, 0),
 ('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'shop', 'c', NULL, NULL, NULL, NULL, NULL, 'shop@example.com', 'SHOP@EXAMPLE.COM', 'shop@example.com', 'SHOP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMFEM383aESJByWGKS3TlzTnvQdLT1LzwWblpe2+AzVDIOIBfUqsZHnQkzC1oSo72g==', '5CIZCKPIKKLLFBIRJDJHT45DZ3V7DL2Q', '98bef99c-d585-4b37-be2d-6e57540bb48b', NULL, 0, 0, NULL, 1, 0);
 
 --All roles password: Abc@123

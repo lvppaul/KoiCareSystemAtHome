@@ -22,6 +22,7 @@ using Domain.Models.Entity;
 using System.Security.Cryptography;
 using Domain.Models.Dto.Response;
 using Microsoft.EntityFrameworkCore;
+using FirebaseAdmin.Auth;
 
 namespace Domain.Repositories
 {
@@ -35,6 +36,8 @@ namespace Domain.Repositories
         private static string noInfor = "Fields must not be blank";
         private static string notConfirmEmail = "Confirm Your Email";
         private static string wrongPass = "Wrong password";
+        private static string failCreateUser = "Fail Create User";
+        private static string GmailLoginFail = "Fail Login Gmail";
 
         public AccountRepository(UserManager<ApplicationUser> userManager,
             IConfiguration configuration,
@@ -73,6 +76,68 @@ namespace Domain.Repositories
 
         //    return token;
         //}
+        public async Task<AuthenticationResponse> GmailSignIn(TokenRequest firebaseToken)
+        {
+            try
+            {
+                // Verify the Firebase token
+                FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance
+                    .VerifyIdTokenAsync(firebaseToken.Token);
+                string uid = decodedToken.Uid;
+                string email = decodedToken.Claims["email"].ToString();
+                string name = decodedToken.Claims["name"].ToString();
+                int indexLastName = name.LastIndexOf(" ");
+                string LastName = name.Substring(indexLastName + 1);
+                string FirstName = name.Substring(0, indexLastName);
+
+                // Check if the user exists in your database
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    // Create a new user if they don't exist
+                    user = new ApplicationUser
+                    {
+                        UserName = email,
+                        Email = email,
+                        LastName = LastName,
+                        FirstName = FirstName,
+                        EmailConfirmed = true,
+                    };
+                    var result = await _userManager.CreateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        return new AuthenticationResponse { Message = failCreateUser };
+                    }
+                    await _userManager.AddToRoleAsync(user, AppRole.Member);
+                }
+                var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
+            };
+
+                var userRoles = await _userManager.GetRolesAsync(user);
+                foreach (var role in userRoles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+                }
+                // Generate your own JWT token
+                var token = GenerateJwtToken(claims);
+                string refreshToken = GenerateRefreshToken();
+
+                // Lưu Refresh Token vào bảng User
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiration = DateTime.Now.AddDays(7); // Ví dụ: refresh token có hạn 7 ngày
+                await _userManager.UpdateAsync(user);
+
+                return new AuthenticationResponse { AccessToken = token, RefreshToken = refreshToken };
+            }
+            catch (FirebaseAuthException ex)
+            {
+                return new AuthenticationResponse { Message = GmailLoginFail }; ;
+            }
+        }
 
         public async Task<AuthenticationResponse> SignInAsync(SignInModel model)
         {
@@ -184,7 +249,7 @@ namespace Domain.Repositories
             return uid;
         }
 
-        public async Task<string> SignUpAsync(SignUpModel model)
+        public async Task<ConfirmEmailResponse> SignUpAsync(SignUpModel model)
         {
             var user = new ApplicationUser
             {
@@ -198,7 +263,7 @@ namespace Domain.Repositories
             {
                 foreach (var claim in result.Errors)
                 {
-                    return claim.Description;
+                    return new ConfirmEmailResponse{ Message=claim.Description };
                 }
             }
             // role
@@ -211,13 +276,13 @@ namespace Domain.Repositories
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
             var encodedToken = HttpUtility.UrlEncode(emailCode);
-            string sendEmail = SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
-            if (!sendEmail.Equals(Success)) return "Fail to send email";
-            return Success;
+           SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
+
+            return new ConfirmEmailResponse { Email = createdUser.Email, ConfirmToken = emailCode };
 
         }
 
-        public async Task<string> CreateVipAccount(SignUpModel model)
+        public async Task<ConfirmEmailResponse> CreateVipAccount(SignUpModel model)
         {
             var user = new ApplicationUser
             {
@@ -231,7 +296,7 @@ namespace Domain.Repositories
             {
                 foreach (var claim in result.Errors)
                 {
-                    return claim.Description;
+                    return new ConfirmEmailResponse { Message = claim.Description };
                 }
             }
             // role
@@ -244,13 +309,13 @@ namespace Domain.Repositories
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
             var encodedToken = HttpUtility.UrlEncode(emailCode);
-            string sendEmail = SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
-            if (!sendEmail.Equals(Success)) return "Fail to send email";
-            return Success;
+            SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
+
+            return new ConfirmEmailResponse { Email = createdUser.Email, ConfirmToken = emailCode };
 
         }
 
-        public async Task<string> CreateShopAccount(SignUpModel model)
+        public async Task<ConfirmEmailResponse> CreateShopAccount(SignUpModel model)
         {
             var user = new ApplicationUser
             {
@@ -264,7 +329,7 @@ namespace Domain.Repositories
             {
                 foreach (var claim in result.Errors)
                 {
-                    return claim.Description;
+                    return new ConfirmEmailResponse { Message = claim.Description };
                 }
             }
             // role
@@ -277,13 +342,13 @@ namespace Domain.Repositories
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
             var encodedToken = HttpUtility.UrlEncode(emailCode);
-            string sendEmail = SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
-            if (!sendEmail.Equals(Success)) return "Fail to send email";
-            return Success;
+            SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
+
+            return new ConfirmEmailResponse { Email = createdUser.Email, ConfirmToken = emailCode };
 
         }
 
-        public async Task<string> CreateAdminAccount(SignUpModel model)
+        public async Task<ConfirmEmailResponse> CreateAdminAccount(SignUpModel model)
         {
             var user = new ApplicationUser
             {
@@ -297,26 +362,23 @@ namespace Domain.Repositories
             {
                 foreach (var claim in result.Errors)
                 {
-                    return claim.Description;
+                    return new ConfirmEmailResponse { Message = claim.Description };
                 }
             }
             // role
-            if (!await _roleManager.RoleExistsAsync(AppRole.Member))
+            if (!await _roleManager.RoleExistsAsync(AppRole.Admin))
             {
-                await _roleManager.CreateAsync(new IdentityRole(AppRole.Member));
+                await _roleManager.CreateAsync(new IdentityRole(AppRole.Admin));
             }
-            await _userManager.AddToRoleAsync(user, AppRole.Member);
-            // email
-            //var createdUser = await _userManager.FindByEmailAsync(user.Email);
-            //var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
-            //var encodedToken = HttpUtility.UrlEncode(emailCode);
-            //string sendEmail = SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
-            //if (!sendEmail.Equals(Success)) return "Your email is not exist";
-            return Success;
+            await _userManager.AddToRoleAsync(user, AppRole.Admin);
+            var createdUser = await _userManager.FindByEmailAsync(user.Email);
+            var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
+
+            return new ConfirmEmailResponse { Email = createdUser!.Email, ConfirmToken = emailCode };
 
         }
 
-        public string SendEmailConfirmEmail(string email, string emailCode)
+        private void SendEmailConfirmEmail(string email, string emailCode)
         {
             string confirmLink = $"https://localhost:7031//account/reset-password/{emailCode}";
             StringBuilder emailMessage = new StringBuilder();
@@ -349,7 +411,7 @@ namespace Domain.Repositories
             smtp.Send(_email);
             smtp.Disconnect(true);
 
-            return Success;
+            
         }
 
         public async Task<string> ConfirmEmailAsync(string email, string code)
