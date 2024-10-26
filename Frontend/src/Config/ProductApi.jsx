@@ -118,9 +118,25 @@ const getProductImagesByProductId = async (productId) => {
         console.error(`Error fetching product image with productId ${productId}:`, error);
         throw error;
     }
-}
+};
+
+// Function to add product images
+const addProductImages = async (data) => {
+    try {
+        const response = await api.post('ProductImage', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error adding product image:', error);
+        throw error;
+    }
+};
 
 export {
     getProducts, addProduct, updateProduct, deleteProduct,
-    getProductById, getProductsByShopId, getProductsByCategoryId, getProductImagesByProductId
+    getProductById, getProductsByShopId, getProductsByCategoryId, getProductImagesByProductId,
+    addProductImages
 };

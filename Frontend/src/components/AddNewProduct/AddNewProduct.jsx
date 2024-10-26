@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 import { useAuth } from "../../pages/Login/AuthProvider";
 import { getCategories } from "../../Config/CategoryApi";
-import { useParams } from "react-router-dom";
 
 const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
     const initProduct = {
@@ -13,7 +12,7 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
         quantity: 0,
         price: 0,
         status: true,
-        categoryId: 0,
+        categoryId: "",
         shopId: shopId,
         thumbnail: "others/NotFound.jpg",
     };
@@ -21,6 +20,8 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
     const [previewThumbnail, setPreviewThumbnail] = useState("");
     const [thumbnailFile, setThumbnailFile] = useState(null);
     const [thumbnailRef, setThumbnailRef] = useState(null);
+    const [previewImages, setPreviewImages] = useState([]);
+    const [imageFiles, setImageFiles] = useState([]);
     const [categories, setCategories] = useState([]);
 
     const { user } = useAuth();
@@ -50,7 +51,7 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
             const previewUrl = URL.createObjectURL(file);
             const storageRef = ref(
                 storage,
-                `product/productThumbnails/${userId}/${file.name + Date.now()}`
+                `product/productThumbnails/${userId}/${file.name}_${Date.now()}`
             );
             try {
                 setThumbnailFile(file);
@@ -63,21 +64,31 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
         }
     };
 
+    const handleImagesChange = (e) => {
+        const files = Array.from(e.target.files).filter(file => file && file.type.startsWith("image/"));
+        const previewUrls = files.map(file => URL.createObjectURL(file));
+        try {
+            setImageFiles(files);
+            setPreviewImages(previewUrls);
+        } catch (error) {
+            console.error("Error uploading images:", error);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             if (thumbnailFile) {
                 await uploadBytes(thumbnailRef, thumbnailFile);
-                const newThumbnail = await getDownloadURL(
-                    ref(storage, newProduct.thumbnail)
-                );
-                newProduct.thumbnail = newThumbnail;
             }
-            handleAddProduct(newProduct);
+            
+            handleAddProduct(newProduct, imageFiles);
             setNewProduct(initProduct);
             setPreviewThumbnail("");
             setThumbnailFile(null);
             setThumbnailRef(null);
+            setPreviewImages([]);
+            setImageFiles([]);
             handleClose();
         } catch (error) {
             console.error("Error adding product:", error);
@@ -91,7 +102,7 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="formProductThumbnail" className="mb-3">
+                    <Form.Group controlId="formProductThumbnail" className="mb-3">
                         <Form.Label>Product Thumbnail</Form.Label>
                         <Form.Control
                             type="file"
@@ -114,6 +125,7 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
                             name="name"
                             value={newProduct.name}
                             onChange={handleChange}
+                            required
                         />
                     </Form.Group>
                     <Form.Group controlId="formProductDescription" className="mb-3">
@@ -163,6 +175,7 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
                             name="categoryId"
                             value={newProduct.categoryId}
                             onChange={handleChange}
+                            required
                         >
                             <option value="">Select Category</option>
                             {categories.map(category => (
@@ -171,6 +184,23 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
                                 </option>
                             ))}
                         </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId="formProductImages" className="mb-3">
+                        <Form.Label>Product Images</Form.Label>
+                        <Form.Control
+                            type="file"
+                            accept="image/*"
+                            multiple
+                            onChange={handleImagesChange}
+                        />
+                        {previewImages.map((url, index) => (
+                            <img
+                                key={index}
+                                src={url}
+                                alt={`Product Image: ${index + 1}`}
+                                style={{ width: "100px", margin: "5px" }}
+                            />
+                        ))}
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Add Product

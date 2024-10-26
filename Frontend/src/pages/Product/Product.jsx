@@ -8,7 +8,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 
 const Product = () => {
   const { productId } = useParams();
-  const [ProductImage, setProductImage] = useState([]);
+  const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [carouselLoading, setCarouselLoading] = useState(true);
@@ -30,7 +30,7 @@ const Product = () => {
         }
         return image;
       }));
-      setProductImage(updatedImages);
+      setProductImages(updatedImages);
       setCarouselLoading(false);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -79,7 +79,7 @@ const Product = () => {
                 </div>
               ) : (
                 <Carousel variant="dark">
-                  {ProductImage.map((productImage) => (
+                  {productImages.map((productImage) => (
                     <Carousel.Item key={productImage.imageId}>
                       <Image src={productImage.imageUrl} alt={`${product.name} image ${productImage.imageId}`} fluid />
                     </Carousel.Item>
