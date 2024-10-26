@@ -7,6 +7,8 @@ using Domain.Models.Entity;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Update;
+using Domain.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -57,6 +59,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("ListKoiInPond/{id}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> GetFishInPond(int id)
         {
             var result = await _getService.GetKoiInPond(id);
@@ -69,6 +72,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("GetPondsByUserId/{id}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> GetPondByUserIdAsync(string id)
         {
             var result = await _getService.GetPondByUserIdAsync(id);
@@ -92,6 +96,7 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
         [HttpPost]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<ActionResult<Pond>> CreatePond([FromBody] PondRequestDTO ponddto)
         {
             if (ponddto == null)
@@ -123,6 +128,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpPut("{id}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> UpdatePond(int id, [FromBody] PondUpdateDTO ponddto)
         {
             if (ponddto == null)
@@ -151,6 +157,7 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> DeletePond(int id)
         {
             var pond = await _unitOfWork.PondRepository.GetByIdAsync(id);
