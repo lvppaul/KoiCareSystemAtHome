@@ -28,7 +28,7 @@ namespace ApiService.Controllers
         public async Task<IActionResult> SignIn(SignInModel model)
         {
             var result = await _accountRepository.SignInAsync(model);
-            if (!(result.Message.IsNullOrEmpty())) return BadRequest(result);
+            if (!result.Message.IsNullOrEmpty()) return BadRequest(result);
             return Ok(result);
         }
 
@@ -68,8 +68,8 @@ namespace ApiService.Controllers
         public async Task<IActionResult> SignUp(SignUpModel model)
         {
             var result = await _accountRepository.SignUpAsync(model);
-            if (!result.Equals(Success)) return BadRequest(result);
-            return Ok("Create Successfully. Next, confirm your email before login.");
+            if (!result.Message.IsNullOrEmpty()) return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPost("CreateVipAccount")]

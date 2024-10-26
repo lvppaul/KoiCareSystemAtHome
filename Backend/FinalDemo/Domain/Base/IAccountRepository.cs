@@ -15,7 +15,7 @@ namespace Domain.Base
     {
         Task<AuthenticationResponse> SignInAsync(SignInModel model);
         Task<string> GetUserIdByEmailAsync(string email);
-        Task<string> SignUpAsync(SignUpModel model);
+        Task<ConfirmEmailResponse> SignUpAsync(SignUpModel model);
         Task<AuthenticationResponse> RefreshTokenAsync(string refreshToken);
 
         Task<string> CreateShopAccount(SignUpModel model); 

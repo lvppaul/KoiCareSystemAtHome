@@ -1,4 +1,3 @@
-using Azure.Identity;
 using Domain.Base;
 using Domain.Models.Entity;
 using Domain.Repositories;
@@ -6,15 +5,12 @@ using Domain.Services;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using KCSAH.APIServer.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SWP391.KCSAH.Repository;
-using SWP391.KCSAH.Repository.KCSAH.Repository;
 using System.Text;
 using System.Text.Json.Serialization;
 

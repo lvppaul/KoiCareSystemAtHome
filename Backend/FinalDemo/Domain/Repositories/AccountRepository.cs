@@ -249,7 +249,7 @@ namespace Domain.Repositories
             return uid;
         }
 
-        public async Task<string> SignUpAsync(SignUpModel model)
+        public async Task<ConfirmEmailResponse> SignUpAsync(SignUpModel model)
         {
             var user = new ApplicationUser
             {
@@ -263,7 +263,7 @@ namespace Domain.Repositories
             {
                 foreach (var claim in result.Errors)
                 {
-                    return claim.Description;
+                    return new ConfirmEmailResponse{ Message=claim.Description };
                 }
             }
             // role
@@ -276,9 +276,9 @@ namespace Domain.Repositories
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
             var encodedToken = HttpUtility.UrlEncode(emailCode);
-            string sendEmail = SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
-            if (!sendEmail.Equals(Success)) return "Fail to send email";
-            return Success;
+           SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
+
+            return new ConfirmEmailResponse { Email = createdUser.Email, ConfirmToken = emailCode };
 
         }
 
@@ -309,8 +309,8 @@ namespace Domain.Repositories
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
             var encodedToken = HttpUtility.UrlEncode(emailCode);
-            string sendEmail = SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
-            if (!sendEmail.Equals(Success)) return "Fail to send email";
+           SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
+           
             return Success;
 
         }
@@ -342,8 +342,8 @@ namespace Domain.Repositories
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
             var encodedToken = HttpUtility.UrlEncode(emailCode);
-            string sendEmail = SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
-            if (!sendEmail.Equals(Success)) return "Fail to send email";
+             SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
+            
             return Success;
 
         }
@@ -381,7 +381,7 @@ namespace Domain.Repositories
 
         }
 
-        public string SendEmailConfirmEmail(string email, string emailCode)
+        private void SendEmailConfirmEmail(string email, string emailCode)
         {
             string confirmLink = $"https://localhost:7031//account/reset-password/{emailCode}";
             StringBuilder emailMessage = new StringBuilder();
@@ -414,7 +414,7 @@ namespace Domain.Repositories
             smtp.Send(_email);
             smtp.Disconnect(true);
 
-            return Success;
+            
         }
 
         public async Task<string> ConfirmEmailAsync(string email, string code)
