@@ -79,28 +79,28 @@ const Navigationbar = () => {
                 className="me-2 rounded-pill"
               />
             </Form>
-            <NavDropdown title={<BiUserCircle size={50} />} id="basic-nav-dropdown">    
+            <NavDropdown style={{ position: 'relative' }} title={<BiUserCircle size={50} />} id="basic-nav-dropdown">
                 {user ? (
                   <>
-                  <NavDropdown.Item onClick={handleLogOut}>
-                    Log out
-                  </NavDropdown.Item>
-                  <hr />
-                  <NavDropdown.Item style={{fontWeight: 'bold', color: 'black'}} disabled>
-                    Role: {user.role} <br />
-                    Email: {user.email}
-                  </NavDropdown.Item>
+                    <NavDropdown.Item onClick={handleLogOut}>
+                      Log out
+                    </NavDropdown.Item>
+                    <hr />
+                    <NavDropdown.Item style={{ fontWeight: 'bold', color: 'black' }} disabled>
+                      Role: {user.role} <br />
+                      Email: {user.email}
+                    </NavDropdown.Item>
                   </>
                 ) : (
                   <NavDropdown.Item as={NavLink} to="/login">
                     Log in
                   </NavDropdown.Item>
-                  
+
                 )}
             </NavDropdown>
             <NavLink href="#cart">
               {" "}
-              <BiCart size={50} color="Black" style={{marginTop: '5px'}}/>
+              <BiCart size={50} color="Black" style={{ marginTop: '5px' }} />
             </NavLink>
           </Nav>
         </Container>

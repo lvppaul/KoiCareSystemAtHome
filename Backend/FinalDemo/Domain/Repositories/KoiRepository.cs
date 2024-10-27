@@ -26,9 +26,23 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return result;
         }
 
-        public async Task<List<Koi>> GetByUserIdAsync(string id)
+        public async Task<List<Koi>> GetAllKoiByUserIdAsync(string id)
         {
             var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id)).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Koi>> GetKoiByUserIdAsync(string id)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Koi>> GetKoiDeadByUserIdAsync(string id)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false).ToListAsync();
 
             return result;
         }

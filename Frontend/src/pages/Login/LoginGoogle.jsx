@@ -1,15 +1,17 @@
 import { FcGoogle } from "react-icons/fc";
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import {  signInWithPopup } from "firebase/auth";
-import { signIn } from "../../Config/LogInApi";
+import { signInWithPopup } from "firebase/auth";
+import { googleLogIn } from "../../Config/LogInApi";
 import { auth, provider } from "../../Config/firebase";
-//import { useAuth } from './AuthProvider';
-import {jwtDecode} from 'jwt-decode'; // Correct import for jwt-decode
+import { useState } from 'react';
+import jwtDecode from 'jwt-decode';
+import { useAuth } from './AuthProvider';
 
 const LoginGoogle = () => {
     const navigate = useNavigate();
-    //const { setUser } = useAuth(); // Assuming you have a way to set the user in context
+    const { login, role } = useAuth();
+    const [tokenGoogle, setTokenGoogle] = useState('');
 
     const handleSignInGoogle = async () => {
         try {
@@ -19,32 +21,20 @@ const LoginGoogle = () => {
 
             // Get the token from Firebase
             const token = await user.getIdToken();
+            setTokenGoogle(token);
 
-            // Send the token to your API to get a custom JWT token
-            const credentials = { token };
-           // const data = await signIn(credentials); // Call the signIn function from AxiosConfig
-            localStorage.setItem('result', result); // Store the user data
-            localStorage.setItem('token', token); // Store the Firebase token
-            localStorage.setItem('user', user); // Store the user data
-            //console.log('Login Success:', data);
-            //console.log("custom JWT token:", data.token);
-            //localStorage.setItem('token', data.token); // Store the JWT token
+            // Call the googleLogIn function with the token
+            const response = await googleLogIn(token);
+            console.log('response:', response);
 
-            // Decode the JWT token to get user role
-            const decodedToken = jwtDecode(token);
-            console.log('token:', token);
-            console.log('Decoded token:', decodedToken);
-            const email = decodedToken.email;
-            
-            //console.log('User role:', decodedToken.role);
-            //console.log(result)
-            //const userRole = decodedToken.role; // Extract the role from the decoded token
-
-            // Set user in context
-            //setUser({ ...data.userData, role: userRole }); // Assuming userData contains other user info
-
-            // Redirect to the home page or wherever you want
-            navigate('/');
+            if (response.userId) {
+                login({email: response.email, role: response.userRole, userId: response.userId });
+                if (role === 'admin') {
+                    navigate('/admin');
+                } else {
+                    navigate('/');
+                }
+            }
         } catch (error) {
             console.error('Login Failed:', error);
         }

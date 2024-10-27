@@ -104,14 +104,6 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            var pond = _unitOfWork.PondRepository.GetAll().Where(c => c.Name.ToUpper() == ponddto.Name.ToUpper()).FirstOrDefault();
-
-            if (pond != null)
-            {
-                ModelState.AddModelError("", "This name has already existed.");
-                return StatusCode(422, ModelState);
-            }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
