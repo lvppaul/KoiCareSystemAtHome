@@ -20,7 +20,16 @@ const AdminNav = () => {
                 <input type="text" placeholder="Search..." />
             </div>
             <div className="admin-nav__user">
-            <NavDropdown title={<BiUserCircle size={50} />} id="basic-nav-dropdown" >    
+            <NavDropdown title={<BiUserCircle size={50} />} id="basic-nav-dropdown" >
+            <div
+                style={{
+                  position: "absolute",
+                  left: "-150px", 
+                  top: "-15px", 
+                  backgroundColor: "white", 
+                  zIndex: 100, 
+                }}
+              >    
             {user ? (
                   <>
                   <NavDropdown.Item onClick={handleLogOut}>
@@ -33,6 +42,7 @@ const AdminNav = () => {
                   </NavDropdown.Item>
                   </>
                 ) : null}
+            </div>
             </NavDropdown>
             </div>
         </Navbar>

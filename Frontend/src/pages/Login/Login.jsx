@@ -10,7 +10,6 @@ import { useAuth } from './AuthProvider';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import ConfirmEmail from '../../components/ConfirmEmail/ConfirmEmail';
-
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();

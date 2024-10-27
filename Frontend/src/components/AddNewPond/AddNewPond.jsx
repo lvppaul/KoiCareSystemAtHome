@@ -9,7 +9,7 @@ import { useAuth } from '../../pages/Login/AuthProvider';
 import { postPond } from '../../Config/PondApi';
 
 const AddNewPond = ({ show, setShow, onPondAdded }) => {
-    const initialPondState = { name: '', volume: '', depth: '', pump: '', drain: '', skimmer: '', note: '', thumbnail: null };
+    const initialPondState = { name: '', volume: '', depth: '', pumpingCapacity: '', drain: '', skimmer: '', note: '', thumbnail: null };
     const [ponddetail, setPondDetail] = useState(initialPondState);
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null);
@@ -43,6 +43,7 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
                 await uploadBytes(storageRef, file);
             }
             const newPond = { ...ponddetail, userId };
+            console.log('Adding pond:', newPond);
             await postPond(newPond);
             onPondAdded(newPond);
             setPondDetail(initialPondState);
@@ -56,12 +57,15 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
     };
 
     return (
-        <>
-            <Row className='pond-item'>
-                <Button variant="success" onClick={() => setShow(true)}>
+        <>  
+                <Button variant="success" onClick={() => setShow(true)}
+                    style={{ width: '180px', height: '70px', 
+                        fontWeight: 'bold', fontSize: '18px', 
+                        borderRadius: '15px', backgroundColor: '#FF8433', transition: 'background-color 0.3s ease'}}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#FF6204'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = '#FF8433'}>
                     <img src={PondIcon} alt='add pond icon' /> New Pond
                 </Button>
-            </Row>
             <Modal show={show} onHide={() => setShow(false)} size='xl' className='modal-addpond'>
                 <Modal.Header closeButton>
                     <Modal.Title> <h1>Adding Pond</h1></Modal.Title>
@@ -116,7 +120,7 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
                                 <Row>
                                     <Form.Group as={Col} controlId="formGridPumping">
                                         <Form.Label>Pumping capacity (l/h):</Form.Label>
-                                        <Form.Control type="number" placeholder="Pumping (l/h)" name='pump' value={ponddetail.pump} onChange={handleInputChange} />
+                                        <Form.Control type="number" placeholder="Pumping (l/h)" name='pumpingCapacity' value={ponddetail.pump} onChange={handleInputChange} />
                                     </Form.Group>
                                 </Row>
                                 <Row>

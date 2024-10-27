@@ -36,7 +36,7 @@ const KoiList = () => {
 
   return (
     <Container>
-      <Row style={{textAlign:'center'}}>
+      <Row style={{textAlign:'center', paddingTop:'50px', paddingBottom:'50px'}}>
       <h1>All Koi Fish List</h1>
       </Row>
       <Row>
@@ -47,7 +47,7 @@ const KoiList = () => {
             </div>
           ) : null}
           {koiList.map((koi) => ( koi && koi.koiId ? (
-            <Col md={6}  className="mb-4" key={koi.koiId}>
+            <Col xs={12} md={6} sm={6} lg={6}   className="mb-4" key={koi.koiId}>
               <Card 
               style={{  backgroundColor: '#E2C3C3', borderRadius: '15px', boxShadow: '0 4px 8px rgba(0, 0, 1, 1)', width: '90%', height: '225px'}}
               >
