@@ -1,5 +1,6 @@
 ﻿using Domain.Authentication;
 using Domain.Base;
+using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
 using Google.Apis.Auth.OAuth2.Requests;
 using Microsoft.AspNetCore.Http;
@@ -96,10 +97,10 @@ namespace ApiService.Controllers
             return Ok(result);
         }
 
-        [HttpPost("ConfirmEmail/{email}/{code}")]
-        public async Task<IActionResult> ConfirmEmail(string email, string code)
+        [HttpPost("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailRequest model)
         {
-            var result = await _accountRepository.ConfirmEmailAsync(email, code);
+            var result = await _accountRepository.ConfirmEmailAsync( model);
             if (!result.Equals(Success))
             {
                 return BadRequest(result);

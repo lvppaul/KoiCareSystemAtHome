@@ -23,6 +23,7 @@ using System.Security.Cryptography;
 using Domain.Models.Dto.Response;
 using Microsoft.EntityFrameworkCore;
 using FirebaseAdmin.Auth;
+using Domain.Models.Dto.Request;
 
 namespace Domain.Repositories
 {
@@ -373,7 +374,7 @@ namespace Domain.Repositories
             await _userManager.AddToRoleAsync(user, AppRole.Admin);
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
-
+            await _userManager.ConfirmEmailAsync(user, emailCode);
             return new ConfirmEmailResponse { Email = createdUser!.Email, ConfirmToken = emailCode };
 
         }
@@ -414,15 +415,15 @@ namespace Domain.Repositories
             
         }
 
-        public async Task<string> ConfirmEmailAsync(string email, string code)
+        public async Task<string> ConfirmEmailAsync(ConfirmEmailRequest model)
         {
 
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(code)) return noInfor;
+            if (string.IsNullOrEmpty(model.email) || string.IsNullOrEmpty(model.code)) return noInfor;
 
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(model.email);
             if (user == null) return notExistAcc ;
 
-            var decodedToken = HttpUtility.UrlDecode(code);
+            var decodedToken = HttpUtility.UrlDecode(model.code);
             var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
             if (!result.Succeeded)
             {
