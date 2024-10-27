@@ -24,10 +24,6 @@ namespace Domain.Models.Dto.Update
 
         public string Origin { get; set; }
 
-        public int Length { get; set; }
-
-        public float Weight { get; set; }
-
         public string Color { get; set; }
 
         public bool Status { get; set; }

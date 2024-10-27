@@ -65,18 +65,18 @@ namespace KCSAH.APIServer.Controllers
         }
 
 
-        [HttpGet("GetShopCategoryList/{shopId}")]
+        //[HttpGet("GetShopCategoryList/{shopId}")]
         //     [Authorize(Roles =AppRole.Admin)]
-        public async Task<IActionResult> GetShopByUserIdAsync(int shopId)
-        {
-            var result = await _unitOfWork.ShopRepository.GetCategoryListByShopId(shopId);
-            if (result == null)
-            {
-                return NotFound();
-            }
-            var show = _mapper.Map<List<CategoryDTO>>(result);
-            return Ok(show);
-        }
+        //public async Task<IActionResult> GetShopByUserIdAsync(int shopId)
+        //{
+        //    var result = await _unitOfWork.ShopRepository.GetCategoryListByShopId(shopId);
+        //    if (result == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var show = _mapper.Map<List<CategoryDTO>>(result);
+        //    return Ok(show);
+        //}
 
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
