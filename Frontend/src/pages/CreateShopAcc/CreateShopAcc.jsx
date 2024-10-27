@@ -2,13 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl, Spinner } from 'react-bootstrap';
 import ConfirmEmail from '../../components/ConfirmEmail/ConfirmEmail';
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/Fpt_TTKoi_logo.svg";
 import './CreateShopAcc.css';
-import { signUpShop } from '../../Config/LogInApi';
+import { getUserIdByEmail, signUpShop } from '../../Config/LogInApi';
 import { addShop } from '../../Config/ShopApi';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
 
 function CreateShopAcc() {
     const navigate = useNavigate();
@@ -20,8 +19,8 @@ function CreateShopAcc() {
     const [shopName, setShopName] = useState('');
     const [phone, setPhone] = useState('');
     const [description, setDescription] = useState('This is your shop description');
-    const [userId, setUserId] = useState('');
     const [createShopError, setCreateShopError] = useState(null);
+    const [createShopSuccess, setCreateShopSuccess] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [showConfirmEmailModal, setShowConfirmEmailModal] = useState(false);
@@ -36,29 +35,40 @@ function CreateShopAcc() {
             setLoading(false);
             return;
         }
-        await signUpShop(userData)
-        .then((response) => {
-            if (response !== 200) {
-                setCreateShopError(response);
-            } else {
-                    setUserId(response.userId);
-                    const shopData = { userId, shopName, description, phone, email };
-                    addShop(shopData)
-                        .then((response) => {
-                            if (response !== 200) {
-                                setCreateShopError(response);
-                            } else {
-                                setShowConfirmEmailModal(true);
-                            }
-                        })
+
+        try {
+            const signUpResponse = await signUpShop(userData);
+
+            if (signUpResponse === 200) {
+                const userIdResponse = await getUserIdByEmail(email);
+                setCreateShopError(null);
+                setCreateShopSuccess(signUpResponse);
+                const thumbnail = 'others/NotFound.jpg';
+                const rating = 0;
+                const shopData = { userId: userIdResponse, shopName, description, phone, email, rating, thumbnail };
+                console.log('shop:', shopData);
+
+                const addShopResponse = await addShop(shopData);
+
+                if (addShopResponse.shopId) {
+                    setShowConfirmEmailModal(true);
+                } else {
+                    setCreateShopError(addShopResponse.error);
                 }
-            })
-            .catch((error) => {
+            } else {
+                setCreateShopError(signUpResponse);
+            }
+        } catch (error) {
+            if (error.message === 'Request failed with status code 422') {
+                setCreateShopError('Shop name already taken');
+                // logic to delete user
+            } else {
                 setCreateShopError(error.message);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+                // logic to delete user
+            }
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -256,6 +266,7 @@ function CreateShopAcc() {
                                         </Col>
                                     </Row>
                                     {createShopError && <p className="error-message mt-3">{createShopError}</p>}
+                                    {createShopSuccess && <p className="success-message mt-3">{createShopSuccess}</p>}
                                 </Col>
                             </Row>
                         </Form>

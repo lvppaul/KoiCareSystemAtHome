@@ -26,6 +26,10 @@ namespace Domain.Models.Entity
 
         public virtual Cart Cart { get; set; } = null!;
 
+        public string? RefreshToken { get; set; }
+
+        public DateTime? RefreshTokenExpiration { get; set; }
+
         public virtual ICollection<BlogComment> BlogComments { get; set; } = new List<BlogComment>();
 
         public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();

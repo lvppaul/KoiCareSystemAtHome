@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Container, Row, Col, Image, Button, Spinner, Carousel } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { Container, Row, Col, Image, Button, Spinner, Carousel, Breadcrumb } from 'react-bootstrap';
 import { getProductById, getProductImagesByProductId } from '../../Config/ProductApi';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
@@ -8,7 +8,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 
 const Product = () => {
   const { productId } = useParams();
-  const [ProductImage, setProductImage] = useState([]);
+  const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [carouselLoading, setCarouselLoading] = useState(true);
@@ -26,11 +26,11 @@ const Product = () => {
             const storageRef = ref(storage, 'others/NotFound.jpg');
             image.imageUrl = await getDownloadURL(storageRef);
           }
-          
+
         }
         return image;
       }));
-      setProductImage(updatedImages);
+      setProductImages(updatedImages);
       setCarouselLoading(false);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -41,7 +41,7 @@ const Product = () => {
     fetchProductImages();
     getProductById(productId)
       .then(data => {
-        setProduct(data); 
+        setProduct(data);
         setLoading(false);
       })
       .catch(error => {
@@ -60,12 +60,16 @@ const Product = () => {
 
   return (
     <Container fluid className="py-4">
-      <Row className="mb-3">
-        <Col className="d-flex justify-content-start">
-          <Button as={Link} to="/shop" variant="link">Back to Shop</Button>
-        </Col>
-      </Row>
-      <Container className="d-flex justify-content-between" style={{ minHeight: '80vh' }}>
+      <Container className="d-flex flex-column justify-content-between" >
+        <Row className="mb-3">
+          <Breadcrumb>
+            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item href="/shop">
+              Shop
+            </Breadcrumb.Item>
+            <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
+          </Breadcrumb>
+        </Row>
         <Row className="w-100">
           <Col md={8} className="product-image mb-4 mb-md-0">
             <div style={{ maxWidth: '624px', width: '100%' }}>
@@ -75,7 +79,7 @@ const Product = () => {
                 </div>
               ) : (
                 <Carousel variant="dark">
-                  {ProductImage.map((productImage) => (
+                  {productImages.map((productImage) => (
                     <Carousel.Item key={productImage.imageId}>
                       <Image src={productImage.imageUrl} alt={`${product.name} image ${productImage.imageId}`} fluid />
                     </Carousel.Item>

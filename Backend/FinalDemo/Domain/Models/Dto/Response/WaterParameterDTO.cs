@@ -18,7 +18,7 @@ namespace Domain.Models.Dto.Response
 
         public double Nitrate { get; set; }
 
-        public DateTime DateTime { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public double Temperature { get; set; }
 

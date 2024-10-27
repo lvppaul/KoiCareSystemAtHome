@@ -18,7 +18,7 @@ const getCategories = async () => {
 // Function to get category by ID
 const getCategoryById = async (categoryId) => {
     try {
-        const response = await api.get(`Category/async/${categoryId}`, {
+        const response = await api.get(`Category/GetCategoryById/${categoryId}`, {
             headers: {
                 'accept': 'text/plain'
             }

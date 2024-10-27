@@ -23,6 +23,7 @@ const signUp = async (userData) => {
     }
 };
 
+// Function to sign up shop
 const signUpShop = async (userData) => {
     try {
         const response = await api.post('Account/CreateShopAccount', userData, {
@@ -55,6 +56,7 @@ const signIn = async (credentials) => {
         });
 
         const decoded = jwtDecode(response.data.accessToken);
+        const email = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
         const userId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
         const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
@@ -64,7 +66,7 @@ const signIn = async (credentials) => {
         return {  userId, userRole ,message};
     } catch (error) {
         if (error.response) {
-            console.error('Error response data:', error.response.data.message);
+            console.error('Error response data:', error.response.data);
             return error.response.data.message;
         } else {
             return { error: 'Unknown error occurred' };
@@ -94,4 +96,20 @@ const confirmEmail = async (confirmData) => {
     }
 }
 
-export { signUp, signUpShop, signIn, confirmEmail };
+const getUserIdByEmail = async (email) => {
+    try {
+        const response = await api.get(`Account/GetUserIdByEmail/${encodeURIComponent(email)}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error getting user ID by email:', error);
+        return null;
+    }
+}
+
+export { signUp, signUpShop, signIn, confirmEmail, getUserIdByEmail };

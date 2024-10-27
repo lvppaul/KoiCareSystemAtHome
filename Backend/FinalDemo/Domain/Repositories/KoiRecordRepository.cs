@@ -24,5 +24,12 @@ namespace Domain.Repositories
 
             return result;
         }
+
+        public async Task<List<KoiRecord>> GetRecordByKoiIdAsync(int koiId)
+        {
+            var result = await _context.KoiRecords.Where(k => k.KoiId == koiId).ToListAsync();
+
+            return result;
+        }
     }
 }

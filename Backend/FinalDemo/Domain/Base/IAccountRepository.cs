@@ -1,5 +1,7 @@
 ﻿using Domain.Authentication;
 using Domain.Models;
+using Domain.Models.Dto.Request;
+using Domain.Models.Dto.Response;
 using Domain.Models.Entity;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -12,27 +14,31 @@ namespace Domain.Base
 {
     public interface IAccountRepository
     {
-        Task<string> SignInAsync(SignInModel model);
+        Task<AuthenticationResponse> SignInAsync(SignInModel model);
         Task<string> GetUserIdByEmailAsync(string email);
-        Task<string> SignUpAsync(SignUpModel model); 
+        Task<ConfirmEmailResponse> SignUpAsync(SignUpModel model);
+        Task<AuthenticationResponse> RefreshTokenAsync(string refreshToken);
 
-
-        Task<string> CreateShopAccount(SignUpModel model); 
-        Task<string> CreateVipAccount(SignUpModel model);
-        Task<string> CreateAdminAccount(SignUpModel model);
+        Task<ConfirmEmailResponse> CreateShopAccount(SignUpModel model); 
+        Task<ConfirmEmailResponse> CreateVipAccount(SignUpModel model);
+        Task<ConfirmEmailResponse> CreateAdminAccount(SignUpModel model);
 
         Task<string> RequestPasswordResetAsync(string email);
         Task<string> ResetPasswordAsync(string email, string token, NewPasswordModel model);
         Task<string> ChangePasswordAsync(string userId,ChangePasswordModel model);
-        Task<string> ConfirmEmailAsync(string email, string code);
+        Task<string> ConfirmEmailAsync(ConfirmEmailRequest model);
         Task<string> UpdateAccountDetailAsync(string userId, AccountDetailModel model);
         Task<string> ChangeRoleToVipAsync(string userId);
 
         Task<string> LockoutEnabledAsync(string userId);
         Task<string> LockoutDisabledAsync(string userId);
+
+
         //public Task<bool> CheckLockoutEnabledAsync(ApplicationUser user);
 
         Task<ApplicationUser> GetAccountByUserIdAsync(string id);
-       
+        Task<string> RemoveAccountByIdAsync(string userId);
+
+        Task<AuthenticationResponse> GmailSignIn(TokenRequest firebaseToken);
     }
 }

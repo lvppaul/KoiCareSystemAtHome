@@ -16,6 +16,7 @@ const getShop = async () => {
     }
 }
 
+// Function to add a shop
 const addShop = async (data) => {
     try {
         const response = await api.post('Shop', data, {
@@ -23,7 +24,8 @@ const addShop = async (data) => {
                 'Content-Type': 'application/json'
             }
         });
-        return response.status;
+        console.log(response);
+        return response.data;
     } catch (error) {
         console.error('Error adding shop:', error);
         throw error;

@@ -3,6 +3,8 @@ using Domain.Helper;
 using Domain.Models;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
+using Domain.Models.Dto.Update;
+using Domain.Models.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +48,19 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
+        [HttpGet("GetKoiByUserId/{userid}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetByIdAsync(string userid)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetByUserIdAsync(userid);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<KoiDTO> GetById(int id)
@@ -72,6 +87,7 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
             var koiMap = _mapper.Map<Koi>(koi);
             var createResult = await _unitOfWork.KoiRepository.CreateAsync(koiMap);
             if (createResult <= 0)
@@ -80,12 +96,26 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
             var koiShow = _mapper.Map<KoiDTO>(koiMap);
+            var koirecord = new KoiRecordRequestDTO();
+            koirecord.KoiId = koiShow.KoiId;
+            koirecord.UserId = koi.UserId;
+            koirecord.Weight = koi.Weight;
+            koirecord.Length = koi.Length;
+            koirecord.UpdatedTime = DateTime.Now;
+
+            var create = _mapper.Map<KoiRecord>(koirecord);
+            var createResultKoiRecord = await _unitOfWork.KoiRecordRepository.CreateAsync(create);
+            if (createResultKoiRecord <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while saving.");
+                return StatusCode(500, ModelState);
+            }
             return CreatedAtAction("GetById",new {id = koiShow.KoiId },koiShow);
         }
 
         [HttpPut("{id}")]
         //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
-        public async Task<IActionResult> UpdateKoi(int id, [FromBody] KoiRequestDTO koidto)
+        public async Task<IActionResult> UpdateKoi(int id, [FromBody] KoiUpdateDTO koidto)
         {
             if (koidto == null)
             {

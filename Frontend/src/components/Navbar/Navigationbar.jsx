@@ -1,6 +1,6 @@
 import { Navbar, Nav, Container, Form, FormControl, NavDropdown } from "react-bootstrap";
 import { NavLink } from 'react-router-dom';
-import Logo from "../../assets/logo.svg";
+import Logo from "../../assets/Fpt_TTKoi_logo.svg";
 import "./Navigationbar.css";
 import { BiUserCircle, BiCart } from "react-icons/bi";
 import { useAuth } from "../../pages/Login/AuthProvider"; // Correct import for useAuth

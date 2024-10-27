@@ -25,7 +25,7 @@ const UpdateShopDetails = ({ shop, setShop, show, handleClose }) => {
         const file = e.target.files[0];
         if (file && file.type.startsWith('image/')) {
             const previewUrl = URL.createObjectURL(file);
-            const storageRef = ref(storage, `shop/shopThumbnails/${userId}/${file.name + Date.now()}`);
+            const storageRef = ref(storage, `shop/shopThumbnails/${userId}/${Date.now()}_${file.name}`);
             try {
                 setFile(file);
                 setStorageRef(storageRef);

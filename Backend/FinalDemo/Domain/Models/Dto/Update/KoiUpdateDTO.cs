@@ -26,7 +26,7 @@ namespace Domain.Models.Dto.Update
 
         public int Length { get; set; }
 
-        public int Weight { get; set; }
+        public float Weight { get; set; }
 
         public string Color { get; set; }
 

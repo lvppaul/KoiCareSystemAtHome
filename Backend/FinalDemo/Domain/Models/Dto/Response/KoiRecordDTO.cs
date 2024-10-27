@@ -13,7 +13,7 @@ namespace Domain.Models.Dto.Response
         public int KoiId { get; set; }
         public string UserId { get; set; } = null!;
 
-        public int Weight { get; set; }
+        public float Weight { get; set; }
 
         public int Length { get; set; }
 
