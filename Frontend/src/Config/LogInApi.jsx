@@ -73,9 +73,15 @@ const signIn = async (credentials) => {
 };
 
 // Function to confirm email
-const confirmEmail = async (email, confirmationCode) => {
+const confirmEmail = async (confirmData) => {
     try {
-        const response = await api.post(`Account/ConfirmEmail/${email}/${confirmationCode}`);
+        const response = await api.post(`Account/ConfirmEmail`, confirmData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }
+        );
         return response.status;
     } catch (error) {
         console.error('Error during email confirmation:', error.response.data);

@@ -144,6 +144,11 @@ const Pond = () => {
                                 </Col>
                             ) : null
                         ))}
+                        {currentPonds.length === 0 && !loading && (
+                            <Col>
+                                <h3>No pond found</h3>
+                            </Col>
+                        )}
                         </Row>
                     <Row>
             <Col className="d-flex justify-content-center">
