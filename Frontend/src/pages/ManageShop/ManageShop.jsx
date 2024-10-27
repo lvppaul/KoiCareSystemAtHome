@@ -3,9 +3,9 @@ import { Container, Card, CardImg, ListGroup, Button, Table, Row, Col, Carousel,
 import { createPortal } from 'react-dom';
 import { getShopByUserId } from '../../Config/ShopApi';
 import { getCategoryById } from '../../Config/CategoryApi';
-import { getProductsByShopId, getProductImagesByProductId, addProduct, addProductImages, deleteProduct, getProductById } from '../../Config/ProductApi';
+import { getProductsByShopId, getProductImagesByProductId, addProduct, addProductImages, deleteProduct, getProductById, updateProduct } from '../../Config/ProductApi';
 import UpdateShopDetails from '../../components/UpdateShopDetails/UpdateShopDetails';
-import UpdateShopProducts from '../../components/UpdateShopProducts/UpdateShopProducts';
+import UpdateProduct from '../../components/UpdateProduct/UpdateProduct';
 import AddNewProduct from '../../components/AddNewProduct/AddNewProduct';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
@@ -18,7 +18,7 @@ const ManageShop = () => {
     const [products, setProducts] = useState([]);
     const [shop, setShop] = useState(null);
     const [showShopModal, setShowShopModal] = useState(false);
-    const [showProductModal, setShowProductModal] = useState(false);
+    const [showUpdateProductModal, setShowUpdateProductModal] = useState(false);
     const [showAddProductModal, setShowAddProductModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showToast, setShowToast] = useState(false);
@@ -101,8 +101,52 @@ const ManageShop = () => {
         fetchShopDetails();
     }, [fetchShopDetails]);
 
-    const handleUpdateProduct = (updatedProduct) => {
+    const handleUpdateProduct = async (newProduct, imageFiles) => {
+
+        await updateProduct(newProduct);
+        const category = await getCategoryById(newProduct.categoryId);
+        const updatedProduct = { ...newProduct, category: category };
         setProducts(products.map(product => product.productId === updatedProduct.productId ? updatedProduct : product));
+
+        if (imageFiles && imageFiles.length > 0) {
+            try {
+                const validImageFiles = imageFiles.filter(file => file !== null && file !== undefined);
+
+                const imageUploadPromises = validImageFiles.map(async (file) => {
+                    const imageRef = ref(storage, `product/productImages/${userId}/ProductId:${updatedProduct.productId}_${Date.now()}_${file.name}}`);
+                    await uploadBytes(imageRef, file);
+                    return { productId: updatedProduct.productId, imageUrl: imageRef.fullPath };
+                });
+
+                const uploadedImages = await Promise.all(imageUploadPromises.map(async (imagePromise) => {
+                    try {
+                        const image = await imagePromise;
+                        const addedImage = await addProductImages(image);
+                        const storageRef = ref(storage, addedImage.imageUrl);
+                        addedImage.imageUrl = await getDownloadURL(storageRef);
+                        return addedImage;
+                    } catch (error) {
+                        console.error('Error uploading image:', error);
+                        return null;
+                    }
+                }));
+
+                const validUploadedImages = uploadedImages.filter(image => image !== null);
+                const filteredProductImages = productImages.filter(image => image.productId !== updatedProduct.productId);
+
+                setProductImages([...filteredProductImages,...validUploadedImages]);
+                setCarouselLoading(false);
+                setToastMessage('Product updated successfully.');
+                setShowToast(true);
+            } catch (error) {
+                console.error('Error updating product images:', error);
+                setToastMessage('Error updating product.');
+                setShowToast(true);
+            }
+        } else {
+            setToastMessage('Product updated successfully.');
+            setShowToast(true);
+        }
     };
 
     const handleDeleteProduct = async (productId) => {
@@ -174,7 +218,7 @@ const ManageShop = () => {
             }
 
             const imageUploadPromises = validImageFiles.map(async (file) => {
-                const imageRef = ref(storage, `product/productImages/${userId}/ProductId:${addedProduct.productId}_${file.name}_${Date.now()}`);
+                const imageRef = ref(storage, `product/productImages/${userId}/ProductId:${addedProduct.productId}_${Date.now()}_${file.name}`);
                 await uploadBytes(imageRef, file);
                 return { productId: addedProduct.productId, imageUrl: imageRef.fullPath };
             });
@@ -215,7 +259,7 @@ const ManageShop = () => {
             <Card className="mb-4 shadow-sm">
                 <Row noGutters>
                     <Col md={4}>
-                        <Card.Img style={{objectFit: 'cover', width: '300px'}} variant="top" src={shop.thumbnail} alt="Shop Thumbnail" className="h-100" />
+                        <Card.Img style={{ objectFit: 'cover', width: '300px' }} variant="top" src={shop.thumbnail} alt="Shop Thumbnail" className="h-100" />
                     </Col>
                     <Col md={8}>
                         <Card.Body>
@@ -256,15 +300,15 @@ const ManageShop = () => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th style={{width: '100px'}}>Thumbnail</th>
-                        <th style={{width: '150px'}}>Product Images</th>
+                        <th style={{ width: '100px' }}>Thumbnail</th>
+                        <th style={{ width: '150px' }}>Product Images</th>
                         <th>Name</th>
                         <th>Category</th>
                         <th>Description</th>
                         <th>Quantity</th>
                         <th>Price</th>
                         <th>Status</th>
-                        <th style={{width: '150px'}}>Actions</th>
+                        <th style={{ width: '150px' }}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -294,14 +338,14 @@ const ManageShop = () => {
                                 )}
                             </td>
                             <td>{product.name}</td>
-                            <td>{product.category ? product.category.name : errorCategory.name}</td>
+                            <td>{product.category.categoryId ? product.category.name : errorCategory.name}</td>
                             <td>{product.description}</td>
                             <td>{product.quantity}</td>
                             <td>${product.price.toFixed(2)}</td>
                             <td>{product.status ? 'Available' : 'Unavailable'}</td>
                             <td>
                                 <div className="d-flex">
-                                    <Button variant="warning" className="me-2" onClick={() => { setSelectedProduct(product); setShowProductModal(true); }}>
+                                    <Button variant="warning" className="me-2" onClick={() => { setSelectedProduct(product); setShowUpdateProductModal(true); }}>
                                         Update
                                     </Button>
                                     <Button variant="danger" onClick={() => handleDeleteProduct(product.productId)}>
@@ -314,11 +358,11 @@ const ManageShop = () => {
                 </tbody>
             </Table>
             {selectedProduct && (
-                <UpdateShopProducts
+                <UpdateProduct
                     product={selectedProduct}
-                    show={showProductModal}
-                    handleClose={() => setShowProductModal(false)}
-                    handleUpdate={handleUpdateProduct}
+                    show={showUpdateProductModal}
+                    handleClose={() => { setShowUpdateProductModal(false); setSelectedProduct(null); }}
+                    handleUpdateProduct={handleUpdateProduct}
                 />
             )}
             <AddNewProduct
@@ -333,7 +377,9 @@ const ManageShop = () => {
                     show={showToast}
                     delay={5000}
                     autohide
-                    bg={toastMessage === 'Error adding product.' ? 'danger' : 'success'}
+                    bg={toastMessage === 'Error adding product.' ||
+                        toastMessage === 'Error updating product.' ||
+                        toastMessage === 'Error deleting product.' ? 'danger' : 'success'}
                     style={{
                         position: 'fixed',
                         bottom: '20px',

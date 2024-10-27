@@ -76,7 +76,7 @@ const AddNewBlog = ({ show, handleClose, onAddBlog }) => {
         const file = e.target.files[0];
         if (file && file.type.startsWith('image/')) {
             const previewUrl = URL.createObjectURL(file);
-            const storageRef = ref(storage, `blog/blogThumbnails/${userId}/${file.name + Date.now()}`);
+            const storageRef = ref(storage, `blog/blogThumbnails/${userId}/${Date.now()}_${file.name}`);
             try {
                 setThumbnailFile(file);
                 setThumbnailRef(storageRef);

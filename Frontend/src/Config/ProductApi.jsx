@@ -135,8 +135,22 @@ const addProductImages = async (data) => {
     }
 };
 
+// Function to delete product image
+const deleteProductImage = async (imageId) => {
+    try {
+        await api.delete(`ProductImage/${imageId}`, {
+            headers: {
+                'accept': 'text/plain'
+            }
+        });
+    } catch (error) {
+        console.error('Error deleting product image:', error);
+        throw error;
+    }
+};
+
 export {
     getProducts, addProduct, updateProduct, deleteProduct,
     getProductById, getProductsByShopId, getProductsByCategoryId, getProductImagesByProductId,
-    addProductImages
+    addProductImages, deleteProductImage
 };
