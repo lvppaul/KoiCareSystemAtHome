@@ -1,5 +1,6 @@
 ﻿using Domain.Authentication;
 using Domain.Models;
+using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
 using Domain.Models.Entity;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +26,7 @@ namespace Domain.Base
         Task<string> RequestPasswordResetAsync(string email);
         Task<string> ResetPasswordAsync(string email, string token, NewPasswordModel model);
         Task<string> ChangePasswordAsync(string userId,ChangePasswordModel model);
-        Task<string> ConfirmEmailAsync(string email, string code);
+        Task<string> ConfirmEmailAsync(ConfirmEmailRequest model);
         Task<string> UpdateAccountDetailAsync(string userId, AccountDetailModel model);
         Task<string> ChangeRoleToVipAsync(string userId);
 
