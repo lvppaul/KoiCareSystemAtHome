@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, deleteObject } from "firebase/storage";
 import { storage } from "../../Config/firebase";
-import { useAuth } from "../../pages/Login/AuthProvider";
 import { getCategories } from "../../Config/CategoryApi";
+import { useAuth } from "../../pages/Login/AuthProvider";
+import { deleteProductImage, getProductImagesByProductId } from "../../Config/ProductApi";
 
-const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
-    const initProduct = {
-        name: "",
-        description: "",
-        quantity: 0,
-        price: 0,
-        status: true,
-        categoryId: "",
-        shopId: shopId,
-        thumbnail: "others/NotFound.jpg",
-    };
-    const [newProduct, setNewProduct] = useState(initProduct);
-    const [previewThumbnail, setPreviewThumbnail] = useState("");
+const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
+    const [newProduct, setNewProduct] = useState({...product, categoryId: product.category.categoryId});
+    const [previewThumbnail, setPreviewThumbnail] = useState(product.thumbnail);
     const [thumbnailFile, setThumbnailFile] = useState(null);
-    const [thumbnailRef, setThumbnailRef] = useState(null);
+    const [categories, setCategories] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
-    const [categories, setCategories] = useState([]);
 
     const { user } = useAuth();
     const userId = user.userId;
@@ -45,29 +35,45 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
         setNewProduct({ ...newProduct, [name]: newValue });
     };
 
-    const handleThumbnailChange = (e) => {
+    const handleThumbnailChange = async (e) => {
         const file = e.target.files[0];
         if (file && file.type.startsWith("image/")) {
             const previewUrl = URL.createObjectURL(file);
             const storageRef = ref(
                 storage,
-                `product/productThumbnails/${userId}/${Date.now()}_${file.name}`
+                `product/productThumbnails/${userId}/${Date.now()}_${file.name}}`
             );
-            try {
-                setThumbnailFile(file);
-                setThumbnailRef(storageRef);
-                setPreviewThumbnail(previewUrl);
-                setNewProduct({ ...newProduct, thumbnail: storageRef.fullPath });
-            } catch (error) {
-                console.error("Error uploading image:", error);
+            if (newProduct.thumbnail && newProduct.thumbnail !== "others/NotFound.jpg") {
+                const oldThumbnailRef = ref(storage, newProduct.thumbnail);
+                try {
+                    await deleteObject(oldThumbnailRef);
+                } catch (error) {
+                    console.error('Error deleting old thumbnail:', error);
+                }
             }
+            setThumbnailFile(file);
+            setPreviewThumbnail(previewUrl);
+            setNewProduct({ ...newProduct, thumbnail: storageRef.fullPath });
         }
     };
 
-    const handleImagesChange = (e) => {
+    const handleImagesChange = async (e) => {
         const files = Array.from(e.target.files).filter(file => file && file.type.startsWith("image/"));
         const previewUrls = files.map(file => URL.createObjectURL(file));
         try {
+            const productImages = await getProductImagesByProductId(newProduct.productId);
+            if (productImages && productImages.length > 0) {
+                await Promise.all(productImages.map(async (productImage) => {
+                    const imageRef = ref(storage, productImage.imageUrl);
+                    console.log('Deleting image:', productImage.imageId);
+                    await deleteProductImage(productImage.imageId);
+                    try {
+                        await deleteObject(imageRef);
+                    } catch (error) {
+                        console.error('Error deleting product image:', error);
+                    }
+                }));
+            }
             setImageFiles(files);
             setPreviewImages(previewUrls);
         } catch (error) {
@@ -79,26 +85,26 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
         e.preventDefault();
         try {
             if (thumbnailFile) {
-                await uploadBytes(thumbnailRef, thumbnailFile);
+                const storageRef = ref(storage, newProduct.thumbnail);
+                await uploadBytes(storageRef, thumbnailFile);
             }
-            
-            handleAddProduct(newProduct, imageFiles);
-            setNewProduct(initProduct);
-            setPreviewThumbnail("");
+
+            handleUpdateProduct(newProduct, imageFiles);
+            setNewProduct(newProduct);
+            setPreviewThumbnail(newProduct.thumbnail);
             setThumbnailFile(null);
-            setThumbnailRef(null);
             setPreviewImages([]);
             setImageFiles([]);
             handleClose();
         } catch (error) {
-            console.error("Error adding product:", error);
+            console.error("Error updating product:", error);
         }
     };
 
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Add New Product</Modal.Title>
+                <Modal.Title>Update Product</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -173,11 +179,10 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
                         <Form.Control
                             as="select"
                             name="categoryId"
-                            value={newProduct.categoryId}
                             onChange={handleChange}
                             required
                         >
-                            <option value="">Select Category</option>
+                            <option value={newProduct.categoryId}>Select Category</option>
                             {categories.map(category => (
                                 <option key={category.categoryId} value={category.categoryId}>
                                     {category.name}
@@ -203,7 +208,7 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
                         ))}
                     </Form.Group>
                     <Button variant="primary" type="submit">
-                        Add Product
+                        Update Product
                     </Button>
                 </Form>
             </Modal.Body>
@@ -211,4 +216,4 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
     );
 };
 
-export default AddNewProduct;
+export default UpdateProduct;
