@@ -48,11 +48,37 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
-        [HttpGet("GetKoiByUserId/{userid}")]
+        [HttpGet("GetAllKoiByUserId/{userid}")]
         //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
-        public async Task<ActionResult<List<KoiDTO>>> GetByIdAsync(string userid)
+        public async Task<ActionResult<List<KoiDTO>>> GetAllKoiByUserIdAsync(string userid)
         {
-            var koi = await _unitOfWork.KoiRepository.GetByUserIdAsync(userid);
+            var koi = await _unitOfWork.KoiRepository.GetAllKoiByUserIdAsync(userid);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetKoiAliveByUserId/{userid}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiByUserIdAsync(string userid)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiByUserIdAsync(userid);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetKoiDeadByUserId/{userid}")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiDeadByUserIdAsync(string userid)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiDeadByUserIdAsync(userid);
             if (koi == null)
             {
                 return NotFound();
