@@ -30,7 +30,7 @@ import NewsDetail from "./pages/NewsDetail/NewsDetail";
 import BlogDetail from "./pages/BlogDetail/BlogDetail";
 import CreateShopAcc from "./pages/CreateShopAcc/CreateShopAcc";
 import KoiList from "./pages/KoiList/KoiList";
-import Confirmation from "./pages/Confirmation";
+import Confirmation from "./pages/EmailConfirm/Confirmation";
 import AdminDashboard from "./components/AdminComponents/AdminDashboard";
 
 const container = document.getElementById("root");
@@ -45,7 +45,7 @@ root.render(
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="createshopacc" element={<CreateShopAcc />} />
-
+          <Route path="confirmation" element={<Confirmation />} />
                 <Route path="/" element={<App />}>
                     <Route index element={<Home />} />
                     <Route path="news" element={<News />} />

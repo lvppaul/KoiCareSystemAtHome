@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { confirmEmail } from '../Config/LogInApi';
-import backgroundImage from '../assets/images/login-bg.png';
+import { confirmEmail } from '../../Config/LogInApi';
+import backgroundImage from '../../assets/images/login-bg.png';
 const Confirmation = () => {
     const [message, setMessage] = useState('');
     const [confirmState, setConfirmState] = useState(false);
