@@ -32,6 +32,7 @@ import CreateShopAcc from "./pages/CreateShopAcc/CreateShopAcc";
 import KoiList from "./pages/KoiList/KoiList";
 import Confirmation from "./pages/EmailConfirm/Confirmation";
 import AdminDashboard from "./components/AdminComponents/AdminDashboard";
+import Profile from "./pages/Profile/Profile";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -55,6 +56,7 @@ root.render(
                     <Route path="shop" element={<Shop />} />
                     <Route path="product/:productId" element={<Product />} />
                     <Route path="notauthorized" element={<NotAuthorized />} />
+                    <Route path="profile" element={<Profile />} />
                     <Route path="*" element={<NotPage />} />
 
                         

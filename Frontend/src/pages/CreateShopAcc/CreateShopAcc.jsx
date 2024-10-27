@@ -4,7 +4,7 @@ import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl,
 import ConfirmEmail from '../../components/ConfirmEmail/ConfirmEmail';
 import logo from "../../assets/Fpt_TTKoi_logo.svg";
 import './CreateShopAcc.css';
-import { getUserIdByEmail, signUpShop } from '../../Config/LogInApi';
+import { getUserIdByEmail, signUpShop, deleteAccount } from '../../Config/LogInApi';
 import { addShop } from '../../Config/ShopApi';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -47,25 +47,30 @@ function CreateShopAcc() {
                 const rating = 0;
                 const shopData = { userId: userIdResponse, shopName, description, phone, email, rating, thumbnail };
                 console.log('shop:', shopData);
+                try {
+                    const addShopResponse = await addShop(shopData);
 
-                const addShopResponse = await addShop(shopData);
-
-                if (addShopResponse.shopId) {
-                    setShowConfirmEmailModal(true);
-                } else {
-                    setCreateShopError(addShopResponse.error);
+                    if (addShopResponse.shopId) {
+                        setShowConfirmEmailModal(true);
+                    } else {
+                        setCreateShopError(addShopResponse.error);
+                        await deleteAccount(userIdResponse);
+                    }
+                } catch (error) {
+                    if (error.message === 'Request failed with status code 422') {
+                        setCreateShopError('Shop name already taken');
+                        await deleteAccount(userIdResponse);
+                    } else {
+                        setCreateShopError(error.message);
+                        await deleteAccount(userIdResponse);
+                    }
                 }
             } else {
+                console.log('Error create account:', signUpResponse);
                 setCreateShopError(signUpResponse);
             }
         } catch (error) {
-            if (error.message === 'Request failed with status code 422') {
-                setCreateShopError('Shop name already taken');
-                // logic to delete user
-            } else {
-                setCreateShopError(error.message);
-                // logic to delete user
-            }
+            console.error('Error during shop account creation:', error);
         } finally {
             setLoading(false);
         }
