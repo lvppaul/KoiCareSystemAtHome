@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 import { getKoiById } from '../../Config/KoiApi';
 import { Spinner } from 'react-bootstrap';
 import GrowHistory from '../../components/GrowthHistory/GrowHistory';
+import KoiGrowthChart from '../../components/GrowthChart/KoiGrowth';
+import { useAuth } from '../Login/AuthProvider';
 
 const KoiDetail = () => {
   const {koiId} = useParams()
@@ -12,6 +14,8 @@ const KoiDetail = () => {
   const [loading, setLoading] = useState(false);
   const [showModalUpdateKoi, setShowModalUpdateKoi] = useState(false);
   const [showGrowHistory, setShowGrowHistory] = useState(false);
+  const [showGrowthChart, setShowGrowthChart] = useState(false);
+  const userId = useAuth().user.userId;
 
   const fetchKoiDetail = async (koiId) => {
     setLoading(true);
@@ -104,6 +108,10 @@ const KoiDetail = () => {
             show={showGrowHistory}
             setShow={setShowGrowHistory}
             koiData={koidetail}/>
+
+          <h1>Growth chart</h1>
+          <KoiGrowthChart
+          userId={userId} />
 
           {/* Remarks */}
           <h4 style={{paddingTop:'50px', }}>Remarks</h4>
