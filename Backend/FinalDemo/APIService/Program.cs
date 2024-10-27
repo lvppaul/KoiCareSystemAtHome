@@ -73,8 +73,10 @@ FirebaseApp.Create(new AppOptions()
     }")
 });
 builder.Services.AddScoped<UnitOfWork>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<PondService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<VnPayService>();
 builder.Services.AddScoped<SaltCalculator>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -108,6 +110,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IVnPayService, VnPayService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
