@@ -5,8 +5,9 @@ import { useAuth } from '../../pages/Login/AuthProvider'
 import { addRecord } from '../../Config/KoiApi'
 
 const AddNewGrowthHistory = ({ show, setShow, koiData, updateAddedGrowth }) => {
-    const [record, setRecord] = useState(koiData);
     const userId = useAuth().user.userId;
+    const initialRecord = { length: '', weight: '', koiId: koiData.koiId, userId: userId };
+    const [record, setRecord] = useState(initialRecord);
     console.log('koiData', koiData)
     const handleChange = (e) => {
         const { name, value } = e.target;

@@ -4,11 +4,11 @@ import DeleteRecord from '../DeleteRecord/DeleteRecord'
 import { useState } from 'react'
 
 const GrowHistory = ({show, setShow, koiData}) => {
-  const [growthHistory, setGrowthHistory] = useState(koiData.records)
+  const [growthHistory, setGrowthHistory] = useState(koiData.records || []);
   const [showAddNewGrowthHistory, setShowAddNewGrowthHistory] = useState(false);
-  const lastedUpdatedTime = growthHistory.sort((a, b) => {
+  const lastedUpdatedTime = growthHistory.length > 0 ? growthHistory.sort((a, b) => {
     return new Date(b.updatedTime) - new Date(a.updatedTime)
-  })[0]
+  })[0] : null;
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
@@ -61,7 +61,16 @@ const GrowHistory = ({show, setShow, koiData}) => {
               <strong>Weight:</strong> {lastedUpdatedTime.weight} g {weightGrowth}
             </p>
           </Card>
-          ): <p>No growth history data</p>}
+          ): (
+            <Card as={Button} 
+            style={{ padding: '10px', borderRadius: '10px', width:'600px', height:'150px', border:'0.5 solid black', transition: 'background-color 0.3s' }} 
+            onClick={() => setShow(true)}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#FF8433'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = ''}
+            >
+            <p>No growth history data</p>
+            </Card>
+          )}
           <Modal show={show} onHide={() => setShow(false)} size='lg' backdrop="static" style={{backgroundColor:'rgba(0, 0, 0, 0.9)'}}>
             <Modal.Header closeButton>
               <Modal.Title>Growth history</Modal.Title>
@@ -70,9 +79,10 @@ const GrowHistory = ({show, setShow, koiData}) => {
               <AddNewGrowthHistory
                 show={showAddNewGrowthHistory}
                 setShow={setShowAddNewGrowthHistory}
-                koiData={lastedUpdatedTime}
+                koiData={lastedUpdatedTime || koiData}
                 updateAddedGrowth={handleSubmitAddNewGrowth}
               />
+
               {growthHistory.length ? growthHistory.map((record) => (
                 <Card key={record.recordId} style={{ padding: '10px', borderRadius: '10px', border:'0.5 solid black' }}>
                 <Card.Header>
