@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
-const Categories = () => {
+const AdminCategories = () => {
   return (
     <>
       <div className="right-content">
@@ -72,4 +72,4 @@ const Categories = () => {
     </>
   );
 };
-export default Categories;
+export default AdminCategories;

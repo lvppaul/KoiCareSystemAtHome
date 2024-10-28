@@ -13,7 +13,7 @@ const AdminSideBar = () => {
       <div className="sidebar">
         <ul>
           <li>
-            <Link to="#">
+            <Link to="dashboard">
               <Button className="w-100">
                 <span className="icon">
                   <MdSpaceDashboard />
@@ -23,7 +23,7 @@ const AdminSideBar = () => {
             </Link>
           </li>
           <li>
-            <Link to="#">
+            <Link to="members">
               <Button className="w-100">
                 <span className="icon">
                   <MdAccountCircle />
@@ -33,7 +33,7 @@ const AdminSideBar = () => {
             </Link>
           </li>
           <li>
-            <Link to="#">
+            <Link to="shops">
               <Button className="w-100">
                 <span className="icon">
                   <FaShop />
@@ -43,7 +43,7 @@ const AdminSideBar = () => {
             </Link>
           </li>
           <li>
-            <Link to="#">
+            <Link to="categories">
               <Button className="w-100">
                 <span className="icon">
                   <MdCategory />
