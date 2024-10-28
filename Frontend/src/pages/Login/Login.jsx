@@ -76,7 +76,7 @@ function Login() {
             </div>
           </Col>
           <Col md={5} className='ms-4'>
-            <Nav className='nav-tabs' variant="tabs" defaultActiveKey="/login" >
+            <Nav className='nav-tabs-login' variant="tabs" defaultActiveKey="/login" >
               <Nav.Item>
                 <Nav.Link href="/login">Log In</Nav.Link>
               </Nav.Item>

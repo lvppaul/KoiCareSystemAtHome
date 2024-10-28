@@ -87,7 +87,7 @@ function Signup() {
                         </div>
                     </Col>
                     <Col md={5} className='ms-4'>
-                        <Nav className='nav-tabs' variant="tabs" defaultActiveKey="/signup" >
+                        <Nav className='nav-tabs-login' variant="tabs" defaultActiveKey="/signup" >
                             <Nav.Item>
                                 <Nav.Link eventKey="/login" href='/login'>Log In</Nav.Link>
                             </Nav.Item>
