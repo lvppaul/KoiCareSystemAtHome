@@ -98,10 +98,14 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest("Invalid request. Shop data cannot be null.");
             }
-
+            var name = _unitOfWork.ShopRepository.GetAll().Where(c => c.ShopName.ToUpper().Equals(shopdto.ShopName.ToUpper())).FirstOrDefault();
             var phone = _unitOfWork.ShopRepository.GetAll().Where(c => c.Phone == shopdto.Phone).FirstOrDefault();
             var email = _unitOfWork.ShopRepository.GetAll().Where(c => c.Email == shopdto.Email).FirstOrDefault();
 
+            if(name != null)
+            {
+                return StatusCode(422, "This shop name cant be the same with another shop.");
+            }
             if (phone != null)
             {
                 return StatusCode(422, "This phone number has already existed.");
