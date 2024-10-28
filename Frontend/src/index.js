@@ -61,25 +61,90 @@ root.render(
             <Route path="*" element={<NotPage />} />
 
             {/* Protected Routes for Authenticated Users */}
-            <Route path="koilist" element={<ProtectedRoute requiredRole="member"><KoiList /></ProtectedRoute>} />
-            <Route path="pond" element={<ProtectedRoute requiredRole="member"><Pond /></ProtectedRoute>} />
-            <Route path="ponddetail/:pondId" element={<ProtectedRoute requiredRole="member"><PondDetail /></ProtectedRoute>} />
-            <Route path="koidetail/:koiId" element={<ProtectedRoute requiredRole="member"><KoiDetail /></ProtectedRoute>} />
+            <Route
+              path="koilist"
+              element={
+                <ProtectedRoute requiredRole="member">
+                  <KoiList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="pond"
+              element={
+                <ProtectedRoute requiredRole="member">
+                  <Pond />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="ponddetail/:pondId"
+              element={
+                <ProtectedRoute requiredRole="member">
+                  <PondDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="koidetail/:koiId"
+              element={
+                <ProtectedRoute requiredRole="member">
+                  <KoiDetail />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Protected Routes for Shop Users */}
-            <Route path="manageshop" element={<ProtectedRoute requiredRole="shop"><ManageShop /></ProtectedRoute>} />
+            <Route
+              path="manageshop"
+              element={
+                <ProtectedRoute requiredRole="shop">
+                  <ManageShop />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Protected Routes for Vip Users */}
-            <Route path="foodcalculator" element={<ProtectedRoute requiredRole="vip"><FoodCalculator /></ProtectedRoute>} />
-            <Route path="saltcalculator" element={<ProtectedRoute requiredRole="vip"><SaltCalculator /></ProtectedRoute>} />
-            <Route path="koiremind" element={<ProtectedRoute requiredRole="vip"><KoiRemind /></ProtectedRoute>} />
+            <Route
+              path="foodcalculator"
+              element={
+                <ProtectedRoute requiredRole="vip">
+                  <FoodCalculator />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="saltcalculator"
+              element={
+                <ProtectedRoute requiredRole="vip">
+                  <SaltCalculator />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="koiremind"
+              element={
+                <ProtectedRoute requiredRole="vip">
+                  <KoiRemind />
+                </ProtectedRoute>
+              }
+            />
           </Route>
 
           {/* Admin Routes */}
-          <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminHome /></ProtectedRoute>}>
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminHome />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="members" element={<Members />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="shops" element={<Shops />} />
           </Route>
         </Routes>
       </AuthProvider>
