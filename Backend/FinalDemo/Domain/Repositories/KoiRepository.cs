@@ -40,9 +40,79 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return result;
         }
 
-        public async Task<List<Koi>> GetKoiDeadByUserIdAsync(string id)
+        public async Task<List<Koi>> GetKoiDeadAsync(string id)
         {
             var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false).ToListAsync();
+
+            return result;
+        }
+        public async Task<List<Koi>> GetKoiFemaleAsync(string id)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Sex.ToUpper().Equals("FEMALE")).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Koi>> GetKoiMaleAsync(string id)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Sex.ToUpper().Equals("MALE")).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Koi>> GetKoiFemaleAliveAsync(string id)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("FEMALE")).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Koi>> GetKoiFemaleDeadAsync(string id)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("FEMALE")).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Koi>> GetKoiMaleAliveAsync(string id)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("MALE")).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Koi>> GetKoiMaleDeadAsync(string id)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("MALE")).ToListAsync();
+
+            return result;
+        }
+
+
+        public async Task<List<Koi>> GetKoiMaleAliveInPondAsync(string id, int pondId)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("MALE") && k.PondId == pondId).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Koi>> GetKoiFemaleAliveInPondAsync(string id, int pondId)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("FEMALE") && k.PondId == pondId).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Koi>> GetKoiMaleDeadInPondAsync(string id, int pondId)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("MALE") && k.PondId == pondId).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Koi>> GetKoiFemaleDeadInPondAsync(string id, int pondId)
+        {
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("FEMALE") && k.PondId == pondId).ToListAsync();
 
             return result;
         }

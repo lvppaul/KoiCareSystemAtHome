@@ -381,7 +381,7 @@ namespace Domain.Repositories
 
         private void SendEmailConfirmEmail(string email, string emailCode)
         {
-            string confirmLink = $"https://localhost:7031//account/reset-password/{emailCode}";
+            string confirmLink = $"http://localhost:3000/confirmemail/?email={email}&code={emailCode}";
             StringBuilder emailMessage = new StringBuilder();
             emailMessage.AppendLine("<html>");
             emailMessage.AppendLine("<body>");
