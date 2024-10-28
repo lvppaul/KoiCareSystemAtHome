@@ -68,6 +68,11 @@ body {
   flex: 0 0 19%;
   transition: all 0.3 ease-in-out;
 }
+.main .sidebarWrapper.toggle {
+  width: 0%;
+  flex: 0 0 0%;
+}
+
 .main .sidebarWrapper .sidebar {
   width: 19%;
   height: 100vh;
@@ -76,6 +81,14 @@ body {
   left: 0px;
   background: #fff;
 }
+.sidebarWrapper .sidebar {
+  left: 0;
+  transition: all 0.26s ease-in-out;
+}
+.main .sidebarWrapper.toggle .sidebar {
+  left: -100%;
+}
+
 .main .sidebarWrapper .sidebar ul {
   margin-bottom: 0;
 }
@@ -109,7 +122,13 @@ body {
 .main .content {
   width: 80%;
   flex: 0 0 80%;
+  transition: all 0.3s ease-in-out;
 }
+.main .content.toggle {
+  width: 80%;
+  flex: 0 0 100%;
+}
+
 .right-content {
   padding: 90px 30px;
 }
