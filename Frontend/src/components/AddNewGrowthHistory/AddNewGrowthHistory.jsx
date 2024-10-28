@@ -8,7 +8,6 @@ const AddNewGrowthHistory = ({ show, setShow, koiData, updateAddedGrowth }) => {
     const userId = useAuth().user.userId;
     const initialRecord = { length: '', weight: '', koiId: koiData.koiId, userId: userId };
     const [record, setRecord] = useState(initialRecord);
-    console.log('koiData', koiData)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setRecord({ ...record, [name]: value });

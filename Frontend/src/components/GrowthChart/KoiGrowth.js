@@ -203,15 +203,15 @@ export const KoiGrowthChart = ({userId}) => {
             {/* Bộ lọc thời gian */}
             <Row style={{padding:'20px'}}>
         <Col>
-        <label>Chọn thời gian:</label>
+        <label>Choose time:</label>
             <select
                 onChange={handleTimeFilterChange}
                 value={timeFilter}
                 style={{ background: "orange", color: "white", padding: "5px" }}
                 >
-                <option value="last_3_days">3 ngày gần nhất</option>
-                <option value="last_week">Tuần vừa qua</option>
-                <option value="custom">Tùy chỉnh</option>
+                <option value="last_3_days">3 Latest Days</option>
+                <option value="last_week">Last Week</option>
+                <option value="custom">Custom time</option>
             </select>
 
             {timeFilter === "custom" && (
@@ -230,7 +230,7 @@ export const KoiGrowthChart = ({userId}) => {
             )}
         </Col>
         <Col>
-            <label>Chọn con cá:</label>
+            <label>Select koi fish:</label>
             <select style={{background: "orange" ,color: "white", padding:'5px'}} onChange={handleKoiChange} value={selectedKoiId}>
                 {koiList.map(koi => (
                     <option key={koi.koiId} value={koi.koiId}>

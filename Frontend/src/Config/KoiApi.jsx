@@ -108,7 +108,15 @@ const deleteKoi = async (koiId) => {
         throw error;
     }
 }
-
+const getKoiRecord = async (recordId) => {
+    try {
+        const response = await api.get(`KoiRecord/async/${recordId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching growth history:', error);
+        throw error;
+    }
+}
 const addRecord = async (record) => {
     try {
         const response = await api.post('KoiRecord', record);
@@ -130,7 +138,16 @@ const deleteRecord = async (recordId) => {
     }
 };
 
+const updateKoiRecord = async (record) => {
+    try {
+        const response = await api.put(`KoiRecord/${record.recordId}`, record);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating growth history:', error);
+        throw error;
+    }
+}
 
 export { getKoiByUserId, getKoiById, postKoi, deleteKoi, updateKoi
-    , addRecord, deleteRecord
+    , addRecord, deleteRecord, updateKoiRecord, getKoiRecord
  };
