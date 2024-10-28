@@ -45,7 +45,7 @@ namespace KCSAH.APIServer.Controllers
             result.category = category;
             return result;
         }
-        [HttpGet("GetProductImageByProductId/{ProductId:int}")]
+        [HttpGet("GetProductImageByProductId")]
         public async Task<ActionResult<List<ProductImageDTO>>> GetProductImage(int ProductId)
         {
             var image = await _unitOfWork.ProductImageRepository.GetImageByProductId(ProductId);
@@ -54,6 +54,18 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
             var result = _mapper.Map<List<ProductImageDTO>>(image);
+            return result;
+        }
+
+        [HttpGet("GetProductByName")]
+        public async Task<ActionResult<List<ProductDTO>>> GetProductByName(string Name)
+        {
+            var product = await _unitOfWork.ProductRepository.GetProductByName(Name);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<ProductDTO>>(product);
             return result;
         }
 
@@ -172,6 +184,24 @@ namespace KCSAH.APIServer.Controllers
 
             return NoContent(); // Trả về 200 OK với sản phẩm đã cập nhật
         }
+
+        [HttpGet("Search")]
+        public async Task<ActionResult<List<ProductDTO>>> SearchProducts(
+                    string? name = null,
+                    int? categoryId = null,
+                    float? minPrice = null,
+                    float? maxPrice = null,
+                    int? shopId = null)
+        {
+            var products = await _unitOfWork.ProductRepository.SearchProducts(name, categoryId, minPrice, maxPrice, shopId);
+            if (products == null || !products.Any())
+            {
+                return NotFound();
+            }
+            var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+            return Ok(productDTOs);
+        }
+
 
         private async Task<CategoryDTO> GetCategoryAsync(int id)
         {

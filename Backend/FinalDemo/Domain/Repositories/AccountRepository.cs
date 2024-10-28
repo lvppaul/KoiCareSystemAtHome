@@ -87,6 +87,7 @@ namespace Domain.Repositories
                 string uid = decodedToken.Uid;
                 string email = decodedToken.Claims["email"].ToString();
                 string name = decodedToken.Claims["name"].ToString();
+                string picture = decodedToken.Claims["picture"].ToString();
                 int indexLastName = name.LastIndexOf(" ");
                 string LastName = name.Substring(indexLastName + 1);
                 string FirstName = name.Substring(0, indexLastName);
@@ -102,6 +103,7 @@ namespace Domain.Repositories
                         Email = email,
                         LastName = LastName,
                         FirstName = FirstName,
+                        Avatar = picture,
                         EmailConfirmed = true,
                     };
                     var result = await _userManager.CreateAsync(user);

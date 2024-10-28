@@ -16,7 +16,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Cart>> GetAllAsync()
         {
-            return await _context.Carts.ToListAsync();
+            return await _context.Carts.Include(c => c.CartItems).ToListAsync();
         }
 
         public async Task<Cart> GetByIdAsync(string id)
@@ -38,9 +38,5 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return result;
         }
 
-        //public async Task<bool> AddItem(int ProductId, int qty, string userId)
-        //{
-            
-        //}
     }
 }

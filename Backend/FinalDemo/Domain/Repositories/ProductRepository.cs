@@ -32,6 +32,11 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await result;
         }
 
+        public async Task<List<Product>> GetProductByName(string name)
+        { 
+            return await _context.Products.Include(p => p.Category).Where(p => p.Name.Contains(name)).ToListAsync(); ;
+        }
+
         public async Task<List<Product>> GetProductsBySID(int id)
         {
             var products = await _context.Products.Include(c =>c.Category)
@@ -56,6 +61,37 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             .Where(p => p.CategoryId == categoryId && p.ShopId == shopId)
             .ToListAsync();
             return result;
+        }
+
+        public async Task<List<Product>> SearchProducts(string name = null,
+                            int? categoryId = null,
+                            float? minPrice = null,
+                            float? maxPrice = null,
+                            int? shopId = null)
+        {
+            IQueryable<Product> result = _context.Products.Include(p => p.Category);
+            if (!string.IsNullOrEmpty(name))
+            {
+                result = result.Where(p => p.Name.Contains(name));
+            }
+            if (categoryId.HasValue)
+            {
+                result = result.Where(p => p.CategoryId == categoryId);
+            }
+            if (minPrice.HasValue)
+            {
+                result = result.Where(p => p.Price >= minPrice);
+            }
+            if (maxPrice.HasValue)
+            {
+                result = result.Where(p => p.Price <= maxPrice);
+            }
+            if (shopId.HasValue)
+            {
+                result = result.Where(p => p.ShopId == shopId);
+            }
+            
+            return await result.ToListAsync();
         }
     }
 }

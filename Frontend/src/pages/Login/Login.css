@@ -11,7 +11,7 @@
     width: 40%;
 }
 
-.nav-tabs {
+.nav-tabs-login {
     display: flex;
     text-align: center;
     color: #333;
@@ -21,7 +21,7 @@
     border-bottom: none;
 }
 
-.nav-tabs .nav-link.active {
+.nav-tabs-login .nav-link.active {
     background-color: transparent;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: #C97852;
@@ -29,7 +29,7 @@
     border-bottom: none;
 }
 
-.nav-tabs .nav-link {
+.nav-tabs-login .nav-link {
     color: rgb(0, 0, 0);
     margin-right: 10px;
     font-weight: bold;
@@ -37,7 +37,7 @@
     border-bottom: none;
 }
 
-.nav-tabs .nav-link:hover {
+.nav-tabs-login .nav-link:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: #C97852;
 }

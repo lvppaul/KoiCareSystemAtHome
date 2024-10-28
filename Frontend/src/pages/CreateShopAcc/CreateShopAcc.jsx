@@ -4,7 +4,8 @@ import { Button, Container, Row, Col, Image, Nav, Form, InputGroup, FormControl,
 import ConfirmEmail from '../../components/ConfirmEmail/ConfirmEmail';
 import logo from "../../assets/Fpt_TTKoi_logo.svg";
 import './CreateShopAcc.css';
-import { getUserIdByEmail, signUpShop, deleteAccount } from '../../Config/LogInApi';
+import { signUpShop } from '../../Config/LogInApi';
+import { getUserIdByEmail, deleteAccount } from '../../Config/UserApi';
 import { addShop } from '../../Config/ShopApi';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -113,7 +114,7 @@ function CreateShopAcc() {
                         </div>
                     </Col>
                     <Col md={5} className='ms-4'>
-                        <Nav className='nav-tabs' variant="tabs" defaultActiveKey="/createshopacc">
+                        <Nav className='nav-tabs-login' variant="tabs" defaultActiveKey="/createshopacc">
                             <Nav.Item>
                                 <Nav.Link eventKey="/login" href='/login'>Log In</Nav.Link>
                             </Nav.Item>

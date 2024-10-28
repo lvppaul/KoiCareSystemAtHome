@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
+using Domain.Models.Dto.Update;
 using Domain.Models.Entity;
 using Domain.Services;
 using Microsoft.AspNetCore.Http;
@@ -119,7 +120,7 @@ namespace APIService.Controllers
             {
                 var cartitem = await GetProductAsync(detail.ProductId);
                 detail.ProductName = cartitem.Name;
-                detail.Price = (decimal) cartitem.Price;
+                detail.Price = (decimal)cartitem.Price;
                 detail.TotalPrice = (decimal)(detail.Price * detail.Quantity);
                 detail.Thumbnail = cartitem.Thumbnail;
                 total += (decimal)(detail.Price * detail.Quantity);
@@ -136,10 +137,138 @@ namespace APIService.Controllers
             return CreatedAtAction(nameof(ReturnCartById), new { id = cart.CartId }, cart);
         }
 
+        [HttpPost("AddItem")]
+        public async Task<IActionResult> AddItemToCart(string userId, [FromBody] CartItemRequestDTO cartItemDto)
+        {
+            var cart = await _unitOfWork.CartRepository.GetCartByUserIdAsync(userId);
+            if (cart == null)
+            {
+                return NotFound("Cart not found for this user.");
+            }
+
+            var existingItem = cart.CartItems.FirstOrDefault(x => x.ProductId == cartItemDto.ProductId);
+            if (existingItem != null)
+            {
+                existingItem.Quantity += cartItemDto.Quantity;
+                existingItem.TotalPrice = existingItem.Price * existingItem.Quantity;
+            }
+            else
+            {
+                var product = await GetProductAsync(cartItemDto.ProductId);
+                if (product == null)
+                {
+                    return BadRequest("Product not found.");
+                }
+
+                var newItem = new CartItem
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.Name,
+                    Price = (decimal)product.Price,
+                    Quantity = cartItemDto.Quantity,
+                    TotalPrice = (decimal)product.Price * cartItemDto.Quantity,
+                    Thumbnail = product.Thumbnail
+                };
+                cart.CartItems.Add(newItem);
+            }
+
+            cart.TotalAmount = cart.CartItems.Sum(x => x.TotalPrice);
+            
+            var updateResult = await _unitOfWork.CartRepository.UpdateAsync(cart);
+
+            if (updateResult <= 0)
+            {
+                return StatusCode(500, "Error updating the cart.");
+            }
+
+            var result = _mapper.Map<CartDTO>(cart);
+            return Ok(result);
+        }
+
+        [HttpPost("RemoveItem")]
+        public async Task<IActionResult> RemoveItemFromCart(string userId, [FromBody] CartItemRequestDTO cartItemDto)
+        {
+            var cart = await _unitOfWork.CartRepository.GetCartByUserIdAsync(userId);
+            if (cart == null)
+            {
+                return NotFound("Cart not found for this user.");
+            }
+
+            var existingItem = cart.CartItems.FirstOrDefault(x => x.ProductId == cartItemDto.ProductId);
+            if (existingItem != null)
+            {
+                existingItem.Quantity -= cartItemDto.Quantity;
+
+                if (existingItem.Quantity <= 0)
+                {
+                    cart.CartItems.Remove(existingItem);
+                }
+                else
+                {
+                    existingItem.TotalPrice = existingItem.Price * existingItem.Quantity;
+                }
+            }
+            else
+            {
+                return BadRequest("Product is not in the cart.");
+            }
+
+            cart.TotalAmount = cart.CartItems.Sum(x => x.TotalPrice);
+
+            var updateResult = await _unitOfWork.CartRepository.UpdateAsync(cart);
+            if (updateResult <= 0)
+            {
+                return StatusCode(500, "Error updating the cart.");
+            }
+
+            var result = _mapper.Map<CartDTO>(cart);
+            return Ok(result);
+        }
+
+
+
         private async Task<Product> GetProductAsync(int id)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
             return product;
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCart(int id, [FromBody] CartUpdateDTO cartUpdateDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingCart = await _unitOfWork.CartRepository.GetCartByIdAsync(id);
+            if (existingCart == null)
+            {
+                return NotFound("Cart not found.");
+            }
+
+            _mapper.Map(cartUpdateDto, existingCart);
+            foreach (var detail in existingCart.CartItems)
+            {
+                var product = await GetProductAsync(detail.ProductId);
+                if (product != null)
+                {
+                    detail.Price = (decimal)product.Price;
+                    detail.TotalPrice = detail.Price * detail.Quantity;
+                }
+            }
+            existingCart.TotalAmount = existingCart.CartItems.Sum(x => x.TotalPrice);
+
+            var updateResult = await _unitOfWork.CartRepository.UpdateAsync(existingCart);
+
+            if (updateResult <= 0)
+            {
+                return StatusCode(500, "Error updating the cart.");
+            }
+
+            var result = _mapper.Map<CartDTO>(existingCart);
+            return Ok(result);
+        }
+
     }
 }
