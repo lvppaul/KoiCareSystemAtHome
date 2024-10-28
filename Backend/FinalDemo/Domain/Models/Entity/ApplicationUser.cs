@@ -21,6 +21,7 @@ namespace Domain.Models.Entity
         public string? City { get; set; }
 
         public string? Country { get; set; }
+        public string? Avatar { get; set; }
 
         public virtual Shop? Shop { get; set; }
 

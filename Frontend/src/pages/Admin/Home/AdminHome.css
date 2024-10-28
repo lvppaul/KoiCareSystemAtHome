@@ -4,7 +4,7 @@ body {
   background-color: #ebe9e9;
   font-family: "Open Sans", sans-serif;
 }
-header {
+.admin-header {
   width: 100%;
   height: 80px;
   background-color: #fff;
@@ -13,7 +13,7 @@ header {
   left: 0;
   z-index: 1000;
 }
-header .logo {
+.admin-header .logo {
   width: 80px;
 }
 .header-link {
@@ -25,11 +25,11 @@ header .logo {
   font-weight: bold;
   font-size: 27px;
 }
-.header .row {
+.admin-header .row {
   margin: 0px !important;
 }
 
-header button.rounded-circle {
+.admin-header button.rounded-circle {
   min-width: 40px !important;
   width: 40px !important;
   height: 40px !important;
@@ -105,6 +105,48 @@ header button.rounded-circle {
 }
 
 /*---------------- Dashboard -----------*/
+
+.main .content {
+  width: 80%;
+  flex: 0 0 80%;
+}
 .right-content {
-  padding: 100px 28px;
+  padding: 90px 30px;
+}
+.dashboardBoxWrapper {
+  gap: 29px;
+  width: 100%;
+  flex-wrap: wrap;
+  margin-top: 50px;
+  margin-left: 8px;
+}
+.dashboardBoxWrapper .dashboardBox {
+  width: 30%;
+  height: 250px;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.dashboardBoxWrapper .dashboardBox .col1 h4 {
+  font-size: 20px;
+  font-weight: 600;
+}
+.dashboardBoxWrapper .dashboardBox .col1 span {
+  font-size: 47px !important;
+  font-weight: bold;
+  flex-grow: 1;
+}
+.dashboardBoxWrapper .dashboardBox .icon svg {
+  font-size: 45px;
+  opacity: 0.1;
+  color: #000;
+}
+/*-------------------  Members   ---------------------*/
+.members-content {
+  margin-top: 50px;
+  margin-left: 8px;
 }
