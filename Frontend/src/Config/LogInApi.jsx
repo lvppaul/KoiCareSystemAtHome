@@ -32,13 +32,13 @@ const signUpShop = async (userData) => {
                 'Accept': 'application/json'
             }
         });
-        console.log(response);
+        console.log('signupshop resp',response.data.message);
         return response.data.message;
     } catch (error) {
         console.error('Error during sign-up:', error);
         if (error.response) {
-            console.error('Error response data:', error.response.data);
-            return error.response.data;
+            console.error('Error response data:', error.response.data.message);
+            return error.response.data.message;
         } else {
             return { error: 'Unknown error occurred' };
         }
@@ -63,7 +63,7 @@ const signIn = async (credentials) => {
         localStorage.setItem('user', JSON.stringify({ userId, userRole }));
         const message = response.data.message;
         console.log(message);
-        return {  userId, userRole ,message};
+        return {  userId, email, userRole, message};
     } catch (error) {
         if (error.response) {
             console.error('Error response data:', error.response.data);

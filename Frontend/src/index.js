@@ -44,6 +44,10 @@ root.render(
       <AuthProvider>
         <Routes>
           {/* Public Routes (accessible to everyone) */}
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="createshopacc" element={<CreateShopAcc />} />
+          <Route path="confirmemail" element={<Confirmation />} />
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="news" element={<News />} />

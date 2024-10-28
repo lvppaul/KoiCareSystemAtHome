@@ -39,7 +39,7 @@ function CreateShopAcc() {
         try {
             const signUpResponse = await signUpShop(userData);
 
-            if (signUpResponse === 200) {
+            if (signUpResponse === null) {
                 const userIdResponse = await getUserIdByEmail(email);
                 setCreateShopError(null);
                 setCreateShopSuccess(signUpResponse);
@@ -53,15 +53,15 @@ function CreateShopAcc() {
                     if (addShopResponse.shopId) {
                         setShowConfirmEmailModal(true);
                     } else {
-                        setCreateShopError(addShopResponse.error);
+                        setCreateShopError(addShopResponse);
                         await deleteAccount(userIdResponse);
                     }
                 } catch (error) {
-                    if (error.message === 'Request failed with status code 422') {
-                        setCreateShopError('Shop name already taken');
+                    if (error.response.data) {
+                        setCreateShopError(error.response.data);
                         await deleteAccount(userIdResponse);
                     } else {
-                        setCreateShopError(error.message);
+                        setCreateShopError(error.response.data);
                         await deleteAccount(userIdResponse);
                     }
                 }
