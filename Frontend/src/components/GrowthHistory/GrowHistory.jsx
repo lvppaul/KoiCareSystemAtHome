@@ -8,7 +8,6 @@ import { BiEdit } from 'react-icons/bi'
 const GrowHistory = ({show, setShow, koiData}) => {
   const [growthHistory, setGrowthHistory] = useState(koiData.records || []);
   const [showAddNewGrowthHistory, setShowAddNewGrowthHistory] = useState(false);
-  const [showUpdateGrowthHistory, setShowUpdateGrowthHistory] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);// set for update record
 
   const lastedUpdatedTime = growthHistory.length > 0 ? growthHistory.sort((a, b) => {
