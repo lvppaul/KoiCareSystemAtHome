@@ -147,6 +147,9 @@ namespace KCSAH.APIServer.Dto
             CreateMap<CartItem, CartItemDTO>().ReverseMap();
             CreateMap<CartItemRequestDTO, CartItem>().ReverseMap();
             CreateMap<CartItemRequestDTO, CartItemDTO>().ReverseMap();
+
+            //PaymentTransaction
+            CreateMap<PaymentTransaction, PaymentTransactionDTO>().ReverseMap();
         }
     }
 }

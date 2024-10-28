@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Domain.Models.Dto.Response
 {
     //Mô tả lớp kết quả trả về khi thanh toán:
-    public class VnPaymentResponseModel
+    public class VNPayResponseDTO
     {
         public bool Success { get; set; }
         public string PaymentMethod { get; set; }

@@ -62,6 +62,9 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     public virtual DbSet<WaterParameter> WaterParameters { get; set; }
 
+    public virtual DbSet<PaymentTransaction> PaymentTransactions { get; set; }
+
+
     public static string GetConnectionString(string connectionStringName)
     {
         var config = new ConfigurationBuilder()
