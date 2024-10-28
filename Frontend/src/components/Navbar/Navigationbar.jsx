@@ -82,6 +82,9 @@ const Navigationbar = () => {
             <NavDropdown style={{ position: 'relative' }} title={<BiUserCircle size={50} />} id="basic-nav-dropdown">
                 {user ? (
                   <>
+                    <NavDropdown.Item as={NavLink} to="/profile">
+                      Profile
+                    </NavDropdown.Item>
                     <NavDropdown.Item onClick={handleLogOut}>
                       Log out
                     </NavDropdown.Item>
