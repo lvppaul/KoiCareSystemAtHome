@@ -33,6 +33,8 @@ import KoiList from "./pages/KoiList/KoiList";
 import Confirmation from "./pages/EmailConfirm/Confirmation";
 import AdminDashboard from "./components/AdminComponents/AdminDashboard";
 import Members from "./components/AdminComponents/MemberManagement";
+import Categories from "./components/AdminComponents/CategoriesManagement";
+import Shops from "./components/AdminComponents/ShopManagement";
 const container = document.getElementById("root");
 const root = createRoot(container);
 
@@ -219,6 +221,8 @@ root.render(
             <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="members" element={<Members />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="shops" element={<Shops />} />
           </Route>
         </Routes>
       </AuthProvider>
