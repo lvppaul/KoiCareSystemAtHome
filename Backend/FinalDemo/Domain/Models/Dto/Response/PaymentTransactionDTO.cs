@@ -9,11 +9,12 @@ namespace Domain.Models.Dto.Response
     public class PaymentTransactionDTO
     {
         public string VnpTxnRef { get; set; } = null!;
+        public string userId { get; set; } = null!;
         public string VnpAmount { get; set; } = null!;
         public string VnpBankCode { get; set; } = null!;
         public string VnpBankTranNo { get; set; } = null!;
         public string VnpCardType { get; set; } = null!;
-        public string VnpOrderInfo { get; set; } = null!;
+        public int VnpOrderInfo { get; set; } 
         public string VnpPayDate { get; set; } = null!;
         public string VnpResponseCode { get; set; } = null!;
         public string VnpTransactionNo { get; set; } = null!;
