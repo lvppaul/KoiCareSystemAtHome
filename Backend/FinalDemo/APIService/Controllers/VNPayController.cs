@@ -1,7 +1,9 @@
 ﻿using Domain.Models.Dto.Request;
+using Domain.Models.Entity;
 using Domain.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace APIService.Controllers
 {
@@ -29,26 +31,47 @@ namespace APIService.Controllers
             }
         }
 
-        [HttpGet("payment-callback")]
-        public async Task<IActionResult> PaymentCallback()
+        //[HttpGet("payment-callback")]
+        //public async Task<IActionResult> PaymentCallback()
+        //{
+        //    try
+        //    {
+        //        var response = await _vnpayService.PaymentCallback(Request.Query);
+
+        //        if (response.Success)
+        //        {
+        //            return Ok(response);
+        //        }
+
+        //        return BadRequest(response);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log exception
+        //        return BadRequest(new { Message = "Có lỗi xảy ra", Error = ex.Message });
+        //    }
+        //}
+
+        [HttpGet("vnpay-return")]
+        public async Task<IActionResult> VnPayReturn([FromQuery] string returnUrl)
         {
             try
             {
-                var response = await _vnpayService.PaymentCallback(Request.Query);
+                var (success, message) = await _vnpayService.ProcessVnPayReturn(returnUrl);
 
-                if (response.Success)
+                if (!success)
                 {
-                    return Ok(response);
+                    return BadRequest(new { Message = message });
                 }
 
-                return BadRequest(response);
+                return Ok(new { Message = message });
             }
             catch (Exception ex)
             {
-                // Log exception
-                return BadRequest(new { Message = "Có lỗi xảy ra", Error = ex.Message });
+                return StatusCode(500, new { Message = "An error occurred while processing the payment" });
             }
         }
+
 
     }
 }
