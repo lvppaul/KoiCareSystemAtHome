@@ -7,9 +7,10 @@ const Confirmation = () => {
 
     const sendConfirmrequest = async () => {
         const params = new URLSearchParams(window.location.search);
-        const emailParam = decodeURIComponent(params.get('email'));
-        const codeParam = encodeURIComponent(params.get('code'));
+        const emailParam = params.get('email');
+        const codeParam = params.get('code');
         const confirmData = { email: emailParam, code: codeParam };
+        console.log('confirmdata', confirmData);
         // Set the state with the extracted values
         try {
             const response = await confirmEmail(confirmData);
