@@ -35,26 +35,16 @@ export const AuthProvider = ({ children }) => {
 
     const hasRole = (role) => {
         if (role === 'shop'){
-            return user?.role === role;
-        } else {
-        const roleHierarchy = ['member', 'vip', 'admin'];
-        const userRoleIndex = roleHierarchy.indexOf(user?.role);
-        const requiredRoleIndex = roleHierarchy.indexOf(role);
-        return userRoleIndex >= requiredRoleIndex;
+            return user && user.role === 'shop';
         }
+        return user && user.role === role;
     };
-
-    if (loading) {
-        return <div>Loading...</div>; // Show a loading indicator while checking the user
-    }
 
     return (
         <AuthContext.Provider value={{ user, login, logout, hasRole }}>
-            {children}
+            {!loading && children}
         </AuthContext.Provider>
     );
 };
 
-export const useAuth = () => {
-    return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);

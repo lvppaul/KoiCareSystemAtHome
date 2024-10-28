@@ -9,6 +9,7 @@ import UpdatePondDetail from '../../components/UpdatePondDetail/UpdatePondDetail
 import DeletePond from '../../components/DeletePond/DeletePond';
 import { getKoiInPond } from '../../Config/PondApi';
 import DeleteKoi from '../../components/DeleteKoi/DeleteKoi';
+import WaterParameter from '../../components/WaterParameter/WaterParameter';
 
 // Use pondId to fetch or display pond details
 const PondDetail = () => {
@@ -18,6 +19,7 @@ const PondDetail = () => {
   const [koiList, setKoiList] = useState([]);
   const [showModalAddPond, setShowModalAddPond] = useState(false);
   const [showModalAddFish, setShowModalAddFish] = useState(false);
+  const [showModalWaterParameter, setShowModalWaterParameter] = useState(false);
   const [loadingKoi, setLoadingKoi] = useState(true);
 
   //handle fetch data koi pond by pondId
@@ -99,6 +101,15 @@ const PondDetail = () => {
             <li><strong>Note:</strong> {pond.note}</li>
           </ul>
         </Col>
+      </Row>
+      <hr style={{ width: '50%', borderTop: '5px solid #000', margin: '100px auto' }} />
+      <Row>
+      <h1>Water Parameter</h1>
+      <WaterParameter
+      show={showModalWaterParameter}
+      setShow={setShowModalWaterParameter}
+      pondId={pondId}
+      />
       </Row>
       <hr style={{ width: '50%', borderTop: '5px solid #000', margin: '100px auto' }} />
       <Row>
