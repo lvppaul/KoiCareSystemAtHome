@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { FaPen } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
-const Shops = () => {
+const AdminShops = () => {
   return (
     <>
       <div className="right-content">
@@ -115,4 +115,4 @@ const Shops = () => {
     </>
   );
 };
-export default Shops;
+export default AdminShops;
