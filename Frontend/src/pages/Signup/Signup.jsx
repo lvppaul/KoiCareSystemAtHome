@@ -38,7 +38,7 @@ function Signup() {
                 if (response !== 200) {
                     setSignupError(response);
                 } else {
-                    setShowConfirmEmailModal(true);;
+                    setShowConfirmEmailModal(true);
                 }
             })
             .catch((error) => {

@@ -18,7 +18,6 @@ function Login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmEmailModal, setShowConfirmEmailModal] = useState(false);
-  const [showConfirmLink, setShowConfirmLink] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -31,9 +30,6 @@ function Login() {
         } else {
           navigate('/');
         }
-      } if (response === "Confirm Your Email") {
-        setErr(response ? response : 'No response from server');
-        setShowConfirmLink(true);
       } else {
         setErr(response ? response : 'No response from server');
       }
@@ -145,10 +141,6 @@ function Login() {
                 </Col>
               </Row>
               {err && <p className="error-message">{err}!</p>}
-              {showConfirmLink ? (<Button
-                variant='link'
-                onClick={() => setShowConfirmEmailModal(true)}
-              >Click here to confirm your Email</Button>) : null}
               <p style={{ fontSize: "20px", fontWeight: "bold", textShadow: "black 0 0 1px" }}>Or</p>
               <LoginGoogle />
             </Form>
