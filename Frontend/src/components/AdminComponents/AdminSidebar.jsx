@@ -6,6 +6,7 @@ import { MdAccountCircle } from "react-icons/md";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
+import { FaShop } from "react-icons/fa6";
 const AdminSideBar = () => {
   return (
     <div>
@@ -27,7 +28,17 @@ const AdminSideBar = () => {
                 <span className="icon">
                   <MdAccountCircle />
                 </span>
-                Account
+                Member
+              </Button>
+            </Link>
+          </li>
+          <li>
+            <Link to="#">
+              <Button className="w-100">
+                <span className="icon">
+                  <FaShop />
+                </span>
+                Shop
               </Button>
             </Link>
           </li>

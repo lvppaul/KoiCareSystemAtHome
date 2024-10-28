@@ -216,6 +216,7 @@ root.render(
               </ProtectedRoute>
             }
           >
+            <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="members" element={<Members />} />
           </Route>
