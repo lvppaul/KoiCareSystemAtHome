@@ -8,7 +8,7 @@ import { MdOutlineMenuOpen } from "react-icons/md";
 const AdminHeader = () => {
   return (
     <div>
-      <header className="d-flex align-items-center">
+      <header className="d-flex align-items-center admin-header">
         <div className="container-fluid w-100">
           <div className="row d-flex align-items-center">
             {/* Logo */}
