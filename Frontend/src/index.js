@@ -161,7 +161,7 @@ root.render(
               </ProtectedRoute>
             }
           >
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
           </Route>
         </Routes>
       </AuthProvider>
