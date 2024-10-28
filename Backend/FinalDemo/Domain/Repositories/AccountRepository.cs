@@ -279,7 +279,7 @@ namespace Domain.Repositories
             var encodedToken = HttpUtility.UrlEncode(emailCode);
            SendEmailConfirmEmail(createdUser!.Email!, encodedToken);
 
-            return new ConfirmEmailResponse { Email = createdUser.Email, ConfirmToken = emailCode };
+            return new ConfirmEmailResponse { Email = createdUser.Email, ConfirmToken = encodedToken };
 
         }
 
