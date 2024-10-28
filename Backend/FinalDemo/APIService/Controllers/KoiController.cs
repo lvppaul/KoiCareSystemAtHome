@@ -48,7 +48,33 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
-        [HttpGet("GetAllKoiByUserId/{userid}")]
+        [HttpGet("GetKoiMaleInAllPond")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiByMaleSexAsync(string userid)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiMaleAsync(userid);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetKoiFemaleInAllPond")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiByFemaleSexAsync(string userid)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiFemaleAsync(userid);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetAllKoiByUserId")]
         //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<ActionResult<List<KoiDTO>>> GetAllKoiByUserIdAsync(string userid)
         {
@@ -61,7 +87,7 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
-        [HttpGet("GetKoiAliveByUserId/{userid}")]
+        [HttpGet("GetKoiAliveInAllPond")]
         //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<ActionResult<List<KoiDTO>>> GetKoiByUserIdAsync(string userid)
         {
@@ -74,11 +100,115 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
-        [HttpGet("GetKoiDeadByUserId/{userid}")]
+        [HttpGet("GetKoiDeadInAllPond")]
         //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<ActionResult<List<KoiDTO>>> GetKoiDeadByUserIdAsync(string userid)
         {
-            var koi = await _unitOfWork.KoiRepository.GetKoiDeadByUserIdAsync(userid);
+            var koi = await _unitOfWork.KoiRepository.GetKoiDeadAsync(userid);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetKoiMaleDeadInAllPond")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiMaleDeadAsync(string userid)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiMaleDeadAsync(userid);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetKoiFemaleDeadInAllPond")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiFemaleDeadAsync(string userid)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiFemaleDeadAsync(userid);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetKoiMaleAliveInAllPond")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiMaleAliveAsync(string userid)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiMaleAliveAsync(userid);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetKoiFemaleAliveInAllPond")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiFemaleAliveAsync(string userid)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiFemaleAliveAsync(userid);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetKoiFemaleAliveInPond")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiFemaleAliveInPondAsync(string userid, int pondId)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiFemaleAliveInPondAsync(userid, pondId);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetKoiMaleAliveInPond")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiMaleAliveInPondAsync(string userid, int pondId)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiMaleAliveInPondAsync(userid, pondId);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetKoiFemaleDeadInPond")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiFemaleDeadInPondAsync(string userid, int pondId)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiFemaleDeadInPondAsync(userid, pondId);
+            if (koi == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiDTO>>(koi);
+            return result;
+        }
+
+        [HttpGet("GetKoiMaleDeadInPond")]
+        //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
+        public async Task<ActionResult<List<KoiDTO>>> GetKoiMaleDeadInPondAsync(string userid, int pondId)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetKoiMaleDeadInPondAsync(userid, pondId);
             if (koi == null)
             {
                 return NotFound();
@@ -161,10 +291,10 @@ namespace KCSAH.APIServer.Controllers
             if (updateResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while updating koi");
-                return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
+                return StatusCode(500, ModelState);
             }
 
-            return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
+            return NoContent(); 
         }
 
         [HttpDelete("{id}")]
