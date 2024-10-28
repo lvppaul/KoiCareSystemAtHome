@@ -129,4 +129,17 @@ const getKoiInPond = async (pondId) => {
         throw error;
     }
 }
-export { getPonds, getPondByUserId , getPondsById, postPond, updatePond, deletePond, getKoiInPond};
+
+const getWaterParameter = async (pondId) => {
+    try {
+        const response = await api.get(`Pond/ListWaterParameter/${pondId}`);
+        console.log('Water parameter fetched:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching water parameter:', error);
+        throw error;
+    }
+}
+export { getPonds, getPondByUserId , getPondsById, postPond, updatePond, deletePond, getKoiInPond
+    , getWaterParameter
+};
