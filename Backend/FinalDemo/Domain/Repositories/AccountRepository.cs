@@ -543,6 +543,7 @@ namespace Domain.Repositories
             user.City = model.City;
             user.Country = model.Country;
             user.PhoneNumber = model.PhoneNumber;
+            user.Avatar = model.Avatar;
             var result = await _userManager.UpdateAsync(user);
            
             if (!result.Succeeded)

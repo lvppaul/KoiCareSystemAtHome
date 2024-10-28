@@ -21,6 +21,8 @@ namespace Domain.Authentication
         public string Country { get; set; } = null!;
         [Required]
         public string PhoneNumber { get; set; } = null!;
-       
+        [Required]
+        public string Avatar{ get; set; } = null!;
+
     }
 }
