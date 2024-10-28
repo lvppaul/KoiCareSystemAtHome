@@ -17,7 +17,7 @@ const WaterParameter = ({ show, setShow, pondId }) => {
         } catch (error) {
             console.error('Error fetching water parameter:', error);
         }
-    }, []);
+    }, [pondId]);
   return (
     <>
     <Card as={Button} 
@@ -28,7 +28,6 @@ const WaterParameter = ({ show, setShow, pondId }) => {
     >
         <Card.Header>Create At</Card.Header>
             <Card.Body>
-                <Card.Text style={{fontSize:'20px'}}>
                 <Row className="text-center">
                     <Col><strong>Temperature:</strong> 30°C</Col>
                     <Col><strong>PH:</strong> 7.5</Col>
@@ -39,7 +38,6 @@ const WaterParameter = ({ show, setShow, pondId }) => {
                     <Col><strong>Alkalinity:</strong> 0.5ppm</Col>
                     <Col><strong>Hardness:</strong> 0.5ppm</Col>
                 </Row>
-                </Card.Text>
             </Card.Body>
     </Card>
     <Card as={Button} 
@@ -59,14 +57,15 @@ const WaterParameter = ({ show, setShow, pondId }) => {
                 <Row style={{justifyContent:'flex-end'}}>
                 <AddWaterParameter
                 show={showAddWaterParameter}
-                setShow={setShowAddWaterParameter}/>
+                setShow={setShowAddWaterParameter}
+                pondId={pondId}/>
                 </Row>
                 <hr/>
                 <Row>
-{waterParameter.length ? (
-        waterParameter.map((parameter) => (
-            <Card >
-                <Card.Header>{parameter.createAt}</Card.Header>
+            {waterParameter.length ? (
+            waterParameter.map((parameter,index) => (
+            <Card key={index}>
+                <Card.Header>{formatDate(Date(parameter.createAt))}</Card.Header>
                 <Card.Body>
                     <Card.Text style={{fontSize:'18px'}}>
                         <Row className="text-center">

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
-import { Chart } from 'chart.js/auto';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -11,7 +10,7 @@ import {
     Tooltip,
     Legend}
     from 'chart.js';
-import { Button, Col, Modal, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 
 ChartJS.register(
     CategoryScale,

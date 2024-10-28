@@ -1,7 +1,7 @@
 import api from './AxiosConfig';
 const getWaterParameter = async (pondId) => {
     try {
-        const response = await api.get(`Pond/ListWaterParameter/${pondId}`);
+        const response = await api.get(`WaterParameter/WaterParameterByPondId/${pondId}`);
         console.log('Water parameter fetched:', response.data);
         return response.data;
     } catch (error) {
@@ -9,4 +9,14 @@ const getWaterParameter = async (pondId) => {
         throw error;
     }
 }
-export {getWaterParameter};
+
+const addWaterParameter = async (waterData) =>{
+    try{
+        const response = await api.post(`WaterParameter`, waterData);
+        console.log('response', response.data)
+        return response.data;
+    } catch (error){
+        console.log('error', error)
+    }
+}
+export {getWaterParameter, addWaterParameter};

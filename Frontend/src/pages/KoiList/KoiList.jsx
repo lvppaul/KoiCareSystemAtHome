@@ -10,7 +10,6 @@ const KoiList = () => {
   const [koiList, setKoiList] = useState([])
   const [loading, setLoading] = useState(false)
   const userId = useAuth().user.userId
-  const [showModalAddFish, setShowModalAddFish] = useState(false)
 
   const fetchKoiList = useCallback(async () => {
     setLoading(true)

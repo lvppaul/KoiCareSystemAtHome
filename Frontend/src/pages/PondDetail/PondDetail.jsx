@@ -6,7 +6,6 @@ import AddNewFish from '../../components/AddNewFish/AddNewFish';
 import { getPondsById } from '../../Config/PondApi';
 import { Spinner } from 'react-bootstrap';
 import UpdatePondDetail from '../../components/UpdatePondDetail/UpdatePondDetail';
-import DeletePond from '../../components/DeletePond/DeletePond';
 import { getKoiInPond } from '../../Config/PondApi';
 import DeleteKoi from '../../components/DeleteKoi/DeleteKoi';
 import WaterParameter from '../../components/WaterParameter/WaterParameter';
