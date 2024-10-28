@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "@mui/material/Button";
 import { MdSpaceDashboard } from "react-icons/md";
 import { MdCategory } from "react-icons/md";
@@ -7,7 +7,9 @@ import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaShop } from "react-icons/fa6";
+import { adminHomeContext } from "../../pages/Admin/Home/AdminHome";
 const AdminSideBar = () => {
+  const context = useContext(adminHomeContext);
   return (
     <div>
       <div className="sidebar">
