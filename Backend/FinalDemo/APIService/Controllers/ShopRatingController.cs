@@ -38,7 +38,7 @@ namespace APIService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ShopRatingDTO>> CreateBlog([FromBody] ShopRatingRequestDTO ratingdto)
+        public async Task<ActionResult<ShopRatingDTO>> CreateRating([FromBody] ShopRatingRequestDTO ratingdto)
         {
             if (ratingdto == null || !ModelState.IsValid)
             {

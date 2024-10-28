@@ -32,7 +32,10 @@ import CreateShopAcc from "./pages/CreateShopAcc/CreateShopAcc";
 import KoiList from "./pages/KoiList/KoiList";
 import Confirmation from "./pages/EmailConfirm/Confirmation";
 import AdminDashboard from "./components/AdminComponents/AdminDashboard";
+import Profile from "./pages/Profile/Profile";
 import Members from "./components/AdminComponents/MemberManagement";
+import AdminShops from "./components/AdminComponents/ShopManagement";
+import AdminCategories from "./components/AdminComponents/CategoriesManagement";
 const container = document.getElementById("root");
 const root = createRoot(container);
 
@@ -45,7 +48,7 @@ root.render(
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="createshopacc" element={<CreateShopAcc />} />
-          <Route path="confirmation" element={<Confirmation />} />
+          <Route path="confirmemail" element={<Confirmation />} />
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="news" element={<News />} />
@@ -55,6 +58,7 @@ root.render(
             <Route path="shop" element={<Shop />} />
             <Route path="product/:productId" element={<Product />} />
             <Route path="notauthorized" element={<NotAuthorized />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="*" element={<NotPage />} />
 
             {/* Protected Routes for Authenticated Users */}
@@ -90,96 +94,17 @@ root.render(
                 </ProtectedRoute>
               }
             />
-            <Route path="/" element={<App />}>
-              <Route index element={<Home />} />
-              <Route path="news" element={<News />} />
-              <Route path="news/:newsId" element={<NewsDetail />} />
-              <Route path="blogs" element={<Blog />} />
-              <Route path="blog/:blogId" element={<BlogDetail />} />
-              <Route path="shop" element={<Shop />} />
-              <Route path="product/:productId" element={<Product />} />
-              <Route path="notauthorized" element={<NotAuthorized />} />
-              <Route path="*" element={<NotPage />} />
 
-              {/* Protected Routes for Authenticated Users */}
-              <Route
-                path="koilist"
-                element={
-                  <ProtectedRoute requiredRole="member">
-                    <KoiList />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="pond"
-                element={
-                  <ProtectedRoute requiredRole="member">
-                    <Pond />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="ponddetail/:pondId"
-                element={
-                  <ProtectedRoute requiredRole="member">
-                    <PondDetail />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="koidetail/:koiId"
-                element={
-                  <ProtectedRoute requiredRole="member">
-                    <KoiDetail />
-                  </ProtectedRoute>
-                }
-              />
+            {/* Protected Routes for Shop Users */}
+            <Route
+              path="manageshop"
+              element={
+                <ProtectedRoute requiredRole="shop">
+                  <ManageShop />
+                </ProtectedRoute>
+              }
+            />
 
-              {/* Protected Routes for Shop Users */}
-              <Route
-                path="manageshop"
-                element={
-                  <ProtectedRoute requiredRole="shop">
-                    <ManageShop />
-                  </ProtectedRoute>
-                }
-              />
-              {/* Protected Routes for Shop Users */}
-              <Route
-                path="manageshop"
-                element={
-                  <ProtectedRoute requiredRole="shop">
-                    <ManageShop />
-                  </ProtectedRoute>
-                }
-              />
-
-              {/* Protected Routes for Vip Users */}
-              <Route
-                path="foodcalculator"
-                element={
-                  <ProtectedRoute requiredRole="vip">
-                    <FoodCalculator />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="saltcalculator"
-                element={
-                  <ProtectedRoute requiredRole="vip">
-                    <SaltCalculator />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="koiremind"
-                element={
-                  <ProtectedRoute requiredRole="vip">
-                    <KoiRemind />
-                  </ProtectedRoute>
-                }
-              />
-            </Route>
             {/* Protected Routes for Vip Users */}
             <Route
               path="foodcalculator"
@@ -209,7 +134,7 @@ root.render(
 
           {/* Admin Routes */}
           <Route
-            path="/admin"
+            path="/admin/"
             element={
               <ProtectedRoute requiredRole="admin">
                 <AdminHome />
@@ -219,6 +144,8 @@ root.render(
             <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="members" element={<Members />} />
+            <Route path="categories" element={<AdminCategories />} />
+            <Route path="shops" element={<AdminShops />} />
           </Route>
         </Routes>
       </AuthProvider>

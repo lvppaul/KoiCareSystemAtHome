@@ -32,13 +32,13 @@ const signUpShop = async (userData) => {
                 'Accept': 'application/json'
             }
         });
-        console.log(response);
-        return response.status;
+        console.log('signupshop resp',response.data.message);
+        return response.data.message;
     } catch (error) {
         console.error('Error during sign-up:', error);
         if (error.response) {
-            console.error('Error response data:', error.response.data);
-            return error.response.data;
+            console.error('Error response data:', error.response.data.message);
+            return error.response.data.message;
         } else {
             return { error: 'Unknown error occurred' };
         }
@@ -63,7 +63,7 @@ const signIn = async (credentials) => {
         localStorage.setItem('user', JSON.stringify({ userId, userRole }));
         const message = response.data.message;
         console.log(message);
-        return {  userId, userRole ,message};
+        return {  userId, email, userRole, message};
     } catch (error) {
         if (error.response) {
             console.error('Error response data:', error.response.data);
@@ -96,6 +96,7 @@ const confirmEmail = async (confirmData) => {
     }
 }
 
+// Function to get user ID by email
 const getUserIdByEmail = async (email) => {
     try {
         const response = await api.get(`Account/GetUserIdByEmail/${encodeURIComponent(email)}`, {
@@ -112,6 +113,7 @@ const getUserIdByEmail = async (email) => {
     }
 }
 
+// Function to log in with Google
 const googleLogIn = async (token) => {
     try {
         const response = await api.post('Account/gmail-signin', { token }, {
@@ -139,4 +141,26 @@ const googleLogIn = async (token) => {
         }
     }
 }
-export { signUp, signUpShop, signIn, confirmEmail, getUserIdByEmail, googleLogIn };
+
+// Function to delete account
+const deleteAccount = async (userId) => {
+    try {
+        const response = await api.put(`Account/DeleteAccount/${userId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        if (error.response) {
+            console.error('Error response data:', error.response.data);
+            return error.response.data;
+        } else {
+            return { error: 'Unknown error occurred' };
+        }
+    }
+}
+
+export { signUp, signUpShop, signIn, confirmEmail, getUserIdByEmail, googleLogIn, deleteAccount };
