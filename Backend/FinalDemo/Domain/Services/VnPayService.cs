@@ -137,12 +137,12 @@ namespace Domain.Services
             };
         }
 
-        private bool ValidateSignature(IQueryCollection queryCollection)
+        private bool ValidateSignature(Dictionary<string,string> queryParams)
         {
-            string vnp_SecureHash = queryCollection["vnp_SecureHash"].ToString();
+            string vnp_SecureHash = queryParams["vnp_SecureHash"].ToString();
 
             var inputData = new SortedList<string, string>();
-            foreach (var (key, value) in queryCollection)
+            foreach (var (key, value) in queryParams)
             {
                 if (!string.IsNullOrEmpty(key) && key.StartsWith("vnp_") && key != "vnp_SecureHash")
                 {
@@ -288,14 +288,23 @@ namespace Domain.Services
             try
             {
                 var queryParams = ParseVnPayUrl(returnUrl);
+                //if (!ValidateSignature(queryParams))
+                //{
+                //    return (false, "Error processing payment because of Invalid Signature");
+                //}
+                string orderGet =  queryParams["vnp_OrderInfo"];
+                string orderIdString = orderGet.Substring(orderGet.Length - 1);
+                int orderId = Int32.Parse(orderIdString);
 
+                Order order = _unitOfWork.OrderRepository.GetById(orderId);
+                string userId = order.UserId;
                 var paymentResponse = new PaymentTransactionDTO
                 {
                     VnpAmount = queryParams.GetValueOrDefault("vnp_Amount"),
                     VnpBankCode = queryParams.GetValueOrDefault("vnp_BankCode"),
                     VnpBankTranNo = queryParams.GetValueOrDefault("vnp_BankTranNo"),
                     VnpCardType = queryParams.GetValueOrDefault("vnp_CardType"),
-                    VnpOrderInfo = HttpUtility.UrlDecode(queryParams.GetValueOrDefault("vnp_OrderInfo")),
+                    VnpOrderInfo = orderId,
                     VnpPayDate = queryParams.GetValueOrDefault("vnp_PayDate"),
                     VnpResponseCode = queryParams.GetValueOrDefault("vnp_ResponseCode"),
                     VnpTmnCode = queryParams.GetValueOrDefault("vnp_TmnCode"),
@@ -303,7 +312,8 @@ namespace Domain.Services
                     VnpTransactionStatus = queryParams.GetValueOrDefault("vnp_TransactionStatus"),
                     VnpTxnRef = queryParams.GetValueOrDefault("vnp_TxnRef"),
                     VnpSecureHash = queryParams.GetValueOrDefault("vnp_SecureHash"),
-                    PaymentStatus = queryParams.GetValueOrDefault("vnp_ResponseCode") == "00"
+                    PaymentStatus = queryParams.GetValueOrDefault("vnp_ResponseCode") == "00",
+                    userId = userId
                 };
 
                 var result = _mapper.Map<PaymentTransaction>(paymentResponse);
