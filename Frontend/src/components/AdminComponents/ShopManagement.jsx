@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { FaPen } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 import SearchBar from "./SearchBar";
+import { getShop } from "../../Config/ShopApi";
 const AdminShops = () => {
   const [isLocked, setIsLocked] = useState(false);
+  const [shops, setShops] = useState([]);
+  const fetchUserinfo = async () => {
+    //ham lay thong tin user
+    try{
+      const response = await getShop();
+      setShops(response);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    fetchUserinfo();//chay moi khi trang load len
+  }, []);
   return (
     <>
       <div className="right-content">
@@ -28,12 +42,13 @@ const AdminShops = () => {
                 </tr>
               </thead>
               <tbody>
+                {shops.map((shop) => (
                 <tr>
-                  <td>SHOP001</td>
-                  <td>Pet Paradise</td>
-                  <td>contact@petparadise.com</td>
-                  <td>(123) 456-7890</td>
-                  <td>4.5</td>
+                  <td>{shop.shopId}</td>
+                  <td>{shop.shopName}</td>
+                  <td>{shop.email}</td>
+                  <td>{shop.phone}</td>
+                  <td>{shop.rating}</td>
                   <td onClick={() => setIsLocked(!isLocked)}>
                     <div className="actions">
                       {isLocked === false ? (
@@ -52,6 +67,7 @@ const AdminShops = () => {
                     </div>
                   </td>
                 </tr>
+                ))}
               </tbody>
             </table>
           </div>

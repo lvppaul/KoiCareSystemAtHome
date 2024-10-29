@@ -5,7 +5,7 @@ const SearchBar = () => {
   return (
     <div className="input-wrapper">
       <FaSearch id="search-icon" />
-      <input placeholder="Type to search..." />
+      <input id="search-input" placeholder="Type to search..." />
     </div>
   );
 };

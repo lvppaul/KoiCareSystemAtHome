@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { FaPen } from "react-icons/fa";
@@ -6,6 +5,9 @@ import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
+import api from "../../Config/AxiosConfig";
+import { useEffect } from "react";
+
 const Members = () => {
   const [isLocked, setIsLocked] = useState(false);
   return (
@@ -87,6 +89,7 @@ const Members = () => {
                   <td>10 Ly Thuong Kiet, District 7, HCM city</td>
                   <td>Active</td>
                 </tr>
+                
               </tbody>
             </table>
           </div>

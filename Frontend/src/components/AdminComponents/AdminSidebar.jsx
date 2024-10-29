@@ -8,8 +8,15 @@ import { Link } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaShop } from "react-icons/fa6";
 import { adminHomeContext } from "../../pages/Admin/Home/AdminHome";
+import { useAuth } from "../../pages/Login/AuthProvider";
+
 const AdminSideBar = () => {
   const context = useContext(adminHomeContext);
+  const auth = useAuth();
+  const { logout } = auth;
+  const handleLogOut = () => {
+    logout();
+  }
   return (
     <div>
       <div className="sidebar">
@@ -56,7 +63,7 @@ const AdminSideBar = () => {
           </li>
           <li>
             <Link to="#">
-              <Button className="w-100">
+              <Button className="w-100" onClick={handleLogOut}>
                 <span className="icon">
                   <MdOutlineLogout />
                 </span>

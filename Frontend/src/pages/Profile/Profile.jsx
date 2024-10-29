@@ -7,6 +7,7 @@ import { getAccountByUserId, updateAccount, deleteAccount } from '../../Config/U
 import { storage } from '../../Config/firebase';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
+import UpdateVipAccount from '../../components/UpdateVipAccount/UpdateVipAccount';
 
 const Profile = () => {
   const { user } = useAuth();
@@ -19,11 +20,13 @@ const Profile = () => {
   const [loadingAvatar, setLoadingAvatar] = useState(true);
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
+  const [showUpdateVipModal, setShowUpdateVipModal] = useState(false);
+  const [userData, setUserData] = useState({});
   useEffect(() => {
     const fetchAccountDetails = async () => {
       const accountDetails = await getAccountByUserId(userId);
       if (accountDetails) {
+        setUserData(accountDetails);
         if (accountDetails.avatar) {
           try {
             const storageRef = ref(storage, accountDetails.avatar);
@@ -129,9 +132,10 @@ const Profile = () => {
                 <Button variant="link" onClick={() => document.getElementById('avatarInput').click()}>
                   Change Avatar
                 </Button>
-                <Button variant="primary" className="mt-5">
-                  Upgrade to VIP Account
-                </Button>
+                <UpdateVipAccount
+                show={showUpdateVipModal}
+                setShow={setShowUpdateVipModal}
+                userData={userData}/>
                 <Button variant="danger" className="mt-3" onClick={() => setShowConfirmModal(true)}>
                   Delete Account
                 </Button>
