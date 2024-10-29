@@ -10,13 +10,13 @@ const signUp = async (userData) => {
                 'Accept': 'application/json'
             }
         });
-
-        return response.status;
+        console.log('signup resp',response.data.message);
+        return response.data.message;
     } catch (error) {
         console.error('Error during sign-up:', error);
         if (error.response) {
-            console.error('Error response data:', error.response.data);
-            return error.response.data;
+            console.error('Error response data:', error.response.data.message);
+            return error.response.data.message;
         } else {
             return { error: 'Unknown error occurred' };
         }
@@ -97,22 +97,7 @@ const confirmEmail = async (confirmData) => {
     }
 }
 
-// Function to get user ID by email
-const getUserIdByEmail = async (email) => {
-    try {
-        const response = await api.get(`Account/GetUserIdByEmail/${encodeURIComponent(email)}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-        });
-        console.log(response.data);
-        return response.data;
-    } catch (error) {
-        console.error('Error getting user ID by email:', error);
-        return null;
-    }
-}
+
 
 // Function to log in with Google
 const googleLogIn = async (token) => {
@@ -143,25 +128,6 @@ const googleLogIn = async (token) => {
     }
 }
 
-// Function to delete account
-const deleteAccount = async (userId) => {
-    try {
-        const response = await api.put(`Account/DeleteAccount/${userId}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-        return response;
-    } catch (error) {
-        console.error('Error deleting account:', error);
-        if (error.response) {
-            console.error('Error response data:', error.response.data);
-            return error.response.data;
-        } else {
-            return { error: 'Unknown error occurred' };
-        }
-    }
-}
 
-export { signUp, signUpShop, signIn, confirmEmail, getUserIdByEmail, googleLogIn, deleteAccount };
+
+export { signUp, signUpShop, signIn, confirmEmail, googleLogIn };

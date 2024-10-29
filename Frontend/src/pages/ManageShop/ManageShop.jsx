@@ -10,6 +10,7 @@ import AddNewProduct from '../../components/AddNewProduct/AddNewProduct';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import { useAuth } from '../Login/AuthProvider';
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
 
 const ManageShop = () => {
     const [loading, setLoading] = useState(true);
@@ -26,6 +27,8 @@ const ManageShop = () => {
     const { user } = useAuth();
     const userId = user.userId;
     const [errorCategory, setErrorCategory] = useState(null);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [productIdToDelete, setProductIdToDelete] = useState(null);
 
     const fetchProductImages = useCallback(async (productId) => {
         try {
@@ -150,10 +153,13 @@ const ManageShop = () => {
     };
 
     const handleDeleteProduct = async (productId) => {
-        const confirmed = window.confirm('Are you sure you want to delete this product?');
-        if (!confirmed) {
-            return;
-        }
+        setProductIdToDelete(productId);
+        setShowConfirmModal(true);
+    };
+
+    const confirmDeleteProduct = async () => {
+        setShowConfirmModal(false);
+        const productId = productIdToDelete;
 
         try {
             const allImages = await getProductImagesByProductId(productId);
@@ -195,9 +201,11 @@ const ManageShop = () => {
 
     const handleAddProduct = async (newProduct, imageFiles) => {
         try {
+            console.log('newProduct:', newProduct);
             const category = await getCategoryById(newProduct.categoryId);
             setErrorCategory(category);
             const addedProduct = await addProduct(newProduct);
+            console.log('addedProduct:', addedProduct);
             const storageRef = ref(storage, addedProduct.thumbnail);
             addedProduct.thumbnail = await getDownloadURL(storageRef);
 
@@ -257,7 +265,7 @@ const ManageShop = () => {
     return (
         <Container>
             <Card className="mb-4 shadow-sm">
-                <Row noGutters>
+                <Row>
                     <Col md={4}>
                         <Card.Img style={{ objectFit: 'cover', width: '300px' }} variant="top" src={shop.thumbnail} alt="Shop Thumbnail" className="h-100" />
                     </Col>
@@ -338,7 +346,7 @@ const ManageShop = () => {
                                 )}
                             </td>
                             <td>{product.name}</td>
-                            <td>{product.category.categoryId ? product.category.name : errorCategory.name}</td>
+                            <td>{product.category ? product.category.name : errorCategory.name}</td>
                             <td>{product.description}</td>
                             <td>{product.quantity}</td>
                             <td>${product.price.toFixed(2)}</td>
@@ -394,6 +402,12 @@ const ManageShop = () => {
                 </Toast>,
                 document.body
             )}
+            <ConfirmModal
+                show={showConfirmModal}
+                handleClose={() => setShowConfirmModal(false)}
+                handleConfirm={confirmDeleteProduct}
+                message="Are you sure you want to delete this product?"
+            />
         </Container>
     );
 };

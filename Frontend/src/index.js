@@ -34,9 +34,8 @@ import Confirmation from "./pages/EmailConfirm/Confirmation";
 import AdminDashboard from "./components/AdminComponents/AdminDashboard";
 import Profile from "./pages/Profile/Profile";
 import Members from "./components/AdminComponents/MemberManagement";
-import Categories from "./components/AdminComponents/CategoriesManagement"
-import Shops from "./components/AdminComponents/ShopManagement"
-
+import AdminShops from "./components/AdminComponents/ShopManagement";
+import AdminCategories from "./components/AdminComponents/CategoriesManagement";
 const container = document.getElementById("root");
 const root = createRoot(container);
 
@@ -135,7 +134,7 @@ root.render(
 
           {/* Admin Routes */}
           <Route
-            path="/admin"
+            path="/admin/"
             element={
               <ProtectedRoute requiredRole="admin">
                 <AdminHome />
@@ -145,8 +144,8 @@ root.render(
             <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="members" element={<Members />} />
-            <Route path="categories" element={<Categories />} />
-            <Route path="shops" element={<Shops />} />
+            <Route path="categories" element={<AdminCategories />} />
+            <Route path="shops" element={<AdminShops />} />
           </Route>
         </Routes>
       </AuthProvider>

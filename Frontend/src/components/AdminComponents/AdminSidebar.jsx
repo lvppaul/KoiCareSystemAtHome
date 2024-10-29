@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "@mui/material/Button";
 import { MdSpaceDashboard } from "react-icons/md";
 import { MdCategory } from "react-icons/md";
@@ -7,13 +7,15 @@ import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaShop } from "react-icons/fa6";
+import { adminHomeContext } from "../../pages/Admin/Home/AdminHome";
 const AdminSideBar = () => {
+  const context = useContext(adminHomeContext);
   return (
     <div>
       <div className="sidebar">
         <ul>
           <li>
-            <Link to="#">
+            <Link to="dashboard">
               <Button className="w-100">
                 <span className="icon">
                   <MdSpaceDashboard />
@@ -23,7 +25,7 @@ const AdminSideBar = () => {
             </Link>
           </li>
           <li>
-            <Link to="#">
+            <Link to="members">
               <Button className="w-100">
                 <span className="icon">
                   <MdAccountCircle />
@@ -33,7 +35,7 @@ const AdminSideBar = () => {
             </Link>
           </li>
           <li>
-            <Link to="#">
+            <Link to="shops">
               <Button className="w-100">
                 <span className="icon">
                   <FaShop />
@@ -43,22 +45,12 @@ const AdminSideBar = () => {
             </Link>
           </li>
           <li>
-            <Link to="#">
+            <Link to="categories">
               <Button className="w-100">
                 <span className="icon">
                   <MdCategory />
                 </span>
                 Category
-              </Button>
-            </Link>
-          </li>
-          <li>
-            <Link to="#">
-              <Button className="w-100">
-                <span className="icon">
-                  <FaMoneyBillTrendUp />
-                </span>
-                Revenue
               </Button>
             </Link>
           </li>

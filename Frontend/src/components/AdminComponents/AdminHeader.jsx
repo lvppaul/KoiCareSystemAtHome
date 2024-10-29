@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../assets/Fpt_TTKoi_logo.svg";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { MdOutlineMenuOpen } from "react-icons/md";
+import { MdOutlineMenu } from "react-icons/md";
+import { adminHomeContext } from "../../pages/Admin/Home/AdminHome";
+import { MdMenuOpen } from "react-icons/md";
 const AdminHeader = () => {
+  const context = useContext(adminHomeContext);
   return (
     <div>
       <header className="d-flex align-items-center admin-header">
@@ -18,8 +21,17 @@ const AdminHeader = () => {
               </Link>
             </div>
             <div className="col-2 d-flex align-items-center part2 ">
-              <Button className="rounded-circle">
-                <MdOutlineMenuOpen />
+              <Button
+                className="rounded-circle"
+                onClick={() =>
+                  context.setIsToggleSidebar(!context.isToggleSidebar)
+                }
+              >
+                {context.isToggleSidebar === false ? (
+                  <MdMenuOpen />
+                ) : (
+                  <MdOutlineMenu />
+                )}
               </Button>
             </div>
             <div className="col-8 d-flex align-items-center justify-content-end part3 ">

@@ -50,5 +50,7 @@ namespace Domain.Models.Entity
         public virtual ICollection<ShopRating> ShopRatings { get; set; } = new List<ShopRating>();
 
         public virtual ICollection<WaterParameter> WaterParameters { get; set; } = new List<WaterParameter>();
+
+        public virtual ICollection<PaymentTransaction> PaymentTransactions { get; set; } = new List<PaymentTransaction>();
     }
 }

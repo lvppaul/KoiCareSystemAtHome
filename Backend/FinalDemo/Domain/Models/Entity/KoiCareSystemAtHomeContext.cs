@@ -62,6 +62,9 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     public virtual DbSet<WaterParameter> WaterParameters { get; set; }
 
+    public virtual DbSet<PaymentTransaction> PaymentTransactions { get; set; }
+
+
     public static string GetConnectionString(string connectionStringName)
     {
         var config = new ConfigurationBuilder()
@@ -93,6 +96,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
       .HasOne(a => a.Cart)
       .WithOne(s => s.User)
       .HasForeignKey<Cart>(s => s.UserId);
+
+        modelBuilder.Entity<Order>()
+            .HasOne(d => d.PaymentTransaction).WithOne(p => p.Order)
+                .HasForeignKey<PaymentTransaction>(s => s.VnpOrderInfo);
 
         //
         modelBuilder.Entity<Blog>(entity =>
@@ -390,6 +397,60 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.PaymentName).HasMaxLength(255);
         });
 
+        modelBuilder.Entity<PaymentTransaction>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__PaymentT__DC31C1F3AA967D38");
+
+            entity.ToTable("PaymentTransaction");
+
+            entity.Property(e => e.Id).HasColumnName("Id");
+            entity.Property(e => e.userId)
+        .HasMaxLength(450);
+
+            entity.Property(e => e.VnpTxnRef)
+                .HasMaxLength(50);
+
+            entity.Property(e => e.VnpAmount)
+                .HasMaxLength(50);
+
+            entity.Property(e => e.VnpBankCode)
+                .HasMaxLength(50);
+
+            entity.Property(e => e.VnpBankTranNo)
+                .HasMaxLength(50);
+
+            entity.Property(e => e.VnpCardType)
+                .HasMaxLength(50);
+
+            entity.Property(e => e.VnpOrderInfo)
+                .HasMaxLength(255);
+
+            entity.Property(e => e.VnpPayDate)
+                .HasMaxLength(14); // VNPay typically sends date in "yyyyMMddHHmmss" format
+
+            entity.Property(e => e.VnpResponseCode)
+                .HasMaxLength(5);
+
+            entity.Property(e => e.VnpTransactionNo)
+                .HasMaxLength(50);
+
+            entity.Property(e => e.VnpTransactionStatus)
+                .HasMaxLength(5);
+
+            entity.Property(e => e.VnpSecureHash)
+                .HasMaxLength(450);
+
+            entity.Property(e => e.VnpTmnCode)
+                .HasMaxLength(20);
+
+            entity.Property(e => e.PaymentStatus);
+
+            entity.HasOne(d => d.User).WithMany(p => p.PaymentTransactions)
+                .HasForeignKey(d => d.userId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__PaymentTran__AppliUser__5DCAEF70");
+        });
+
         modelBuilder.Entity<Pond>(entity =>
         {
             entity.HasKey(e => e.PondId).HasName("PK__Pond__D18BF854E0A136F2");
@@ -405,7 +466,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.ApplicationUser).WithMany(p => p.Ponds)
               .HasForeignKey(d => d.UserId)
-              .OnDelete(DeleteBehavior.ClientSetNull)
+              .OnDelete(DeleteBehavior.Cascade)
               .HasConstraintName("FK__Pond__UserID__398D8EEE");
         });
 
@@ -532,7 +593,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .HasConstraintName("FK__Water_Par__PondI__5535A963");
             entity.HasOne(d => d.ApplicationUser).WithMany(p => p.WaterParameters)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Water_Par__UserI__5DCAEF64");
         });
 

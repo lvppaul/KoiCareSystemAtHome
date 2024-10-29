@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Form, Button, Spinner, Pagination, Image } from 'react-bootstrap';
+import { Container, Row, Col, Form, Spinner, Pagination, Image } from 'react-bootstrap';
 import { getProducts, getProductsByCategoryId } from '../../Config/ProductApi';
 import { getCategories } from '../../Config/CategoryApi';
 import { getDownloadURL, ref } from 'firebase/storage';
@@ -102,9 +102,6 @@ const Shop = () => {
   return (
     <Container>
       <h1 className="d-flex justify-content-center mt-3" style={{ color: "#E47E39" }}>Koi Care Shops</h1>
-      <Button as={Link} to="/manageshop" variant="primary" className="my-3">
-        Manage Shop
-      </Button>
       <Row className="my-3">
         <Col md={2}>
           <Form.Group controlId="categorySelect">

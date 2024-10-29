@@ -8,7 +8,6 @@ public partial class Order
     public int OrderId { get; set; }
     public string UserId { get; set; } = null!;
     public int ShopId { get; set; }
-
     public string FullName { get; set; } = null!;
 
     public string Phone { get; set; } = null!;
@@ -39,4 +38,6 @@ public partial class Order
 
     public virtual Shop Shop { get; set; } = null!;
     public virtual ApplicationUser ApplicationUser { get; set; } = null!;
+
+    public virtual PaymentTransaction PaymentTransaction { get; set; } = null!;
 }
