@@ -349,7 +349,7 @@ const ManageShop = () => {
                             <td>{product.category ? product.category.name : errorCategory.name}</td>
                             <td>{product.description}</td>
                             <td>{product.quantity}</td>
-                            <td>${product.price.toFixed(2)}</td>
+                            <td>{product.price}</td>
                             <td>{product.status ? 'Available' : 'Unavailable'}</td>
                             <td>
                                 <div className="d-flex">

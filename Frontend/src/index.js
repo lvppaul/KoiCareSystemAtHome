@@ -13,7 +13,7 @@ import Shop from "./pages/Shop/Shop";
 import NotPage from "./pages/NotPage/NotPage";
 import Pond from "./pages/Pond/Pond";
 import AdminHome from "./pages/Admin/Home/AdminHome";
-import TableUser from "./components/TableUser/TableUser";
+import TableUser from "./components/TableUser/TableUser"; 
 import SaltCalculator from "./pages/SaltCalculator/SaltCalculator";
 import FoodCalculator from "./pages/FoodCalculator/FoodCalculator";
 import Product from "./pages/Product/Product";
@@ -37,7 +37,13 @@ import Members from "./components/AdminComponents/MemberManagement";
 import Vips from "./components/AdminComponents/VipManagement";
 import AdminShops from "./components/AdminComponents/ShopManagement";
 import AdminCategories from "./components/AdminComponents/CategoriesManagement";
+import PaymentPage from "./pages/PaymentPage/PaymentPage";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import UpdateAccount from "./pages/UpdateAccount/UpdateAccount";
+import Cart from "./pages/Cart/Cart";
+
 const container = document.getElementById("root");
+
 const root = createRoot(container);
 
 root.render(
@@ -50,6 +56,9 @@ root.render(
           <Route path="signup" element={<Signup />} />
           <Route path="createshopacc" element={<CreateShopAcc />} />
           <Route path="confirmemail" element={<Confirmation />} />
+          <Route path="resetpassword" element={<ResetPassword />} />
+          <Route path="payment" element={<PaymentPage/>} />
+          <Route path="updateaccount" element={<UpdateAccount />} />
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="news" element={<News />} />
@@ -63,6 +72,7 @@ root.render(
             <Route path="*" element={<NotPage />} />
 
             {/* Protected Routes for Authenticated Users */}
+            <Route path="cart" element={<ProtectedRoute requiredRole="member"><Cart /></ProtectedRoute>} />
             <Route
               path="koilist"
               element={

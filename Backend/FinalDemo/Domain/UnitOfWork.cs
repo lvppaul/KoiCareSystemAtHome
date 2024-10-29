@@ -27,7 +27,6 @@ namespace SWP391.KCSAH.Repository
         private KoiImageRepository _koiImageRepository;
         private KoiRemindRepository _koiRemindRepository;
         private KoiRecordRepository _koiRecordRepository;
-        private PaymentMethodRepository _paymentMethodRepository;
         private ProductImageRepository _productImageRepository;
         private RevenueRepository _revenueRepository;
         private WaterParameterRepository _waterParameterRepository;
@@ -116,11 +115,6 @@ namespace SWP391.KCSAH.Repository
         public KoiRecordRepository KoiRecordRepository
         {
             get { return _koiRecordRepository ??= new KoiRecordRepository(_context); }
-        }
-
-        public PaymentMethodRepository PaymentMethodRepository
-        {
-            get { return _paymentMethodRepository ??= new PaymentMethodRepository(_context); }
         }
 
         public PaymentTransactionRepository PaymentTransactionRepository

@@ -119,11 +119,6 @@ namespace KCSAH.APIServer.Dto
             CreateMap<BlogCommentRequestDTO, BlogComment>().ReverseMap();
             CreateMap<BlogCommentUpdateDTO, BlogComment>().ReverseMap();
 
-            //PaymentMethod
-            CreateMap<PaymentMethod, PaymentMethodUpdateDTO>().ReverseMap();
-            CreateMap<PaymentMethodDTO, PaymentMethod>().ReverseMap();
-            CreateMap<PaymentMethodUpdateDTO, PaymentMethodDTO>().ReverseMap();
-
             //ProductImage
             CreateMap<ProductImageDTO, ProductImageRequestDTO>().ReverseMap();
             CreateMap<ProductImage, ProductImageRequestDTO>().ReverseMap();
@@ -143,8 +138,7 @@ namespace KCSAH.APIServer.Dto
 
             //Cart
             CreateMap<Cart, CartDTO>().ReverseMap();
-            CreateMap<CartRequestDTO, Cart>()
-            .ForMember(dest => dest.CartItems, opt => opt.MapFrom(src => src.cartItemDTOs));
+            CreateMap<CartRequestDTO, Cart>().ReverseMap();
             CreateMap<CartRequestDTO, CartDTO>().ReverseMap();
 
             //CartItem

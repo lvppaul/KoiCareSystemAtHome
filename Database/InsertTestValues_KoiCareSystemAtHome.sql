@@ -77,33 +77,34 @@ VALUES
 
 INSERT INTO Product (ShopId, Name, Thumbnail, Description, Quantity, Price, Status, CategoryID)
 VALUES
-(2, 'Premium Koi Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/premium_koi_food.png', 'High-quality koi food for vibrant colors and growth.', 100, 25.99, 1, 1),
-(1, 'Growth Formula', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/growth_formula.png', 'A special formula to promote faster growth in koi.', 150, 29.99, 1, 1),
-(2, 'Wheat Germ Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/wheat_germ_food.png', 'Koi food designed for colder weather to support digestion.', 200, 22.50, 1, 1),
-(1, 'Color Enhancing Food', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/color_enhancing_food.png', 'Enhances the colors of koi fish naturally.', 120, 32.00, 1, 1),
-(2, 'Koi Fry Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fry_food.png', 'Specially formulated for young koi fry.', 180, 18.50, 1, 1),
-(1, 'Spirulina Pellets', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/spirulina_pellets.png', 'Rich in spirulina for healthy koi growth.', 100, 27.00, 1, 1),
-(2, 'High Protein Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/high_protein_food.png', 'High-protein food to boost koi muscle development.', 130, 30.00, 1, 1),
-(1, 'All Season Koi Food', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/all_season_koi_food.png', 'Koi food suitable for all seasons.', 160, 20.99, 1, 1),
-(2, 'Floating Pellets', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/floating_pellets.png', 'Floating pellets that koi love to feed on.', 140, 23.75, 1, 1),
-(1, 'Pond Pump', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_pump.png', 'High-capacity pump for maintaining water flow in ponds.', 50, 199.99, 1, 2),
-(2, 'Pond Skimmer', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_skimmer.png', 'Essential skimmer for removing debris from the pond surface.', 70, 99.99, 1, 2),
-(1, 'UV Clarifier', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/uv_clarifier.png', 'UV clarifier to keep pond water clear and algae-free.', 60, 150.00, 1, 2),
-(2, 'Pond Heater', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_heater.png', 'Heater for maintaining optimal water temperature during cold seasons.', 40, 180.00, 1, 2),
-(1, 'Filter System', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/filter_system.png', 'Advanced filtration system for large ponds.', 45, 250.00, 1, 2),
-(2, 'Aeration Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/aeration_kit.png', 'Complete aeration kit to boost oxygen levels in the pond.', 80, 85.00, 1, 2),
-(1, 'Pond Net', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_net.png', 'Pond net to catch debris and fish.', 100, 30.00, 1, 2),
-(2, 'Waterfall Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/waterfall_kit.png', 'Waterfall kit to create a stunning feature in the pond.', 20, 320.00, 1, 2),
-(1, 'Pond Liner', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_liner.png', 'Durable pond liner to prevent leaks.', 90, 75.00, 1, 2),
-(2, 'Koi Health Boost', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_health_boost.png', 'A vitamin and mineral supplement for healthier koi.', 120, 19.99, 1, 3),
-(1, 'Anti-Bacterial Treatment', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/anti_bacterial_treatment.png', 'Treatment for bacterial infections in koi.', 100, 35.00, 1, 3),
-(2, 'Anti-Parasite Treatment', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/anti_parasite_treatment.png', 'Effective treatment for koi parasite issues.', 110, 40.00, 1, 3),
-(1, 'Water Conditioner', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/water_conditioner.png', 'Conditioner to ensure safe water quality for koi.', 150, 25.50, 1, 3),
-(2, 'Koi Salt', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_salt.png', 'Koi salt to help maintain water salinity and fish health.', 200, 12.00, 1, 3),
-(1, 'Pond Bacteria', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_bacteria.png', 'Beneficial bacteria to improve water quality.', 180, 28.00, 1, 3),
-(2, 'Koi Fungus Treatment', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fungus_treatment.png', 'Treats fungal infections in koi.', 75, 38.00, 1, 3),
-(2, 'Koi First Aid Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_first_aid_kit.png', 'A complete first aid kit for koi emergencies.', 50, 45.00, 1, 3),
-(1, 'Koi Sedative', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/koi_sedative.png', 'Sedative for koi handling and transportation.', 30, 55.00, 1, 3);
+(2, 'Premium Koi Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/premium_koi_food.png', 'High-quality koi food for vibrant colors and growth.', 100, 623760, 1, 1),
+(1, 'Growth Formula', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/growth_formula.png', 'A special formula to promote faster growth in koi.', 150, 719760, 1, 1),
+(2, 'Wheat Germ Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/wheat_germ_food.png', 'Koi food designed for colder weather to support digestion.', 200, 540000, 1, 1),
+(1, 'Color Enhancing Food', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/color_enhancing_food.png', 'Enhances the colors of koi fish naturally.', 120, 768000, 1, 1),
+(2, 'Koi Fry Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fry_food.png', 'Specially formulated for young koi fry.', 180, 444000, 1, 1),
+(1, 'Spirulina Pellets', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/spirulina_pellets.png', 'Rich in spirulina for healthy koi growth.', 100, 648000, 1, 1),
+(2, 'High Protein Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/high_protein_food.png', 'High-protein food to boost koi muscle development.', 130, 720000, 1, 1),
+(1, 'All Season Koi Food', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/all_season_koi_food.png', 'Koi food suitable for all seasons.', 160, 503760, 1, 1),
+(2, 'Floating Pellets', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/floating_pellets.png', 'Floating pellets that koi love to feed on.', 140, 570000, 1, 1),
+(1, 'Pond Pump', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_pump.png', 'High-capacity pump for maintaining water flow in ponds.', 50, 4799760, 1, 2),
+(2, 'Pond Skimmer', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_skimmer.png', 'Essential skimmer for removing debris from the pond surface.', 70, 2399760, 1, 2),
+(1, 'UV Clarifier', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/uv_clarifier.png', 'UV clarifier to keep pond water clear and algae-free.', 60, 3600000, 1, 2),
+(2, 'Pond Heater', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_heater.png', 'Heater for maintaining optimal water temperature during cold seasons.', 40, 4320000, 1, 2),
+(1, 'Filter System', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/filter_system.png', 'Advanced filtration system for large ponds.', 45, 6000000, 1, 2),
+(2, 'Aeration Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/aeration_kit.png', 'Complete aeration kit to boost oxygen levels in the pond.', 80, 2040000, 1, 2),
+(1, 'Pond Net', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_net.png', 'Pond net to catch debris and fish.', 100, 720000, 1, 2),
+(2, 'Waterfall Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/waterfall_kit.png', 'Waterfall kit to create a stunning feature in the pond.', 20, 7680000, 1, 2),
+(1, 'Pond Liner', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_liner.png', 'Durable pond liner to prevent leaks.', 90, 1800000, 1, 2),
+(2, 'Koi Health Boost', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_health_boost.png', 'A vitamin and mineral supplement for healthier koi.', 120, 479760, 1, 3),
+(1, 'Anti-Bacterial Treatment', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/anti_bacterial_treatment.png', 'Treatment for bacterial infections in koi.', 100, 840000, 1, 3),
+(2, 'Anti-Parasite Treatment', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/anti_parasite_treatment.png', 'Effective treatment for koi parasite issues.', 110, 960000, 1, 3),
+(1, 'Water Conditioner', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/water_conditioner.png', 'Conditioner to ensure safe water quality for koi.', 150, 612000, 1, 3),
+(2, 'Koi Salt', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_salt.png', 'Koi salt to help maintain water salinity and fish health.', 200, 288000, 1, 3),
+(1, 'Pond Bacteria', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_bacteria.png', 'Beneficial bacteria to improve water quality.', 180, 672000, 1, 3),
+(2, 'Koi Fungus Treatment', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fungus_treatment.png', 'Treats fungal infections in koi.', 75, 912000, 1, 3),
+(2, 'Koi First Aid Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_first_aid_kit.png', 'A complete first aid kit for koi emergencies.', 50, 1080000, 1, 3),
+(1, 'Koi Sedative', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/koi_sedative.png', 'Sedative for koi handling and transportation.', 30, 1320000, 1, 3);
+
 
 
 INSERT INTO Product_Image (ProductID, ImageUrl)
@@ -261,14 +262,6 @@ VALUES
 ('979a42a8-ecc7-4d15-ab6f-410755b9e593', GETDATE(), 'blog/blogThumbnails/979a42a8-ecc7-4d15-ab6f-410755b9e593/blog4_thumbnail.png', 'Tips on selecting the right koi for your pond.', 'Choosing the Right Koi');  -- Admin user
 
 
-INSERT INTO PaymentMethod (PaymentName)
-VALUES
-('Credit Card'),
-('PayPal'),
-('Bank Transfer'),
-('Cash on Delivery');
-
-
 INSERT INTO Water_Parameter (UserID, PondID, Nitrite, Oxygen, Nitrate, CreatedAt, Temperature, Phosphate, pH, Ammonium, Hardness, CarbonDioxide, CarbonHardness, Salt, TotalChlorines, OutdoorTemp, AmountFed)
 VALUES
 ('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 0.1, 6.5, 5.0, GETDATE(), 24.0, 0.5, 7.2, 0.0, 150.0, 10.0, 5.0, 0.0, 1.0, 22.0, 100.0),  -- Member user
@@ -277,12 +270,12 @@ VALUES
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 0.15, 6.8, 5.5, GETDATE(), 24.5, 0.3, 7.3, 0.2, 155.0, 11.0, 5.5, 0.0, 1.0, 22.5, 95.0);  -- VIP user
 
 
-INSERT INTO Orders (UserID, ShopID, FullName, Phone, CreateDate, Email, Street, District, City, Country, PaymentMethodID, TotalPrice, OrderStatus)
+INSERT INTO Orders (UserID, ShopID, FullName, Phone, CreateDate, Email, Street, District, City, Country, TotalPrice, OrderStatus)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 1, 'member a', '1234567890', GETDATE(), 'member@example.com', '123 Main St', 'Central', 'New York', 'USA', 1, 150.75, 0),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'vip b', '0987654321', GETDATE(), 'vip@example.com', '456 Elm St', 'North', 'Los Angeles', 'USA', 2, 75.50, 0),  -- VIP user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'vip b', '2345678901', GETDATE(), 'vip@example.com', '789 Oak St', 'West', 'Chicago', 'USA', 3, 200.00, 1),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 2, 'member a', '3456789012', GETDATE(), 'member@example.com', '321 Pine St', 'East', 'Houston', 'USA', 1, 99.99, 1);  -- Member user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 1, 'member a', '1234567890', GETDATE(), 'member@example.com', '123 Main St', 'Central', 'New York', 'USA', 150.75, 0),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'vip b', '0987654321', GETDATE(), 'vip@example.com', '456 Elm St', 'North', 'Los Angeles', 'USA', 75.50, 0),  -- VIP user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'vip b', '2345678901', GETDATE(), 'vip@example.com', '789 Oak St', 'West', 'Chicago', 'USA', 200.00, 1),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 2, 'member a', '3456789012', GETDATE(), 'member@example.com', '321 Pine St', 'East', 'Houston', 'USA', 99.99, 1);  -- Member user
 
 -- N-N Table
 INSERT INTO OrderDetail (OrderID, ProductID, Quantity, UnitPrice)
