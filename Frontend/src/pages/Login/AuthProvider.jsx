@@ -6,8 +6,6 @@ const AuthContext = createContext();
 const roleHierarchy = {
     member: 1,
     vip: 2,
-    shop: 3,
-    admin: 4,
 };
 
 export const AuthProvider = ({ children }) => {
@@ -41,6 +39,12 @@ export const AuthProvider = ({ children }) => {
     };
 
     const hasRole = (requiredRole) => {
+        if (requiredRole === 'shop'){
+            return user && user.role === requiredRole;
+        }
+        if (requiredRole === 'admin') {
+            return user && user.role === requiredRole;
+        }
         return user && roleHierarchy[user.role] >= roleHierarchy[requiredRole];
     };
 

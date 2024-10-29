@@ -8,7 +8,10 @@ const ProtectedRoute = ({ children, requiredRole }) => {
         // If user is not logged in, redirect to the login page
         return <Navigate to="/login" />;
     }
-
+    if (requiredRole === 'vip' && user.role === 'member') {
+        // If a member tries to access a vip page, redirect to the UpdateAccount page
+        return <Navigate to="/updateaccount" />;
+    }
     if (requiredRole && !hasRole(requiredRole)) {
         // If the user does not have the required role, redirect to a "not authorized" page
         return <Navigate to="/notauthorized" />;
