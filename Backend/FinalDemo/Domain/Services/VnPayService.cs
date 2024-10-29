@@ -342,7 +342,7 @@ namespace Domain.Services
                 string hashSecret = _config["VnPay:HashSecret"];
 
                 // 4. Validate signature
-                AddResponseData(queryParams,orderIdString,userId,vnpay);
+                AddResponseData(queryParams,vnpay);
                 if (!vnpay.ValidateSignature(vnp_SecureHash,hashSecret))
                 {
                     await UpdateOrderStatus(order, "Giao dịch thất bại");
@@ -394,7 +394,7 @@ namespace Domain.Services
             }
         }
 
-        public void AddResponseData(Dictionary<string, string> queryParams, string orderId, string userId, VnPayLibrary vnpay)
+        public void AddResponseData(Dictionary<string, string> queryParams, VnPayLibrary vnpay)
         {
             vnpay.AddResponseData("vnp_Amount", queryParams.GetValueOrDefault("vnp_Amount"));
             vnpay.AddResponseData("vnp_BankCode", queryParams.GetValueOrDefault("vnp_BankCode"));
