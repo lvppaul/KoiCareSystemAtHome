@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
+const roleHierarchy = {
+    member: 1,
+    vip: 2,
+    shop: 3,
+    admin: 4,
+};
+
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -33,11 +40,8 @@ export const AuthProvider = ({ children }) => {
         navigate('/login');
     };
 
-    const hasRole = (role) => {
-        if (role === 'shop'){
-            return user && user.role === 'shop';
-        }
-        return user && user.role === role;
+    const hasRole = (requiredRole) => {
+        return user && roleHierarchy[user.role] >= roleHierarchy[requiredRole];
     };
 
     return (
