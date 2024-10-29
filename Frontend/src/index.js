@@ -38,7 +38,9 @@ import AdminShops from "./components/AdminComponents/ShopManagement";
 import AdminCategories from "./components/AdminComponents/CategoriesManagement";
 import PaymentPage from "./pages/PaymentPage/PaymentPage";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import UpdateAccount from "./pages/UpdateAccount/UpdateAccount";
 const container = document.getElementById("root");
+
 const root = createRoot(container);
 
 root.render(
@@ -53,6 +55,7 @@ root.render(
           <Route path="confirmemail" element={<Confirmation />} />
           <Route path="resetpassword" element={<ResetPassword />} />
           <Route path="payment" element={<PaymentPage/>} />
+          <Route path="updateaccount" element={<UpdateAccount />} />
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="news" element={<News />} />
