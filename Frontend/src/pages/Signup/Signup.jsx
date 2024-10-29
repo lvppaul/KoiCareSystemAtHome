@@ -35,7 +35,7 @@ function Signup() {
 
         signUp(userData)
             .then((response) => {
-                if (response !== 200) {
+                if (response !== null) {
                     setSignupError(response);
                 } else {
                     setShowConfirmEmailModal(true);

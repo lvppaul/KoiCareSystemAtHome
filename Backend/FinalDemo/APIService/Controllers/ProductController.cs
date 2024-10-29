@@ -45,7 +45,7 @@ namespace KCSAH.APIServer.Controllers
             result.category = category;
             return result;
         }
-        [HttpGet("GetProductImageByProductId")]
+        [HttpGet("GetProductImageByProductId/{ProductId}")]
         public async Task<ActionResult<List<ProductImageDTO>>> GetProductImage(int ProductId)
         {
             var image = await _unitOfWork.ProductImageRepository.GetImageByProductId(ProductId);

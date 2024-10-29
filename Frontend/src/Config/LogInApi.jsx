@@ -10,13 +10,13 @@ const signUp = async (userData) => {
                 'Accept': 'application/json'
             }
         });
-
-        return response.status;
+        console.log('signup resp',response.data.message);
+        return response.data.message;
     } catch (error) {
         console.error('Error during sign-up:', error);
         if (error.response) {
-            console.error('Error response data:', error.response.data);
-            return error.response.data;
+            console.error('Error response data:', error.response.data.message);
+            return error.response.data.message;
         } else {
             return { error: 'Unknown error occurred' };
         }
