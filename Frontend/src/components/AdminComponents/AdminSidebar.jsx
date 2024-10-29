@@ -58,16 +58,6 @@ const AdminSideBar = () => {
             <Link to="#">
               <Button className="w-100">
                 <span className="icon">
-                  <FaMoneyBillTrendUp />
-                </span>
-                Revenue
-              </Button>
-            </Link>
-          </li>
-          <li>
-            <Link to="#">
-              <Button className="w-100">
-                <span className="icon">
                   <MdOutlineLogout />
                 </span>
                 Logout

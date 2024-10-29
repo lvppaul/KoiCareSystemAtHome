@@ -179,3 +179,9 @@ body {
   width: 18px;
   color: #000;
 }
+
+.member-content-header {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}

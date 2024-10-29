@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
+import SearchBar from "./SearchBar";
 const AdminCategories = () => {
   return (
     <>
       <div className="right-content">
         <div className="members-content card shadow border-0 p-3 mt-4">
-          <h3 className="hd">Categories Management</h3>
+          <div className="member-content-header d-flex ">
+            <h3 className="hd">Categories Management</h3>
+            <SearchBar />
+          </div>
           <div className="table-response">
             <table className="table table-sm  ">
               <thead>
