@@ -14,7 +14,7 @@ namespace KCSAH.APIServer.Dto
         {
 
             //
-            CreateMap<MemberDTO, IdentityUser>().ReverseMap();
+            CreateMap<MemberDTO, ApplicationUser>().ReverseMap();
             //Shop
             CreateMap<Shop, ShopDTO>().ReverseMap();
             CreateMap<ShopRequestDTO, Shop>().ReverseMap();
