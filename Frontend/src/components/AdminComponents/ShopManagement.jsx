@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { FaPen } from "react-icons/fa";
@@ -6,6 +6,7 @@ import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 import SearchBar from "./SearchBar";
 const AdminShops = () => {
+  const [isLocked, setIsLocked] = useState(false);
   return (
     <>
       <div className="right-content">
@@ -24,7 +25,6 @@ const AdminShops = () => {
                   <th>Phone</th>
                   <th>Rating</th>
                   <th>Status</th>
-                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -34,80 +34,21 @@ const AdminShops = () => {
                   <td>contact@petparadise.com</td>
                   <td>(123) 456-7890</td>
                   <td>4.5</td>
-                  <td>Active</td>
-                  <td>
-                    <div className="actions d-flex align-items-center">
-                      <Button>
-                        <div className="icon">
-                          <FaPen />
-                        </div>
-                      </Button>
-                      <Button>
-                        <div className="icon">
-                          <FaLock />
-                        </div>
-                      </Button>
-                      <Button>
-                        <div className="icon">
-                          <FaLockOpen />
-                        </div>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SHOP002</td>
-                  <td>Koi World</td>
-                  <td>info@koiworld.com</td>
-                  <td>(987) 654-3210</td>
-                  <td>4.8</td>
-                  <td>Active</td>
-                  <td>
-                    {" "}
-                    <div className="actions d-flex align-items-center">
-                      <Button>
-                        <div className="icon">
-                          <FaPen />
-                        </div>
-                      </Button>
-                      <Button>
-                        <div className="icon">
-                          <FaLock />
-                        </div>
-                      </Button>
-                      <Button>
-                        <div className="icon">
-                          <FaLockOpen />
-                        </div>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>SHOP003</td>
-                  <td>Aquatic Haven</td>
-                  <td>support@aquatichaven.com</td>
-                  <td>(555) 123-4567</td>
-                  <td>4.2</td>
-                  <td>Inactive</td>
-                  <td>
-                    {" "}
-                    <div className="actions d-flex align-items-center">
-                      <Button>
-                        <div className="icon">
-                          <FaPen />
-                        </div>
-                      </Button>
-                      <Button>
-                        <div className="icon">
-                          <FaLock />
-                        </div>
-                      </Button>
-                      <Button>
-                        <div className="icon">
-                          <FaLockOpen />
-                        </div>
-                      </Button>
+                  <td onClick={() => setIsLocked(!isLocked)}>
+                    <div className="actions">
+                      {isLocked === false ? (
+                        <Button>
+                          <div className="icon">
+                            <FaLockOpen />
+                          </div>
+                        </Button>
+                      ) : (
+                        <Button>
+                          <div className="icon">
+                            <FaLock />
+                          </div>
+                        </Button>
+                      )}
                     </div>
                   </td>
                 </tr>
