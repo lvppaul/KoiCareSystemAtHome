@@ -18,7 +18,6 @@ const CombinedCharts = ({ pondId }) => {
             try {
                 const response = await getPondsById(pondId);
                 setSelectedPondId(response);
-                
             } catch (error) {
                 console.error("Lỗi khi lấy danh sách hồ:", error);
             }

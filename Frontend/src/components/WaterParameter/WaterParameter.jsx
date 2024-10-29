@@ -3,11 +3,9 @@ import AddWaterParameter from '../AddWaterParameter/AddWaterParameter';
 import { useEffect, useState } from 'react';
 import { getWaterParameter } from '../../Config/WaterParameterApi.jsx';
 import CombinedCharts from '../WaterParameterChart/CombinedCharts.js';
-import { useAuth } from '../../pages/Login/AuthProvider.jsx';
 const WaterParameter = ({ show, setShow, pondId }) => {
     const [showAddWaterParameter, setShowAddWaterParameter] = useState(false);
     const [waterParameter, setWaterParameter] = useState([]);
-    const userId = useAuth().user.userId;
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
