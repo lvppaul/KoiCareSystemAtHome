@@ -13,7 +13,6 @@ import Shop from "./pages/Shop/Shop";
 import NotPage from "./pages/NotPage/NotPage";
 import Pond from "./pages/Pond/Pond";
 import AdminHome from "./pages/Admin/Home/AdminHome";
-import TableUser from "./components/TableUser/TableUser";
 import SaltCalculator from "./pages/SaltCalculator/SaltCalculator";
 import FoodCalculator from "./pages/FoodCalculator/FoodCalculator";
 import Product from "./pages/Product/Product";
@@ -36,6 +35,8 @@ import Profile from "./pages/Profile/Profile";
 import Members from "./components/AdminComponents/MemberManagement";
 import AdminShops from "./components/AdminComponents/ShopManagement";
 import AdminCategories from "./components/AdminComponents/CategoriesManagement";
+import Cart from "./pages/Cart/Cart";
+
 const container = document.getElementById("root");
 const root = createRoot(container);
 
@@ -62,6 +63,7 @@ root.render(
             <Route path="*" element={<NotPage />} />
 
             {/* Protected Routes for Authenticated Users */}
+            <Route path="cart" element={<ProtectedRoute requiredRole="member"><Cart /></ProtectedRoute>} />
             <Route
               path="koilist"
               element={

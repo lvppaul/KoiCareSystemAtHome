@@ -105,7 +105,7 @@ const Profile = () => {
     <Container className='p-3'>
       <Tabs className='profile-tabs' defaultActiveKey="account" id="profile-tabs">
         <Tab eventKey="account" title="Your Account" style={{ color: 'white' }}>
-          <Container className='p-2' style={{ borderRadius: '0 10px 10px 10px', backgroundColor: '#FFFFFF' }}>
+          <Container className='p-2' style={{ border: '1px solid #ddd', borderTop: 'none', borderRadius: '0 10px 10px 10px', backgroundColor: '#FFFFFF' }}>
             <Row className="mb-3">
               <Col md={4} className="d-flex flex-column align-items-center">
                 <div className='mt-5' style={{ width: '250px', height: '250px', border: '5px solid #ddd', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

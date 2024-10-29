@@ -9,6 +9,8 @@ import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import LoginGoogle from '../Login/LoginGoogle';
 import ConfirmEmail from '../../components/ConfirmEmail/ConfirmEmail';
+import { createCart } from '../../Config/CartApi';
+import { getUserIdByEmail } from '../../Config/UserApi';
 
 function Signup() {
     const navigate = useNavigate();
@@ -38,6 +40,12 @@ function Signup() {
                 if (response !== null) {
                     setSignupError(response);
                 } else {
+                    try {
+                        const userId = getUserIdByEmail(userData.email);
+                        createCart(userId);
+                    } catch (error) {
+                        console.error('Error create cart for user:', error);
+                    }
                     setShowConfirmEmailModal(true);
                 }
             })

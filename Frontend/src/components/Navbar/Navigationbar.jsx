@@ -160,7 +160,7 @@ const Navigationbar = () => {
                 </NavDropdown.Item>
               )}
             </NavDropdown>
-            <NavLink href="#cart">
+            <NavLink to="/cart">
               {" "}
               <BiCart size={50} color="Black" style={{ marginTop: "5px" }} />
             </NavLink>
