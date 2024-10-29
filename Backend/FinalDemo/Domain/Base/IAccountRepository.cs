@@ -40,5 +40,7 @@ namespace Domain.Base
         Task<string> RemoveAccountByIdAsync(string userId);
 
         Task<AuthenticationResponse> GmailSignIn(TokenRequest firebaseToken);
+
+        Task<List<IdentityUser>> GetMemberListAsync();
     }
 }
