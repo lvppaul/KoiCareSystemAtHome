@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import SearchBar from "./SearchBar";
+import { getCategories } from "../../Config/CategoryApi";
 const AdminCategories = () => {
+  const [categories, setCategories] = useState([]);
+  const fetchCategories = async () => {
+    const listCategories = await getCategories();
+    setCategories(listCategories);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <>
       <div className="right-content">
@@ -25,49 +36,31 @@ const AdminCategories = () => {
                   <th>Actions</th>
                 </tr>
               </thead>
+
               <tbody>
-                <tr>
-                  <td>CAT001</td>
-                  <td>Aquarium Supplies</td>
-                  <td>Includes tanks, filters, and decorations</td>
-                  <td>200</td>
-                  <td>Active</td>
-                  <td>
-                    <div className="actions d-flex align-items-center">
-                      <Button>
-                        <div className="icon">
-                          <FaPen />
-                        </div>
-                      </Button>
-                      <Button>
-                        <div className="icon">
-                          <FaTrashAlt />
-                        </div>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>CAT001</td>
-                  <td>Aquarium Supplies</td>
-                  <td>Includes tanks, filters, and decorations</td>
-                  <td>200</td>
-                  <td>Active</td>
-                  <td>
-                    <div className="actions d-flex align-items-center">
-                      <Button>
-                        <div className="icon">
-                          <FaPen />
-                        </div>
-                      </Button>
-                      <Button>
-                        <div className="icon">
-                          <FaTrashAlt />
-                        </div>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
+                {categories.map((category) => (
+                  <tr key={category.categoryId}>
+                    <td>{category.categoryId}</td>
+                    <td>{category.name}</td>
+                    <td>{category.description}</td>
+                    <td>200</td>
+                    <td>Active</td>
+                    <td>
+                      <div className="actions d-flex align-items-center">
+                        <Button>
+                          <div className="icon">
+                            <FaPen />
+                          </div>
+                        </Button>
+                        <Button>
+                          <div className="icon">
+                            <FaTrashAlt />
+                          </div>
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
