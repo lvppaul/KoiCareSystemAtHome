@@ -49,8 +49,8 @@ const Members = () => {
                 </tr>
               </thead>
               <tbody>
-                {members.map((member, index) => (
-                  <tr key={index}>
+                {members.map((member) => (
+                  <tr key={member.id}>
                     <td>{`${member.firstName || ""} ${
                       member.lastName || ""
                     }`}</td>
