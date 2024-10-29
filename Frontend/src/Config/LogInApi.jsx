@@ -84,8 +84,8 @@ const confirmEmail = async (confirmData) => {
             }
         }
         );
-        console(response.data)
-        return response.data;
+        console(response)
+        return response;
     } catch (error) {
         console.error('Error during email confirmation:', error.response.data);
         if (error.response) {

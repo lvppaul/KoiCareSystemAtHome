@@ -3,8 +3,8 @@ import { BiDroplet } from "react-icons/bi";
 import React, { useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import { useAuth } from '../../pages/Login/AuthProvider'
-import { addRecord } from "../../Config/KoiApi";
-const AddWaterParameter = ({ show, setShow, pondId }) => {
+import { addWaterParameter } from "../../Config/WaterParameterApi";
+const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
     const userId = useAuth().user.userId;
     const [waterData, setWaterData] = useState({
         pondId: pondId,
@@ -33,7 +33,12 @@ const AddWaterParameter = ({ show, setShow, pondId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle form submission logic here
-        // addRecord.apply.
+        addWaterParameter(waterData)
+        .then((response)=> {
+            addNewWaterParameter(waterData);
+            console.log(response);
+
+        })
         console.log('submit',waterData);
         setShow(false);
     };

@@ -20,6 +20,20 @@ const getKoiByUserId = async (userId) => {
         throw error;
     }
 }
+const getKoiListByUserId = async (userId) => {
+    try {
+        const response = await api.get('Koi', {
+            headers: {
+                'accept': 'text/plain'
+
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching kois:', error);
+        throw error;
+    }
+}
 //Get Koi by userId 
 const getKoiWithThumbnail= async (koiList) => {
     const notFound = 'others/NotFound.jpg';
@@ -148,6 +162,6 @@ const updateKoiRecord = async (record) => {
     }
 }
 
-export { getKoiByUserId, getKoiById, postKoi, deleteKoi, updateKoi
+export { getKoiByUserId, getKoiById, postKoi, deleteKoi, updateKoi, getKoiListByUserId
     , addRecord, deleteRecord, updateKoiRecord, getKoiRecord
  };

@@ -9,7 +9,6 @@
     font-weight: bold;
     width: 180px;
     height: 70px;
-    margin-top: 50px;
 }
 
 .pond-item button:hover{
@@ -18,7 +17,7 @@
 .add-pond{
     background-color: #FF8433;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 16px;
 }
 .pond-list h1{
     text-align: center;
