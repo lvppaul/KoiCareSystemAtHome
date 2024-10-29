@@ -68,16 +68,26 @@ const Profile = () => {
   };
 
   const handleAvatarChange = async (e) => {
+    setLoadingAvatar(true);
     const file = e.target.files[0];
     if (file && file.type.startsWith('image/')) {
       const storageRef = ref(storage, `users/${userId}/userAvatars/${Date.now()}_${file.name}`);
       try {
-        await updateAccount(userId, { ...details, avatar: storageRef.fullPath });
-        await uploadBytes(storageRef, file);
-        const newAvatar = await getDownloadURL(storageRef);
-        setAvatar(newAvatar);
+        const updateStatus = await updateAccount(userId, { ...details, avatar: storageRef.fullPath });
+        if (updateStatus === 'Successfully') {
+          await uploadBytes(storageRef, file);
+          const newAvatar = await getDownloadURL(storageRef);
+          setAvatar(newAvatar);
+          setLoadingAvatar(false);
+        } else {
+          console.error('Error updating avatar:', updateStatus);
+          setAvatar(null);
+          setLoadingAvatar(false);
+        }
       } catch (error) {
         console.error('Error uploading avatar:', error);
+        setAvatar(null);
+        setLoadingAvatar(false);
       }
     }
   };
@@ -132,7 +142,7 @@ const Profile = () => {
                     <h3 style={{ fontWeight: 'bolder', textAlign: 'center' }}>Account Details</h3>
                   </ListGroup.Item>
                   {loadingDetails ? (
-                    <div className="d-flex justify-content-center align-items-center" style={{ marginTop: '250px', height: '100%' }}>
+                    <div className="d-flex justify-content-center align-items-center" style={{ marginTop: '230px', height: '100%' }}>
                       <Spinner animation="border" role="status" style={{ color: 'black', width: '3rem', height: '3rem' }} />
                     </div>
                   ) : (<>

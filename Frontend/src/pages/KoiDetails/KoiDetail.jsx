@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import UpdateKoiDetail from '../../components/UpdateKoiDetail/UpdateKoiDetail';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -14,7 +14,6 @@ const KoiDetail = () => {
   const [loading, setLoading] = useState(false);
   const [showModalUpdateKoi, setShowModalUpdateKoi] = useState(false);
   const [showGrowHistory, setShowGrowHistory] = useState(false);
-  const [showGrowthChart, setShowGrowthChart] = useState(false);
   const userId = useAuth().user.userId;
 
   const fetchKoiDetail = async (koiId) => {
@@ -60,6 +59,7 @@ const KoiDetail = () => {
         <Col md={6} mb={6}>
             <img
               src={koidetail.thumbnail}
+              alt={koidetail.thumbnail}
               style={{ objectFit:'fill',width: '650px', height: '1000px' }}
             />
         </Col>

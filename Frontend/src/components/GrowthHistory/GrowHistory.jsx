@@ -82,7 +82,7 @@ const GrowHistory = ({show, setShow, koiData}) => {
             <Modal.Header closeButton>
               <Modal.Title>Growth history</Modal.Title>
             </Modal.Header>
-            <Modal.Body style={{ maxHeight: 'calc(100vh - 210px)', overflowY: 'auto' }}>
+            <Modal.Body style={{display:'flex', justifyContent:"center", flexDirection:'column'}}>
               <AddNewGrowthHistory
                 show={showAddNewGrowthHistory}
                 setShow={setShowAddNewGrowthHistory}

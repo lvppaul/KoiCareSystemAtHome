@@ -10,7 +10,6 @@ const DeletePond = ({ pondData, koiInPond, onPondDelete }) => {
     
     const notFound = 'others/NotFound.jpg';
     const pondThumbnail = pondData.thumbnail;
-    const navigate = useNavigate();
     
     const handleDelete = () => {
         if (koiInPond.length > 0) {
