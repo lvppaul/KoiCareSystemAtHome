@@ -6,9 +6,9 @@ body {
 }
 .admin-header {
   width: 100%;
-  height: 80px;
+  height: 80px; 
   background-color: #fff;
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   z-index: 1000;
@@ -178,4 +178,11 @@ body {
   height: 18px;
   width: 18px;
   color: #000;
+}
+
+.member-content-header {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }

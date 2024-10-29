@@ -37,7 +37,7 @@ const AddNewGrowthHistory = ({ show, setShow, koiData, updateAddedGrowth }) => {
             style={{justifyContent:'flex-end', margin:'20px 0'}} >
                 <Button  
                 onClick={setShow} 
-                style={{width:'140px', height:'45px', 
+                style={{width:'180px', height:'45px', 
                 fontWeight:'bold', fontSize: '14px', 
                 borderRadius:'15px', backgroundColor: '#FF8433', transition: 'background-color 0.3s ease'}}
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#FF6204'}

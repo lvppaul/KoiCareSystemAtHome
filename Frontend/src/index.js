@@ -13,7 +13,7 @@ import Shop from "./pages/Shop/Shop";
 import NotPage from "./pages/NotPage/NotPage";
 import Pond from "./pages/Pond/Pond";
 import AdminHome from "./pages/Admin/Home/AdminHome";
-import TableUser from "./components/TableUser/TableUser";
+import TableUser from "./components/TableUser/TableUser"; 
 import SaltCalculator from "./pages/SaltCalculator/SaltCalculator";
 import FoodCalculator from "./pages/FoodCalculator/FoodCalculator";
 import Product from "./pages/Product/Product";
@@ -36,6 +36,8 @@ import Profile from "./pages/Profile/Profile";
 import Members from "./components/AdminComponents/MemberManagement";
 import AdminShops from "./components/AdminComponents/ShopManagement";
 import AdminCategories from "./components/AdminComponents/CategoriesManagement";
+import PaymentPage from "./pages/PaymentPage/PaymentPage";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 const container = document.getElementById("root");
 const root = createRoot(container);
 
@@ -49,6 +51,8 @@ root.render(
           <Route path="signup" element={<Signup />} />
           <Route path="createshopacc" element={<CreateShopAcc />} />
           <Route path="confirmemail" element={<Confirmation />} />
+          <Route path="resetpassword" element={<ResetPassword />} />
+          <Route path="payment" element={<PaymentPage/>} />
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="news" element={<News />} />

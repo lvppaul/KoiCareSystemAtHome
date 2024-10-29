@@ -1,24 +1,63 @@
-import { Navbar, Nav, Container, Form, FormControl, NavDropdown } from "react-bootstrap";
-import { NavLink } from 'react-router-dom';
+import {
+  Navbar,
+  Nav,
+  Container,
+  Form,
+  FormControl,
+  NavDropdown,
+  Image,
+} from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import Logo from "../../assets/Fpt_TTKoi_logo.svg";
 import "./Navigationbar.css";
 import { BiUserCircle, BiCart } from "react-icons/bi";
-import { useAuth } from "../../pages/Login/AuthProvider"; // Correct import for useAuth
+import { useAuth } from "../../pages/Login/AuthProvider";
+import { useState, useEffect } from "react";
+import { getAccountByUserId } from "../../Config/UserApi";
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "../../Config/firebase";
 
 const Navigationbar = () => {
   const auth = useAuth();
+  const [avatar, setAvatar] = useState(null);
+  const { user, logout } = auth;
+
+  useEffect(() => {
+    const fetchAccountDetails = async () => {
+      if (!user) return;
+
+      const userId = user.userId;
+      const accountDetails = await getAccountByUserId(userId);
+      if (accountDetails) {
+        if (accountDetails.avatar) {
+          try {
+            const storageRef = ref(storage, accountDetails.avatar);
+            const previewAvatar = await getDownloadURL(storageRef);
+            setAvatar(previewAvatar);
+          } catch (error) {
+            console.error(
+              "The file does not exist in firebase anymore!",
+              error
+            );
+            setAvatar(null);
+          }
+        }
+      }
+    };
+    fetchAccountDetails();
+  }, [user]);
+
   if (!auth) {
     console.error("auth not available");
     return null;
   }
-  const { user, logout } = auth;
   const handleLogOut = () => {
     logout();
-  }
+  };
 
   return (
     <>
-      <header className="header d-flex justify-content-end w-100">
+      <header className="user-header d-flex justify-content-end w-100">
         <NavLink to="/contact" className="mx-2 text-white text-decoration-none">
           Contact Us
         </NavLink>
@@ -79,37 +118,57 @@ const Navigationbar = () => {
                 className="me-2 rounded-pill"
               />
             </Form>
-            <NavDropdown style={{ position: 'relative' }} title={<BiUserCircle size={50} />} id="basic-nav-dropdown">
-                {user ? (
-                  <>
-                    <NavDropdown.Item as={NavLink} to="/profile">
-                      Profile
-                    </NavDropdown.Item>
-                    <NavDropdown.Item onClick={handleLogOut}>
-                      Log out
-                    </NavDropdown.Item>
-                    <hr />
-                    <NavDropdown.Item style={{ fontWeight: 'bold', color: 'black' }} disabled>
-                      Role: {user.role} <br />
-                      Email: {user.email}
-                    </NavDropdown.Item>
-                  </>
+            <NavDropdown
+              style={{ position: "relative" }}
+              title={
+                user && avatar ? (
+                  <Image
+                    src={avatar}
+                    roundedCircle
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      objectFit: "cover",
+                    }}
+                  />
                 ) : (
-                  <NavDropdown.Item as={NavLink} to="/login">
-                    Log in
+                  <BiUserCircle size={50} />
+                )
+              }
+              id="basic-nav-dropdown"
+            >
+              {user ? (
+                <>
+                  <NavDropdown.Item as={NavLink} to="/profile">
+                    Profile
                   </NavDropdown.Item>
-
-                )}
+                  <NavDropdown.Item onClick={handleLogOut}>
+                    Log out
+                  </NavDropdown.Item>
+                  <hr />
+                  <NavDropdown.Item
+                    style={{ fontWeight: "bold", color: "black" }}
+                    disabled
+                  >
+                    Role: {user.role} <br />
+                    Email: {user.email}
+                  </NavDropdown.Item>
+                </>
+              ) : (
+                <NavDropdown.Item as={NavLink} to="/login">
+                  Log in
+                </NavDropdown.Item>
+              )}
             </NavDropdown>
             <NavLink href="#cart">
               {" "}
-              <BiCart size={50} color="Black" style={{ marginTop: '5px' }} />
+              <BiCart size={50} color="Black" style={{ marginTop: "5px" }} />
             </NavLink>
           </Nav>
         </Container>
       </Navbar>
     </>
   );
-}
+};
 
 export default Navigationbar;

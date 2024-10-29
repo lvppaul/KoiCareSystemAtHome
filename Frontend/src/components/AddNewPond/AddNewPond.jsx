@@ -60,7 +60,7 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
         <>  
                 <Button variant="success" onClick={() => setShow(true)}
                     style={{ width: '180px', height: '70px', 
-                        fontWeight: 'bold', fontSize: '18px', 
+                        fontWeight: 'bold', fontSize: '16px', 
                         borderRadius: '15px', backgroundColor: '#FF8433', transition: 'background-color 0.3s ease'}}
                         onMouseEnter={(e) => e.target.style.backgroundColor = '#FF6204'}
                         onMouseLeave={(e) => e.target.style.backgroundColor = '#FF8433'}>

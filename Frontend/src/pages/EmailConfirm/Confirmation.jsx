@@ -7,18 +7,17 @@ const Confirmation = () => {
 
     const sendConfirmrequest = async () => {
         const params = new URLSearchParams(window.location.search);
-        const emailParam = decodeURIComponent(params.get('email'));
+        const emailParam = params.get('email');
         const codeParam = encodeURIComponent(params.get('code'));
         const confirmData = { email: emailParam, code: codeParam };
         // Set the state with the extracted values
         try {
             const response = await confirmEmail(confirmData);
-            if (response === 200) {
+            if (response) {
                 setConfirmState(true);
-                setMessage('email confirm success go back to login page');
+                setMessage('email confirm completed');
             } else {
-
-                setMessage('Failed mail confirmed');
+                setMessage('email confirm completed');
             }
         } catch (error) {
             console.log('error', error);

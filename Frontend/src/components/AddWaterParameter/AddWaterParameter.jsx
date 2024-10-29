@@ -1,12 +1,14 @@
-import { Button } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { BiDroplet } from "react-icons/bi";
 import React, { useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
-
-const AddWaterParameter = ({ show, setShow,  }) => {
-    const [formData, setFormData] = useState({
-        pondId: 0,
-        userId: '',
+import { useAuth } from '../../pages/Login/AuthProvider'
+import { addWaterParameter } from "../../Config/WaterParameterApi";
+const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
+    const userId = useAuth().user.userId;
+    const [waterData, setWaterData] = useState({
+        pondId: pondId,
+        userId: userId,
         nitrite: 0,
         oxygen: 0,
         nitrate: 0,
@@ -25,19 +27,25 @@ const AddWaterParameter = ({ show, setShow,  }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setWaterData({ ...waterData, [name]: value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle form submission logic here
-        console.log(formData);
+        addWaterParameter(waterData)
+        .then((response)=> {
+            addNewWaterParameter(waterData);
+            console.log(response);
+
+        })
+        console.log('submit',waterData);
         setShow(false);
     };
 
     return (
         <>
-            <Button variant="success" onClick={()=> setShow(true)}
+            <Button variant="success" onClick={() => setShow(true)}
                 style={{
                     width: '220px', height: '60px',
                     fontWeight: 'bold', fontSize: '18px',
@@ -48,30 +56,144 @@ const AddWaterParameter = ({ show, setShow,  }) => {
                 <BiDroplet size={20} /> Add Water Parameter
             </Button>
 
-            <Modal show={show} onHide={setShow}>
+            <Modal show={show} onHide={setShow} size="lg" style={{backgroundColor:'#89CFF0'}}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Water Parameter</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formPondId">
-                            <Form.Label>Pond ID</Form.Label>
-                            <Form.Control
-                                type="number"
-                                name="nitrite"
-                                value={formData.pondId}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="formUserId">
-                            <Form.Label>User ID</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="userId"
-                                value={formData.userId}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
+                        <Row>
+                            <Col>
+                                <Form.Group controlId="formNitrite">
+                                    <Form.Label>Nitrite</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="nitrite"
+                                        value={waterData.nitrite}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formOxygen">
+                                    <Form.Label>Oxygen</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="oxygen"
+                                        value={waterData.oxygen}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formNitrate">
+                                    <Form.Label>Nitrate</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="nitrate"
+                                        value={waterData.nitrate}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formTemperature">
+                                    <Form.Label>Temperature</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="temperature"
+                                        value={waterData.temperature}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formPhosphate">
+                                    <Form.Label>Phosphate</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="phosphate"
+                                        value={waterData.phosphate}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formPh">
+                                    <Form.Label>pH</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="ph"
+                                        value={waterData.ph}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formAmmonium">
+                                    <Form.Label>Ammonium</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="ammonium"
+                                        value={waterData.ammonium}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group controlId="formCarbonDioxide">
+                                    <Form.Label>Carbon Dioxide</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="carbonDioxide"
+                                        value={waterData.carbonDioxide}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formCarbonHardness">
+                                    <Form.Label>Carbon Hardness</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="carbonHardness"
+                                        value={waterData.carbonHardness}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formHardness">
+                                    <Form.Label>Hardness</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="hardness"
+                                        value={waterData.hardness}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formSalt">
+                                    <Form.Label>Salt</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="salt"
+                                        value={waterData.salt}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formTotalChlorines">
+                                    <Form.Label>Total Chlorines</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="totalChlorines"
+                                        value={waterData.totalChlorines}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formOutdoorTemp">
+                                    <Form.Label>Outdoor Temperature</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="outdoorTemp"
+                                        value={waterData.outdoorTemp}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group controlId="formAmountFed">
+                                    <Form.Label>Amount Fed</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="amountFed"
+                                        value={waterData.amountFed}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
                         {/* Add other form fields here */}
                         <Button variant="secondary" onClick={() => setShow(false)}>
                             Close
