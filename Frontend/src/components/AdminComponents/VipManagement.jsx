@@ -6,18 +6,18 @@ import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
-import { getMembers } from "../../Config/UserApi";
+import { getVips } from "../../Config/UserApi";
 
-const Members = () => {
+const Vips = () => {
   const [isLocked, setIsLocked] = useState(false);
   const [members, setMembers] = useState([]);
 
   const fetchMembers = async () => {
     try {
-      const members = await getMembers();
+      const members = await getVips();
       setMembers(members);
     } catch (error) {
-      console.error("Error fetching members:", error);
+      console.error("Error fetching vips:", error);
       throw error;
     }
   };
@@ -31,7 +31,7 @@ const Members = () => {
       <div className="right-content">
         <div className="members-content card shadow border-0 p-3 mt-4 ">
           <div className="member-content-header d-flex ">
-            <h3 className="hd">Members Management</h3>
+            <h3 className="hd">Vips Management</h3>
             <SearchBar />
           </div>
 
@@ -88,4 +88,4 @@ const Members = () => {
     </>
   );
 };
-export default Members;
+export default Vips;

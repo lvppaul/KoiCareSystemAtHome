@@ -24,6 +24,8 @@ using Domain.Models.Dto.Response;
 using Microsoft.EntityFrameworkCore;
 using FirebaseAdmin.Auth;
 using Domain.Models.Dto.Request;
+using AutoMapper;
+using KCSAH.APIServer.Dto;
 
 namespace Domain.Repositories
 {
@@ -32,6 +34,7 @@ namespace Domain.Repositories
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _config;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IMapper _mapper;
         private static string Success = "Successfully";
         private static string notExistAcc = "Account does not exist";
         private static string noInfor = "Fields must not be blank";
@@ -42,11 +45,13 @@ namespace Domain.Repositories
 
         public AccountRepository(UserManager<ApplicationUser> userManager,
             IConfiguration configuration,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager, IMapper mapper
+            )
         {
             _userManager = userManager;
             _config = configuration;
             _roleManager = roleManager;
+            _mapper = mapper;
         }
 
         //public async Task<string> SignInAsync(SignInModel model)
@@ -652,10 +657,101 @@ namespace Domain.Repositories
             return Success;
         }
 
-        public Task<List<IdentityUser>> GetMemberListAsync()
+        public async Task<List<MemberDTO>> GetMemberListAsync()
         {
-            throw new NotImplementedException();
+            var users = await _userManager.Users.ToListAsync();
+            var members = new List<IdentityUser>();
+            foreach (var user in users)
+            {
+                if(await _userManager.IsInRoleAsync(user, "member")){
+                    members.Add(user);
+                }
+            }
+
+
+            var membersDTO =  _mapper.Map<List<MemberDTO>>(members);
+            return membersDTO;
+
         }
+        public async Task<List<MemberDTO>> GetVipListAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var members = new List<IdentityUser>();
+            foreach (var user in users)
+            {
+                if (await _userManager.IsInRoleAsync(user, "vip"))
+                {
+                    members.Add(user);
+                }
+            }
+
+
+            var membersDTO = _mapper.Map<List<MemberDTO>>(members);
+            return membersDTO;
+
+        }
+
+        public async Task<int> TotalMembersAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            int count = 0;
+            foreach (var user in users)
+            {
+                if (await _userManager.IsInRoleAsync(user, "member"))
+                {
+                   count++;
+                }
+            }
+            return count;
+        }
+
+        public async Task<int> TotalVipsAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            int count = 0;
+            foreach (var user in users)
+            {
+                if (await _userManager.IsInRoleAsync(user, "vip"))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public async Task<List<ShopDTO>> GetShopListAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var shops = new List<IdentityUser>();
+            foreach (var user in users)
+            {
+                if (await _userManager.IsInRoleAsync(user, "shop"))
+                {
+                    shops.Add(user);
+                }
+            }
+
+
+            var shopsDTO = _mapper.Map<List<ShopDTO>>(shops);
+            return shopsDTO;
+        }
+
+        public async Task<int> TotalShopAsync()
+        {   
+            int count = 0;
+            var users = await _userManager.Users.ToListAsync();
+            var shops = new List<IdentityUser>();
+            foreach (var user in users)
+            {
+                if (await _userManager.IsInRoleAsync(user, "shop"))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+
 
 
 

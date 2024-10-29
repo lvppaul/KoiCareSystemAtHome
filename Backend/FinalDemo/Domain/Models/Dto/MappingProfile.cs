@@ -4,13 +4,17 @@ using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Update;
 using Domain.Models.Entity;
+using Microsoft.AspNetCore.Identity;
 
 namespace KCSAH.APIServer.Dto
 {
     public class MappingProfile : Profile
     {
         public MappingProfile()
-        {            
+        {
+
+            //
+            CreateMap<MemberDTO, IdentityUser>().ReverseMap();
             //Shop
             CreateMap<Shop, ShopDTO>().ReverseMap();
             CreateMap<ShopRequestDTO, Shop>().ReverseMap();

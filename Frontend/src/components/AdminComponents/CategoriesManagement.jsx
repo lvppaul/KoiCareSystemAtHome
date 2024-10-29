@@ -8,8 +8,12 @@ import { getCategories } from "../../Config/CategoryApi";
 const AdminCategories = () => {
   const [categories, setCategories] = useState([]);
   const fetchCategories = async () => {
-    const listCategories = await getCategories();
-    setCategories(listCategories);
+    try {
+      const listCategories = await getCategories();
+      setCategories(listCategories);
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+    }
   };
 
   useEffect(() => {

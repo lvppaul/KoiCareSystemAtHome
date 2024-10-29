@@ -34,6 +34,7 @@ import Confirmation from "./pages/EmailConfirm/Confirmation";
 import AdminDashboard from "./components/AdminComponents/AdminDashboard";
 import Profile from "./pages/Profile/Profile";
 import Members from "./components/AdminComponents/MemberManagement";
+import Vips from "./components/AdminComponents/VipManagement";
 import AdminShops from "./components/AdminComponents/ShopManagement";
 import AdminCategories from "./components/AdminComponents/CategoriesManagement";
 const container = document.getElementById("root");
@@ -144,6 +145,7 @@ root.render(
             <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="members" element={<Members />} />
+            <Route path="vips" element={<Vips />} />
             <Route path="categories" element={<AdminCategories />} />
             <Route path="shops" element={<AdminShops />} />
           </Route>
