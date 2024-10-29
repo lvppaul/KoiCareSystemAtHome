@@ -57,7 +57,7 @@ const Navigationbar = () => {
 
   return (
     <>
-      <header className="header d-flex justify-content-end w-100">
+      <header className="user-header d-flex justify-content-end w-100">
         <NavLink to="/contact" className="mx-2 text-white text-decoration-none">
           Contact Us
         </NavLink>
