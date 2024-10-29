@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container, Form, FormControl, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, Container, Form, FormControl, NavDropdown, Image } from "react-bootstrap";
 import { NavLink } from 'react-router-dom';
 import Logo from "../../assets/Fpt_TTKoi_logo.svg";
 import "./Navigationbar.css";
@@ -79,7 +79,17 @@ const Navigationbar = () => {
                 className="me-2 rounded-pill"
               />
             </Form>
-            <NavDropdown style={{ position: 'relative' }} title={<BiUserCircle size={50} />} id="basic-nav-dropdown">
+            <NavDropdown style={{ position: 'relative' }} title={
+              user && user.avatar ? (
+                <Image
+                  src={user.avatar}
+                  roundedCircle
+                  style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                />
+              ) : (
+                <BiUserCircle size={50} />
+              )
+            } id="basic-nav-dropdown">
                 {user ? (
                   <>
                     <NavDropdown.Item as={NavLink} to="/profile">

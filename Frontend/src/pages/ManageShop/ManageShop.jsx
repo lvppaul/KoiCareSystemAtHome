@@ -265,7 +265,7 @@ const ManageShop = () => {
     return (
         <Container>
             <Card className="mb-4 shadow-sm">
-                <Row noGutters>
+                <Row>
                     <Col md={4}>
                         <Card.Img style={{ objectFit: 'cover', width: '300px' }} variant="top" src={shop.thumbnail} alt="Shop Thumbnail" className="h-100" />
                     </Col>
