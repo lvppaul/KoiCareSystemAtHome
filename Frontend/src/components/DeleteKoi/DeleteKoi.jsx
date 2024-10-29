@@ -9,7 +9,6 @@ const DeleteKoi = ({koiData, handleKoiDelete}) => {
     const koiId = koiData.koiId;
     const notFound = 'others/NotFound.jpg';
     const koiThumbnail = koiData.thumbnail;
-    const navigate = useNavigate();
     const handleDelete = () => {
         // Call the onDelete function passed as a prop
         if (koiThumbnail) {

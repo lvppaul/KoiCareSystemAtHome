@@ -4,14 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { signInWithPopup } from "firebase/auth";
 import { googleLogIn } from "../../Config/LogInApi";
 import { auth, provider } from "../../Config/firebase";
-import { useState } from 'react';
-import jwtDecode from 'jwt-decode';
 import { useAuth } from './AuthProvider';
 
 const LoginGoogle = () => {
     const navigate = useNavigate();
     const { login, role } = useAuth();
-    const [tokenGoogle, setTokenGoogle] = useState('');
 
     const handleSignInGoogle = async () => {
         try {
@@ -21,7 +18,6 @@ const LoginGoogle = () => {
 
             // Get the token from Firebase
             const token = await user.getIdToken();
-            setTokenGoogle(token);
 
             // Call the googleLogIn function with the token
             const response = await googleLogIn(token);
