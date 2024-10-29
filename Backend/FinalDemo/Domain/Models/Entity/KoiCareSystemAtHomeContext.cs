@@ -156,7 +156,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             e.ToTable("Cart");
             e.HasKey(e => e.CartId).HasName("PK__Cart__18103112");
             e.Property(e => e.CartId).HasColumnName("CartId");
-            e.Property(e => e.TotalAmount).HasColumnName("TotalAmount").HasColumnType("decimal(6,2)");
+            e.Property(e => e.TotalAmount).HasColumnName("TotalAmount").HasColumnType("decimal(9,2)");
         });
 
 
@@ -182,8 +182,8 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("ProductId");
-            entity.Property(e => e.Price).HasColumnName("Price").HasColumnType("decimal(4,2)");
-            entity.Property(e => e.TotalPrice).HasColumnName("TotalPrice").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.Price).HasColumnName("Price").HasColumnType("decimal(9,2)");
+            entity.Property(e => e.TotalPrice).HasColumnName("TotalPrice").HasColumnType("decimal(9,2)");
 
 
             entity.HasOne(d => d.Cart).WithMany(p => p.CartItems)

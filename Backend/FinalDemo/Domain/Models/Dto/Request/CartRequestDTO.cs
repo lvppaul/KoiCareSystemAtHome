@@ -11,8 +11,5 @@ namespace Domain.Models.Dto.Request
     public class CartRequestDTO
     {
         public string UserId { get; set; } = null!;
-        [JsonIgnore]
-        public decimal TotalAmount { get; set; }
-        public List<CartItemRequestDTO> cartItemDTOs { get; set; }
     }
 }
