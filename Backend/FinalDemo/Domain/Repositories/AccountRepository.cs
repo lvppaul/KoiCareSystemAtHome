@@ -652,6 +652,11 @@ namespace Domain.Repositories
             return Success;
         }
 
+        public Task<List<IdentityUser>> GetMemberListAsync()
+        {
+            throw new NotImplementedException();
+        }
+
 
 
 

@@ -9,20 +9,20 @@ namespace Domain.Authentication
 {
     public class AccountDetailModel
     {
-        [Required]
-        public string Sex { get; set; } = null!;
-        [Required]
-        public string Street { get; set; } = null!;
-        [Required]
-        public string District { get; set; } = null!;
-        [Required]
-        public string City { get; set; } = null!;
-        [Required]
-        public string Country { get; set; } = null!;
-        [Required]
-        public string PhoneNumber { get; set; } = null!;
-        [Required]
-        public string Avatar{ get; set; } = null!;
+       
+        public string? Sex { get; set; } 
+       
+        public string? Street { get; set; } 
+        
+        public string? District { get; set; } 
+        
+        public string? City { get; set; } 
+        
+        public string? Country { get; set; } 
+       
+        public string? PhoneNumber { get; set; } 
+        
+        public string? Avatar{ get; set; } 
 
     }
 }
