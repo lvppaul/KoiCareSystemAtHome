@@ -139,8 +139,7 @@ namespace KCSAH.APIServer.Dto
 
             //Cart
             CreateMap<Cart, CartDTO>().ReverseMap();
-            CreateMap<CartRequestDTO, Cart>()
-            .ForMember(dest => dest.CartItems, opt => opt.MapFrom(src => src.cartItemDTOs));
+            CreateMap<CartRequestDTO, Cart>().ReverseMap();
             CreateMap<CartRequestDTO, CartDTO>().ReverseMap();
 
             //CartItem

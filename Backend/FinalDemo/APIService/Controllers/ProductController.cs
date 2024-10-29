@@ -45,7 +45,7 @@ namespace KCSAH.APIServer.Controllers
             result.category = category;
             return result;
         }
-        [HttpGet("GetProductImageByProductId")]
+        [HttpGet("GetProductImageByProductId/{ProductId}")]
         public async Task<ActionResult<List<ProductImageDTO>>> GetProductImage(int ProductId)
         {
             var image = await _unitOfWork.ProductImageRepository.GetImageByProductId(ProductId);
@@ -57,7 +57,7 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
-        [HttpGet("GetProductByName")]
+        [HttpGet("GetProductByName/{Name}")]
         public async Task<ActionResult<List<ProductDTO>>> GetProductByName(string Name)
         {
             var product = await _unitOfWork.ProductRepository.GetProductByName(Name);
@@ -138,9 +138,8 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Ánh xạ từ ProductDTO sang Product và liên kết với danh mục đã có hoặc mới tạo
             var productMap = _mapper.Map<Product>(productdto);
-            productMap.CategoryId = productdto.CategoryId;  // Liên kết với danh mục hiện tại
+            productMap.CategoryId = productdto.CategoryId;
 
             var createResult = await _unitOfWork.ProductRepository.CreateAsync(productMap);
 
@@ -163,35 +162,32 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest();
             }
 
-            // Lấy thực thể product hiện tại từ cơ sở dữ liệu
             var existingProduct = await _unitOfWork.ProductRepository.GetByIdAsync(id);
             if (existingProduct == null)
             {
-                return NotFound(); // Trả về 404 nếu không tìm thấy sản phẩm
+                return NotFound();
             }
 
-            // Cập nhật các thuộc tính của existingProduct bằng cách ánh xạ từ productDto
             _mapper.Map(productdto, existingProduct);
 
-            // Cập nhật vào cơ sở dữ liệu
             var updateResult = await _unitOfWork.ProductRepository.UpdateAsync(existingProduct);
 
             if (updateResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while updating product");
-                return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
+                return StatusCode(500, ModelState);
             }
 
-            return NoContent(); // Trả về 200 OK với sản phẩm đã cập nhật
+            return NoContent(); 
         }
 
-        [HttpGet("Search")]
+        [HttpGet("Search")] 
         public async Task<ActionResult<List<ProductDTO>>> SearchProducts(
-                    string? name = null,
-                    int? categoryId = null,
-                    float? minPrice = null,
-                    float? maxPrice = null,
-                    int? shopId = null)
+            string? name = null,
+            int? categoryId = null,
+            float? minPrice = null,
+            float? maxPrice = null,
+            int? shopId = null)
         {
             var products = await _unitOfWork.ProductRepository.SearchProducts(name, categoryId, minPrice, maxPrice, shopId);
             if (products == null || !products.Any())
@@ -203,11 +199,11 @@ namespace KCSAH.APIServer.Controllers
         }
 
 
+
         private async Task<CategoryDTO> GetCategoryAsync(int id)
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(id);
 
-            // Sử dụng AutoMapper để ánh xạ từ Category sang CategoryDTO
             return _mapper.Map<CategoryDTO>(category);
         }
 

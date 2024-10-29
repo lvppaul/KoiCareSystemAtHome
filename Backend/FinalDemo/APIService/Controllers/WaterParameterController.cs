@@ -113,10 +113,10 @@ namespace APIService.Controllers
             if (updateResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while updating Water Parameter");
-                return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
+                return StatusCode(500, ModelState);
             }
 
-            return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
+            return NoContent(); 
         }
 
         [HttpDelete("{id}")]
