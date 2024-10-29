@@ -115,11 +115,6 @@ namespace KCSAH.APIServer.Dto
             CreateMap<BlogCommentRequestDTO, BlogComment>().ReverseMap();
             CreateMap<BlogCommentUpdateDTO, BlogComment>().ReverseMap();
 
-            //PaymentMethod
-            CreateMap<PaymentMethod, PaymentMethodUpdateDTO>().ReverseMap();
-            CreateMap<PaymentMethodDTO, PaymentMethod>().ReverseMap();
-            CreateMap<PaymentMethodUpdateDTO, PaymentMethodDTO>().ReverseMap();
-
             //ProductImage
             CreateMap<ProductImageDTO, ProductImageRequestDTO>().ReverseMap();
             CreateMap<ProductImage, ProductImageRequestDTO>().ReverseMap();

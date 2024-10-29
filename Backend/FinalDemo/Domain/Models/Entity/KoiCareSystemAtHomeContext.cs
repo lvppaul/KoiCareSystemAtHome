@@ -46,8 +46,6 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
-    public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
-
     public virtual DbSet<Pond> Ponds { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
@@ -338,7 +336,6 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .IsUnicode(false);
             entity.Property(e => e.FullName).HasMaxLength(200);
             entity.Property(e => e.OrderStatus).HasMaxLength(200);
-            entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodId");
             entity.Property(e => e.Phone)
                 .HasMaxLength(20)
                 .IsUnicode(false);
@@ -347,11 +344,6 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.UserId)
                 .HasMaxLength(450)
                 .HasColumnName("UserId");
-
-            entity.HasOne(d => d.PaymentMethod).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.PaymentMethodId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Orders__PaymentM__59FA5E80");
 
             entity.HasOne(d => d.Shop).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.ShopId)
@@ -385,16 +377,6 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__OrderDeta__Produ__5DCAEF64");
-        });
-
-        modelBuilder.Entity<PaymentMethod>(entity =>
-        {
-            entity.HasKey(e => e.PaymentMethodId).HasName("PK__PaymentM__DC31C1F3BB867D38");
-
-            entity.ToTable("PaymentMethod");
-
-            entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodId");
-            entity.Property(e => e.PaymentName).HasMaxLength(255);
         });
 
         modelBuilder.Entity<PaymentTransaction>(entity =>
