@@ -18,9 +18,10 @@ const getCarts = async () => {
 // Function to create cart
 const createCart = async (userId) => {
     try {
-        const response = await api.post('Cart', userId, {
+        const response = await api.post('Cart', { userId }, {
             headers: {
-                'accept': 'text/plain'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             }
         });
         return response.data;

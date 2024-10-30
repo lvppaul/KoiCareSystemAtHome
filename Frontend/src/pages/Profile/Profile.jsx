@@ -34,12 +34,12 @@ const Profile = () => {
   const [loadingAvatar, setLoadingAvatar] = useState(true);
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [userData, setUserData] = useState({});
+
   useEffect(() => {
     const fetchAccountDetails = async () => {
       const accountDetails = await getAccountByUserId(userId);
       if (accountDetails) {
-        setUserData(accountDetails);
+
         if (accountDetails.avatar) {
           try {
             const storageRef = ref(storage, accountDetails.avatar);
@@ -60,6 +60,7 @@ const Profile = () => {
           const previewAvatar = await getDownloadURL(storageRef);
           setAvatar(previewAvatar);
         }
+
         setDetails(accountDetails);
       }
       setLoadingAvatar(false);
@@ -165,7 +166,7 @@ const Profile = () => {
                     />
                   ) : (
                     <Image
-                      style={{ maxBlockSize: "250px", borderRadius: "50%" }}
+                      style={{ maxBlockSize: "250px", objectFit: "fill" }}
                       src={avatar}
                       roundedCircle
                       fluid
@@ -184,7 +185,7 @@ const Profile = () => {
                 >
                   Change Avatar
                 </Button>
-                <Button onClick={() => navigate("/updateaccount")}>
+                <Button onClick={() => navigate("/updateaccount")}
                  variant="primary" className="mt-5">
                   Upgrade to VIP Account
                 </Button>
