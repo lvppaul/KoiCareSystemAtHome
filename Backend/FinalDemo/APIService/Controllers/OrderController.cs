@@ -57,17 +57,17 @@ namespace KCSAH.APIServer.Controllers
             return Ok(result);
         }
 
-        [HttpGet("ShopId/{id}")]
-        public async Task<ActionResult<List<OrderDTO>>> GetOrderByShopIdAsync(int id)
-        {
-            var order = await _unitOfWork.ShopRepository.GetOrderById(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            var result = _mapper.Map<List<OrderDTO>>(order);
-            return Ok(result);
-        }
+        //[HttpGet("ShopId/{id}")]
+        //public async Task<ActionResult<List<OrderDTO>>> GetOrderByShopIdAsync(int id)
+        //{
+        //    var order = await _unitOfWork.ShopRepository.GetOrderById(id);
+        //    if (order == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var result = _mapper.Map<List<OrderDTO>>(order);
+        //    return Ok(result);
+        //}
 
         [HttpGet("UserId/{id}")]
         public async Task<IActionResult> GetOrderByUserIdAsync(string id)

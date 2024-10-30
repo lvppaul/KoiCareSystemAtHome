@@ -62,7 +62,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     public virtual DbSet<PaymentTransaction> PaymentTransactions { get; set; }
 
-    public virtual DbSet<Vip> Vips { get; set; }
+    public virtual DbSet<VipPackage> VipPackages { get; set; }
 
     public virtual DbSet<OrderVipDetail> OrderVipDetails { get; set; }
 
@@ -102,7 +102,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
         modelBuilder.Entity<ApplicationUser>()
       .HasOne(a => a.Vip)
       .WithOne(s => s.User)
-      .HasForeignKey<Vip>(s => s.UserId);
+      .HasForeignKey<VipPackage>(s => s.UserId);
 
         modelBuilder.Entity<Order>()
             .HasOne(d => d.PaymentTransaction).WithOne(p => p.Order)
@@ -348,16 +348,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.Phone)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.ShopId).HasColumnName("ShopId");
             entity.Property(e => e.Street).HasMaxLength(50);
             entity.Property(e => e.UserId)
                 .HasMaxLength(450)
                 .HasColumnName("UserId");
-
-            entity.HasOne(d => d.Shop).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.ShopId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Orders__ShopID__59063A47");
 
             entity.HasOne(d => d.ApplicationUser).WithMany(p => p.Orders)
                .HasForeignKey(d => d.UserId)
@@ -480,11 +474,11 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
               .HasConstraintName("FK__Pond__UserID__398D8EEE");
         });
 
-        modelBuilder.Entity<Vip>(entity =>
+        modelBuilder.Entity<VipPackage>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Vip__B40CC6ED16BED2A9");
 
-            entity.ToTable("Vip");
+            entity.ToTable("VipPackage");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()

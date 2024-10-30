@@ -211,10 +211,10 @@ namespace Domain.Services
                    paramsQuery["vnp_TransactionStatus"] == "00";
         }
 
-        private bool IsEqualAmount(Dictionary<string, string> paramsQuery, Order order)
-        {
-            return double.Parse(paramsQuery["vnp_Amount"]) == order.TotalPrice;
-        }
+        //private bool IsEqualAmount(Dictionary<string, string> paramsQuery, Order order)
+        //{
+        //    return double.Parse(paramsQuery["vnp_Amount"]) == order.TotalPrice;
+        //}
 
         private async Task UpdateOrderStatus(Order order, string status)
         {
@@ -350,8 +350,8 @@ namespace Domain.Services
                 }
 
                 // 5. Validate amount and process transaction
-                if (IsEqualAmount(queryParams, order))
-                {
+                //if (IsEqualAmount(queryParams, order))
+                //{
                     if (IsSuccessfulTransaction(queryParams))
                     {
                         // Create payment response
@@ -383,10 +383,10 @@ namespace Domain.Services
 
                     await UpdateOrderStatus(order, "Giao dịch thất bại");
                     return (false, "Error processing payment");
-                }
+                //}
 
-                await UpdateOrderStatus(order, "Giao dịch thất bại");
-                return (false, "Error processing payment due to Invalid Amount");
+                //await UpdateOrderStatus(order, "Giao dịch thất bại");
+                //return (false, "Error processing payment due to Invalid Amount");
             }
             catch (Exception ex)
             {

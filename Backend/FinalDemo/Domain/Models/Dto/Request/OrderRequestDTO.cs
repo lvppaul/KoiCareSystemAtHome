@@ -11,9 +11,6 @@ namespace Domain.Models.Dto.Request
     public class OrderRequestDTO
     {
         public string UserId { get; set; } = null!;
-
-        public int ShopId { get; set; }
-
         public string FullName { get; set; } = null!;
 
         public string Phone { get; set; } = null!;
@@ -28,13 +25,12 @@ namespace Domain.Models.Dto.Request
 
         public string Country { get; set; } = null!;
 
-        public int PaymentMethodId { get; set; }
-
         //public double TotalPrice { get; set; }
         [JsonIgnore]
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        public string OrderStatus { get; set; } = null!;
+        [JsonIgnore]
+        public string OrderStatus { get; set; } = "Đang chờ";
         public List<OrderDetailRequestDTO> orderDetails { get; set; }
         [JsonIgnore]
         public double TotalPrice { get; set; }
