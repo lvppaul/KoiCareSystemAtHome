@@ -8,15 +8,18 @@ const Order = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const createdDate = new Date().toISOString();
     const payload = {
       orderId: parseInt(orderId),
       fullName,
       description,
+      createdDate,
     };
 
     const response = await sendPayment(payload);
-    if (response && response.url) {
-      window.location.href = response.url;
+    if (response) {
+      //console.log('Redirecting to:', response);
+      window.location.href = response;
     } else {
       console.error('Error: No URL returned from API');
     }
