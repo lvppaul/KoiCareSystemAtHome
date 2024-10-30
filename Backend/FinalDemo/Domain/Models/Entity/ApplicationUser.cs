@@ -27,6 +27,8 @@ namespace Domain.Models.Entity
 
         public virtual Cart Cart { get; set; } = null!;
 
+        public virtual Vip Vip { get; set; } = null!;
+
         public string? RefreshToken { get; set; }
 
         public DateTime? RefreshTokenExpiration { get; set; }
