@@ -119,7 +119,6 @@ namespace Domain.Repositories
                         Email = email,
                         LastName = LastName,
                         FirstName = FirstName,
-                        Avatar = picture,
                         EmailConfirmed = true,
                     };
                     var result = await _userManager.CreateAsync(user);
@@ -136,6 +135,7 @@ namespace Domain.Repositories
                 var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, email),
+                new Claim("Avatar",picture),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
             };
