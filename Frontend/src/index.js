@@ -59,7 +59,7 @@ root.render(
           <Route path="confirmemail" element={<Confirmation />} />
           <Route path="resetpassword" element={<ResetPassword />} />
           <Route path="payment" element={<PaymentPage/>} />
-          <Route path="paymentresult" element={<PaymentResult/>} />
+          <Route path="payment-result" element={<PaymentResult/>} />
           <Route path="updateaccount" element={<UpdateVipAccount />} />
           <Route path="order" element={<Order />} />
           <Route path="/" element={<App />}>
