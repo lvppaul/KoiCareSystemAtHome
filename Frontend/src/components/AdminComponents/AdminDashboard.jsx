@@ -1,12 +1,55 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DashboardBox from "./DashboardBox";
 import { FaUser } from "react-icons/fa";
-import { MdCategory } from "react-icons/md";
+import { RiVipLine } from "react-icons/ri";
 import { FaShop } from "react-icons/fa6";
 import { MdAttachMoney } from "react-icons/md";
 import { MdOutlineCardMembership } from "react-icons/md";
 import { IoBagCheckOutline } from "react-icons/io5";
+import {
+  getTotalMembers,
+  getTotalVips,
+  getTotalShops,
+} from "../../Config/UserApi";
 const AdminDashboard = () => {
+  const [totalMembers, setTotalMembers] = useState([0]);
+  const [totalVips, setTotalVips] = useState([0]);
+  const [totalShops, setTotalShops] = useState([0]);
+  const fetchTotalMembers = async () => {
+    try {
+      const total = await getTotalMembers();
+      setTotalMembers(total);
+    } catch (error) {
+      console.error("Error fetching total members:", error);
+      throw error;
+    }
+  };
+
+  const fetchTotalShops = async () => {
+    try {
+      const total = await getTotalShops();
+      setTotalShops(total);
+    } catch (error) {
+      console.error("Error fetching total shops:", error);
+      throw error;
+    }
+  };
+
+  const fetchTotalVips = async () => {
+    try {
+      const total = await getTotalVips();
+      setTotalVips(total);
+    } catch (error) {
+      console.error("Error fetching total vips:", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchTotalMembers();
+    fetchTotalShops();
+    fetchTotalVips();
+  }, []);
   return (
     <div>
       <div className="right-content w-100">
@@ -17,16 +60,19 @@ const AdminDashboard = () => {
                 color={["#1da256", "#48d483"]}
                 icon={<FaUser />}
                 object={"Members"}
+                number={totalMembers}
+              />
+              <DashboardBox
+                color={["#B8860B", "#FFFACD"]}
+                icon={<RiVipLine />}
+                object={"Vip"}
+                number={totalVips}
               />
               <DashboardBox
                 color={["#00c2c2", "#98f5f5"]}
                 icon={<FaShop />}
                 object={"Shop"}
-              />
-              <DashboardBox
-                color={["#B8860B", "#FFFACD"]}
-                icon={<MdCategory />}
-                object={"Categories"}
+                number={totalShops}
               />
               <DashboardBox
                 color={["#1E90FF", "#87CEFA"]}

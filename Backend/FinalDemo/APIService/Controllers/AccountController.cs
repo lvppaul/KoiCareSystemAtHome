@@ -166,16 +166,60 @@ namespace ApiService.Controllers
         public async Task<IActionResult> LockoutDisableAsync(string id)
         {
             var result = await _accountRepository.LockoutDisabledAsync(id);
-            if (!result.Equals("Unlocked")) return BadRequest(result);
+            if (!result.Equals("UnLocked")) return BadRequest(result);
             return Ok(result);
         }
 
 
-        [HttpPut("DeleteAccount/{userId}")]
+        [HttpDelete("DeleteAccount/{userId}")]
         public async Task<IActionResult> RemoveAccountById(string userId)
         {
             var result = await _accountRepository.RemoveAccountByIdAsync(userId);
             if (!result.Equals(Success)) return BadRequest(result);
+            return Ok(result);
+        }
+        [HttpGet("GetMembers")]
+        public async Task<IActionResult> GetMembersAsync()
+        {
+            var result = await _accountRepository.GetMemberListAsync();
+           if(result==null) return NoContent();
+           return Ok(result);
+        }
+        [HttpGet("GetTotalMembers")]
+        public async Task<IActionResult> GetTotalMembersAsync()
+        {
+            var result = await _accountRepository.TotalMembersAsync();
+            if (result == 0) return NoContent();
+            return Ok(result);
+        }
+
+        [HttpGet("GetVips")]
+        public async Task<IActionResult> GetVipsAsync()
+        {
+            var result = await _accountRepository.GetVipListAsync();
+            if (result == null) return NoContent();
+            return Ok(result);
+        }
+        [HttpGet("GetTotalVips")]
+        public async Task<IActionResult> GetTotalVipsAsync()
+        {
+            var result = await _accountRepository.TotalVipsAsync();
+            if (result == 0) return NoContent();
+            return Ok(result);
+        }
+
+        [HttpGet("GetShops")]
+        public async Task<IActionResult> GetShopsAsync()
+        {
+            var result = await _accountRepository.GetShopListAsync();
+            if (result == null) return NoContent();
+            return Ok(result);
+        }
+        [HttpGet("GetTotalShops")]
+        public async Task<IActionResult> GetTotalShopsAsync()
+        {
+            var result = await _accountRepository.TotalShopAsync();
+            if (result == 0) return NoContent();
             return Ok(result);
         }
 

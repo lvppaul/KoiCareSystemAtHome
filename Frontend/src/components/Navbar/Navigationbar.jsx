@@ -21,6 +21,7 @@ const Navigationbar = () => {
   const auth = useAuth();
   const [avatar, setAvatar] = useState(null);
   const { user, logout } = auth;
+  const role = user ? user.role : null;
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -91,24 +92,30 @@ const Navigationbar = () => {
             <NavLink className="nav-title" to="/blogs">
               Blogs
             </NavLink>
-            <NavDropdown
-              title="Koi Pond"
-              id="basic-nav-dropdown"
-              className="custom-dropdown"
-            >
-              <NavDropdown.Item as={NavLink} to="/koilist">
-                Koi Fish List
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/pond">
-                Pond
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/foodcalculator">
-                Food Calculator
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/saltcalculator">
-                Salt Calculator
-              </NavDropdown.Item>
-            </NavDropdown>
+            {user && user.role === "shop" ? (
+              <NavLink className="nav-title" to="/manageshop" >
+                Your Shop
+              </NavLink>
+            ) : (
+              <NavDropdown
+                title="Koi Pond"
+                id="basic-nav-dropdown"
+                className="custom-dropdown"
+              >
+                <NavDropdown.Item as={NavLink} to="/koilist">
+                  Koi Fish List
+                </NavDropdown.Item>
+                <NavDropdown.Item as={NavLink} to="/pond">
+                  Pond
+                </NavDropdown.Item>
+                <NavDropdown.Item as={NavLink} to="/foodcalculator">
+                  Food Calculator
+                </NavDropdown.Item>
+                <NavDropdown.Item as={NavLink} to="/saltcalculator">
+                  Salt Calculator
+                </NavDropdown.Item>
+              </NavDropdown>
+            )}
           </Nav>
           <Nav className="flex-grow-4 ms-auto nav-right">
             <Form className="d-flex">
@@ -138,7 +145,11 @@ const Navigationbar = () => {
               id="basic-nav-dropdown"
             >
               {user ? (
-                <>
+                <>{role === "admin" ?
+                  <NavDropdown.Item as={NavLink} to="/admin">
+                    Go to Admin Page
+                  </NavDropdown.Item> : null
+                }
                   <NavDropdown.Item as={NavLink} to="/profile">
                     Profile
                   </NavDropdown.Item>
@@ -160,8 +171,7 @@ const Navigationbar = () => {
                 </NavDropdown.Item>
               )}
             </NavDropdown>
-            <NavLink href="#cart">
-              {" "}
+            <NavLink to={"/cart"}>
               <BiCart size={50} color="Black" style={{ marginTop: "5px" }} />
             </NavLink>
           </Nav>

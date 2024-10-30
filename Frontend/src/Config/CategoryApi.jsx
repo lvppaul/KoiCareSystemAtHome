@@ -29,5 +29,25 @@ const getCategoryById = async (categoryId) => {
         throw error;
     }
 };
+//Add Category function
+const addCategories = async (category) => {
+    try {
+        const response = await api.post('Category', category);
+        return response.data;
+    } catch (error) {
+        console.error('Error adding category:', error);
+        throw error;
+    }
+};
 
-export { getCategories, getCategoryById };
+const deleteCategories = async (categoryId) => {
+    try {
+        const response = await api.delete(`Category/${categoryId}`);
+        return response;
+    } catch (error) {
+        console.error('Error deleting category:', error);
+        throw error;
+    }
+}
+
+export { getCategories, getCategoryById, addCategories, deleteCategories };

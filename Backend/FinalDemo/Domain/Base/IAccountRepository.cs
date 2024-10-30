@@ -3,6 +3,7 @@ using Domain.Models;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
 using Domain.Models.Entity;
+using KCSAH.APIServer.Dto;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,13 @@ namespace Domain.Base
 
         Task<AuthenticationResponse> GmailSignIn(TokenRequest firebaseToken);
 
-        Task<List<IdentityUser>> GetMemberListAsync();
+        Task<List<MemberDTO>> GetMemberListAsync();
+        Task<List<MemberDTO>> GetVipListAsync();
+        Task<List<ShopDTO>> GetShopListAsync();
+
+        
+        Task<int> TotalMembersAsync();
+        Task<int> TotalVipsAsync();
+        Task<int> TotalShopAsync();
     }
 }
