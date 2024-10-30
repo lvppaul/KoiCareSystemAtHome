@@ -100,7 +100,8 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest("Mapping to order entity failed.");
             }
 
-            decimal total = 0;
+            int total = 0; // Khởi tạo giá trị cho total
+
             foreach (var detail in orderMap.OrderDetails)
             {
                 var product = await GetProductAsync(detail.ProductId);

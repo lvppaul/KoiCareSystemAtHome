@@ -12,8 +12,23 @@ const createOrder = async (orderData) => {
         return response.data;
     } catch (error) {
         console.error('Error creating order:', error);
-        throw error;
+        return error.response;
     }
 };
 
-export { createOrder };
+const getOrderById = async (orderId) => {
+    try {
+        const response = await api.get(`Order/${orderId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching order:', error);
+        return null;
+    }
+}
+
+export { createOrder, getOrderById };

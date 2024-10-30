@@ -23,7 +23,7 @@ public partial class Order
 
     public string? Country { get; set; }
 
-    public decimal TotalPrice { get; set; }
+    public int TotalPrice { get; set; }
 
     public string OrderStatus { get; set; } = null!;
 

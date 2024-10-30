@@ -31,6 +31,6 @@ namespace Domain.Models.Dto.Response
 
         public string OrderStatus { get; set; } = null!;
         public List<OrderDetailDTO> orderDetails { get; set; }
-        public decimal TotalPrice => (decimal)orderDetails.Sum(od => od.Quantity * od.UnitPrice);
+        public int TotalPrice => orderDetails.Sum(od => od.Quantity * od.UnitPrice);
     }
 }

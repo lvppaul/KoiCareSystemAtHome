@@ -12,7 +12,7 @@ namespace Domain.Models.Entity
 
         public int VipId { get; set; }
 
-        public decimal UnitPrice { get; set; }
+        public int UnitPrice { get; set; }
 
         public virtual Order Order { get; set; } = null!;
 

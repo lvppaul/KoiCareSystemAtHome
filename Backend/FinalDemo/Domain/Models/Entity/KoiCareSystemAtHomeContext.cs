@@ -163,7 +163,8 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             e.ToTable("Cart");
             e.HasKey(e => e.CartId).HasName("PK__Cart__18103112");
             e.Property(e => e.CartId).HasColumnName("CartId");
-            e.Property(e => e.TotalAmount).HasColumnName("TotalAmount").HasColumnType("decimal(11,2)");
+            e.Property(e => e.TotalAmount).HasColumnName("TotalAmount");
+
         });
 
 
@@ -189,8 +190,8 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
                 .HasColumnName("ProductId");
-            entity.Property(e => e.Price).HasColumnName("Price").HasColumnType("decimal(11,2)");
-            entity.Property(e => e.TotalPrice).HasColumnName("TotalPrice").HasColumnType("decimal(11,2)");
+            entity.Property(e => e.Price).HasColumnName("Price");
+            entity.Property(e => e.TotalPrice).HasColumnName("TotalPrice");
 
 
             entity.HasOne(d => d.Cart).WithMany(p => p.CartItems)
@@ -349,7 +350,6 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Street).HasMaxLength(50);
-            entity.Property(e => e.TotalPrice).HasColumnType("decimal(11,2)");
             entity.Property(e => e.isVipUpgrade).HasDefaultValue(false);
             entity.Property(e => e.UserId)
                 .HasMaxLength(450)
@@ -368,7 +368,6 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.ToTable("OrderDetail");
 
             entity.Property(e => e.OrderId).HasColumnName("OrderId");
-            entity.Property(e => e.UnitPrice).HasColumnType("decimal(11,2)");
             entity.Property(e => e.ProductId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
@@ -392,7 +391,6 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.ToTable("OrderVipDetail");
 
             entity.Property(e => e.OrderId).HasColumnName("OrderId");
-            entity.Property(e => e.UnitPrice).HasColumnType("decimal(11,2)");
             entity.Property(e => e.VipId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
@@ -508,7 +506,6 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.CategoryId).HasColumnName("CategoryId");
             entity.Property(e => e.Name).HasMaxLength(255);
             entity.Property(e => e.Status).HasDefaultValue(true);
-            entity.Property(e => e.Price).HasColumnType("decimal(11,2)");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
@@ -546,7 +543,6 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.ToTable("Revenue");
 
             entity.Property(e => e.OrderId).HasColumnName("OrderId");
-            entity.Property(e => e.Income).HasColumnType("decimal(11,2)");
 
             entity.HasOne(d => d.Order).WithMany(p => p.Revenues)
                 .HasForeignKey(d => d.OrderId)
