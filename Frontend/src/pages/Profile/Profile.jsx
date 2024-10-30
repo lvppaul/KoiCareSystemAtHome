@@ -7,12 +7,13 @@ import { getAccountByUserId, updateAccount, deleteAccount } from '../../Config/U
 import { storage } from '../../Config/firebase';
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
-import UpdateVipAccount from '../../components/UpdateVipAccount/UpdateVipAccount';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const { user } = useAuth();
   const userId = user.userId;
   const logout = useAuth().logout;
+  const navigate = useNavigate();
 
   const [details, setDetails] = useState({});
   const [editingField, setEditingField] = useState(null);
@@ -20,7 +21,6 @@ const Profile = () => {
   const [loadingAvatar, setLoadingAvatar] = useState(true);
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showUpdateVipModal, setShowUpdateVipModal] = useState(false);
   const [userData, setUserData] = useState({});
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -132,10 +132,11 @@ const Profile = () => {
                 <Button variant="link" onClick={() => document.getElementById('avatarInput').click()}>
                   Change Avatar
                 </Button>
-                <UpdateVipAccount
-                show={showUpdateVipModal}
-                setShow={setShowUpdateVipModal}
-                userData={userData}/>
+                <Button
+                  onClick={() => navigate('/updateaccount')}
+                  variant="primary" className="mt-5">
+                  Upgrade to VIP Account
+                </Button>
                 <Button variant="danger" className="mt-3" onClick={() => setShowConfirmModal(true)}>
                   Delete Account
                 </Button>
