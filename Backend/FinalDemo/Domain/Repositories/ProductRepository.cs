@@ -65,8 +65,8 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Product>> SearchProducts(string name = null,
                             int? categoryId = null,
-                            float? minPrice = null,
-                            float? maxPrice = null,
+                            decimal? minPrice = null,
+                            decimal? maxPrice = null,
                             int? shopId = null)
         {
             IQueryable<Product> result = _context.Products.Include(p => p.Category);

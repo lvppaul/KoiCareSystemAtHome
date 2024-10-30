@@ -98,7 +98,7 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest("Mapping to order entity failed.");
             }
-            double total = 0; // Khởi tạo giá trị cho total
+            decimal total = 0; // Khởi tạo giá trị cho total
             foreach (var detail in orderMap.OrderDetails)
             {
                 var product = await GetProductAsync(detail.ProductId);
@@ -114,7 +114,7 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
             var revenue = _mapper.Map<Revenue>(orderMap);
-            revenue.CommissionFee = (total * 10/100);
+            revenue.Income = (total * 10/100);
             var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
             if (createResultRevenue <= 0)
             {

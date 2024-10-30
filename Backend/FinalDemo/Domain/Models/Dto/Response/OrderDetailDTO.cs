@@ -15,7 +15,7 @@ namespace Domain.Models.Dto.Response
 
         public int Quantity { get; set; }
 
-        public double UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
 
     }
 }

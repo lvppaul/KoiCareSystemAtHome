@@ -269,13 +269,12 @@ VALUES
 ('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 0.05, 7.5, 4.5, GETDATE(), 25.0, 0.6, 7.0, 0.0, 160.0, 9.0, 6.0, 0.0, 1.5, 23.0, 110.0),  -- Member user
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 0.15, 6.8, 5.5, GETDATE(), 24.5, 0.3, 7.3, 0.2, 155.0, 11.0, 5.5, 0.0, 1.0, 22.5, 95.0);  -- VIP user
 
-
-INSERT INTO Orders (UserID, ShopID, FullName, Phone, CreateDate, Email, Street, District, City, Country, TotalPrice, OrderStatus)
+INSERT INTO Orders (UserID, FullName, Phone, CreateDate, Email, Street, District, City, Country, TotalPrice, OrderStatus)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 1, 'member a', '1234567890', GETDATE(), 'member@example.com', '123 Main St', 'Central', 'New York', 'USA', 150.75, 0),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'vip b', '0987654321', GETDATE(), 'vip@example.com', '456 Elm St', 'North', 'Los Angeles', 'USA', 75.50, 0),  -- VIP user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'vip b', '2345678901', GETDATE(), 'vip@example.com', '789 Oak St', 'West', 'Chicago', 'USA', 200.00, 1),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 2, 'member a', '3456789012', GETDATE(), 'member@example.com', '321 Pine St', 'East', 'Houston', 'USA', 99.99, 1);  -- Member user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '1234567890', GETDATE(), 'member@example.com', '123 Main St', 'Central', 'New York', 'USA', 3618000, 0),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '0987654321', GETDATE(), 'vip@example.com', '456 Elm St', 'North', 'Los Angeles', 'USA', 1812000, 0),  -- VIP user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '2345678901', GETDATE(), 'vip@example.com', '789 Oak St', 'West', 'Chicago', 'USA', 4800000, 1),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '3456789012', GETDATE(), 'member@example.com', '321 Pine St', 'East', 'Houston', 'USA', 2399760, 1);  -- Member user
 
 -- N-N Table
 INSERT INTO OrderDetail (OrderID, ProductID, Quantity, UnitPrice)
@@ -309,7 +308,7 @@ VALUES
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 5, GETDATE());
 
 -- ComissionFee = 15% Order total price
-INSERT INTO Revenue (OrderID, CommissionFee)
+INSERT INTO Revenue (OrderID, Income)
 VALUES
 (1, 12.30),  -- Revenue from Order ID 1
 (2, 5.00),   -- Revenue from Order ID 2
