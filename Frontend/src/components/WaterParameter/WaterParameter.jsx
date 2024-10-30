@@ -3,6 +3,7 @@ import AddWaterParameter from '../AddWaterParameter/AddWaterParameter';
 import { useEffect, useState } from 'react';
 import { getWaterParameter } from '../../Config/WaterParameterApi.jsx';
 import CombinedCharts from '../WaterParameterChart/CombinedCharts.js';
+import DeleteWaterParameter from '../DeleteWaterParameter/DeleteWaterParameter.jsx';
 const WaterParameter = ({ show, setShow, pondId }) => {
     const [showAddWaterParameter, setShowAddWaterParameter] = useState(false);
     const [waterParameter, setWaterParameter] = useState([]);
@@ -24,12 +25,15 @@ const WaterParameter = ({ show, setShow, pondId }) => {
         setWaterParameter([...waterParameter, newWaterParameter]);
     };
 
+    const handleDeleteWaterData = (measureId) => {
+        setWaterParameter(waterParameter.filter((parameter) => parameter.measureId !== measureId));
+    };
+
     const lastestWaterParameter = waterParameter.length > 0 ? waterParameter.sort((a, b) => { 
             return new Date(b.createAt) - new Date(a.createAt) })[0] : null;
     return (
         <>
             {lastestWaterParameter ? (
-                console.log('latest water parameter', lastestWaterParameter),
             <Card as={Button}
                 style={{ display: 'flex', padding: '10px', borderRadius: '10px', border: '0.5 solid black', transition: 'background-color 0.3s' }}
                 onClick={() => setShow(true)}
@@ -85,9 +89,13 @@ const WaterParameter = ({ show, setShow, pondId }) => {
                     <hr />
                     <Row>
                         {waterParameter.length ? (
-                            waterParameter.map((parameter, index) => (
-                                <Card key={index} style={{ marginBottom: '10px' }}>
-                                    <Card.Header>{formatDate(Date(parameter.createAt))}</Card.Header>
+                            waterParameter.map((parameter) => (
+                                <Card key={parameter.measureId} style={{ marginBottom: '10px' }}>
+                                    <Card.Header>{formatDate(Date(parameter.createAt))}
+                                        <DeleteWaterParameter 
+                                        waterData={parameter.measureId}
+                                        updateDeleteWaterData={handleDeleteWaterData}/>
+                                    </Card.Header>
                                     <Card.Body style={{display:'flex', paddingTop:'30px', paddingBottom:'30px'}}>
                                         <Card.Text style={{ fontSize: '16px' }}>
                                             <Row>
