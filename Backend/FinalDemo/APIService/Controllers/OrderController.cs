@@ -80,6 +80,7 @@ namespace KCSAH.APIServer.Controllers
             var show = _mapper.Map<List<OrderDTO>>(result);
             return Ok(show);
         }
+
         [HttpPost]
         public async Task<ActionResult<OrderDTO>> CreateOrder([FromBody] OrderRequestDTO orderdto)
         {
@@ -98,32 +99,59 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest("Mapping to order entity failed.");
             }
+
             int total = 0; // Khởi tạo giá trị cho total
+
             foreach (var detail in orderMap.OrderDetails)
             {
                 var product = await GetProductAsync(detail.ProductId);
+                if (product == null)
+                {
+                    return NotFound($"Product with ID {detail.ProductId} not found.");
+                }
+
                 detail.UnitPrice = product.Price;
                 total += detail.UnitPrice * detail.Quantity;
+
+                product.Quantity -= detail.Quantity;
+                if (product.Quantity <= 0)
+                {
+                    product.Quantity = 0;
+                    product.Status = false;
+                }
+
+                var updateProductResult = await _unitOfWork.ProductRepository.UpdateAsync(product);
+                if (updateProductResult <= 0)
+                {
+                    ModelState.AddModelError("", "Something went wrong while updating product.");
+                    return StatusCode(500, ModelState);
+                }
             }
+
             orderMap.TotalPrice = total;
-            // Lưu vào cơ sở dữ liệu
+
+            // Lưu đơn hàng vào cơ sở dữ liệu
             var createResult = await _unitOfWork.OrderRepository.CreateAsync(orderMap);
             if (createResult <= 0)
             {
-                ModelState.AddModelError("", "Something went wrong while saving.");
+                ModelState.AddModelError("", "Something went wrong while saving the order.");
                 return StatusCode(500, ModelState);
             }
+
+            // Tạo và lưu thông tin doanh thu
             var revenue = _mapper.Map<Revenue>(orderMap);
-            revenue.Income = (total * 10/100);
+            revenue.Income = (total * 10 / 100);
             var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
             if (createResultRevenue <= 0)
             {
-                ModelState.AddModelError("", "Something went wrong while saving.");
+                ModelState.AddModelError("", "Something went wrong while saving revenue.");
                 return StatusCode(500, ModelState);
             }
+
             var order = _mapper.Map<OrderDTO>(orderMap);
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
         }
+
 
         private async Task<Product> GetProductAsync(int id)
         {
