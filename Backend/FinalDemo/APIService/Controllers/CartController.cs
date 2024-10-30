@@ -146,7 +146,25 @@ namespace APIService.Controllers
                 return NotFound("Cart not found for this user.");
             }
 
+            var product = await GetProductAsync(cartItemDto.ProductId);
+            if (product == null)
+            {
+                return BadRequest("Product not found.");
+            }
+
             var existingItem = cart.CartItems.FirstOrDefault(x => x.ProductId == cartItemDto.ProductId);
+            int totalQuantityRequested = cartItemDto.Quantity;
+
+            if (existingItem != null)
+            {
+                totalQuantityRequested += existingItem.Quantity;
+            }
+
+            if (totalQuantityRequested > product.Quantity)
+            {
+                return BadRequest($"Only {product.Quantity} units of {product.Name} are available in stock.");
+            }
+
             if (existingItem != null)
             {
                 existingItem.Quantity += cartItemDto.Quantity;
@@ -154,12 +172,6 @@ namespace APIService.Controllers
             }
             else
             {
-                var product = await GetProductAsync(cartItemDto.ProductId);
-                if (product == null)
-                {
-                    return BadRequest("Product not found.");
-                }
-
                 var newItem = new CartItem
                 {
                     ProductId = product.ProductId,
@@ -173,7 +185,7 @@ namespace APIService.Controllers
             }
 
             cart.TotalAmount = cart.CartItems.Sum(x => x.TotalPrice);
-            
+
             var updateResult = await _unitOfWork.CartRepository.UpdateAsync(cart);
 
             if (updateResult <= 0)
@@ -184,6 +196,7 @@ namespace APIService.Controllers
             var result = _mapper.Map<CartDTO>(cart);
             return Ok(result);
         }
+
 
         [HttpPost("RemoveItem")]
         public async Task<IActionResult> RemoveItemFromCart(string userId, [FromBody] CartItemRequestDTO cartItemDto)
