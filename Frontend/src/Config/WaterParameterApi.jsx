@@ -18,4 +18,13 @@ const addWaterParameter = async (waterData) =>{
         console.log('error', error)
     }
 }
-export {getWaterParameter, addWaterParameter};
+
+const deleteWaterData = async (measureId) => {
+    try{
+        const response = await api.delete(`WaterParameter/${measureId}`);
+        return response;
+    } catch (error){
+        console.log('error', error)
+    }
+}
+export {getWaterParameter, addWaterParameter, deleteWaterData};

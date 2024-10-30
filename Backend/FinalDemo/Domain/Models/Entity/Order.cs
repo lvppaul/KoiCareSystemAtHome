@@ -7,7 +7,6 @@ public partial class Order
 {
     public int OrderId { get; set; }
     public string UserId { get; set; } = null!;
-    public int? ShopId { get; set; }
     public string? FullName { get; set; }
 
     public string? Phone { get; set; }
@@ -24,9 +23,11 @@ public partial class Order
 
     public string? Country { get; set; }
 
-    public double TotalPrice { get; set; }
+    public decimal TotalPrice { get; set; }
 
     public string OrderStatus { get; set; } = null!;
+
+    public bool isVipUpgrade { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     public virtual ICollection<OrderVipDetail> OrderVipDetails { get; set; } = new List<OrderVipDetail>();
@@ -34,7 +35,6 @@ public partial class Order
 
     public virtual ICollection<Revenue> Revenues { get; set; } = new List<Revenue>();
 
-    public virtual Shop Shop { get; set; } = null!;
     public virtual ApplicationUser ApplicationUser { get; set; } = null!;
 
     public virtual PaymentTransaction PaymentTransaction { get; set; } = null!;

@@ -17,17 +17,22 @@ const sendPayment = async (data) => {
 
 const getVNPayResult = async (returnUrl) => {
     try {
-        const response = await api.post("VNPay/vnpay-return", returnUrl, {
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-        },
+        const response = await api.get(`VNPay/vnpay-return`, {
+            params: {
+                returnUrl: returnUrl,
+            },
+            headers: {
+                Accept: "application/json",
+            },
         });
+        console.log("response:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error getting payment result:", error);
-        return null;
+        console.log("error.response:", error.response.data.message);
+        return error.response.data.message;
     }
-}
+};
+
 
 export { sendPayment, getVNPayResult };

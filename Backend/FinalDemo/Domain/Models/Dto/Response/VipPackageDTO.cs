@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.Entity
+namespace Domain.Models.Dto.Response
 {
-    public class Vip
+    public class VipPackageDTO
     {
         public int Id { get; set; }
         public string UserId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool Status { get; set; }
-
-        public virtual ApplicationUser User { get; set; }
     }
 }

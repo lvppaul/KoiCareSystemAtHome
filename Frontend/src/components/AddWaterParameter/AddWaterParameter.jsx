@@ -36,6 +36,24 @@ const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
         addWaterParameter(waterData)
         .then((response)=> {
             addNewWaterParameter(waterData);
+            setWaterData({  //reset form
+                pondId: pondId,
+                userId: userId,
+                nitrite: 0,
+                oxygen: 0,
+                nitrate: 0,
+                temperature: 0,
+                phosphate: 0,
+                ph: 0,
+                ammonium: 0,
+                hardness: 0,
+                carbonDioxide: 0,
+                carbonHardness: 0,
+                salt: 0,
+                totalChlorines: 0,
+                outdoorTemp: 0,
+                amountFed: 0
+            });
             console.log(response);
 
         })

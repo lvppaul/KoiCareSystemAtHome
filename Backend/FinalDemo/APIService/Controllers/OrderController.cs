@@ -57,17 +57,17 @@ namespace KCSAH.APIServer.Controllers
             return Ok(result);
         }
 
-        [HttpGet("ShopId/{id}")]
-        public async Task<ActionResult<List<OrderDTO>>> GetOrderByShopIdAsync(int id)
-        {
-            var order = await _unitOfWork.ShopRepository.GetOrderById(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            var result = _mapper.Map<List<OrderDTO>>(order);
-            return Ok(result);
-        }
+        //[HttpGet("ShopId/{id}")]
+        //public async Task<ActionResult<List<OrderDTO>>> GetOrderByShopIdAsync(int id)
+        //{
+        //    var order = await _unitOfWork.ShopRepository.GetOrderById(id);
+        //    if (order == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var result = _mapper.Map<List<OrderDTO>>(order);
+        //    return Ok(result);
+        //}
 
         [HttpGet("UserId/{id}")]
         public async Task<IActionResult> GetOrderByUserIdAsync(string id)
@@ -98,7 +98,7 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest("Mapping to order entity failed.");
             }
-            double total = 0; // Khởi tạo giá trị cho total
+            decimal total = 0; // Khởi tạo giá trị cho total
             foreach (var detail in orderMap.OrderDetails)
             {
                 var product = await GetProductAsync(detail.ProductId);
@@ -114,7 +114,7 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
             var revenue = _mapper.Map<Revenue>(orderMap);
-            revenue.CommissionFee = (total * 10/100);
+            revenue.Income = (total * 10/100);
             var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
             if (createResultRevenue <= 0)
             {
