@@ -62,6 +62,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     public virtual DbSet<PaymentTransaction> PaymentTransactions { get; set; }
 
+    public virtual DbSet<Vip> Vips { get; set; }
+
+    public virtual DbSet<OrderVipDetail> OrderVipDetails { get; set; }
+
 
     public static string GetConnectionString(string connectionStringName)
     {
@@ -94,6 +98,11 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
       .HasOne(a => a.Cart)
       .WithOne(s => s.User)
       .HasForeignKey<Cart>(s => s.UserId);
+
+        modelBuilder.Entity<ApplicationUser>()
+      .HasOne(a => a.Vip)
+      .WithOne(s => s.User)
+      .HasForeignKey<Vip>(s => s.UserId);
 
         modelBuilder.Entity<Order>()
             .HasOne(d => d.PaymentTransaction).WithOne(p => p.Order)
@@ -379,6 +388,25 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .HasConstraintName("FK__OrderDeta__Produ__5DCAEF64");
         });
 
+        modelBuilder.Entity<OrderVipDetail>(entity =>
+        {
+            entity.HasKey(e => new { e.OrderId, e.VipId }).HasName("PK__OrderDet__08D097C1B825BACA");
+
+            entity.ToTable("OrderVipDetail");
+
+            entity.Property(e => e.OrderId).HasColumnName("OrderId");
+            entity.Property(e => e.VipId)
+                .ValueGeneratedOnAdd()
+                .IsUnicode(false)
+                .HasColumnName("VipId");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderVipDetails)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK__OrderDeta__OrderVip__5CD6CB2B");
+
+        });
+
         modelBuilder.Entity<PaymentTransaction>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__PaymentT__DC31C1F3AA967D38");
@@ -450,6 +478,23 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
               .HasForeignKey(d => d.UserId)
               .OnDelete(DeleteBehavior.Cascade)
               .HasConstraintName("FK__Pond__UserID__398D8EEE");
+        });
+
+        modelBuilder.Entity<Vip>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Vip__B40CC6ED16BED2A9");
+
+            entity.ToTable("Vip");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .IsUnicode(false)
+                .HasColumnName("Id");
+            entity.Property(e => e.UserId).HasColumnName("UserId");
+            entity.Property(e => e.StartDate).HasColumnType("datetime");
+            entity.Property(e => e.EndDate).HasColumnType("datetime");
+            entity.Property(e => e.Status).HasDefaultValue(true);
+
         });
 
         modelBuilder.Entity<Product>(entity =>

@@ -5,7 +5,8 @@ import { getProductById, getProductImagesByProductId } from '../../Config/Produc
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import { FaShoppingCart } from 'react-icons/fa';
-import { add } from 'date-fns';
+import { getCartByUserId, addItemToCart } from '../../Config/CartApi';
+import { useAuth } from '../Login/AuthProvider';
 
 const Product = () => {
   const { productId } = useParams();
@@ -13,29 +14,48 @@ const Product = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [carouselLoading, setCarouselLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
 
-  const getCartItems = () => {
-    console.log("getCartItems");
-    const savedCart = localStorage.getItem("cartItems");
-    return savedCart ? JSON.parse(savedCart) : [];
-  };
-  const saveCartItems = (items) => {
-    console.log("saveCartItems");
-    localStorage.setItem("cartItems", JSON.stringify(items));
-    console.log("saveCartItems", localStorage.getItem("cartItems"));
+  const { user } = useAuth(); 
+  const userId = user.userId;
+
+  const getCartItems = async () => {
+    try {
+      const cart = await getCartByUserId(userId);
+      return cart.cartItems || [];
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+      return [];
+    }
   };
 
-  const addToCart = (product) => {
-    const currentCart = getCartItems();
+  const saveCartItems = async (items) => {
+    try {
+      for (const item of items) {
+        await addItemToCart(userId, { productId: item.productId, quantity: item.quantity });
+      }
+      console.log("Cart items saved successfully");
+    } catch (error) {
+      console.error("Error saving cart items:", error);
+    }
+  };
+
+  const handleQuantityChange = (amount) => {
+    setQuantity((prevQuantity) => Math.max(1, prevQuantity + amount));
+  };
+
+  const addToCart = async (product) => {
+    const currentCart = await getCartItems();
     const existingItem = currentCart.find((item) => item.id === product.id);
   
     if (existingItem) {
-      existingItem.quantity += 1;
+      existingItem.quantity += quantity;
+      console.log("Item already exists in cart. Quantity updated.", quantity);
     } else {
-      currentCart.push({ ...product, quantity: 1 });
+      currentCart.push({ ...product, quantity });
     }
   
-    saveCartItems(currentCart);
+    await saveCartItems(currentCart);
   };
 
   const fetchProductImages = useCallback(async () => {
@@ -117,6 +137,11 @@ const Product = () => {
             <h1 className="mb-3">{product.name}</h1>
             <p className="mb-3">{product.description}</p>
             <p className="product-price mb-4" style={{ fontSize: "1.24rem", fontWeight: "bold" }}>${product.price}</p>
+            <div className="d-flex justify-content-around mb-3">
+              <Button variant="secondary" onClick={() => handleQuantityChange(-1)}>-</Button>
+              <input type="number" value={quantity} readOnly className="text-center" style={{ width: "50px" }} />
+              <Button variant="secondary" onClick={() => handleQuantityChange(1)}>+</Button>
+            </div>
             <div className="d-flex justify-content-around">
               <Col md={9} className="d-flex">
                 <Button className="flex-grow-1 me-2" variant="primary">Buy Now</Button>

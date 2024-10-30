@@ -32,6 +32,8 @@ namespace SWP391.KCSAH.Repository
         private WaterParameterRepository _waterParameterRepository;
         private ShopRatingRepository _shopRatingRepository;
         private PaymentTransactionRepository _paymentTransactionRepository;
+        private VipRepository _vipRepository;
+        private OrderVipDetailRepository _orderVipDetailRepository;
         public UnitOfWork() => _context ??= new KoiCareSystemAtHomeContext();
 
         public KoiRepository KoiRepository
@@ -140,6 +142,16 @@ namespace SWP391.KCSAH.Repository
         public ShopRatingRepository ShopRatingRepository
         {
             get { return _shopRatingRepository ??= new ShopRatingRepository(_context); }
+        }
+
+        public OrderVipDetailRepository OrderVipDetailRepository
+        {
+            get { return _orderVipDetailRepository ??= new OrderVipDetailRepository(_context); }
+        }
+
+        public VipRepository VipRepository
+        {
+            get { return _vipRepository ??= new VipRepository(_context);
         }
     }
 }
