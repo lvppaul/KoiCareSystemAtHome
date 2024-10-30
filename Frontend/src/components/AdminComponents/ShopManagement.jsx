@@ -6,20 +6,41 @@ import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 import SearchBar from "./SearchBar";
 import { getShop } from "../../Config/ShopApi";
+import { lockUser, unLockUser } from "../../Config/UserApi";
 const AdminShops = () => {
-  const [isLocked, setIsLocked] = useState(false);
   const [shops, setShops] = useState([]);
   const fetchUserinfo = async () => {
     //ham lay thong tin user
-    try{
+    try {
       const response = await getShop();
       setShops(response);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
+  const toggleUserLockStatus = async (userId, isCurrentlyLocked) => {
+    try {
+      if (isCurrentlyLocked) {
+        await unLockUser(userId);
+      } else {
+        await lockUser(userId);
+      }
+
+      // cập nhật lại trạng thái lockoutEnabled
+
+      setShops((prevMembers) =>
+        prevMembers.map((member) =>
+          member.userId === userId
+            ? { ...member, lockoutEnabled: !isCurrentlyLocked }
+            : member
+        )
+      );
+    } catch (error) {
+      console.error("Error at toggleUserLockStatus ");
+    }
+  };
   useEffect(() => {
-    fetchUserinfo();//chay moi khi trang load len
+    fetchUserinfo(); //chay moi khi trang load len
   }, []);
   return (
     <>
@@ -43,30 +64,24 @@ const AdminShops = () => {
               </thead>
               <tbody>
                 {shops.map((shop) => (
-                <tr>
-                  <td>{shop.shopId}</td>
-                  <td>{shop.shopName}</td>
-                  <td>{shop.email}</td>
-                  <td>{shop.phone}</td>
-                  <td>{shop.rating}</td>
-                  <td onClick={() => setIsLocked(!isLocked)}>
-                    <div className="actions">
-                      {isLocked === false ? (
-                        <Button>
-                          <div className="icon">
-                            <FaLockOpen />
-                          </div>
-                        </Button>
-                      ) : (
-                        <Button>
-                          <div className="icon">
-                            <FaLock />
-                          </div>
-                        </Button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
+                  <tr>
+                    <td>{shop.shopId}</td>
+                    <td>{shop.shopName}</td>
+                    <td>{shop.email}</td>
+                    <td>{shop.phone}</td>
+                    <td>{shop.rating}</td>
+                    <td>
+                      <Button
+                        onClick={() =>
+                          toggleUserLockStatus(shop.shopId, shop.lockoutEnabled)
+                        }
+                      >
+                        <div className="icon">
+                          {shop.lockoutEnabled ? <FaLock /> : <FaLockOpen />}
+                        </div>
+                      </Button>
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>

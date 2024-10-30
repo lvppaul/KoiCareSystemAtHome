@@ -44,7 +44,7 @@ namespace Domain.Base
 
         Task<List<MemberDTO>> GetMemberListAsync();
         Task<List<MemberDTO>> GetVipListAsync();
-        Task<List<ShopDTO>> GetShopListAsync();
+    
 
         
         Task<int> TotalMembersAsync();

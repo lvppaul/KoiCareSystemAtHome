@@ -35,7 +35,11 @@ const Cart = () => {
         items.map(async (item) => {
           const storageRef = ref(storage, item.thumbnail);
           const productThumbnail = await getDownloadURL(storageRef);
-          return { ...item, thumbnail: productThumbnail };
+          return {
+            ...item,
+            thumbnail: productThumbnail,
+            quantity: item.quantity || 1,
+          };
         })
       );
 
@@ -50,13 +54,15 @@ const Cart = () => {
     fetchCart();
   }, [fetchCart]);
 
-  const handleQuantityChange = async (productId, newQuantity) => {
+  const handleQuantityChange = async (productId, e) => {
+    const newQuantity = parseInt(e.target.value);
     const currentItem = cartItems.find((item) => item.productId === productId);
     const oldQuantity = currentItem.quantity;
 
     const updatedCartItems = cartItems.map((item) => {
       if (item.productId === productId) {
         item.quantity = newQuantity;
+        item.totalPrice = item.price * newQuantity;
       }
       return item;
     });
@@ -67,20 +73,29 @@ const Cart = () => {
         productId,
         quantity: newQuantity - oldQuantity,
       });
+      console.log("Item added from cart:", cartItems);
     } else if (newQuantity < oldQuantity) {
       await removeItemFromCart(userId, {
         productId,
         quantity: oldQuantity - newQuantity,
       });
+      console.log("Item removed from cart:", cartItems);
     }
   };
 
-  const handleRemoveItem = async (productId) => {
+  const calculateTotalAmount = () => {
+    return cartItems.reduce((total, item) => total + item.totalPrice, 0);
+  };
+
+  const handleRemoveItem = async (cartItem) => {
     const updatedCartItems = cartItems.filter(
-      (item) => item.productId !== productId
+      (item) => item.productId !== cartItem.productId
     );
     setCartItems(updatedCartItems);
-    await removeItemFromCart(userId, { productId, quantity: 0 });
+    await removeItemFromCart(userId, {
+      productId: cartItem.productId,
+      quantity: cartItem.quantity,
+    });
   };
 
   const handleCreateOrder = async () => {
@@ -111,8 +126,6 @@ const Cart = () => {
     }
   };
 
-  const totalAmount = cart.totalAmount;
-
   return (
     <Container>
       <Container className="cart-container p-3">
@@ -136,70 +149,72 @@ const Cart = () => {
                   <ListGroup.Item
                     key={cartItem.productId}
                     className="cart-item"
+                    style={{ marginBottom: "10px" }}
                   >
                     <Row className="align-items-center">
                       <Col md={2}>
-                        <Image
-                          src={cartItem.thumbnail}
-                          alt={cartItem.productName}
-                          fluid
-                          rounded
-                        />
+                        <Link to={`/product/${cartItem.productId}`}>
+                          <Image
+                            src={cartItem.thumbnail}
+                            alt={cartItem.productName}
+                            fluid
+                            rounded
+                          />
+                        </Link>
                       </Col>
-                      <Col md={3}>
+                      <Col
+                        md={4}
+                        className="d-flex flex-column align-items-start"
+                      >
                         <Link
                           to={`/product/${cartItem.productId}`}
                           className="cart-item-name"
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: "1.2rem",
+                            color: "black",
+                            textDecoration: "none",
+                          }}
                         >
                           {cartItem.productName}
                         </Link>
+                        <p style={{ fontWeight: "bold", color: "gray" }}>
+                          Price: ${cartItem.price}
+                        </p>
                       </Col>
-                      <Col md={2}>${cartItem.price}</Col>
-                      <Col md={3}>
-                        <div className="d-flex align-items-center">
-                          <Button
-                            variant="secondary"
-                            onClick={() =>
-                              handleQuantityChange(
-                                cartItem.productId,
-                                cartItem.quantity - 1
-                              )
-                            }
-                          >
-                            -
-                          </Button>
-                          <Form.Control
-                            type="number"
-                            value={cartItem.quantity}
-                            onChange={(e) =>
-                              handleQuantityChange(
-                                cartItem.productId,
-                                parseInt(e.target.value)
-                              )
-                            }
-                            className="cart-item-quantity mx-2"
-                            min="1"
-                            style={{ width: "60px", textAlign: "center" }}
-                          />
-                          <Button
-                            variant="secondary"
-                            onClick={() =>
-                              handleQuantityChange(
-                                cartItem.productId,
-                                cartItem.quantity + 1
-                              )
-                            }
-                          >
-                            +
-                          </Button>
-                        </div>
+                      <Col md={2}>
+                        <Form.Label style={{fontWeight: 'bold'}}>Quantity:</Form.Label>
+                        <Form.Control
+                          as="select"
+                          value={cartItem.quantity}
+                          onChange={(e) =>
+                            handleQuantityChange(cartItem.productId, e)
+                          }
+                          className="text-center"
+                          style={{ width: "60px" }}
+                        >
+                          {[...Array(12).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Control>
                       </Col>
-                      <Col md={2}>${cartItem.totalPrice}</Col>
-                      <Col md={1}>
+
+                      <Col md={4} className="d-flex flex-column justify-content-end align-items-end">
+                        <p
+                          style={{
+                            fontWeight: "bolder",
+                            fontSize: "1.1rem",
+                            color: "#E47E39",
+                          }}
+                        >
+                          Total: ${cartItem.totalPrice}
+                        </p>
                         <Button
                           type="button"
                           variant="danger"
-                          onClick={() => handleRemoveItem(cartItem.productId)}
+                          onClick={() => handleRemoveItem(cartItem)}
                         >
                           Remove
                         </Button>
@@ -214,7 +229,7 @@ const Cart = () => {
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <h2>
-                  Subtotal ({cartItems.length} items): ${totalAmount}
+                  Subtotal ({cartItems.length} items): ${calculateTotalAmount()}
                 </h2>
               </ListGroup.Item>
               <ListGroup.Item>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Models.Entity;
+using KCSAH.APIServer.Dto;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository.Base;
 using System;
@@ -19,19 +20,22 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             _context = context;
         }
 
-        public async Task<List<Order>> GetOrderById(int id)
-        {
-            var orders = await _context.Orders.Include(o => o.OrderDetails)
-                .Where(o => o.ShopId == id)
-                .ToListAsync();
+        //public async Task<List<Order>> GetOrderById(int id)
+        //{
+        //    var orders = await _context.Orders.Include(o => o.OrderDetails)
+        //        .Where(o => o.ShopId == id)
+        //        .ToListAsync();
 
-            if (orders == null || !orders.Any())
-            {
-                return new List<Order>();
-            }
+        //    if (orders == null || !orders.Any())
+        //    {
+        //        return new List<Order>();
+        //    }
 
-            return orders;
-        }
+        //    return orders;
+        //}
+
+
+        
 
         public async Task<Shop?> GetShopByUID(string id)
         {

@@ -141,7 +141,7 @@ body {
 }
 .dashboardBoxWrapper .dashboardBox {
   width: 30%;
-  height: 250px;
+  height: 90px;
   border-radius: 10px;
   overflow: hidden;
   padding: 15px;
@@ -155,7 +155,7 @@ body {
   font-weight: 600;
 }
 .dashboardBoxWrapper .dashboardBox .col1 span {
-  font-size: 47px !important;
+  font-size: 20px !important;
   font-weight: bold;
   flex-grow: 1;
 }

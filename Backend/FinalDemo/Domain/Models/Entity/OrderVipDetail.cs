@@ -16,6 +16,6 @@ namespace Domain.Models.Entity
 
         public virtual Order Order { get; set; } = null!;
 
-        public virtual Vip Vip { get; set; } = null!;
+        public virtual VipPackage Vip { get; set; } = null!;
     }
 }

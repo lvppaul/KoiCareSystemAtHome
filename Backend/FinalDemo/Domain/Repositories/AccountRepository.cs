@@ -719,22 +719,7 @@ namespace Domain.Repositories
             return count;
         }
 
-        public async Task<List<ShopDTO>> GetShopListAsync()
-        {
-            var users = await _userManager.Users.ToListAsync();
-            var shops = new List<IdentityUser>();
-            foreach (var user in users)
-            {
-                if (await _userManager.IsInRoleAsync(user, "shop"))
-                {
-                    shops.Add(user);
-                }
-            }
-
-
-            var shopsDTO = _mapper.Map<List<ShopDTO>>(shops);
-            return shopsDTO;
-        }
+       
 
         public async Task<int> TotalShopAsync()
         {   
