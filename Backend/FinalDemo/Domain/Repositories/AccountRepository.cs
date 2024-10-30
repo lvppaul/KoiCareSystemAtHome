@@ -93,9 +93,20 @@ namespace Domain.Repositories
                 string email = decodedToken.Claims["email"].ToString();
                 string name = decodedToken.Claims["name"].ToString();
                 string picture = decodedToken.Claims["picture"].ToString();
+                //int indexLastName = name.LastIndexOf(" ");
+                //string LastName = name.Substring(indexLastName + 1);
+                //string FirstName = name.Substring(0, indexLastName);
+                // Kiểm tra nếu tên chỉ có FirstName
                 int indexLastName = name.LastIndexOf(" ");
-                string LastName = name.Substring(indexLastName + 1);
-                string FirstName = name.Substring(0, indexLastName);
+                string LastName = null;
+                string FirstName = name;
+
+                if (indexLastName != -1)
+                {
+                    // Nếu có họ và tên
+                    LastName = name.Substring(indexLastName + 1);
+                    FirstName = name.Substring(0, indexLastName);
+                }
 
                 // Check if the user exists in your database
                 var user = await _userManager.FindByEmailAsync(email);
