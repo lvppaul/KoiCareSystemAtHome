@@ -25,7 +25,7 @@ const getVNPayResult = async (returnUrl) => {
                 Accept: "application/json",
             },
         });
-        console.log("response:", response.data);
+        console.log("response:", response);
         return response.data;
     } catch (error) {
         console.error("Error getting payment result:", error);

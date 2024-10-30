@@ -16,12 +16,7 @@ const PaymentResult = () => {
         setLoading(false);
         setMessage(response);
       } else {
-        setMessage(
-          <>
-            {response}
-            <BiXCircle size={20} color="red" />
-          </>
-        );
+        setMessage(response)
         setLoading(false);
       }
     } else {
@@ -36,31 +31,16 @@ const PaymentResult = () => {
   return (
     <Container style={{
       background: `url(${background}) repeat center center fixed`,
-      borderRadius: '15px',
-      display: 'flex',
-      flex: 1,
-      minWidth: '100vw',
-      minHeight: '100vh',
-      width: '100%',
-      height: '100%',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      margin: '0', // Remove margin to avoid extra white space
-      padding: '0', // Reset padding if needed
-      boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
-      textAlign: 'center',
-      fontFamily: 'Arial, sans-serif',
-      color: '#333',
+      minWidth: '100vw', minHeight: '100vh',
+      display: 'flex', flexDirection: 'column',
+      justifyContent: 'center', alignItems: 'center',
     }}>
     
 
     <div style={{
-    backgroundSize: 'cover',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    backgroundPosition: 'center',
-    minHeight: '60vh',
-    minWidth: '60vw',
-    height: '100%',
+    backgroundSize: 'cover', backgroundColor: '#fff', background:'rgba(255, 255, 255, 0.8)',
+    minHeight: '70vh', maxWidth: '90vw', height: '100%',
+    padding: '100px', borderRadius: '15px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
