@@ -98,7 +98,7 @@ namespace Domain.Repositories
                 //string FirstName = name.Substring(0, indexLastName);
                 // Kiểm tra nếu tên chỉ có FirstName
                 int indexLastName = name.LastIndexOf(" ");
-                string LastName = null;
+                string LastName = "";
                 string FirstName = name;
 
                 if (indexLastName != -1)
