@@ -20,14 +20,15 @@ const getKoiByUserId = async (userId) => {
         throw error;
     }
 }
-const getKoiListByUserId = async (userId) => {
+const getKoiListByUserId = async (koiId) => {
     try {
-        const response = await api.get('Koi', {
+        const response = await api.get(`Koi/${koiId}`, {
             headers: {
                 'accept': 'text/plain'
 
             }
         });
+        console.log('response', response)
         return response.data;
     } catch (error) {
         console.error('Error fetching kois:', error);

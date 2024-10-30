@@ -36,13 +36,13 @@ function Signup() {
         }
 
         signUp(userData)
-            .then((response) => {
+            .then(async (response) => {
                 if (response !== null) {
                     setSignupError(response);
                 } else {
                     try {
-                        const userId = getUserIdByEmail(userData.email);
-                        createCart(userId);
+                        const userId = await getUserIdByEmail(userData.email);
+                        await createCart(userId);
                     } catch (error) {
                         console.error('Error create cart for user:', error);
                     }

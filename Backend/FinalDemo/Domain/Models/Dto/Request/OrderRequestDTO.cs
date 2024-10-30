@@ -25,7 +25,6 @@ namespace Domain.Models.Dto.Request
 
         public string Country { get; set; } = null!;
 
-        //public double TotalPrice { get; set; }
         [JsonIgnore]
         public DateTime CreateDate { get; set; } = DateTime.Now;
 

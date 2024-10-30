@@ -154,7 +154,7 @@ namespace ApiService.Controllers
             return Ok(result);
         }
 
-        [HttpPut("LockoutEnable{id}")]
+        [HttpPut("LockoutEnable/{id}")]
         public async Task<IActionResult> LockoutEnableAsync(string id)
         {
             var result = await _accountRepository.LockoutEnabledAsync(id);
@@ -162,7 +162,7 @@ namespace ApiService.Controllers
            return Ok(result);
         }
 
-        [HttpPut("LockoutDisable{id}")]
+        [HttpPut("LockoutDisable/{id}")]
         public async Task<IActionResult> LockoutDisableAsync(string id)
         {
             var result = await _accountRepository.LockoutDisabledAsync(id);
@@ -208,13 +208,7 @@ namespace ApiService.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetShops")]
-        public async Task<IActionResult> GetShopsAsync()
-        {
-            var result = await _accountRepository.GetShopListAsync();
-            if (result == null) return NoContent();
-            return Ok(result);
-        }
+        
         [HttpGet("GetTotalShops")]
         public async Task<IActionResult> GetTotalShopsAsync()
         {
