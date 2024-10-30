@@ -204,6 +204,7 @@ const ManageShop = () => {
             console.log('newProduct:', newProduct);
             const category = await getCategoryById(newProduct.categoryId);
             setErrorCategory(category);
+            newProduct.categoryId = category.categoryId;
             const addedProduct = await addProduct(newProduct);
             console.log('addedProduct:', addedProduct);
             const storageRef = ref(storage, addedProduct.thumbnail);
