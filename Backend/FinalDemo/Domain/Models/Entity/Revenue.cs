@@ -9,7 +9,7 @@ public partial class Revenue
 
     public int OrderId { get; set; }
 
-    public double CommissionFee { get; set; }
+    public decimal Income { get; set; }
 
     public virtual Order Order { get; set; } = null!;
 }

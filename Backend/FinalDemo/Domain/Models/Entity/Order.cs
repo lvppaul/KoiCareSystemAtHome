@@ -23,9 +23,11 @@ public partial class Order
 
     public string? Country { get; set; }
 
-    public double TotalPrice { get; set; }
+    public decimal TotalPrice { get; set; }
 
     public string OrderStatus { get; set; } = null!;
+
+    public bool isVipUpgrade { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     public virtual ICollection<OrderVipDetail> OrderVipDetails { get; set; } = new List<OrderVipDetail>();
