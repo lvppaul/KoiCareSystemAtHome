@@ -151,7 +151,10 @@ namespace SWP391.KCSAH.Repository
 
         public VipRepository VipRepository
         {
-            get { return _vipRepository ??= new VipRepository(_context);
+            get
+            {
+                return _vipRepository ??= new VipRepository(_context);
+            }
         }
     }
 }
