@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import backgroundImage from '../../assets/images/updateaccountbackground.png'
 import yearly from '../../assets/images/12month.png'
-const UpdateAccount = () => {
+
+const UpdateVipAccount = () => {
   const [selectedPlan, setSelectedPlan] = useState('12-month');
 
   const plans = [
@@ -91,4 +92,4 @@ const UpdateAccount = () => {
   );
 };
 
-export default UpdateAccount;
+export default UpdateVipAccount;
