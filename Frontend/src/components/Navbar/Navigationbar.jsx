@@ -21,6 +21,7 @@ const Navigationbar = () => {
   const auth = useAuth();
   const [avatar, setAvatar] = useState(null);
   const { user, logout } = auth;
+  const role = user ? user.role : null;
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -91,6 +92,11 @@ const Navigationbar = () => {
             <NavLink className="nav-title" to="/blogs">
               Blogs
             </NavLink>
+            {role === "shop" ? (
+            <NavLink className="nav-title" to="/manageshop">
+            Shop Management
+            </NavLink>)
+            : (
             <NavDropdown
               title="Koi Pond"
               id="basic-nav-dropdown"
@@ -109,6 +115,7 @@ const Navigationbar = () => {
                 Salt Calculator
               </NavDropdown.Item>
             </NavDropdown>
+            )}
           </Nav>
           <Nav className="flex-grow-4 ms-auto nav-right">
             <Form className="d-flex">
@@ -138,7 +145,11 @@ const Navigationbar = () => {
               id="basic-nav-dropdown"
             >
               {user ? (
-                <>
+                <>{role === "admin" ?
+                  <NavDropdown.Item as={NavLink} to="/admin">
+                    Go to Admin Page
+                  </NavDropdown.Item> : null
+                }
                   <NavDropdown.Item as={NavLink} to="/profile">
                     Profile
                   </NavDropdown.Item>
