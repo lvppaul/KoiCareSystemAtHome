@@ -41,6 +41,7 @@ import PaymentPage from "./pages/PaymentPage/PaymentPage";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import UpdateAccount from "./pages/UpdateAccount/UpdateAccount";
 import Cart from "./pages/Cart/Cart";
+import Order from "./pages/Order/Order";
 const container = document.getElementById("root");
 
 const root = createRoot(container);
@@ -58,6 +59,7 @@ root.render(
           <Route path="resetpassword" element={<ResetPassword />} />
           <Route path="payment" element={<PaymentPage/>} />
           <Route path="updateaccount" element={<UpdateAccount />} />
+          <Route path="order" element={<Order />} />
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="news" element={<News />} />
