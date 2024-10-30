@@ -50,7 +50,7 @@ const AdminSideBar = () => {
                 <span className="icon">
                   <RiVipLine />
                 </span>
-                Member
+                Vip
               </Button>
             </Link>
           </li>
@@ -71,6 +71,26 @@ const AdminSideBar = () => {
                   <MdCategory />
                 </span>
                 Category
+              </Button>
+            </Link>
+          </li>
+          <li>
+            <Link to="categories">
+              <Button className="w-100">
+                <span className="icon">
+                  <MdCategory />
+                </span>
+                Vip Packages
+              </Button>
+            </Link>
+          </li>
+          <li>
+            <Link to="categories">
+              <Button className="w-100">
+                <span className="icon">
+                  <MdCategory />
+                </span>
+                News
               </Button>
             </Link>
           </li>

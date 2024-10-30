@@ -1,5 +1,35 @@
 import api from "./AxiosConfig";
 
+// Lock User:
+const lockUser = async (userId) => {
+  try {
+    const response = await api.put(`Account/LockoutEnable/${userId}`, {
+      headers: {
+        accept: "text/plain",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error fetching lock user:", error);
+    return null;
+  }
+};
+
+// UnLock User:
+const unLockUser = async (userId) => {
+  try {
+    const response = await api.put(`Account/LockoutDisable/${userId}`, {
+      headers: {
+        accept: "text/plain",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error fetching unlock user:", error);
+    return null;
+  }
+};
+
 // Get Vips
 const getVips = async () => {
   try {
@@ -187,4 +217,6 @@ export {
   getTotalVips,
   getShops,
   getTotalShops,
+  lockUser,
+  unLockUser,
 };

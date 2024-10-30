@@ -6,11 +6,10 @@ import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
-import { getMembers } from "../../Config/UserApi";
+import { getMembers, lockUser, unLockUser } from "../../Config/UserApi";
 import { AiOutlineCheck } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 const Members = () => {
-  const [isLocked, setIsLocked] = useState(false);
   const [members, setMembers] = useState([]);
 
   const fetchMembers = async () => {
@@ -23,10 +22,32 @@ const Members = () => {
     }
   };
 
+  const toggleUserLockStatus = async (userId, isCurrentlyLocked) => {
+    try {
+      if (isCurrentlyLocked) {
+        await unLockUser(userId);
+      } else {
+        await lockUser(userId);
+      }
+
+      // cập nhật lại trạng thái lockoutEnabled
+
+      setMembers((prevMembers) =>
+        prevMembers.map((member) =>
+          member.id === userId
+            ? { ...member, lockoutEnabled: !isCurrentlyLocked }
+            : member
+        )
+      );
+    } catch (error) {
+      console.error("Error at toggleUserLockStatus ");
+    }
+  };
+
   useEffect(() => {
     fetchMembers();
   }, []);
-  console.log("member", members);
+  console.log("member", members.lockoutEnabled);
   return (
     <>
       <div className="right-content">
@@ -70,22 +91,16 @@ const Members = () => {
                         )}
                       </div>
                     </td>
-                    <td onClick={() => setIsLocked(!isLocked)}>
-                      <div className="actions">
-                        {isLocked === false ? (
-                          <Button>
-                            <div className="icon">
-                              <FaLockOpen />
-                            </div>
-                          </Button>
-                        ) : (
-                          <Button>
-                            <div className="icon">
-                              <FaLock />
-                            </div>
-                          </Button>
-                        )}
-                      </div>
+                    <td>
+                      <Button
+                        onClick={() =>
+                          toggleUserLockStatus(member.id, member.lockoutEnabled)
+                        }
+                      >
+                        <div className="icon">
+                          {member.lockoutEnabled ? <FaLock /> : <FaLockOpen />}
+                        </div>
+                      </Button>
                     </td>
                   </tr>
                 ))}

@@ -24,9 +24,6 @@ const DashboardBox = (props) => {
           <span className="icon">{icons}</span>
         </div>
       </div>
-      <div className="d-flex align-items-center">
-        <h5 className="text-white mb-0 mt-0">{values}</h5>
-      </div>
     </div>
   );
 };

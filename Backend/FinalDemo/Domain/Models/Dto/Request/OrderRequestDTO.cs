@@ -28,7 +28,7 @@ namespace Domain.Models.Dto.Request
 
         public string Country { get; set; } = null!;
 
-        public int PaymentMethodId { get; set; }
+       
 
         //public double TotalPrice { get; set; }
         [JsonIgnore]
