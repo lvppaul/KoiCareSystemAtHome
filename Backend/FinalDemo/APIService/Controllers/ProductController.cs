@@ -185,8 +185,8 @@ namespace KCSAH.APIServer.Controllers
         public async Task<ActionResult<List<ProductDTO>>> SearchProducts(
             string? name = null,
             int? categoryId = null,
-            float? minPrice = null,
-            float? maxPrice = null,
+            decimal? minPrice = null,
+            decimal? maxPrice = null,
             int? shopId = null)
         {
             var products = await _unitOfWork.ProductRepository.SearchProducts(name, categoryId, minPrice, maxPrice, shopId);

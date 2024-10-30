@@ -12,7 +12,6 @@ namespace Domain.Models.Dto.Response
 
         public string UserId { get; set; } = null!;
 
-        public int ShopId { get; set; }
 
         public string FullName { get; set; } = null!;
 
@@ -32,6 +31,6 @@ namespace Domain.Models.Dto.Response
 
         public string OrderStatus { get; set; } = null!;
         public List<OrderDetailDTO> orderDetails { get; set; }
-        public double TotalPrice => orderDetails.Sum(od => od.Quantity * od.UnitPrice);
+        public decimal TotalPrice => (decimal)orderDetails.Sum(od => od.Quantity * od.UnitPrice);
     }
 }
