@@ -20,11 +20,13 @@ import {
 import { storage } from "../../Config/firebase";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { user } = useAuth();
   const userId = user.userId;
   const logout = useAuth().logout;
+  const navigate = useNavigate();
 
   const [details, setDetails] = useState({});
   const [editingField, setEditingField] = useState(null);
@@ -32,7 +34,6 @@ const Profile = () => {
   const [loadingAvatar, setLoadingAvatar] = useState(true);
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showUpdateVipModal, setShowUpdateVipModal] = useState(false);
   const [userData, setUserData] = useState({});
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -183,7 +184,8 @@ const Profile = () => {
                 >
                   Change Avatar
                 </Button>
-                <Button variant="primary" className="mt-5">
+                <Button onClick={() => navigate("/updateaccount")}>
+                 variant="primary" className="mt-5">
                   Upgrade to VIP Account
                 </Button>
                 <Button

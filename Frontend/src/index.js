@@ -41,7 +41,6 @@ import PaymentPage from "./pages/PaymentPage/PaymentPage";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import UpdateAccount from "./pages/UpdateAccount/UpdateAccount";
 import Cart from "./pages/Cart/Cart";
-
 const container = document.getElementById("root");
 
 const root = createRoot(container);
@@ -72,7 +71,14 @@ root.render(
             <Route path="*" element={<NotPage />} />
 
             {/* Protected Routes for Authenticated Users */}
-            <Route path="cart" element={<ProtectedRoute requiredRole="member"><Cart /></ProtectedRoute>} />
+            <Route
+              path="cart"
+              element={
+                <ProtectedRoute requiredRole="member">
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="koilist"
               element={

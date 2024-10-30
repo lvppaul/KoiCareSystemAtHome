@@ -5,6 +5,7 @@ import { getProductById, getProductImagesByProductId } from '../../Config/Produc
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import { FaShoppingCart } from 'react-icons/fa';
+import { add } from 'date-fns';
 
 const Product = () => {
   const { productId } = useParams();
@@ -12,6 +13,30 @@ const Product = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [carouselLoading, setCarouselLoading] = useState(true);
+
+  const getCartItems = () => {
+    console.log("getCartItems");
+    const savedCart = localStorage.getItem("cartItems");
+    return savedCart ? JSON.parse(savedCart) : [];
+  };
+  const saveCartItems = (items) => {
+    console.log("saveCartItems");
+    localStorage.setItem("cartItems", JSON.stringify(items));
+    console.log("saveCartItems", localStorage.getItem("cartItems"));
+  };
+
+  const addToCart = (product) => {
+    const currentCart = getCartItems();
+    const existingItem = currentCart.find((item) => item.id === product.id);
+  
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      currentCart.push({ ...product, quantity: 1 });
+    }
+  
+    saveCartItems(currentCart);
+  };
 
   const fetchProductImages = useCallback(async () => {
     try {
@@ -97,7 +122,8 @@ const Product = () => {
                 <Button className="flex-grow-1 me-2" variant="primary">Buy Now</Button>
               </Col>
               <Col md={3} className="d-flex">
-                <Button className="flex-grow-1 d-flex flex-column align-items-center" variant="secondary">
+                <Button onClick={() => addToCart(product)}
+                className="flex-grow-1 d-flex flex-column align-items-center" variant="secondary">
                   <FaShoppingCart />
                   <span style={{ fontSize: '0.9rem' }}>Add to Cart</span>
                 </Button>
