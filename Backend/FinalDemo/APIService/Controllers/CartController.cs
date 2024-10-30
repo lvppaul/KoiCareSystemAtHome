@@ -115,15 +115,15 @@ namespace APIService.Controllers
             {
                 return BadRequest("Mapping to cart entity failed.");
             }
-            decimal total = 0; // Khởi tạo giá trị cho total
+            int total = 0; // Khởi tạo giá trị cho total
             foreach (var detail in cartMap.CartItems)
             {
                 var cartitem = await GetProductAsync(detail.ProductId);
                 detail.ProductName = cartitem.Name;
-                detail.Price = (decimal)cartitem.Price;
-                detail.TotalPrice = (decimal)(detail.Price * detail.Quantity);
+                detail.Price = cartitem.Price;
+                detail.TotalPrice = detail.Price * detail.Quantity;
                 detail.Thumbnail = cartitem.Thumbnail;
-                total += (decimal)(detail.Price * detail.Quantity);
+                total += detail.Price * detail.Quantity;
             }
             cartMap.TotalAmount = total;
             // Lưu vào cơ sở dữ liệu
@@ -164,9 +164,9 @@ namespace APIService.Controllers
                 {
                     ProductId = product.ProductId,
                     ProductName = product.Name,
-                    Price = (decimal)product.Price,
+                    Price = product.Price,
                     Quantity = cartItemDto.Quantity,
-                    TotalPrice = (decimal)product.Price * cartItemDto.Quantity,
+                    TotalPrice = product.Price * cartItemDto.Quantity,
                     Thumbnail = product.Thumbnail
                 };
                 cart.CartItems.Add(newItem);

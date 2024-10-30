@@ -11,7 +11,7 @@ namespace Domain.Models.Dto.Update
     {
         public string UserId { get; set; } = null!;
         [JsonIgnore]
-        public decimal TotalAmount { get; set; } = 0;
+        public int TotalAmount { get; set; } = 0;
 
         public List<CartItemUpdateDTO> CartItems { get; set; } = new List<CartItemUpdateDTO>();
     }

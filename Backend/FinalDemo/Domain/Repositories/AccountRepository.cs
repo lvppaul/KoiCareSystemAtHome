@@ -116,6 +116,10 @@ namespace Domain.Repositories
                     {
                         return new AuthenticationResponse { Message = failCreateUser };
                     }
+                    if (!await _roleManager.RoleExistsAsync(AppRole.Member))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(AppRole.Member));
+                    }
                     await _userManager.AddToRoleAsync(user, AppRole.Member);
                 }
                 var claims = new List<Claim>

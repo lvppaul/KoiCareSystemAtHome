@@ -12,6 +12,6 @@ namespace Domain.Models.Dto.Response
 
         public int OrderId { get; set; }
 
-        public double CommissionFee { get; set; }
+        public int Income { get; set; }
     }
 }

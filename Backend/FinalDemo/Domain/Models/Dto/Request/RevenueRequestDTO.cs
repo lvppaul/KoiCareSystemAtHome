@@ -10,6 +10,6 @@ namespace Domain.Models.Dto.Request
     {
         public int OrderId { get; set; }
 
-        public double CommissionFee { get; set; }
+        public int Income { get; set; }
     }
 }
