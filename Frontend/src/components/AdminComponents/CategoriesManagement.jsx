@@ -4,9 +4,13 @@ import Button from "@mui/material/Button";
 import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import SearchBar from "./SearchBar";
-import { getCategories } from "../../Config/CategoryApi";
+import { getCategories, deleteCategories } from "../../Config/CategoryApi";
+import AddCategories from "../AddCategories/AddCategories";
+import DeleteCategories from "../DeleteCategories/DeleteCategories";
+
 const AdminCategories = () => {
   const [categories, setCategories] = useState([]);
+  const [showModalAddCategory, setShowModalAddCategory] = useState(false);
   const fetchCategories = async () => {
     const listCategories = await getCategories();
     setCategories(listCategories);
@@ -15,6 +19,12 @@ const AdminCategories = () => {
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  const handleAddCategory = () => {
+    fetchCategories();
+  };
+
+ 
 
   return (
     <>
@@ -25,6 +35,11 @@ const AdminCategories = () => {
             <SearchBar />
           </div>
           <div className="table-response">
+          <AddCategories
+              show={showModalAddCategory}
+              setShow={setShowModalAddCategory}
+              updateAddCategories={handleAddCategory}
+            />
             <table className="table table-sm  ">
               <thead>
                 <tr>
@@ -52,11 +67,10 @@ const AdminCategories = () => {
                             <FaPen />
                           </div>
                         </Button>
-                        <Button>
-                          <div className="icon">
-                            <FaTrashAlt />
-                          </div>
-                        </Button>
+                        <DeleteCategories
+                        category={category}
+                        updateDeleteCategory={fetchCategories}
+                        />
                       </div>
                     </td>
                   </tr>
