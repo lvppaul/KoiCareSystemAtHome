@@ -6,6 +6,7 @@ import { FaShop } from "react-icons/fa6";
 import { MdAttachMoney } from "react-icons/md";
 import { MdOutlineCardMembership } from "react-icons/md";
 import { IoBagCheckOutline } from "react-icons/io5";
+import RevenueChart from "./RevenueChart";
 import {
   getTotalMembers,
   getTotalVips,
@@ -65,7 +66,7 @@ const AdminDashboard = () => {
               <DashboardBox
                 color={["#B8860B", "#FFFACD"]}
                 icon={<RiVipLine />}
-                object={"Vip"}
+                object={"Vip Members"}
                 number={totalVips}
               />
               <DashboardBox
@@ -89,6 +90,24 @@ const AdminDashboard = () => {
                 icon={<IoBagCheckOutline />}
                 object={"Commission fee"}
               />
+            </div>
+            <div className="dashboardChart  shadow border-0  ">
+              <div className="mainRevenueChart">
+                <div className="chartContainer">
+                  <RevenueChart />
+                  <p className="chartTitle"> Main Revenue</p>
+                </div>
+              </div>
+              <div className="subRevenueChart">
+                <div className="chartContainer">
+                  <RevenueChart />
+                  <p className="chartTitle"> Sub Revenue</p>
+                </div>
+                <div className="chartContainer">
+                  <RevenueChart />
+                  <p className="chartTitle"> Sub Revenue</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
