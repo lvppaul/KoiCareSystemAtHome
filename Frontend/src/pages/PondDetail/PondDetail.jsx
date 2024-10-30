@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import './PondDetail.css';
 import { useEffect, useState } from 'react';
 import AddNewFish from '../../components/AddNewFish/AddNewFish';
@@ -9,6 +9,8 @@ import UpdatePondDetail from '../../components/UpdatePondDetail/UpdatePondDetail
 import { getKoiInPond } from '../../Config/PondApi';
 import DeleteKoi from '../../components/DeleteKoi/DeleteKoi';
 import WaterParameter from '../../components/WaterParameter/WaterParameter';
+import { useAuth } from '../Login/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 // Use pondId to fetch or display pond details
 const PondDetail = () => {
@@ -20,6 +22,8 @@ const PondDetail = () => {
   const [showModalAddFish, setShowModalAddFish] = useState(false);
   const [showModalWaterParameter, setShowModalWaterParameter] = useState(false);
   const [loadingKoi, setLoadingKoi] = useState(true);
+  const userRole = useAuth().user.role;
+  const navigate = useNavigate();
 
   //handle fetch data koi pond by pondId
   const fetchPond = (pondId) => {
@@ -104,11 +108,20 @@ const PondDetail = () => {
       <hr style={{ width: '50%', borderTop: '5px solid #000', margin: '100px auto' }} />
       <Row>
       <h1>Water Parameter</h1>
+      {userRole === 'vip' ? (
       <WaterParameter
       show={showModalWaterParameter}
       setShow={setShowModalWaterParameter}
       pondId={pondId}
-      />
+      />)
+      : <Button onClick={() => navigate('/updateaccount')}
+      style={{width:'100%', height:'100px', 
+        fontWeight:'bold', fontSize: '30px', color:'black',
+        borderRadius:'15px', backgroundColor: '#89CFF0', transition: 'background-color 0.3s ease'}}
+        onMouseEnter={(e) => e.target.style.backgroundColor = '#0D65FF'}
+        onMouseLeave={(e) => e.target.style.backgroundColor = '#89CFF0'}>
+      Become a VIP to access Water Parameter
+      </Button> }
       </Row>
       <hr style={{ width: '50%', borderTop: '5px solid #000', margin: '100px auto' }} />
       <Row>

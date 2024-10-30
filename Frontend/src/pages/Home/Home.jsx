@@ -76,7 +76,7 @@ const Home = () => {
                 growth stages and calculates the necessary salt for each pond to maintain optimal conditions.
                 </Card.Text>
                 <Card.Footer>
-                <Link to="/calculation">Learn more </Link>
+                <Link to="/foodcalculator">Learn more </Link>
                 </Card.Footer>
               </Card.Body>
             </Card>

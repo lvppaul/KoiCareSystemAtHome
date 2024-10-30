@@ -21,6 +21,7 @@ const Navigationbar = () => {
   const auth = useAuth();
   const [avatar, setAvatar] = useState(null);
   const { user, logout } = auth;
+  const role = user ? user.role : null;
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -144,7 +145,11 @@ const Navigationbar = () => {
               id="basic-nav-dropdown"
             >
               {user ? (
-                <>
+                <>{role === "admin" ?
+                  <NavDropdown.Item as={NavLink} to="/admin">
+                    Go to Admin Page
+                  </NavDropdown.Item> : null
+                }
                   <NavDropdown.Item as={NavLink} to="/profile">
                     Profile
                   </NavDropdown.Item>
@@ -166,8 +171,7 @@ const Navigationbar = () => {
                 </NavDropdown.Item>
               )}
             </NavDropdown>
-            <NavLink to="/cart">
-              {" "}
+            <NavLink to={"/cart"}>
               <BiCart size={50} color="Black" style={{ marginTop: "5px" }} />
             </NavLink>
           </Nav>

@@ -11,7 +11,7 @@ import {
     Legend
 } from 'chart.js';
 import { Col, Row } from "react-bootstrap";
-import { getKoiListByUserId } from "../../Config/KoiApi";
+import { getKoiByUserId } from "../../Config/KoiApi";
 
 ChartJS.register(
     CategoryScale,
@@ -41,7 +41,7 @@ export const KoiGrowthChart = ({ userId }) => {
         const fetchKoiList = async () => {
             try {
                 console.log("Fetching Koi List...");
-                const response = await getKoiListByUserId(userId);
+                const response = await getKoiByUserId(userId);
                 setKoiList(response);
                 if (response.length > 0) {
                     setSelectedKoiId(response[0].koiId); // Chọn con cá đầu tiên làm mặc định

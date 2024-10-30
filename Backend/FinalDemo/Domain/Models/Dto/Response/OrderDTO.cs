@@ -28,9 +28,6 @@ namespace Domain.Models.Dto.Response
 
         public string Country { get; set; } = null!;
 
-        public int PaymentMethodId { get; set; }
-
-
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
         public string OrderStatus { get; set; } = null!;
