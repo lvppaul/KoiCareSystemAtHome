@@ -85,23 +85,4 @@ const removeItemFromCart = async (userId, item) => {
     }
 }
 
-
-// Function to update item in cart
-const updateItemInCart = async (userId, item) => {
-    try {
-        const response = await api.post(`Cart/UpdateItem`, item, {
-            params: {
-                userId: userId
-            },
-            headers: {
-                'accept': 'text/plain'
-            }
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error updating item in cart:', error);
-        throw error;
-    }
-}
-
-export { createCart, getCarts, getCartByUserId, addItemToCart, removeItemFromCart, updateItemInCart };
+export { createCart, getCarts, getCartByUserId, addItemToCart, removeItemFromCart };
