@@ -19,6 +19,7 @@ import { createOrder } from "../../Config/OrderApi"; // Add this import
 import { getAccountByUserId } from "../../Config/UserApi"; // Add this import
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../Config/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { user } = useAuth();
@@ -26,6 +27,8 @@ const Cart = () => {
 
   const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [errorMessages, setErrorMessages] = useState([]);
+  const navigate = useNavigate();
 
   const fetchCart = useCallback(async () => {
     try {
@@ -104,7 +107,7 @@ const Cart = () => {
       const orderData = {
         userId: userId,
         fullName: userDetails.firstName + " " + userDetails.lastName,
-        phone: userDetails.phone,
+        phone: userDetails.phoneNumber,
         email: userDetails.email,
         street: userDetails.street,
         district: userDetails.district,
@@ -118,11 +121,20 @@ const Cart = () => {
       };
 
       const response = await createOrder(orderData);
-      console.log("Order created successfully:", response);
-      // Handle successful order creation (e.g., redirect to order confirmation page)
+      console.log(response);
+      if (response.orderId) {
+        navigate(`/order/${response.orderId}`);
+      } else {
+        console.error("Error creating order:", response);
+        setErrorMessages(
+          "Please fill your information in the profile page before proceeding to checkout"
+        );
+      }
     } catch (error) {
       console.error("Error creating order:", error);
-      // Handle error (e.g., show error message to user)
+      if (error.response) {
+        console.error("Server response:", error.response.data);
+      }
     }
   };
 
@@ -183,7 +195,9 @@ const Cart = () => {
                         </p>
                       </Col>
                       <Col md={2}>
-                        <Form.Label style={{fontWeight: 'bold'}}>Quantity:</Form.Label>
+                        <Form.Label style={{ fontWeight: "bold" }}>
+                          Quantity:
+                        </Form.Label>
                         <Form.Control
                           as="select"
                           value={cartItem.quantity}
@@ -201,7 +215,10 @@ const Cart = () => {
                         </Form.Control>
                       </Col>
 
-                      <Col md={4} className="d-flex flex-column justify-content-end align-items-end">
+                      <Col
+                        md={4}
+                        className="d-flex flex-column justify-content-end align-items-end"
+                      >
                         <p
                           style={{
                             fontWeight: "bolder",
@@ -241,6 +258,9 @@ const Cart = () => {
                 >
                   Proceed to Checkout
                 </Button>
+                {errorMessages && (
+                  <p className="error-message mt-3">{errorMessages}</p>
+                )}
               </ListGroup.Item>
             </ListGroup>
           </Col>

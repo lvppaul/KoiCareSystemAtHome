@@ -13,7 +13,7 @@ import Shop from "./pages/Shop/Shop";
 import NotPage from "./pages/NotPage/NotPage";
 import Pond from "./pages/Pond/Pond";
 import AdminHome from "./pages/Admin/Home/AdminHome";
-import TableUser from "./components/TableUser/TableUser"; 
+import TableUser from "./components/TableUser/TableUser";
 import SaltCalculator from "./pages/SaltCalculator/SaltCalculator";
 import FoodCalculator from "./pages/FoodCalculator/FoodCalculator";
 import Product from "./pages/Product/Product";
@@ -58,12 +58,12 @@ root.render(
           <Route path="createshopacc" element={<CreateShopAcc />} />
           <Route path="confirmemail" element={<Confirmation />} />
           <Route path="resetpassword" element={<ResetPassword />} />
-          <Route path="payment" element={<PaymentPage/>} />
-          <Route path="payment-result" element={<PaymentResult/>} />
+          <Route path="payment" element={<PaymentPage />} />
+          <Route path="payment-result" element={<PaymentResult />} />
           <Route path="updateaccount" element={<UpdateVipAccount />} />
-          <Route path="order" element={<Order />} />
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
+            <Route path="order/:orderId" element={<Order />} />
             <Route path="news" element={<News />} />
             <Route path="news/:newsId" element={<NewsDetail />} />
             <Route path="blogs" element={<Blog />} />
