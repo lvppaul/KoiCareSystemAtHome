@@ -6,7 +6,6 @@ import AddNewBlog from '../../components/AddNewBlog/AddNewBlog';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import { formatDistanceToNow } from 'date-fns';
-import './Blog.css';
 
 const Blog = () => {
     const [blogs, setBlogs] = useState([]);

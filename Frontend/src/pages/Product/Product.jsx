@@ -111,9 +111,7 @@ const Product = () => {
   return (
     <Container fluid className="py-4">
       <Container
-        className="d-flex flex-column justify-content-between"
-        style={{ background: "" }}
-      >
+        className="d-flex flex-column justify-content-between">
         <Row>
           <Breadcrumb>
             <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
