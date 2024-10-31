@@ -55,7 +55,7 @@ namespace APIService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<VipPackage>> CreateVipPackage([FromBody] VipPackageRequestDTO vippackagedto)
+        public async Task<ActionResult<VipRecord>> CreateVipPackage([FromBody] VipPackageRequestDTO vippackagedto)
         {
             if (vippackagedto == null)
             {
@@ -74,7 +74,7 @@ namespace APIService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var vipPackageMap = _mapper.Map<VipPackage>(vippackagedto);
+            var vipPackageMap = _mapper.Map<VipRecord>(vippackagedto);
 
             var createResult = await _unitOfWork.VipPackageRepository.CreateAsync(vipPackageMap);
 
@@ -90,7 +90,7 @@ namespace APIService.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVipPackage(int id, [FromBody] VipPackageUpdateDTO vipdto)
+        public async Task<IActionResult> UpdateVipPackage(int id, [FromBody] VipPackageRequestDTO vipdto)
         {
             if (vipdto == null)
             {
