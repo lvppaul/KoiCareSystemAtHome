@@ -5,7 +5,7 @@ import background from '../../assets/images/updateaccountbackground.png';
 import { BiXCircle } from 'react-icons/bi';
 const PaymentResult = () => {
   const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const sendReturnUrl = async () => {
     const returnUrl = window.location.href;
     if (returnUrl) {
@@ -14,13 +14,13 @@ const PaymentResult = () => {
       if (response) {
         console.log('response:', response.data);
         setLoading(false);
-        setMessage(response);
+        // setMessage(response);
       } else {
-        setMessage(response)
+        //setMessage(response)
         setLoading(false);
       }
     } else {
-      setMessage('No return URL found.');
+      //setMessage('No return URL found.');
     }
   };
 
@@ -51,7 +51,7 @@ const PaymentResult = () => {
         (
           <>
       <h1>Payment Result</h1>
-      <p>{message}</p>
+      <p>result</p>
       </>
       )}
     </div>

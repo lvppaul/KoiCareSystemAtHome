@@ -18,8 +18,8 @@ const Order = () => {
 
     const response = await sendPayment(payload);
     if (response) {
-      //console.log('Redirecting to:', response);
-      window.location.href = response;
+      console.log('Redirecting to:', response);
+      //window.location.href = response;
     } else {
       console.error('Error: No URL returned from API');
     }
