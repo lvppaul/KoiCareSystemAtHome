@@ -8,12 +8,14 @@ import {
   TextField,
 } from "@mui/material";
 import { FaPlus } from "react-icons/fa";
-import { signUp } from "../../Config/LogInApi";
+import { signUp, signUpVip } from "../../Config/LogInApi";
 import { useForm } from "react-hook-form";
 
-const AdminCreateAccountDialog = () => {
+const AdminCreateAccountDialog = (props) => {
   const [open, setOpen] = useState(false);
   const { register, handleSubmit, reset } = useForm();
+
+  const options = props.option;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -27,8 +29,13 @@ const AdminCreateAccountDialog = () => {
   const onSubmit = async (data) => {
     console.log("Form data:", data); // Kiểm tra xem dữ liệu form có được gửi
     try {
-      await signUp(data); // Gọi API signUp với dữ liệu từ form
-      handleClose(); // Đóng dialog nếu API thành công
+      if (options === "SignUp") {
+        await signUp(data); // Gọi API signUp với dữ liệu từ form
+        handleClose(); // Đóng dialog nếu API thành công
+      } else {
+        await signUpVip(data); // Gọi API signUp với dữ liệu từ form
+        handleClose(); // Đóng dialog nếu API thành công
+      }
     } catch (error) {
       console.error("Error in sign-up:", error); // Xử lý lỗi từ API nếu có
     }

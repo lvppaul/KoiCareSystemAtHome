@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { FaPen } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
@@ -9,7 +8,6 @@ import SearchBar from "./SearchBar";
 import { getMembers, lockUser, unLockUser } from "../../Config/UserApi";
 import { AiOutlineCheck } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
-
 import AdminCreateAccountDialog from "./AdminCreateMemberForm";
 const Members = () => {
   const [members, setMembers] = useState([]);
@@ -48,7 +46,7 @@ const Members = () => {
 
   useEffect(() => {
     fetchMembers();
-  }, [<AdminCreateAccountDialog />]);
+  }, [<AdminCreateAccountDialog option={"SignUp"} />]);
   console.log("member", members.lockoutEnabled);
   return (
     <>
@@ -59,7 +57,7 @@ const Members = () => {
             <SearchBar />
           </div>
           <div>
-            <AdminCreateAccountDialog />
+            <AdminCreateAccountDialog option={"SignUp"} />
           </div>
           <div className="table-response">
             <table className="table table-sm  ">

@@ -10,7 +10,30 @@ const signUp = async (userData) => {
         Accept: "application/json",
       },
     });
-    console.log("signup resp", response.data.message);
+    console.log("sign up resp", response.data.message);
+    return response.data.message;
+  } catch (error) {
+    console.error("Error during sign-up:", error);
+    if (error.response) {
+      console.error("Error response data:", error.response.data.message);
+      return error.response.data.message;
+    } else {
+      return { error: "Unknown error occurred" };
+    }
+  }
+};
+
+// sign up vip
+
+const signUpVip = async (userData) => {
+  try {
+    const response = await api.post("Account/CreateVipAccount", userData, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    console.log("sign up Vip resp", response.data.message);
     return response.data.message;
   } catch (error) {
     console.error("Error during sign-up:", error);
@@ -142,4 +165,4 @@ const googleLogIn = async (token) => {
   }
 };
 
-export { signUp, signUpShop, signIn, confirmEmail, googleLogIn };
+export { signUp, signUpVip, signUpShop, signIn, confirmEmail, googleLogIn };
