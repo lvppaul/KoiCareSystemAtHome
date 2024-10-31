@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {getVNPayResult} from '../../Config/VNPayApi';
-import {Container, Spinner} from 'react-bootstrap';
+import {Container, Spinner, Button} from 'react-bootstrap';
 import background from '../../assets/images/updateaccountbackground.png';
 import { BiXCircle, BiCheckCircle } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 const PaymentResult = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [paymentState, setPaymentState] = useState(false);
   const sendReturnUrl = async () => {
@@ -64,6 +66,7 @@ const PaymentResult = () => {
         <h2>Payment Failed Please Try Again</h2>
         </>
       )}
+      <Button onClick={() => navigate('/')}>back to home page</Button>
     </div>
     </Container>
   );
