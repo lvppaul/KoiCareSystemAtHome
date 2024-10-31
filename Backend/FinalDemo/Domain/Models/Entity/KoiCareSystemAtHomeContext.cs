@@ -62,7 +62,9 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     public virtual DbSet<PaymentTransaction> PaymentTransactions { get; set; }
 
-    public virtual DbSet<VipRecord> VipPackages { get; set; }
+    public virtual DbSet<VipRecord> VipRecords { get; set; }
+
+    public virtual DbSet<VipPackage> VipPackages { get; set; }
 
     public virtual DbSet<OrderVipDetail> OrderVipDetails { get; set; }
 
@@ -98,11 +100,6 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
       .HasOne(a => a.Cart)
       .WithOne(s => s.User)
       .HasForeignKey<Cart>(s => s.UserId);
-
-        modelBuilder.Entity<ApplicationUser>()
-      .HasOne(a => a.Vip)
-      .WithOne(s => s.User)
-      .HasForeignKey<VipRecord>(s => s.UserId);
 
         modelBuilder.Entity<Order>()
             .HasOne(d => d.PaymentTransaction).WithOne(p => p.Order)
@@ -401,6 +398,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__OrderDeta__OrderVip__5CD6CB2B");
 
+            entity.HasOne(d => d.VipPackage).WithMany(p => p.OrderVipDetails)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK__VipPackage__OrderVip__5CD6CB2B");
         });
 
         modelBuilder.Entity<PaymentTransaction>(entity =>
@@ -478,18 +479,37 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
         modelBuilder.Entity<VipRecord>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Vip__B40CC6ED16BED2A9");
+            entity.HasKey(e => e.CreateDate).HasName("PK__VipR__B40CC6ED16BED2A9");
 
-            entity.ToTable("VipPackage");
+            entity.ToTable("VipRecord");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .IsUnicode(false)
-                .HasColumnName("Id");
+            entity.HasOne(e => e.User).WithMany(p => p.VipRecords)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__VipRecord__User__3C69FB99");
+
+            entity.HasOne(e => e.VipPackage).WithMany(p => p.VipRecords)
+                .HasForeignKey(e => e.VipId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__VipPackage__User__3C69FB99");
+
+            entity.Property(e => e.CreateDate)
+                .HasColumnName("CreateDate").HasDefaultValueSql("GETUTCDATE()").HasColumnType("datetime");
             entity.Property(e => e.UserId).HasColumnName("UserId");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
             entity.Property(e => e.EndDate).HasColumnType("datetime");
-            entity.Property(e => e.Status).HasDefaultValue(true);
+
+        });
+
+        modelBuilder.Entity<VipPackage>(entity =>
+        {
+            entity.HasKey(e => e.VipId).HasName("PK__VipP__B40CC6ED16BED2A9");
+
+            entity.ToTable("VipPackage");
+
+            entity.Property(e => e.Description).HasColumnName("Description");
+            entity.Property(e => e.Name).HasColumnName("Name");
+            entity.Property(e => e.Price).HasColumnName("Price");
 
         });
 

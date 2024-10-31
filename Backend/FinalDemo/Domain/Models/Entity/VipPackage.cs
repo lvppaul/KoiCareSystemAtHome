@@ -14,6 +14,8 @@ namespace Domain.Models.Entity
 
         public int Price { get; set; }
 
+        public virtual ICollection<OrderVipDetail> OrderVipDetails { get; set; } = new List<OrderVipDetail>();
+
         public virtual ICollection<VipRecord> VipRecords { get; set; } = new List<VipRecord>();
     }
 }

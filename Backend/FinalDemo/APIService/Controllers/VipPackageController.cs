@@ -45,7 +45,7 @@ namespace APIService.Controllers
         [HttpGet("GetVipByUserId/{UserId}")]
         public async Task<ActionResult<VipPackageDTO>> GetVipPackageByUserId(string UserId)
         {
-            var vip = await _unitOfWork.VipPackageRepository.GetVipByUserIdAsync(UserId);
+            var vip = await _unitOfWork.vipRecordRepository.GetVipByUserIdAsync(UserId);
             if (vip == null)
             {
                 return NotFound();
