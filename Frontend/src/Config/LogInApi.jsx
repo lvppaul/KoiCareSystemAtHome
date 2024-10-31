@@ -207,4 +207,5 @@ export {
   googleLogIn,
   requestResetPassword,
   resetPassword,
+  signUpVip,
 };
