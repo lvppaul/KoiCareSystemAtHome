@@ -25,10 +25,10 @@ const getVNPayResult = async (returnUrl) => {
                 Accept: "application/json",
             },
         });
-        return response.status;
+        return response;
     } catch (error) {
         console.log("error.response:", error.response.status);
-        return error.response.status;
+        return error.response;
     }
 };
 

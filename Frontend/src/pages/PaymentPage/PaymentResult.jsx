@@ -13,7 +13,7 @@ const PaymentResult = () => {
       const response = await getVNPayResult(returnUrl);
       if (response) {
         console.log('response:', response);
-        response === 200 ? setPaymentState(true) : setPaymentState(false);
+        response.status === 200 ? setPaymentState(true) : setPaymentState(false);
         setLoading(false);
       } else {
         setLoading(false);
