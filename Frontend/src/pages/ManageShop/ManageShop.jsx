@@ -81,6 +81,7 @@ const ManageShop = () => {
     const fetchShopDetails = useCallback(async () => {
         try {
             const shopData = await getShopByUserId(userId);
+            console.log('shopData:', shopData);
             if (shopData.thumbnail) {
                 try {
                     const storageRef = ref(storage, shopData.thumbnail);
@@ -90,6 +91,10 @@ const ManageShop = () => {
                     const storageRef = ref(storage, 'others/NotFound.jpg');
                     shopData.thumbnail = await getDownloadURL(storageRef);
                 }
+            } else {
+                console.error('The file does not exist in firebase anymore!');
+                const storageRef = ref(storage, 'others/NotFound.jpg');
+                shopData.thumbnail = await getDownloadURL(storageRef);
             }
             setShop(shopData);
             fetchProducts(shopData.shopId);
@@ -109,7 +114,18 @@ const ManageShop = () => {
         await updateProduct(newProduct);
         const category = await getCategoryById(newProduct.categoryId);
         const updatedProduct = { ...newProduct, category: category };
+        if (newProduct.thumbnail) {
+            try {
+                const storageRef = ref(storage, newProduct.thumbnail);
+                newProduct.thumbnail = await getDownloadURL(storageRef);
+            } catch (error) {
+                console.error('The file does not exist in firebase anymore!', error);
+                const storageRef = ref(storage, 'others/NotFound.jpg');
+                newProduct.thumbnail = await getDownloadURL(storageRef);
+            }
+        }
         setProducts(products.map(product => product.productId === updatedProduct.productId ? updatedProduct : product));
+
 
         if (imageFiles && imageFiles.length > 0) {
             try {

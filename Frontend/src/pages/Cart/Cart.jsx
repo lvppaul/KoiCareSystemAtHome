@@ -207,7 +207,7 @@ const Cart = () => {
                           {cartItem.productName}
                         </Link>
                         <p style={{ fontWeight: "bold", color: "gray" }}>
-                          Price: ${cartItem.price}
+                          Price: {cartItem.price} ₫
                         </p>
                       </Col>
                       <Col md={2}>
@@ -242,7 +242,7 @@ const Cart = () => {
                             color: "#E47E39",
                           }}
                         >
-                          Total: ${cartItem.totalPrice}
+                          Total: {cartItem.totalPrice} ₫
                         </p>
                         <Button
                           type="button"

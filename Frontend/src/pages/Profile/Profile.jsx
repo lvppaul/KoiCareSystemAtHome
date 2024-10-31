@@ -9,9 +9,11 @@ import {
   Col,
   Image,
   ListGroup,
+  Form,
 } from "react-bootstrap";
 import { useAuth } from "../Login/AuthProvider";
 import EditableListItem from "../../components/EditableListItem/EditableListItem";
+import EditableSelectItem from "../../components/EditableListItem/EditableSelectItem";
 import {
   getAccountByUserId,
   updateAccount,
@@ -29,6 +31,7 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const [details, setDetails] = useState({});
+  const [originalDetails, setOriginalDetails] = useState({});
   const [editingField, setEditingField] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [loadingAvatar, setLoadingAvatar] = useState(true);
@@ -62,6 +65,7 @@ const Profile = () => {
         }
 
         setDetails(accountDetails);
+        setOriginalDetails(accountDetails);
       }
       setLoadingAvatar(false);
       setLoadingDetails(false);
@@ -73,18 +77,27 @@ const Profile = () => {
     if (editingField === field) {
       await updateAccount(userId, details);
       setEditingField(null);
+      setOriginalDetails(details);
     } else {
+      if (editingField !== null) {
+        setDetails(originalDetails);
+      }
       setEditingField(field);
     }
   };
 
   const handleCancelClick = () => {
+    setDetails(originalDetails);
     setEditingField(null);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDetails({ ...details, [name]: value });
+  };
+
+  const handleSexChange = (e) => {
+    setDetails({ ...details, sex: e.target.value });
   };
 
   const handleAvatarChange = async (e) => {
@@ -126,6 +139,12 @@ const Profile = () => {
       console.error("Error deleting account:", error);
     }
   };
+
+  const sexOptions = [
+    { value: "Male", label: "Male" },
+    { value: "Female", label: "Female" },
+    { value: "Other", label: "Other" },
+  ];
 
   return (
     <Container className="p-3">
@@ -225,7 +244,7 @@ const Profile = () => {
                       <EditableListItem
                         label="First Name"
                         name="firstName"
-                        value={details.firstName}
+                        value={details.firstName ? details.firstName : ""}
                         isEditing={editingField === "firstName"}
                         handleChange={handleChange}
                         handleEditClick={() => handleEditClick("firstName")}
@@ -234,25 +253,26 @@ const Profile = () => {
                       <EditableListItem
                         label="Last Name"
                         name="lastName"
-                        value={details.lastName}
+                        value={details.lastName ? details.lastName : ""}
                         isEditing={editingField === "lastName"}
                         handleChange={handleChange}
                         handleEditClick={() => handleEditClick("lastName")}
                         handleCancelClick={handleCancelClick}
                       />
-                      <EditableListItem
+                      <EditableSelectItem
                         label="Sex"
                         name="sex"
-                        value={details.sex}
+                        value={details.sex ? details.sex : ""}
                         isEditing={editingField === "sex"}
-                        handleChange={handleChange}
+                        handleChange={handleSexChange}
                         handleEditClick={() => handleEditClick("sex")}
                         handleCancelClick={handleCancelClick}
+                        options={sexOptions}
                       />
                       <EditableListItem
                         label="Street"
                         name="street"
-                        value={details.street}
+                        value={details.street ? details.street : ""}
                         isEditing={editingField === "street"}
                         handleChange={handleChange}
                         handleEditClick={() => handleEditClick("street")}
@@ -261,7 +281,7 @@ const Profile = () => {
                       <EditableListItem
                         label="District"
                         name="district"
-                        value={details.district}
+                        value={details.district ? details.district : ""}
                         isEditing={editingField === "district"}
                         handleChange={handleChange}
                         handleEditClick={() => handleEditClick("district")}
@@ -270,7 +290,7 @@ const Profile = () => {
                       <EditableListItem
                         label="City"
                         name="city"
-                        value={details.city}
+                        value={details.city ? details.city : ""}
                         isEditing={editingField === "city"}
                         handleChange={handleChange}
                         handleEditClick={() => handleEditClick("city")}
@@ -279,7 +299,7 @@ const Profile = () => {
                       <EditableListItem
                         label="Country"
                         name="country"
-                        value={details.country}
+                        value={details.country ? details.country : ""}
                         isEditing={editingField === "country"}
                         handleChange={handleChange}
                         handleEditClick={() => handleEditClick("country")}
@@ -288,7 +308,7 @@ const Profile = () => {
                       <EditableListItem
                         label="Phone Number"
                         name="phoneNumber"
-                        value={details.phoneNumber}
+                        value={details.phoneNumber ? details.phoneNumber : ""}
                         isEditing={editingField === "phoneNumber"}
                         handleChange={handleChange}
                         handleEditClick={() => handleEditClick("phoneNumber")}
@@ -297,7 +317,7 @@ const Profile = () => {
                       <EditableListItem
                         label="Email"
                         name="email"
-                        value={details.email}
+                        value={details.email ? details.email : ""}
                         isEditing={false}
                         handleChange={handleChange}
                         handleEditClick={() => {}}

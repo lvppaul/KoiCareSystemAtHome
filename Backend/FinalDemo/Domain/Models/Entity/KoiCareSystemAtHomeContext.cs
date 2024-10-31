@@ -198,7 +198,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Product).WithMany(p => p.CartItems)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("FK__CartItems__Product__5DCAEF64");
         });
 
@@ -377,7 +377,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("FK__OrderDeta__Produ__5DCAEF64");
         });
 

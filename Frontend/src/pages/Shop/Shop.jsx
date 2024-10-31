@@ -123,6 +123,10 @@ const Shop = () => {
     }
   };
 
+  const formatPrice = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " ₫";
+  };
+
   return (
     <Container>
       <h1
@@ -172,8 +176,8 @@ const Shop = () => {
                       className="img-fluid"
                       rounded
                     />
-                    <h5>{product.name}</h5>
-                    <p>${product.price}</p>
+                    <h5 style={{fontWeight: 'bold'}}>{product.name}</h5>
+                    <p>{formatPrice(product.price)}</p>
                   </div>
                 </Link>
               </Col>
