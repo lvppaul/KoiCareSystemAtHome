@@ -50,7 +50,7 @@ const RevenueChart = () => {
 
       <ResponsiveContainer width="100%" height={500}>
         <BarChart data={data[dataType]}>
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 2" />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />

@@ -10,7 +10,30 @@ const signUp = async (userData) => {
         Accept: "application/json",
       },
     });
-    console.log("signup resp", response.data.message);
+    console.log("sign up resp", response.data.message);
+    return response.data.message;
+  } catch (error) {
+    console.error("Error during sign-up:", error);
+    if (error.response) {
+      console.error("Error response data:", error.response.data.message);
+      return error.response.data.message;
+    } else {
+      return { error: "Unknown error occurred" };
+    }
+  }
+};
+
+// sign up vip
+
+const signUpVip = async (userData) => {
+  try {
+    const response = await api.post("Account/CreateVipAccount", userData, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    console.log("sign up Vip resp", response.data.message);
     return response.data.message;
   } catch (error) {
     console.error("Error during sign-up:", error);
@@ -139,36 +162,49 @@ const googleLogIn = async (token) => {
     } else {
       return { error: "Unknown error occurred" };
     }
-}
+  }
 };
 
 const requestResetPassword = async (email) => {
-    try {
-        const response = await api.get(`Account/RequestResetPassword/${encodeURIComponent(email)}`)
-        console.log('response', response);
-        return response.status;
-    } catch (error) {
-        console.error('Error during email confirmation:', error.response.data);
-        console.log('error', error.response);
-        return error.response.status;
-    }
-}
+  try {
+    const response = await api.get(
+      `Account/RequestResetPassword/${encodeURIComponent(email)}`
+    );
+    console.log("response", response);
+    return response.status;
+  } catch (error) {
+    console.error("Error during email confirmation:", error.response.data);
+    console.log("error", error.response);
+    return error.response.status;
+  }
+};
 
-const resetPassword = async (email, token , newPasswordData) => {
-    try{
-        const response = await api.put(`Account/ResetPassword/${email}/${token}`, newPasswordData,
-            {
-                headers: {
-                'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            });
-        console.log('response', response);
-        return response;
-    } catch (error) {
-        console.error('Error during email confirmation:', error.response.data);
-        return error.response;
-    }
-}
+const resetPassword = async (email, token, newPasswordData) => {
+  try {
+    const response = await api.put(
+      `Account/ResetPassword/${email}/${token}`,
+      newPasswordData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
+    console.log("response", response);
+    return response;
+  } catch (error) {
+    console.error("Error during email confirmation:", error.response.data);
+    return error.response;
+  }
+};
 
-export { signUp, signUpShop, signIn, confirmEmail, googleLogIn, requestResetPassword, resetPassword };
+export {
+  signUp,
+  signUpShop,
+  signIn,
+  confirmEmail,
+  googleLogIn,
+  requestResetPassword,
+  resetPassword,
+};
