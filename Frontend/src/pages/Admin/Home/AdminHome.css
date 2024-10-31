@@ -210,3 +210,7 @@ body {
   gap: 60px;
   margin-top: 50px;
 }
+.chartContainer .chartOptions {
+  display: flex;
+  justify-content: end;
+}
