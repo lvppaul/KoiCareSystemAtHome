@@ -11,6 +11,7 @@ const handleBefore = (config) => {
     console.log('Making API call to:', config.url);
     return config;
 };
+
 api.interceptors.request.use(handleBefore, error => Promise.reject(error));
 
 export default api ;
