@@ -44,6 +44,7 @@ import Cart from "./pages/Cart/Cart";
 import Order from "./pages/Order/Order";
 import PaymentResult from "./pages/PaymentPage/PaymentResult";
 import AdminVipPackManagement from "./components/AdminComponents/AdminVipPackManament";
+import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage";
 const container = document.getElementById("root");
 
 const root = createRoot(container);
@@ -174,7 +175,8 @@ root.render(
     <Routes>
       <Route path="payment/api/VNPay/vnpay-return" element={<PaymentResult />} />
       <Route path="confirmemail" element={<Confirmation />} />
-      <Route path="*" element={<NotPage />} />
+      <Route path="reset-password" element={<ResetPasswordPage />} />
+      {/* <Route path="*" element={<NotPage />} /> */}
     </Routes>
   </BrowserRouter>
 );
