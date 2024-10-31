@@ -9,6 +9,7 @@ import SearchBar from "./SearchBar";
 import { getVips, lockUser, unLockUser } from "../../Config/UserApi";
 import { AiOutlineCheck } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
+import AdminCreateAccountDialog from "./AdminCreateMemberForm";
 const Vips = () => {
   const [members, setMembers] = useState([]);
 
@@ -46,7 +47,7 @@ const Vips = () => {
 
   useEffect(() => {
     fetchMembers();
-  }, []);
+  }, [<AdminCreateAccountDialog option={"SignUpVip"} />]);
 
   return (
     <>
@@ -56,7 +57,9 @@ const Vips = () => {
             <h3 className="hd">Vip Members Management</h3>
             <SearchBar />
           </div>
-
+          <div>
+            <AdminCreateAccountDialog option={"SignUpVip"} />
+          </div>
           <div className="table-response">
             <table className="table table-sm  ">
               <thead>

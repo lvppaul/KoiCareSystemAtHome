@@ -20,5 +20,6 @@ namespace Domain.Models.Dto.Update
 
         public int CategoryId { get; set; }
 
+        public string? Thumbnail {  get; set; }
     }
 }

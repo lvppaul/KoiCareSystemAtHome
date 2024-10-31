@@ -17,7 +17,14 @@ const data = {
     { name: "Feb", revenue: 1200 },
     { name: "Mar", revenue: 1500 },
     { name: "Apr", revenue: 1400 },
-    //... data for all months
+    { name: "May", revenue: 1600 },
+    { name: "Jun", revenue: 1800 },
+    { name: "Jul", revenue: 1700 },
+    { name: "Aug", revenue: 1900 },
+    { name: "Sep", revenue: 2000 },
+    { name: "Oct", revenue: 2200 },
+    { name: "Nov", revenue: 2100 },
+    { name: "Dec", revenue: 2300 },
   ],
   quarterly: [
     { name: "Q1", revenue: 3700 },
@@ -50,11 +57,11 @@ const RevenueChart = () => {
 
       <ResponsiveContainer width="100%" height={500}>
         <BarChart data={data[dataType]}>
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 2" />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="revenue" fill="#8884d8" />
+          <Bar dataKey="revenue" fill="#9FE2BF" />
         </BarChart>
       </ResponsiveContainer>
     </div>
