@@ -173,6 +173,8 @@ body {
 .members-content {
   margin-top: 50px;
   margin-left: 8px;
+  background-color: #fff;
+  border-radius: 10px;
 }
 .actions button {
   min-width: 25px;
@@ -218,3 +220,4 @@ body {
   display: flex;
   justify-content: end;
 }
+/*---------- Admin Create Account -------------------- */
