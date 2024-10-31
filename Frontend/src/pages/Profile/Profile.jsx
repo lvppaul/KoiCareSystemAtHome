@@ -262,7 +262,7 @@ const Profile = () => {
                       <EditableSelectItem
                         label="Sex"
                         name="sex"
-                        value={details.sex ? details.sex : "Select sex:"}
+                        value={details.sex ? details.sex : ""}
                         isEditing={editingField === "sex"}
                         handleChange={handleSexChange}
                         handleEditClick={() => handleEditClick("sex")}
