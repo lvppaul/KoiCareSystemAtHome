@@ -56,7 +56,7 @@ const AdminDashboard = () => {
       <div className="right-content w-100">
         <div className="row">
           <div className="col-12">
-            <div className="dashboardBoxWrapper d-flex">
+            <div className="dashboardBoxWrapper d-flex shadow border-0">
               <DashboardBox
                 color={["#1da256", "#48d483"]}
                 icon={<FaUser />}
