@@ -137,6 +137,7 @@ const UpdateKoiDetail = ({show, setShow, koidetail, setKoiDetail}) => {
                                             <Form.Control as="select" name='sex' value={koi.sex}
                                                 onChange={handleInputChange} >
                                                 <option value={koi.sex}>{koi.sex}</option>
+                                                <option value="Male">Male</option>
                                                 <option value="Female">Female</option>
                                                 <option value="Unknown">Unknown</option>
                                             </Form.Control>        

@@ -21,18 +21,16 @@ const Order = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const createdDate = new Date().toISOString();
     const payload = {
       orderId: parseInt(orderId),
       fullName,
       description,
-      createdDate,
     };
 
     const response = await sendPayment(payload);
     if (response) {
-      console.log('Redirecting to:', response);
-      //window.location.href = response;
+      //console.log('Redirecting to:', response);
+      window.location.href = response;
     } else {
       console.error("Error: No URL returned from API");
     }
@@ -44,7 +42,7 @@ const Order = () => {
         <Col md="auto">
           <h1>Confirm your order</h1>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formOrderId">
+            <Form.Group controlId="formOrderId" hidden>
               <Form.Label>Order ID:</Form.Label>
               <Form.Control type="number" value={orderId} disabled required />
             </Form.Group>

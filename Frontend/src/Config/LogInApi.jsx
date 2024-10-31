@@ -84,16 +84,12 @@ const confirmEmail = async (confirmData) => {
             }
         }
         );
-        console(response)
-        return response;
+        console.log('response', response.status);
+        return response.status;
     } catch (error) {
         console.error('Error during email confirmation:', error.response.data);
-        if (error.response) {
-            console.error('Error response data:', error.response.data);
-            return error.response.data;
-        } else {
-            return { error: 'Unknown error occurred' };
-        }
+        console.log('error', error.response.status);
+        return error.response.data.status;
     }
 }
 

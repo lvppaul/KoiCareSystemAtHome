@@ -2,25 +2,25 @@ import React, { useEffect, useState } from 'react';
 import {getVNPayResult} from '../../Config/VNPayApi';
 import {Container, Spinner} from 'react-bootstrap';
 import background from '../../assets/images/updateaccountbackground.png';
-import { BiXCircle } from 'react-icons/bi';
+import { BiXCircle, BiCheckCircle } from 'react-icons/bi';
 const PaymentResult = () => {
-  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [paymentState, setPaymentState] = useState(false);
   const sendReturnUrl = async () => {
     const returnUrl = window.location.href;
     if (returnUrl) {
       // Call the backend API with the returnUrl
       const response = await getVNPayResult(returnUrl);
       if (response) {
-        console.log('response:', response.data);
+        console.log('response:', response);
+        response === 200 ? setPaymentState(true) : setPaymentState(false);
         setLoading(false);
-        // setMessage(response);
       } else {
-        //setMessage(response)
         setLoading(false);
       }
     } else {
-      //setMessage('No return URL found.');
+      setPaymentState(false);
+      setLoading(false);
     }
   };
 
@@ -51,8 +51,18 @@ const PaymentResult = () => {
         (
           <>
       <h1>Payment Result</h1>
-      <p>result</p>
       </>
+      )}
+      {paymentState ? (
+        <>
+        <BiCheckCircle size={500} color='green'/>
+        <h2>Payment Successful</h2>
+        </>
+      ) : (
+        <>
+        <BiXCircle size={500} color='red'/>
+        <h2>Payment Failed Please Try Again</h2>
+        </>
       )}
     </div>
     </Container>
