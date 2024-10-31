@@ -10,7 +10,7 @@ namespace Domain.Models.Dto.Response
     {
         public int CartId { get; set; }
         public string UserId { get; set; } = null!;
-        public decimal TotalAmount { get; set; }
+        public int TotalAmount { get; set; }
 
         public List<CartItemDTO>? CartItems { get; set; }
     }

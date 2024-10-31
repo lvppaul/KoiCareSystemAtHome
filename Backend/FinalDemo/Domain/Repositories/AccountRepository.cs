@@ -93,9 +93,20 @@ namespace Domain.Repositories
                 string email = decodedToken.Claims["email"].ToString();
                 string name = decodedToken.Claims["name"].ToString();
                 string picture = decodedToken.Claims["picture"].ToString();
+                //int indexLastName = name.LastIndexOf(" ");
+                //string LastName = name.Substring(indexLastName + 1);
+                //string FirstName = name.Substring(0, indexLastName);
+                // Kiểm tra nếu tên chỉ có FirstName
                 int indexLastName = name.LastIndexOf(" ");
-                string LastName = name.Substring(indexLastName + 1);
-                string FirstName = name.Substring(0, indexLastName);
+                string LastName = "";
+                string FirstName = name;
+
+                if (indexLastName != -1)
+                {
+                    // Nếu có họ và tên
+                    LastName = name.Substring(indexLastName + 1);
+                    FirstName = name.Substring(0, indexLastName);
+                }
 
                 // Check if the user exists in your database
                 var user = await _userManager.FindByEmailAsync(email);
@@ -108,7 +119,6 @@ namespace Domain.Repositories
                         Email = email,
                         LastName = LastName,
                         FirstName = FirstName,
-                        Avatar = picture,
                         EmailConfirmed = true,
                     };
                     var result = await _userManager.CreateAsync(user);
@@ -116,11 +126,16 @@ namespace Domain.Repositories
                     {
                         return new AuthenticationResponse { Message = failCreateUser };
                     }
+                    if (!await _roleManager.RoleExistsAsync(AppRole.Member))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(AppRole.Member));
+                    }
                     await _userManager.AddToRoleAsync(user, AppRole.Member);
                 }
                 var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, email),
+                new Claim("Avatar",picture),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
             };

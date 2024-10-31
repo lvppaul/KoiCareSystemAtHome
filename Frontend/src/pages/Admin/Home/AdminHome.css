@@ -155,9 +155,10 @@ body {
   font-weight: 600;
 }
 .dashboardBoxWrapper .dashboardBox .col1 span {
-  font-size: 20px !important;
+  font-size: 26px !important;
   font-weight: bold;
   flex-grow: 1;
+  padding-left: 18px;
 }
 .dashboardBoxWrapper .dashboardBox .icon svg {
   font-size: 45px;
@@ -185,4 +186,27 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+}
+
+/*------------------- Revenue Dashboard ----------- */
+.dashboardChart {
+  margin-top: 80px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 70px;
+}
+
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+/* .dashboardChart .chartContainer .chartTitle {
+  text-align: center;
+} */
+.subRevenueChart {
+  display: flex;
+  gap: 60px;
+  margin-top: 50px;
 }

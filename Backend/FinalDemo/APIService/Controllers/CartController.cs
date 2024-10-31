@@ -115,15 +115,15 @@ namespace APIService.Controllers
             {
                 return BadRequest("Mapping to cart entity failed.");
             }
-            decimal total = 0; // Khởi tạo giá trị cho total
+            int total = 0; // Khởi tạo giá trị cho total
             foreach (var detail in cartMap.CartItems)
             {
                 var cartitem = await GetProductAsync(detail.ProductId);
                 detail.ProductName = cartitem.Name;
-                detail.Price = (decimal)cartitem.Price;
-                detail.TotalPrice = (decimal)(detail.Price * detail.Quantity);
+                detail.Price = cartitem.Price;
+                detail.TotalPrice = detail.Price * detail.Quantity;
                 detail.Thumbnail = cartitem.Thumbnail;
-                total += (decimal)(detail.Price * detail.Quantity);
+                total += detail.Price * detail.Quantity;
             }
             cartMap.TotalAmount = total;
             // Lưu vào cơ sở dữ liệu
@@ -146,7 +146,25 @@ namespace APIService.Controllers
                 return NotFound("Cart not found for this user.");
             }
 
+            var product = await GetProductAsync(cartItemDto.ProductId);
+            if (product == null)
+            {
+                return BadRequest("Product not found.");
+            }
+
             var existingItem = cart.CartItems.FirstOrDefault(x => x.ProductId == cartItemDto.ProductId);
+            int totalQuantityRequested = cartItemDto.Quantity;
+
+            if (existingItem != null)
+            {
+                totalQuantityRequested += existingItem.Quantity;
+            }
+
+            if (totalQuantityRequested > product.Quantity)
+            {
+                return BadRequest($"Only {product.Quantity} units of {product.Name} are available in stock.");
+            }
+
             if (existingItem != null)
             {
                 existingItem.Quantity += cartItemDto.Quantity;
@@ -154,26 +172,20 @@ namespace APIService.Controllers
             }
             else
             {
-                var product = await GetProductAsync(cartItemDto.ProductId);
-                if (product == null)
-                {
-                    return BadRequest("Product not found.");
-                }
-
                 var newItem = new CartItem
                 {
                     ProductId = product.ProductId,
                     ProductName = product.Name,
-                    Price = (decimal)product.Price,
+                    Price = product.Price,
                     Quantity = cartItemDto.Quantity,
-                    TotalPrice = (decimal)product.Price * cartItemDto.Quantity,
+                    TotalPrice = product.Price * cartItemDto.Quantity,
                     Thumbnail = product.Thumbnail
                 };
                 cart.CartItems.Add(newItem);
             }
 
             cart.TotalAmount = cart.CartItems.Sum(x => x.TotalPrice);
-            
+
             var updateResult = await _unitOfWork.CartRepository.UpdateAsync(cart);
 
             if (updateResult <= 0)
@@ -184,6 +196,7 @@ namespace APIService.Controllers
             var result = _mapper.Map<CartDTO>(cart);
             return Ok(result);
         }
+
 
         [HttpPost("RemoveItem")]
         public async Task<IActionResult> RemoveItemFromCart(string userId, [FromBody] CartItemRequestDTO cartItemDto)

@@ -10,7 +10,7 @@ namespace Domain.Models.Entity
     {
         public int CartId { get; set; }
         public string UserId { get; set; } = null!;
-        public decimal TotalAmount { get; set; } = 0;
+        public int TotalAmount { get; set; } = 0;
 
         public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
         public virtual ApplicationUser User { get; set; } = null!;

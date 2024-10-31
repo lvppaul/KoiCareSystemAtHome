@@ -19,7 +19,7 @@ namespace Domain.Models.Dto.Response
         public string VnPayResponseCode { get; set; }
 
         public DateTime TransactionDate { get; set; }
-        public decimal Amount { get; set; }
+        public int Amount { get; set; }
         public string Message { get; set; }
     }
 }

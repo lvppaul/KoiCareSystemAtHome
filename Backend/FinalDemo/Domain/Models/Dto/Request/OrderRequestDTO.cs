@@ -32,6 +32,6 @@ namespace Domain.Models.Dto.Request
         public string OrderStatus { get; set; } = "Đang chờ";
         public List<OrderDetailRequestDTO> orderDetails { get; set; }
         [JsonIgnore]
-        public decimal TotalPrice { get; set; }
+        public int TotalPrice { get; set; }
     }
 }

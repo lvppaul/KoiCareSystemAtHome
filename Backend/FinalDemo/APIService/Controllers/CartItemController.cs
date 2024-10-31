@@ -54,7 +54,7 @@ namespace APIService.Controllers
             var product = await GetProductAsync(cartItem.ProductId);
             if (product != null)
             {
-                cartItem.Price = (decimal)product.Price;
+                cartItem.Price = product.Price;
                 cartItem.TotalPrice = cartItem.Price * cartItem.Quantity;
             }
 
