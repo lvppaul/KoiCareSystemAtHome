@@ -43,23 +43,20 @@ import UpdateVipAccount from "./pages/UpdateVipAccount/UpdateVipAccount";
 import Cart from "./pages/Cart/Cart";
 import Order from "./pages/Order/Order";
 import PaymentResult from "./pages/PaymentPage/PaymentResult";
+import AdminVipPackManagement from "./components/AdminComponents/AdminVipPackManament";
 const container = document.getElementById("root");
 
 const root = createRoot(container);
-
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
+  <BrowserRouter>
+    <React.StrictMode>
       <AuthProvider>
         <Routes>
           {/* Public Routes (accessible to everyone) */}
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="createshopacc" element={<CreateShopAcc />} />
-          <Route path="confirmemail" element={<Confirmation />} />
           <Route path="resetpassword" element={<ResetPassword />} />
-          <Route path="payment" element={<PaymentPage />} />
-          <Route path="payment-result" element={<PaymentResult />} />
           <Route path="updateaccount" element={<UpdateVipAccount />} />
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
@@ -72,7 +69,7 @@ root.render(
             <Route path="product/:productId" element={<Product />} />
             <Route path="notauthorized" element={<NotAuthorized />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="*" element={<NotPage />} />
+            
 
             {/* Protected Routes for Authenticated Users */}
             <Route
@@ -167,12 +164,19 @@ root.render(
             <Route path="members" element={<Members />} />
             <Route path="vips" element={<Vips />} />
             <Route path="categories" element={<AdminCategories />} />
+            <Route path="vippackages" element={<AdminVipPackManagement />} />
             <Route path="shops" element={<AdminShops />} />
           </Route>
         </Routes>
       </AuthProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+    </React.StrictMode>
+  {/*Route no StrictMode*/}
+    <Routes>
+      <Route path="payment/api/VNPay/vnpay-return" element={<PaymentResult />} />
+      <Route path="confirmemail" element={<Confirmation />} />
+      <Route path="*" element={<NotPage />} />
+    </Routes>
+  </BrowserRouter>
 );
 
 // Performance measurement
