@@ -471,7 +471,7 @@ namespace Domain.Repositories
 
         public string SendEmailResetPassWord(string email, string evalidToken)
         {
-            string resetLink = $"https://localhost:7031//account/reset-password/{evalidToken}";
+            string resetLink = $"http://localhost:3000/reset-password/?email={email}&code={evalidToken}";
             StringBuilder emailMessage = new StringBuilder();
             emailMessage.AppendLine("<html>");
             emailMessage.AppendLine("<body>");

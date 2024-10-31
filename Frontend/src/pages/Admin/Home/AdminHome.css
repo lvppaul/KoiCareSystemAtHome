@@ -138,6 +138,10 @@ body {
   flex-wrap: wrap;
   margin-top: 50px;
   margin-left: 8px;
+  background-color: #fff;
+  padding: 20px;
+  padding-left: 30px;
+  border-radius: 10px;
 }
 .dashboardBoxWrapper .dashboardBox {
   width: 30%;
@@ -169,6 +173,8 @@ body {
 .members-content {
   margin-top: 50px;
   margin-left: 8px;
+  background-color: #fff;
+  border-radius: 10px;
 }
 .actions button {
   min-width: 25px;
@@ -190,7 +196,7 @@ body {
 
 /*------------------- Revenue Dashboard ----------- */
 .dashboardChart {
-  margin-top: 80px;
+  margin-top: 70px;
   background-color: #fff;
   border-radius: 8px;
   padding: 70px;
@@ -210,3 +216,8 @@ body {
   gap: 60px;
   margin-top: 50px;
 }
+.chartContainer .chartOptions {
+  display: flex;
+  justify-content: end;
+}
+/*---------- Admin Create Account -------------------- */
