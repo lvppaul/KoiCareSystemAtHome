@@ -95,17 +95,17 @@ const AdminDashboard = () => {
               <div className="mainRevenueChart">
                 <div className="chartContainer">
                   <RevenueChart />
-                  <p className="chartTitle"> Main Revenue</p>
+                  <p className="chartTitle"> Total Revenue</p>
                 </div>
               </div>
               <div className="subRevenueChart">
                 <div className="chartContainer">
                   <RevenueChart />
-                  <p className="chartTitle"> Sub Revenue</p>
+                  <p className="chartTitle"> Commission fee</p>
                 </div>
                 <div className="chartContainer">
                   <RevenueChart />
-                  <p className="chartTitle"> Sub Revenue</p>
+                  <p className="chartTitle"> Vip package purchase fee</p>
                 </div>
               </div>
             </div>
