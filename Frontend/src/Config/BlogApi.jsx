@@ -46,6 +46,7 @@ const addBlog = async (data) => {
     }
 };
 
+// Function to add blog images
 const addBlogImages = async ({ blogId, imageUrl }) => {
     try {
         const response = await api.post('BlogImage', { blogId, imageUrl }, {
@@ -63,7 +64,7 @@ const addBlogImages = async ({ blogId, imageUrl }) => {
 // Function to get comments for a blog
 const getComments = async (blogId) => {
     try {
-        const response = await api.get(`BlogComment?blogId=${blogId}`, {
+        const response = await api.get(`BlogComment/BlogId/${blogId}`, {
             headers: {
                 'accept': 'text/plain'
             }
@@ -76,11 +77,11 @@ const getComments = async (blogId) => {
 };
 
 // Function to add a new comment
-const addComment = async (token, data) => {
+const addComment = async (data) => {
     try {
         const response = await api.post('BlogComment', data, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                'accept': 'text/plain',
                 'Content-Type': 'application/json'
             }
         });

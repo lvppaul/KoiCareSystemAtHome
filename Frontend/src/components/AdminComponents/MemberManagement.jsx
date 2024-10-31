@@ -9,6 +9,8 @@ import SearchBar from "./SearchBar";
 import { getMembers, lockUser, unLockUser } from "../../Config/UserApi";
 import { AiOutlineCheck } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
+
+import AdminCreateAccountDialog from "./AdminCreateMemberForm";
 const Members = () => {
   const [members, setMembers] = useState([]);
 
@@ -46,17 +48,19 @@ const Members = () => {
 
   useEffect(() => {
     fetchMembers();
-  }, []);
+  }, [<AdminCreateAccountDialog />]);
   console.log("member", members.lockoutEnabled);
   return (
     <>
       <div className="right-content">
-        <div className="members-content card shadow border-0 p-3 mt-4 ">
+        <div className="members-content  shadow border-0 p-3 mt-4 ">
           <div className="member-content-header d-flex ">
             <h3 className="hd">Members Management</h3>
             <SearchBar />
           </div>
-
+          <div>
+            <AdminCreateAccountDialog />
+          </div>
           <div className="table-response">
             <table className="table table-sm  ">
               <thead>
