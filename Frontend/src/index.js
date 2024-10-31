@@ -69,7 +69,6 @@ root.render(
             <Route path="product/:productId" element={<Product />} />
             <Route path="notauthorized" element={<NotAuthorized />} />
             <Route path="profile" element={<Profile />} />
-            
 
             {/* Protected Routes for Authenticated Users */}
             <Route
@@ -170,11 +169,14 @@ root.render(
         </Routes>
       </AuthProvider>
     </React.StrictMode>
-  {/*Route no StrictMode*/}
+    {/*Route no StrictMode*/}
     <Routes>
-      <Route path="payment/api/VNPay/vnpay-return" element={<PaymentResult />} />
+      <Route
+        path="payment/api/VNPay/vnpay-return"
+        element={<PaymentResult />}
+      />
       <Route path="confirmemail" element={<Confirmation />} />
-      <Route path="*" element={<NotPage />} />
+      {/* <Route path="*" element={<NotPage />} /> */}
     </Routes>
   </BrowserRouter>
 );
