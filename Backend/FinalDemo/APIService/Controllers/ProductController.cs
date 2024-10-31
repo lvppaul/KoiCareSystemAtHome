@@ -118,6 +118,18 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("ProductQuantityByCategory/{categoryId}")]
+        public async Task<int> GetProductQuantityByCategoryIdAsync(int categoryId)
+        {
+            var result = await _unitOfWork.ProductRepository.GetProductByCategoryId(categoryId);
+            if (result == null)
+            {
+                return 0;
+            }
+            var totalQuantity = result.Sum(p => p.Quantity);
+            return totalQuantity;
+        }
+
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductRequestDTO productdto)
         {

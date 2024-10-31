@@ -10,6 +10,7 @@ import { useAuth } from './AuthProvider';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import ConfirmEmail from '../../components/ConfirmEmail/ConfirmEmail';
+import RequestResetPassword from '../../components/ResetPassword/RequestResetPassword';
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -18,7 +19,8 @@ function Login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmEmailModal, setShowConfirmEmailModal] = useState(false);
-
+  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -134,7 +136,9 @@ function Login() {
               </Row>
               <Row className='mb-3'>
                 <Col className='d-flex justify-content-start'>
-                  <Link to='#' className="forgot-password"><p>Forgot password?</p> </Link>
+                    <RequestResetPassword 
+                    show={showResetPasswordModal}
+                    setShow={setShowResetPasswordModal}/>
                 </Col>
                 <Col className='d-flex justify-content-end'>
                   <Button type='submit' className='login-button'>Login</Button>

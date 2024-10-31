@@ -62,7 +62,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     public virtual DbSet<PaymentTransaction> PaymentTransactions { get; set; }
 
-    public virtual DbSet<VipPackage> VipPackages { get; set; }
+    public virtual DbSet<VipRecord> VipPackages { get; set; }
 
     public virtual DbSet<OrderVipDetail> OrderVipDetails { get; set; }
 
@@ -102,7 +102,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
         modelBuilder.Entity<ApplicationUser>()
       .HasOne(a => a.Vip)
       .WithOne(s => s.User)
-      .HasForeignKey<VipPackage>(s => s.UserId);
+      .HasForeignKey<VipRecord>(s => s.UserId);
 
         modelBuilder.Entity<Order>()
             .HasOne(d => d.PaymentTransaction).WithOne(p => p.Order)
@@ -476,7 +476,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
               .HasConstraintName("FK__Pond__UserID__398D8EEE");
         });
 
-        modelBuilder.Entity<VipPackage>(entity =>
+        modelBuilder.Entity<VipRecord>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Vip__B40CC6ED16BED2A9");
 

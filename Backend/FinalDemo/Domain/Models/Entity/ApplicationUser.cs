@@ -27,7 +27,6 @@ namespace Domain.Models.Entity
 
         public virtual Cart Cart { get; set; } = null!;
 
-        public virtual VipPackage Vip { get; set; } = null!;
 
         public string? RefreshToken { get; set; }
 
@@ -48,6 +47,8 @@ namespace Domain.Models.Entity
         public virtual ICollection<Pond> Ponds { get; set; } = new List<Pond>();
 
         public virtual ICollection<News> News { get; set; } = new List<News>();
+
+        public virtual ICollection<VipRecord> VipRecords { get; set; } = new List<VipRecord>();
 
         public virtual ICollection<ShopRating> ShopRatings { get; set; } = new List<ShopRating>();
 

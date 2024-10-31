@@ -165,4 +165,46 @@ const googleLogIn = async (token) => {
   }
 };
 
-export { signUp, signUpVip, signUpShop, signIn, confirmEmail, googleLogIn };
+const requestResetPassword = async (email) => {
+  try {
+    const response = await api.get(
+      `Account/RequestResetPassword/${encodeURIComponent(email)}`
+    );
+    console.log("response", response);
+    return response.status;
+  } catch (error) {
+    console.error("Error during email confirmation:", error.response.data);
+    console.log("error", error.response);
+    return error.response.status;
+  }
+};
+
+const resetPassword = async (email, token, newPasswordData) => {
+  try {
+    const response = await api.put(
+      `Account/ResetPassword/${email}/${token}`,
+      newPasswordData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
+    console.log("response", response);
+    return response;
+  } catch (error) {
+    console.error("Error during email confirmation:", error.response.data);
+    return error.response;
+  }
+};
+
+export {
+  signUp,
+  signUpShop,
+  signIn,
+  confirmEmail,
+  googleLogIn,
+  requestResetPassword,
+  resetPassword,
+};
