@@ -81,7 +81,8 @@ const CommentSection = ({ blogId }) => {
             style={{ backgroundColor: "#E4E0E1", borderRadius: "10px" }}
           >
             {comments.map((comment) => (
-              <div className="mb-3"
+              <div
+                className="mb-3"
                 key={comment.commentId}
                 style={{
                   border: "2px solid gray",

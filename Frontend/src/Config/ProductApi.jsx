@@ -39,6 +39,7 @@ const updateProduct = async (data) => {
                 'Content-Type': 'application/json'
             }
         });
+        console.log('updated product:', response);
         return response.data;
     } catch (error) {
         console.error('Error updating product:', error);
