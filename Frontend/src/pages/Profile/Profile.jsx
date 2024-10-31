@@ -166,7 +166,8 @@ const Profile = () => {
                     />
                   ) : (
                     <Image
-                      style={{ maxBlockSize: "250px", objectFit: "fill" }}
+                    className="d-flex"
+                      style={{ maxBlockSize: "250px", objectFit: "cover", flex: 1 }}
                       src={avatar}
                       roundedCircle
                       fluid

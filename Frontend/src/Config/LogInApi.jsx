@@ -104,15 +104,18 @@ const googleLogIn = async (token) => {
                 'Accept': 'application/json'
             }
         });
+
         const decoded = jwtDecode(response.data.accessToken);
         const email = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
         const userId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
         const userRole = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+        const avatar = decoded['Avatar'];
 
         localStorage.setItem('user', JSON.stringify({ userId, userRole }));
         const message = response.data.message;
         console.log(message);
-        return { email, userId, userRole ,message};
+
+        return { email, userId, userRole ,message, avatar};
     } catch (error) {
         console.error('Error during Google login:', error);
         if (error.response) {

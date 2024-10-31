@@ -36,13 +36,29 @@ const Cart = () => {
       const items = response.cartItems;
       const updatedItems = await Promise.all(
         items.map(async (item) => {
-          const storageRef = ref(storage, item.thumbnail);
-          const productThumbnail = await getDownloadURL(storageRef);
-          return {
-            ...item,
-            thumbnail: productThumbnail,
-            quantity: item.quantity || 1,
-          };
+          if (item.thumbnail) {
+            try {
+              const storageRef = ref(storage, item.thumbnail);
+              const productThumbnail = await getDownloadURL(storageRef);
+              return {
+                ...item,
+                thumbnail: productThumbnail,
+                quantity: item.quantity || 1,
+              };
+            } catch (error) {
+              console.error(
+                "The file does not exist in firebase anymore!",
+                error
+              );
+              const storageRef = ref(storage, "others/NotFound.jpg");
+              const productThumbnail = await getDownloadURL(storageRef);
+              return {
+                ...item,
+                thumbnail: productThumbnail,
+                quantity: item.quantity || 1,
+              };
+            }
+          }
         })
       );
 
