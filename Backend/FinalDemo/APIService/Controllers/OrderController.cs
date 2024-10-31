@@ -88,7 +88,7 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest("Order data cannot be null.");
             }
-
+        
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -146,6 +146,20 @@ namespace KCSAH.APIServer.Controllers
             {
                 ModelState.AddModelError("", "Something went wrong while saving revenue.");
                 return StatusCode(500, ModelState);
+            }
+
+            var cart = await _unitOfWork.CartRepository.GetByIdAsync(orderdto.UserId);
+            if (cart != null)
+            {
+                cart.CartItems.Clear();
+                cart.TotalAmount = 0;
+
+                var updateCartResult = await _unitOfWork.CartRepository.UpdateAsync(cart);
+                if (updateCartResult <= 0)
+                {
+                    ModelState.AddModelError("", "Something went wrong while resetting the cart.");
+                    return StatusCode(500, ModelState);
+                }
             }
 
             var order = _mapper.Map<OrderDTO>(orderMap);
