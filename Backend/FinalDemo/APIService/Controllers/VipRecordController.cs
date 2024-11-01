@@ -11,12 +11,12 @@ namespace APIService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VipPackageController : ControllerBase
+    public class VipRecordController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public VipPackageController(UnitOfWork unitOfWork, IMapper mapper)
+        public VipRecordController(UnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -25,15 +25,15 @@ namespace APIService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VipRecordDTO>>> GetAllSync()
         {
-            var vips = await _unitOfWork.VipPackageRepository.GetAllAsync();
-            var vipDTOs = _mapper.Map<List<ProductDTO>>(vips);
+            var vips = await _unitOfWork.vipRecordRepository.GetAllAsync();
+            var vipDTOs = _mapper.Map<List<VipRecordDTO>>(vips);
             return Ok(vipDTOs);
         }
 
-        [HttpGet("GetVipById/{id}")]
+        [HttpGet("GetVipRecordById/{id}")]
         public async Task<ActionResult<VipRecordDTO>> GetByIdAsync(int id)
         {
-            var vip = await _unitOfWork.VipPackageRepository.GetByIdAsync(id);
+            var vip = await _unitOfWork.vipRecordRepository.GetByIdAsync(id);
             if (vip == null)
             {
                 return NotFound();
@@ -42,10 +42,10 @@ namespace APIService.Controllers
             return result;
         }
 
-        [HttpGet("GetVipByUserId/{UserId}")]
-        public async Task<ActionResult<VipRecordDTO>> GetVipPackageByUserId(string UserId)
+        [HttpGet("GetVipRecordByUserId/{UserId}")]
+        public async Task<ActionResult<VipRecordDTO>> GetVipRecordByUserId(string UserId)
         {
-            var vip = await _unitOfWork.vipRecordRepository.GetVipByUserIdAsync(UserId);
+            var vip = await _unitOfWork.vipRecordRepository.GetVipRecordByUserIdAsync(UserId);
             if (vip == null)
             {
                 return NotFound();
@@ -55,36 +55,36 @@ namespace APIService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<VipRecord>> CreateVipPackage([FromBody] VipRecordRequestDTO vippackagedto)
+        public async Task<ActionResult<VipRecord>> CreateVipRecord([FromBody] VipRecordRequestDTO viprecorddto)
         {
-            if (vippackagedto == null)
+            if (viprecorddto == null)
             {
                 return BadRequest(ModelState);
             }
 
-            var existingvippackage = await _unitOfWork.VipPackageRepository.GetVipPackageByName(vippackagedto.Name);
+            //var existingvippackage = await _unitOfWork.VipPackageRepository.GetVipPackageByName(viprecorddto.Name);
 
-            if (existingvippackage != null)
-            {
-                return BadRequest("This vip package already exists.");
-            }
+            //if (existingvippackage != null)
+            //{
+            //    return BadRequest("This vip package already exists.");
+            //}
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var vipPackageMap = _mapper.Map<VipRecord>(vippackagedto);
+            var vipRecordMap = _mapper.Map<VipRecord>(viprecorddto);
 
-            var createResult = await _unitOfWork.VipPackageRepository.CreateAsync(vipPackageMap);
+            var createResult = await _unitOfWork.vipRecordRepository.CreateAsync(vipRecordMap);
 
             if (createResult <= 0)
             {
-                ModelState.AddModelError("", "Something went wrong while saving the vip package.");
+                ModelState.AddModelError("", "Something went wrong while saving the vip record.");
                 return StatusCode(500, ModelState);
             }
-            var vipPackageShow = _mapper.Map<VipRecordDTO>(vipPackageMap);
-            return CreatedAtAction("GetById", new { id = vipPackageShow.Id }, vipPackageShow);
+            var vipRecordShow = _mapper.Map<VipRecordDTO>(vipRecordMap);
+            return CreatedAtAction("GetById", new { id = vipRecordShow.CreateDate }, vipRecordShow);
         }
 
 
@@ -97,7 +97,7 @@ namespace APIService.Controllers
                 return BadRequest();
             }
 
-            var existingVip = await _unitOfWork.VipPackageRepository.GetByIdAsync(id);
+            var existingVip = await _unitOfWork.vipRecordRepository.GetByIdAsync(id);
             if (existingVip == null)
             {
                 return NotFound();
@@ -117,18 +117,18 @@ namespace APIService.Controllers
         }
 
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVipPackage(int id)
-        {
-            var vipPackage = await _unitOfWork.VipPackageRepository.GetByIdAsync(id);
-            if (vipPackage == null)
-            {
-                return NotFound();
-            }
-            await _unitOfWork.VipPackageRepository.RemoveAsync(vipPackage);
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteVipPackage(int id)
+        //{
+        //    var vipPackage = await _unitOfWork.VipPackageRepository.GetByIdAsync(id);
+        //    if (vipPackage == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    await _unitOfWork.VipPackageRepository.RemoveAsync(vipPackage);
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
     }
 }
 
