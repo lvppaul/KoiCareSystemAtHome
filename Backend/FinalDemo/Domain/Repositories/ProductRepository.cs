@@ -25,6 +25,13 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return result;
         }
 
+        public async Task RemoveCartItemsByProductIdAsync(int productId)
+        {
+            var cartItems = _context.CartItems.Where(ci => ci.ProductId == productId).ToList();
+            _context.CartItems.RemoveRange(cartItems);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Product>> GetProductByCategoryId(int categoryId)
         {
             var result = _context.Products.Include(p => p.Category).Where(p => p.CategoryId == categoryId).ToListAsync();

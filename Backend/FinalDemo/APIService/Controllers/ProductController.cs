@@ -223,6 +223,7 @@ namespace KCSAH.APIServer.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
+            await _unitOfWork.ProductRepository.RemoveCartItemsByProductIdAsync(id);
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
             if (product == null)
             {
