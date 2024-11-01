@@ -10,7 +10,7 @@ namespace Domain.Models.Dto.Request
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
+        public int Options { get; set; }
         public int Price { get; set; }
     }
 }
