@@ -507,11 +507,17 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
         {
             entity.HasKey(e => e.VipId).HasName("PK__VipP__B40CC6ED16BED2A9");
 
-            entity.ToTable("VipPackage");
+            entity.ToTable("VipPackage", t => t.HasCheckConstraint("CK_Options_AllowedValues", "[Options] IN (1, 6, 12)")) ;
 
             entity.Property(e => e.Description).HasColumnName("Description");
             entity.Property(e => e.Name).HasColumnName("Name");
             entity.Property(e => e.Price).HasColumnName("Price");
+            entity.Property(e => e.Options)
+        .HasColumnName("Options")
+        .HasConversion<int>()
+        .HasDefaultValue(1);
+           
+
 
         });
 

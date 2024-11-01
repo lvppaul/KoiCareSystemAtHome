@@ -61,6 +61,13 @@ namespace APIService.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var existingVip = await _unitOfWork.vipRecordRepository.GetByvipIdAndUserIdAsync(viprecorddto.VipId,viprecorddto.UserId);
+            if (existingVip == null)
+            {
+                return BadRequest("User already upgrade vip");
+            }
+            var package = await _unitOfWork.VipPackageRepository.GetByIdAsync(viprecorddto.VipId);
+            var viprecordcreate = await _unitOfWork.vipRecordRepository.CheckCreateAsync(viprecorddto, package.Options);
 
             var checkDate = await _unitOfWork.vipRecordRepository.CheckDateCreateInput(viprecorddto);
 
@@ -68,6 +75,7 @@ namespace APIService.Controllers
             {
                 return BadRequest("This vip record input date is invalid.");
             }
+            
 
             if (!ModelState.IsValid)
             {
