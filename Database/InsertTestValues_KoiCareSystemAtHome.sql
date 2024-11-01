@@ -27,12 +27,12 @@ use KoiCareSystemAtHome;
 --1.
 INSERT INTO [AspNetUsers] (Id, FirstName, LastName, Sex, Street, District, City, Country, Avatar, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'member', 'a', NULL, NULL, NULL, NULL, NULL, NULL, 'member@example.com', 'MEMBER@EXAMPLE.COM', 'member@example.com', 'MEMBER@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEIu0gnPvb0zhWrk4NNA3wEMiOewPTGZLrYqgAOJs5OwUbuKXyPKTBekE9OveJ020gg==', 'RWVHVDP7IWP22CE4U3VXIEKH4ZOXHD2W', '71aae56b-e997-4ae0-8215-2e0f71381a88', NULL, 0, 0, NULL, 1, 0),
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip', 'b', NULL, NULL, NULL, NULL, NULL, NULL, 'vip@example.com', 'VIP@EXAMPLE.COM', 'vip@example.com', 'VIP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', NULL, 0, 0, NULL, 1, 0),
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'member', 'a', NULL, '123 Main St', 'Central', 'New York', 'USA', NULL, 'member@example.com', 'MEMBER@EXAMPLE.COM', 'member@example.com', 'MEMBER@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEIu0gnPvb0zhWrk4NNA3wEMiOewPTGZLrYqgAOJs5OwUbuKXyPKTBekE9OveJ020gg==', 'RWVHVDP7IWP22CE4U3VXIEKH4ZOXHD2W', '71aae56b-e997-4ae0-8215-2e0f71381a88', '1234567890', 0, 0, NULL, 1, 0),
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip', 'b', NULL, '456 Elm St', 'North', 'Los Angeles', 'USA', NULL, 'vip@example.com', 'VIP@EXAMPLE.COM', 'vip@example.com', 'VIP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', '0987654321', 0, 0, NULL, 1, 0),
 ('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'admin', 'd', NULL, NULL, NULL, NULL, NULL, NULL, 'admin@example.com', 'ADMIN@EXAMPLE.COM', 'admin@example.com', 'ADMIN@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMSsXYBri40up6lHG2s0YHq4+fVyvxAGIKkIXHGh1lHXfFRNq79FWJ/oka/KX0OusA==', 'UF5GBLSGV3DSLXRSIDKRAXKGEEIIM3TL', '82c5fd3e-d565-43d1-a031-8af185d68916', NULL, 0, 0, NULL, 1, 0),
 ('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'shop', 'c2', NULL, NULL, NULL, NULL, NULL, NULL, 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEAAinoUzd5JbC2ZXIsjuzrMAwLklvMaW0XlwQpaoRZHof+FMlGnMJSiNThEoQJ3C/Q==', '5YQ266SGHHXQ2W3KRSLNZKZSM7BB4XWC', 'fbd64607-02bd-47ca-8cb3-22d7c2f6a6c8', NULL, 0, 0, NULL, 1, 0),
 ('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'shop', 'c', NULL, NULL, NULL, NULL, NULL, NULL, 'shop@example.com', 'SHOP@EXAMPLE.COM', 'shop@example.com', 'SHOP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMFEM383aESJByWGKS3TlzTnvQdLT1LzwWblpe2+AzVDIOIBfUqsZHnQkzC1oSo72g==', '5CIZCKPIKKLLFBIRJDJHT45DZ3V7DL2Q', '98bef99c-d585-4b37-be2d-6e57540bb48b', NULL, 0, 0, NULL, 1, 0),
-('1432d10e-64e9-4b0e-b7ff-05253aa0000d', 'member', 'new', NULL, NULL, NULL, NULL, NULL, NULL, 'newmember@example.com', 'NEWMEMBER@EXAMPLE.COM', 'newmember@example.com', 'NEWMEMBER@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEFr2CdCRhT97+9YVoUzBTASFnivlAQhse85fiWfDVotU3zvnXyAOpsZREN5fd4udSQ==', 'VJ642LAK6R4YACZS3CX54BTPHUVG24UR', 'caa3d7e0-e031-455b-b577-4cdeac8a798e', '0123498765', 0, 0, NULL, 1, 0);
+('1432d10e-64e9-4b0e-b7ff-05253aa0000d', 'member', 'new', NULL, '321 Pine St', 'East', 'Houston', 'USA', NULL, 'newmember@example.com', 'NEWMEMBER@EXAMPLE.COM', 'newmember@example.com', 'NEWMEMBER@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEFr2CdCRhT97+9YVoUzBTASFnivlAQhse85fiWfDVotU3zvnXyAOpsZREN5fd4udSQ==', 'VJ642LAK6R4YACZS3CX54BTPHUVG24UR', 'caa3d7e0-e031-455b-b577-4cdeac8a798e', '0123498765', 0, 0, NULL, 1, 0);
 
 --All roles password: Abc@123
 
@@ -51,17 +51,10 @@ VALUES
 ('979a42a8-ecc7-4d15-ab6f-410755b9e593', '6f242335-7855-4678-b3f2-0a0c7c525c8a'),
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', '90204048-b8cd-4d16-bfe7-5991e5360e06'),
 ('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'ac9abd73-dc84-4bd4-b4b5-8e062cd66cc6'),
-('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'ac9abd73-dc84-4bd4-b4b5-8e062cd66cc6');
+('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'ac9abd73-dc84-4bd4-b4b5-8e062cd66cc6'),
+('1432d10e-64e9-4b0e-b7ff-05253aa0000d', '511e95c7-ae67-4186-9fd7-8d5da11979b0');
 
 -----
-
-INSERT INTO Pond (UserID, Name, Volume, Thumbnail, Depth, PumpingCapacity, Drain, Skimmer, Note)
-VALUES 
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Main Pond', 1000.5, 'pond/pondThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/mainpond_thumbnail.png', 3, 500, 1, 1, 'This is the main pond for koi fish.'),
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Small Pond', 500.0, 'pond/pondThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/smallpond_thumbnail.png', 2, 300, 1, 0, 'A small pond for young koi.'),
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'Outdoor Pond', 1500.0, 'pond/pondThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/outdoorpond_thumbnail.png', 4, 700, 1, 1, 'Outdoor pond with a skimmer and large volume.'),
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'Indoor Pond', 750.0, 'pond/pondThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/indoorpond_thumbnail.png', 2, 400, 0, 1, 'Indoor pond for special koi breeding.');
-
 
 INSERT INTO Category (Name, Description)	
 VALUES 
@@ -74,6 +67,16 @@ INSERT INTO Shop (UserID, ShopName, Thumbnail, Description, Phone, Email, Rating
 VALUES 
 ('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'BEST KoiShop', 'shop/shopThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/shop2_thumbnail.png', 'Shop 2 specializing in koi care products.', '123456789', 'shop2@example.com', 4.8),
 ('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'The KoTool', 'shop/shopThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/shop_thumbnail.png', 'Shop specializing in koi fish care products.', '987654321', 'shop@example.com', 4.8);
+
+
+INSERT INTO ShopRatings (UserId, ShopId, Rating, CreateAt)
+VALUES
+('156e10b8-ca91-4925-938f-1d872a357ebe', 1, 5, GETDATE()),  -- Member user rating Shop 1
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 4, GETDATE()),  -- VIP user rating Shop 1
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 2, 3, GETDATE()),  -- Admin user rating Shop 2
+('156e10b8-ca91-4925-938f-1d872a357ebe', 2, 5, GETDATE()),  -- Member user rating Shop 2
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 2, GETDATE()),  -- VIP user rating Shop 1
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 2, 4, GETDATE());  -- Admin user rating Shop 2
 
 
 INSERT INTO Product (ShopId, Name, Thumbnail, Description, Quantity, Price, Status, CategoryID)
@@ -197,6 +200,22 @@ VALUES
 (27, 'product/productImages/b02dfef5-997d-49cd-89f5-1c44499ecdef/product_p027_img3.png');
 
 
+INSERT INTO Pond (UserID, Name, Volume, Thumbnail, Depth, PumpingCapacity, Drain, Skimmer, Note)
+VALUES 
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Main Pond', 1000.5, 'pond/pondThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/mainpond_thumbnail.png', 3, 500, 1, 1, 'This is the main pond for koi fish.'),
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Small Pond', 500.0, 'pond/pondThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/smallpond_thumbnail.png', 2, 300, 1, 0, 'A small pond for young koi.'),
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'Outdoor Pond', 1500.0, 'pond/pondThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/outdoorpond_thumbnail.png', 4, 700, 1, 1, 'Outdoor pond with a skimmer and large volume.'),
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'Indoor Pond', 750.0, 'pond/pondThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/indoorpond_thumbnail.png', 2, 400, 0, 1, 'Indoor pond for special koi breeding.');
+
+
+INSERT INTO Water_Parameter (UserID, PondID, Nitrite, Oxygen, Nitrate, CreatedAt, Temperature, Phosphate, pH, Ammonium, Hardness, CarbonDioxide, CarbonHardness, Salt, TotalChlorines, OutdoorTemp, AmountFed)
+VALUES
+('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 0.1, 6.5, 5.0, GETDATE(), 24.0, 0.5, 7.2, 0.0, 150.0, 10.0, 5.0, 0.0, 1.0, 22.0, 100.0),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 0.2, 7.0, 6.0, GETDATE(), 23.5, 0.4, 7.5, 0.1, 140.0, 8.0, 4.5, 0.0, 0.5, 21.5, 90.0),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 0.05, 7.5, 4.5, GETDATE(), 25.0, 0.6, 7.0, 0.0, 160.0, 9.0, 6.0, 0.0, 1.5, 23.0, 110.0),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 0.15, 6.8, 5.5, GETDATE(), 24.5, 0.3, 7.3, 0.2, 155.0, 11.0, 5.5, 0.0, 1.0, 22.5, 95.0);  -- VIP user
+
+
 INSERT INTO Koi (UserID, PondID, Thumbnail, Age, Name, Note, Origin, Length, Weight, Color, CreateAt, Sex, Variety, Physique, Status)
 VALUES
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi1_thumbnail.png', 2, 'Koi A', 'A beautiful koi with bright colors.', 'Japan', 30, 5, 'Orange and White', GETDATE(), 'Male','Kohaku','Small', 1),  -- VIP user
@@ -273,56 +292,12 @@ VALUES
 'Guide to Choosing the Perfect Koi for Your Pond');  -- Admin user
 
 
-INSERT INTO Water_Parameter (UserID, PondID, Nitrite, Oxygen, Nitrate, CreatedAt, Temperature, Phosphate, pH, Ammonium, Hardness, CarbonDioxide, CarbonHardness, Salt, TotalChlorines, OutdoorTemp, AmountFed)
-VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 0.1, 6.5, 5.0, GETDATE(), 24.0, 0.5, 7.2, 0.0, 150.0, 10.0, 5.0, 0.0, 1.0, 22.0, 100.0),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 0.2, 7.0, 6.0, GETDATE(), 23.5, 0.4, 7.5, 0.1, 140.0, 8.0, 4.5, 0.0, 0.5, 21.5, 90.0),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 0.05, 7.5, 4.5, GETDATE(), 25.0, 0.6, 7.0, 0.0, 160.0, 9.0, 6.0, 0.0, 1.5, 23.0, 110.0),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 0.15, 6.8, 5.5, GETDATE(), 24.5, 0.3, 7.3, 0.2, 155.0, 11.0, 5.5, 0.0, 1.0, 22.5, 95.0);  -- VIP user
-
-
-INSERT INTO Orders (UserID, FullName, Phone, CreateDate, Email, Street, District, City, Country, TotalPrice, OrderStatus,isVipUpgrade)
-VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '1234567890', GETDATE(), 'member@example.com', '123 Main St', 'Central', 'New York', 'USA', 3500000, 'Successful', 0),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '0987654321', GETDATE(), 'vip@example.com', '456 Elm St', 'North', 'Los Angeles', 'USA', 1750000, 'Fail', 0),  -- VIP user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '2345678901', GETDATE(), 'vip@example.com', '789 Oak St', 'West', 'Chicago', 'USA',  4700000, 'Successful', 0),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '3456789012', GETDATE(), 'member@example.com', '321 Pine St', 'East', 'Houston', 'USA', 2350000, 'Successful', 0),  -- Member user
-('1432d10e-64e9-4b0e-b7ff-05253aa0000d', 'member new', '0123498765', GETDATE(), 'newmember@example.com', '321 Pine St', 'East', 'Houston', 'USA', 500000, 'Successful', 1);
-
--- N-N Table
-INSERT INTO OrderDetail (OrderID, ProductID, Quantity, UnitPrice)
-VALUES
-(1, 1, 2, 600000),    -- OrderID 1, Product P001
-(1, 2, 1, 700000),    -- OrderID 1, Product P002
-(2, 3, 1, 550000),    -- OrderID 2, Product P003
-(3, 10, 1, 5000000),  -- OrderID 3, Product P010
-(3, 11, 2, 2400000),  -- OrderID 3, Product P011
-(4, 18, 1, 1800000);  -- OrderID 4, Product P018
-
-
-INSERT INTO News (UserId, Thumbnail, Title, PublishDate, Content)
-VALUES
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news1_thumbnail.png', 'Koi Care Tips', GETDATE(), 'Discover essential tips for maintaining a thriving koi pond, including water quality, feeding schedules, and regular health checks.'),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news2_thumbnail.png', 'Pond Maintenance Guide', GETDATE(), 'This comprehensive guide covers the key aspects of pond maintenance, from filtration systems to seasonal cleaning, ensuring a healthy habitat for your koi.'),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news3_thumbnail.png', 'Koi Health and Nutrition', GETDATE(), 'Understanding the dietary needs of your koi is crucial. Learn about the best types of food, feeding practices, and how to identify signs of health issues.'),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news4_thumbnail.png', 'Seasonal Care for Koi', GETDATE(), 'Get seasonal tips on how to adjust your koi care routine throughout the year, including temperature changes, feeding adjustments, and health monitoring.');
-
-
 INSERT INTO BlogComments (UserID, BlogId, Content, CreateDate)
 VALUES
 ('156e10b8-ca91-4925-938f-1d872a357ebe', 1, 'Great tips! I learned a lot about koi care.', GETDATE()),  -- Member user
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'Thanks for the information on pond maintenance!', GETDATE()),  -- VIP user
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 3, 'I appreciate the dietary advice for koi.', GETDATE()),  -- VIP user
 ('979a42a8-ecc7-4d15-ab6f-410755b9e593', 4, 'Very informative article on seasonal care.', GETDATE());  -- Admin user
-
-
--- Inserting Revenue based on Commission Fees (15% of Total Prices for each product)
-INSERT INTO Revenue (OrderID, Income)
-VALUES
-(1, (2 * 600000 * 0.15) + (1 * 700000 * 0.15)),  -- Revenue from Order ID 1
-(2, (1 * 550000 * 0.15)),                         -- Revenue from Order ID 2
-(3, (1 * 5000000 * 0.15) + (2 * 2400000 * 0.15)), -- Revenue from Order ID 3
-(4, (1 * 1800000 * 0.15));                        -- Revenue from Order ID 4
 
 
 INSERT INTO Blog_Image (ImageUrl, BlogID)
@@ -339,6 +314,14 @@ VALUES
 ('blog/blogImages/979a42a8-ecc7-4d15-ab6f-410755b9e593/blog4_image1.png', 4),
 ('blog/blogImages/979a42a8-ecc7-4d15-ab6f-410755b9e593/blog4_image2.png', 4),
 ('blog/blogImages/979a42a8-ecc7-4d15-ab6f-410755b9e593/blog4_image3.png', 4);
+
+
+INSERT INTO News (UserId, Thumbnail, Title, PublishDate, Content)
+VALUES
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news1_thumbnail.png', 'Koi Care Tips', GETDATE(), 'Discover essential tips for maintaining a thriving koi pond, including water quality, feeding schedules, and regular health checks.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news2_thumbnail.png', 'Pond Maintenance Guide', GETDATE(), 'This comprehensive guide covers the key aspects of pond maintenance, from filtration systems to seasonal cleaning, ensuring a healthy habitat for your koi.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news3_thumbnail.png', 'Koi Health and Nutrition', GETDATE(), 'Understanding the dietary needs of your koi is crucial. Learn about the best types of food, feeding practices, and how to identify signs of health issues.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news4_thumbnail.png', 'Seasonal Care for Koi', GETDATE(), 'Get seasonal tips on how to adjust your koi care routine throughout the year, including temperature changes, feeding adjustments, and health monitoring.');
 
 
 INSERT INTO News_Image (ImageUrl, NewsID)
@@ -379,32 +362,51 @@ VALUES
 (3, 24, 'Pond Bacteria', 3, 700000, 2100000, 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_bacteria.png');
 
 
-INSERT INTO VipPackage (Name, Description, Price)
+INSERT INTO VipPackage (Name, Description, Options, Price)
 VALUES
-('VIP Package - 1 Month', 'Enjoy exclusive access to calculation tools, personalized reminders, enhanced charts, and priority customer support for one month.', 100000),  -- 1 Month
-('VIP Package - 6 Months', 'Gain six months of premium access to calculation tools, customized reminders, detailed charts, and priority customer support.', 500000),  -- 6 Months
-('VIP Package - 12 Months', 'Unlock a full year of VIP benefits, including calculation tools, tailored reminders, comprehensive charts, and priority customer support.', 1000000);  -- 12 Months
+('VIP Package - 1 Month', 'Enjoy exclusive access to calculation tools, personalized reminders, enhanced charts, and priority customer support for one month.', 1, 100000),  -- 1 Month
+('VIP Package - 6 Months', 'Gain six months of premium access to calculation tools, customized reminders, detailed charts, and priority customer support.', 6, 500000),  -- 6 Months
+('VIP Package - 12 Months', 'Unlock a full year of VIP benefits, including calculation tools, tailored reminders, comprehensive charts, and priority customer support.', 12, 1000000);  -- 12 Months
 
 
-INSERT INTO ShopRatings (UserId, ShopId, Rating, CreateAt)
+INSERT INTO VipRecord ( VipId, UserId, StartDate, EndDate)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 1, 5, GETDATE()),  -- Member user rating Shop 1
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 4, GETDATE()),  -- VIP user rating Shop 1
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 2, 3, GETDATE()),  -- Admin user rating Shop 2
-('156e10b8-ca91-4925-938f-1d872a357ebe', 2, 5, GETDATE()),  -- Member user rating Shop 2
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 2, GETDATE()),  -- VIP user rating Shop 1
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 2, 4, GETDATE());  -- Admin user rating Shop 2
+( 2, '1432d10e-64e9-4b0e-b7ff-05253aa0000d', GETDATE(), DATEADD(year, 1, GETDATE())),  -- 6-month VIP package for vip b
+( 3, '373236e8-0df7-44bf-9990-ce22fa1ff829', '2024-06-01', '2025-12-01');  -- 1-year VIP package for new member
 
 
-INSERT INTO OrderVipDetail (OrderId, CreateDate)
+INSERT INTO Orders (UserID, FullName, Phone, CreateDate, Email, Street, District, City, Country, TotalPrice, OrderStatus, isVipUpgrade)
 VALUES
-(5, GETDATE()); 
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '1234567890', GETDATE(), 'member@example.com', '123 Main St', 'Central', 'New York', 'USA', 3500000, 'Successful', 0),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '0987654321', GETDATE(), 'vip@example.com', '456 Elm St', 'North', 'Los Angeles', 'USA', 1750000, 'Fail', 0),  -- VIP user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '2345678901', GETDATE(), 'vip@example.com', '789 Oak St', 'West', 'Chicago', 'USA',  4700000, 'Successful', 0),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '3456789012', GETDATE(), 'member@example.com', '321 Pine St', 'East', 'Houston', 'USA', 2350000, 'Successful', 0),  -- Member user
+('1432d10e-64e9-4b0e-b7ff-05253aa0000d', 'member new', '0123498765', GETDATE(), 'newmember@example.com', '321 Pine St', 'East', 'Houston', 'USA', 500000, 'Successful', 1); -- Member user
 
 
-INSERT INTO VipRecord (CreateDate, VipId, UserId, StartDate, EndDate)
+-- N-N Table
+INSERT INTO OrderDetail (OrderID, ProductID, Quantity, UnitPrice)
 VALUES
-(GETDATE(), 3, '373236e8-0df7-44bf-9990-ce22fa1ff829', '2024-06-01', '2025-12-01'),  -- 6-month VIP package for vip b
-(DATEADD(day, 1, GETDATE()), 1, '1432d10e-64e9-4b0e-b7ff-05253aa0000d', GETDATE(), DATEADD(year, 1, GETDATE()));  -- 1-year VIP package for new member
+(1, 1, 2, 600000),    -- OrderID 1, Product P001
+(1, 2, 1, 700000),    -- OrderID 1, Product P002
+(2, 3, 1, 550000),    -- OrderID 2, Product P003
+(3, 10, 1, 5000000),  -- OrderID 3, Product P010
+(3, 11, 2, 2400000),  -- OrderID 3, Product P011
+(4, 18, 1, 1800000);  -- OrderID 4, Product P018
+
+/*
+INSERT INTO OrderVipDetail (OrderId, VipId, CreateDate)
+VALUES
+(5, 2,GETDATE()); 
+*/
+
+-- Inserting Revenue based on Commission Fees (15% of Total Prices for each product)
+INSERT INTO Revenue (OrderID, Income)
+VALUES
+(1, (2 * 600000 * 0.15) + (1 * 700000 * 0.15)),  -- Revenue from Order ID 1
+(2, (1 * 550000 * 0.15)),                         -- Revenue from Order ID 2
+(3, (1 * 5000000 * 0.15) + (2 * 2400000 * 0.15)), -- Revenue from Order ID 3
+(4, (1 * 1800000 * 0.15));                        -- Revenue from Order ID 4
 
 
 INSERT INTO PaymentTransaction 

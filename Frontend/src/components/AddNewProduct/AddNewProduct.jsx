@@ -4,6 +4,7 @@ import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 import { useAuth } from "../../pages/Login/AuthProvider";
 import { getCategories } from "../../Config/CategoryApi";
+import { FaChevronDown } from "react-icons/fa";
 
 const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
     const initProduct = {
@@ -168,8 +169,8 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
                             onChange={handleChange}
                         />
                     </Form.Group>
-                    <Form.Group controlId="formProductCategoryId" className="mb-3">
-                        <Form.Label>Category ID</Form.Label>
+                    <Form.Group controlId="formProductCategoryId" className="position-relative mb-3">
+                        <Form.Label>Category</Form.Label>
                         <Form.Control
                             as="select"
                             name="categoryId"
@@ -184,6 +185,7 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
                                 </option>
                             ))}
                         </Form.Control>
+                        <FaChevronDown style={{ position: 'absolute', right: '1rem', top: '80%', transform: 'translateY(-80%)', pointerEvents: 'none' }} />
                     </Form.Group>
                     <Form.Group controlId="formProductImages" className="mb-3">
                         <Form.Label>Product Images</Form.Label>
