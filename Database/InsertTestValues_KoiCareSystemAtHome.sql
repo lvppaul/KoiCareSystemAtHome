@@ -25,13 +25,14 @@ use KoiCareSystemAtHome;
 --User table: insert according to the numbered order
 
 --1.
-INSERT INTO [AspNetUsers] (Id, FirstName, LastName, Sex, Street, District, City, Country, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount)
+INSERT INTO [AspNetUsers] (Id, FirstName, LastName, Sex, Street, District, City, Country, Avatar, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'member', 'a', NULL, NULL, NULL, NULL, NULL, 'member@example.com', 'MEMBER@EXAMPLE.COM', 'member@example.com', 'MEMBER@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEIu0gnPvb0zhWrk4NNA3wEMiOewPTGZLrYqgAOJs5OwUbuKXyPKTBekE9OveJ020gg==', 'RWVHVDP7IWP22CE4U3VXIEKH4ZOXHD2W', '71aae56b-e997-4ae0-8215-2e0f71381a88', NULL, 0, 0, NULL, 1, 0),
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip', 'b', NULL, NULL, NULL, NULL, NULL, 'vip@example.com', 'VIP@EXAMPLE.COM', 'vip@example.com', 'VIP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', NULL, 0, 0, NULL, 1, 0),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'admin', 'd', NULL, NULL, NULL, NULL, NULL, 'admin@example.com', 'ADMIN@EXAMPLE.COM', 'admin@example.com', 'ADMIN@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMSsXYBri40up6lHG2s0YHq4+fVyvxAGIKkIXHGh1lHXfFRNq79FWJ/oka/KX0OusA==', 'UF5GBLSGV3DSLXRSIDKRAXKGEEIIM3TL', '82c5fd3e-d565-43d1-a031-8af185d68916', NULL, 0, 0, NULL, 1, 0),
-('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'shop', 'c2', NULL, NULL, NULL, NULL, NULL, 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEAAinoUzd5JbC2ZXIsjuzrMAwLklvMaW0XlwQpaoRZHof+FMlGnMJSiNThEoQJ3C/Q==', '5YQ266SGHHXQ2W3KRSLNZKZSM7BB4XWC', 'fbd64607-02bd-47ca-8cb3-22d7c2f6a6c8', NULL, 0, 0, NULL, 1, 0),
-('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'shop', 'c', NULL, NULL, NULL, NULL, NULL, 'shop@example.com', 'SHOP@EXAMPLE.COM', 'shop@example.com', 'SHOP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMFEM383aESJByWGKS3TlzTnvQdLT1LzwWblpe2+AzVDIOIBfUqsZHnQkzC1oSo72g==', '5CIZCKPIKKLLFBIRJDJHT45DZ3V7DL2Q', '98bef99c-d585-4b37-be2d-6e57540bb48b', NULL, 0, 0, NULL, 1, 0);
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'member', 'a', NULL, NULL, NULL, NULL, NULL, NULL, 'member@example.com', 'MEMBER@EXAMPLE.COM', 'member@example.com', 'MEMBER@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEIu0gnPvb0zhWrk4NNA3wEMiOewPTGZLrYqgAOJs5OwUbuKXyPKTBekE9OveJ020gg==', 'RWVHVDP7IWP22CE4U3VXIEKH4ZOXHD2W', '71aae56b-e997-4ae0-8215-2e0f71381a88', NULL, 0, 0, NULL, 1, 0),
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip', 'b', NULL, NULL, NULL, NULL, NULL, NULL, 'vip@example.com', 'VIP@EXAMPLE.COM', 'vip@example.com', 'VIP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', NULL, 0, 0, NULL, 1, 0),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'admin', 'd', NULL, NULL, NULL, NULL, NULL, NULL, 'admin@example.com', 'ADMIN@EXAMPLE.COM', 'admin@example.com', 'ADMIN@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMSsXYBri40up6lHG2s0YHq4+fVyvxAGIKkIXHGh1lHXfFRNq79FWJ/oka/KX0OusA==', 'UF5GBLSGV3DSLXRSIDKRAXKGEEIIM3TL', '82c5fd3e-d565-43d1-a031-8af185d68916', NULL, 0, 0, NULL, 1, 0),
+('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'shop', 'c2', NULL, NULL, NULL, NULL, NULL, NULL, 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEAAinoUzd5JbC2ZXIsjuzrMAwLklvMaW0XlwQpaoRZHof+FMlGnMJSiNThEoQJ3C/Q==', '5YQ266SGHHXQ2W3KRSLNZKZSM7BB4XWC', 'fbd64607-02bd-47ca-8cb3-22d7c2f6a6c8', NULL, 0, 0, NULL, 1, 0),
+('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'shop', 'c', NULL, NULL, NULL, NULL, NULL, NULL, 'shop@example.com', 'SHOP@EXAMPLE.COM', 'shop@example.com', 'SHOP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMFEM383aESJByWGKS3TlzTnvQdLT1LzwWblpe2+AzVDIOIBfUqsZHnQkzC1oSo72g==', '5CIZCKPIKKLLFBIRJDJHT45DZ3V7DL2Q', '98bef99c-d585-4b37-be2d-6e57540bb48b', NULL, 0, 0, NULL, 1, 0),
+('1432d10e-64e9-4b0e-b7ff-05253aa0000d', 'member', 'new', NULL, NULL, NULL, NULL, NULL, NULL, 'newmember@example.com', 'NEWMEMBER@EXAMPLE.COM', 'newmember@example.com', 'NEWMEMBER@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEFr2CdCRhT97+9YVoUzBTASFnivlAQhse85fiWfDVotU3zvnXyAOpsZREN5fd4udSQ==', 'VJ642LAK6R4YACZS3CX54BTPHUVG24UR', 'caa3d7e0-e031-455b-b577-4cdeac8a798e', '0123498765', 0, 0, NULL, 1, 0);
 
 --All roles password: Abc@123
 
@@ -77,34 +78,33 @@ VALUES
 
 INSERT INTO Product (ShopId, Name, Thumbnail, Description, Quantity, Price, Status, CategoryID)
 VALUES
-(2, 'Premium Koi Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/premium_koi_food.png', 'High-quality koi food for vibrant colors and growth.', 100, 623760, 1, 1),
-(1, 'Growth Formula', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/growth_formula.png', 'A special formula to promote faster growth in koi.', 150, 719760, 1, 1),
-(2, 'Wheat Germ Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/wheat_germ_food.png', 'Koi food designed for colder weather to support digestion.', 200, 540000, 1, 1),
-(1, 'Color Enhancing Food', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/color_enhancing_food.png', 'Enhances the colors of koi fish naturally.', 120, 768000, 1, 1),
-(2, 'Koi Fry Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fry_food.png', 'Specially formulated for young koi fry.', 180, 444000, 1, 1),
-(1, 'Spirulina Pellets', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/spirulina_pellets.png', 'Rich in spirulina for healthy koi growth.', 100, 648000, 1, 1),
+(2, 'Premium Koi Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/premium_koi_food.png', 'High-quality koi food for vibrant colors and growth.', 100, 600000, 1, 1),
+(1, 'Growth Formula', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/growth_formula.png', 'A special formula to promote faster growth in koi.', 150, 750000, 1, 1),
+(2, 'Wheat Germ Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/wheat_germ_food.png', 'Koi food designed for colder weather to support digestion.', 200, 550000, 1, 1),
+(1, 'Color Enhancing Food', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/color_enhancing_food.png', 'Enhances the colors of koi fish naturally.', 120, 800000, 1, 1),
+(2, 'Koi Fry Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fry_food.png', 'Specially formulated for young koi fry.', 180, 450000, 1, 1),
+(1, 'Spirulina Pellets', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/spirulina_pellets.png', 'Rich in spirulina for healthy koi growth.', 100, 650000, 1, 1),
 (2, 'High Protein Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/high_protein_food.png', 'High-protein food to boost koi muscle development.', 130, 720000, 1, 1),
-(1, 'All Season Koi Food', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/all_season_koi_food.png', 'Koi food suitable for all seasons.', 160, 503760, 1, 1),
-(2, 'Floating Pellets', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/floating_pellets.png', 'Floating pellets that koi love to feed on.', 140, 570000, 1, 1),
-(1, 'Pond Pump', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_pump.png', 'High-capacity pump for maintaining water flow in ponds.', 50, 4799760, 1, 2),
-(2, 'Pond Skimmer', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_skimmer.png', 'Essential skimmer for removing debris from the pond surface.', 70, 2399760, 1, 2),
-(1, 'UV Clarifier', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/uv_clarifier.png', 'UV clarifier to keep pond water clear and algae-free.', 60, 3600000, 1, 2),
-(2, 'Pond Heater', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_heater.png', 'Heater for maintaining optimal water temperature during cold seasons.', 40, 4320000, 1, 2),
-(1, 'Filter System', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/filter_system.png', 'Advanced filtration system for large ponds.', 45, 6000000, 1, 2),
-(2, 'Aeration Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/aeration_kit.png', 'Complete aeration kit to boost oxygen levels in the pond.', 80, 2040000, 1, 2),
-(1, 'Pond Net', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_net.png', 'Pond net to catch debris and fish.', 100, 720000, 1, 2),
-(2, 'Waterfall Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/waterfall_kit.png', 'Waterfall kit to create a stunning feature in the pond.', 20, 7680000, 1, 2),
-(1, 'Pond Liner', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_liner.png', 'Durable pond liner to prevent leaks.', 90, 1800000, 1, 2),
-(2, 'Koi Health Boost', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_health_boost.png', 'A vitamin and mineral supplement for healthier koi.', 120, 479760, 1, 3),
-(1, 'Anti-Bacterial Treatment', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/anti_bacterial_treatment.png', 'Treatment for bacterial infections in koi.', 100, 840000, 1, 3),
-(2, 'Anti-Parasite Treatment', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/anti_parasite_treatment.png', 'Effective treatment for koi parasite issues.', 110, 960000, 1, 3),
-(1, 'Water Conditioner', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/water_conditioner.png', 'Conditioner to ensure safe water quality for koi.', 150, 612000, 1, 3),
-(2, 'Koi Salt', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_salt.png', 'Koi salt to help maintain water salinity and fish health.', 200, 288000, 1, 3),
-(1, 'Pond Bacteria', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_bacteria.png', 'Beneficial bacteria to improve water quality.', 180, 672000, 1, 3),
-(2, 'Koi Fungus Treatment', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fungus_treatment.png', 'Treats fungal infections in koi.', 75, 912000, 1, 3),
-(2, 'Koi First Aid Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_first_aid_kit.png', 'A complete first aid kit for koi emergencies.', 50, 1080000, 1, 3),
-(1, 'Koi Sedative', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/koi_sedative.png', 'Sedative for koi handling and transportation.', 30, 1320000, 1, 3);
-
+(1, 'All Season Koi Food', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/all_season_koi_food.png', 'Koi food suitable for all seasons.', 160, 520000, 1, 1),
+(2, 'Floating Pellets', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/floating_pellets.png', 'Floating pellets that koi love to feed on.', 140, 600000, 1, 1),
+(1, 'Pond Pump', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_pump.png', 'High-capacity pump for maintaining water flow in ponds.', 50, 5000000, 1, 2),
+(2, 'Pond Skimmer', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_skimmer.png', 'Essential skimmer for removing debris from the pond surface.', 70, 2500000, 1, 2),
+(1, 'UV Clarifier', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/uv_clarifier.png', 'UV clarifier to keep pond water clear and algae-free.', 60, 4000000, 1, 2),
+(2, 'Pond Heater', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_heater.png', 'Heater for maintaining optimal water temperature during cold seasons.', 40, 4500000, 1, 2),
+(1, 'Filter System', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/filter_system.png', 'Advanced filtration system for large ponds.', 45, 7000000, 1, 2),
+(2, 'Aeration Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/aeration_kit.png', 'Complete aeration kit to boost oxygen levels in the pond.', 80, 2100000, 1, 2),
+(1, 'Pond Net', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_net.png', 'Pond net to catch debris and fish.', 100, 750000, 1, 2),
+(2, 'Waterfall Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/waterfall_kit.png', 'Waterfall kit to create a stunning feature in the pond.', 20, 8000000, 1, 2),
+(1, 'Pond Liner', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_liner.png', 'Durable pond liner to prevent leaks.', 90, 2000000, 1, 2),
+(2, 'Koi Health Boost', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_health_boost.png', 'A vitamin and mineral supplement for healthier koi.', 120, 500000, 1, 3),
+(1, 'Anti-Bacterial Treatment', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/anti_bacterial_treatment.png', 'Treatment for bacterial infections in koi.', 100, 850000, 1, 3),
+(2, 'Anti-Parasite Treatment', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/anti_parasite_treatment.png', 'Effective treatment for koi parasite issues.', 110, 950000, 1, 3),
+(1, 'Water Conditioner', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/water_conditioner.png', 'Conditioner to ensure safe water quality for koi.', 150, 650000, 1, 3),
+(2, 'Koi Salt', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_salt.png', 'Koi salt to help maintain water salinity and fish health.', 200, 300000, 1, 3),
+(1, 'Pond Bacteria', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_bacteria.png', 'Beneficial bacteria to improve water quality.', 180, 700000, 1, 3),
+(2, 'Koi Fungus Treatment', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fungus_treatment.png', 'Treats fungal infections in koi.', 75, 850000, 1, 3),
+(2, 'Koi First Aid Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_first_aid_kit.png', 'A complete first aid kit for koi emergencies.', 50, 1000000, 1, 3),
+(1, 'Koi Sedative', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/koi_sedative.png', 'Sedative for koi handling and transportation.', 30, 1200000, 1, 3);
 
 
 INSERT INTO Product_Image (ProductID, ImageUrl)
@@ -256,10 +256,21 @@ VALUES
 
 INSERT INTO Blogs (UserID, PublishDate, Thumbnail, Content, Title)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', GETDATE(), 'blog/blogThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/blog1_thumbnail.png', 'This is the content of the first blog post about koi care.', 'Koi Care 101'),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', GETDATE(), 'blog/blogThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/blog2_thumbnail.png', 'Insights on how to maintain a healthy pond for koi fish.', 'Maintaining Healthy Ponds'),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', GETDATE(), 'blog/blogThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/blog3_thumbnail.png', 'The best types of food for your koi fish.', 'Best Koi Food'),  -- Member user
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', GETDATE(), 'blog/blogThumbnails/979a42a8-ecc7-4d15-ab6f-410755b9e593/blog4_thumbnail.png', 'Tips on selecting the right koi for your pond.', 'Choosing the Right Koi');  -- Admin user
+('156e10b8-ca91-4925-938f-1d872a357ebe', GETDATE(), 'blog/blogThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/blog1_thumbnail.png', 
+'Koi fish are not only beautiful but require special care. In this post, we dive into the basics of setting up a koi pond, maintaining water quality, feeding koi, and monitoring their health. Perfect for anyone just starting their koi-keeping journey!', 
+'Koi Care 101: Essential Tips for a Thriving Koi Pond'),  -- Member user
+
+('373236e8-0df7-44bf-9990-ce22fa1ff829', GETDATE(), 'blog/blogThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/blog2_thumbnail.png', 
+'Maintaining a healthy pond is crucial for the well-being of koi. Learn how to balance water quality, control algae growth, and set up effective filtration systems to create an ideal environment for your koi.', 
+'Creating a Healthy Pond Environment for Koi'),  -- VIP user
+
+('156e10b8-ca91-4925-938f-1d872a357ebe', GETDATE(), 'blog/blogThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/blog3_thumbnail.png', 
+'Choosing the right diet is key to koi growth and vibrant colors. This post covers the types of food suitable for koi, tips on feeding schedules, and how to adjust feeding with seasonal changes.', 
+'Choosing the Best Koi Food for Optimal Health'),  -- Member user
+
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', GETDATE(), 'blog/blogThumbnails/979a42a8-ecc7-4d15-ab6f-1d872a357ebe/blog4_thumbnail.png', 
+'From size to coloration, picking the right koi fish can be an art. Learn how to select koi with desired traits, including tips on evaluating health and avoiding common pitfalls when purchasing.', 
+'Guide to Choosing the Perfect Koi for Your Pond');  -- Admin user
 
 
 INSERT INTO Water_Parameter (UserID, PondID, Nitrite, Oxygen, Nitrate, CreatedAt, Temperature, Phosphate, pH, Ammonium, Hardness, CarbonDioxide, CarbonHardness, Salt, TotalChlorines, OutdoorTemp, AmountFed)
@@ -269,30 +280,32 @@ VALUES
 ('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 0.05, 7.5, 4.5, GETDATE(), 25.0, 0.6, 7.0, 0.0, 160.0, 9.0, 6.0, 0.0, 1.5, 23.0, 110.0),  -- Member user
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 0.15, 6.8, 5.5, GETDATE(), 24.5, 0.3, 7.3, 0.2, 155.0, 11.0, 5.5, 0.0, 1.0, 22.5, 95.0);  -- VIP user
 
-INSERT INTO Orders (UserID, FullName, Phone, CreateDate, Email, Street, District, City, Country, TotalPrice, OrderStatus)
+
+INSERT INTO Orders (UserID, FullName, Phone, CreateDate, Email, Street, District, City, Country, TotalPrice, OrderStatus,isVipUpgrade)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '1234567890', GETDATE(), 'member@example.com', '123 Main St', 'Central', 'New York', 'USA', 3618000, 0),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '0987654321', GETDATE(), 'vip@example.com', '456 Elm St', 'North', 'Los Angeles', 'USA', 1812000, 0),  -- VIP user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '2345678901', GETDATE(), 'vip@example.com', '789 Oak St', 'West', 'Chicago', 'USA', 4800000, 1),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '3456789012', GETDATE(), 'member@example.com', '321 Pine St', 'East', 'Houston', 'USA', 2399760, 1);  -- Member user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '1234567890', GETDATE(), 'member@example.com', '123 Main St', 'Central', 'New York', 'USA', 3500000, 'Successful', 0),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '0987654321', GETDATE(), 'vip@example.com', '456 Elm St', 'North', 'Los Angeles', 'USA', 1750000, 'Fail', 0),  -- VIP user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '2345678901', GETDATE(), 'vip@example.com', '789 Oak St', 'West', 'Chicago', 'USA',  4700000, 'Successful', 0),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '3456789012', GETDATE(), 'member@example.com', '321 Pine St', 'East', 'Houston', 'USA', 2350000, 'Successful', 0),  -- Member user
+('1432d10e-64e9-4b0e-b7ff-05253aa0000d', 'member new', '0123498765', GETDATE(), 'newmember@example.com', '321 Pine St', 'East', 'Houston', 'USA', 500000, 'Successful', 1);
 
 -- N-N Table
 INSERT INTO OrderDetail (OrderID, ProductID, Quantity, UnitPrice)
 VALUES
-(1, 1, 2, 25.99), -- OrderID 1, Product P001
-(1, 2, 1, 29.99), -- OrderID 1, Product P002
-(2, 3, 1, 22.50), -- OrderID 2, Product P003
-(3, 10, 1, 199.99), -- OrderID 3, Product P010
-(3, 11, 2, 99.99),  -- OrderID 3, Product P011
-(4, 18, 1, 75.00); -- OrderID 4, Product P018
+(1, 1, 2, 600000),    -- OrderID 1, Product P001
+(1, 2, 1, 700000),    -- OrderID 1, Product P002
+(2, 3, 1, 550000),    -- OrderID 2, Product P003
+(3, 10, 1, 5000000),  -- OrderID 3, Product P010
+(3, 11, 2, 2400000),  -- OrderID 3, Product P011
+(4, 18, 1, 1800000);  -- OrderID 4, Product P018
 
 
 INSERT INTO News (UserId, Thumbnail, Title, PublishDate, Content)
 VALUES
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news1_thumbnail.png', 'Koi Care Tips', GETDATE(), 'Learn essential tips for taking care of your koi fish.'),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news2_thumbnail.png', 'Pond Maintenance Guide', GETDATE(), 'A comprehensive guide to maintaining a healthy pond environment.'),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news3_thumbnail.png', 'Koi Health and Nutrition', GETDATE(), 'Understanding the dietary needs of your koi fish.'),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news4_thumbnail.png', 'Seasonal Care for Koi', GETDATE(), 'Seasonal tips to keep your koi healthy year-round.');
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news1_thumbnail.png', 'Koi Care Tips', GETDATE(), 'Discover essential tips for maintaining a thriving koi pond, including water quality, feeding schedules, and regular health checks.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news2_thumbnail.png', 'Pond Maintenance Guide', GETDATE(), 'This comprehensive guide covers the key aspects of pond maintenance, from filtration systems to seasonal cleaning, ensuring a healthy habitat for your koi.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news3_thumbnail.png', 'Koi Health and Nutrition', GETDATE(), 'Understanding the dietary needs of your koi is crucial. Learn about the best types of food, feeding practices, and how to identify signs of health issues.'),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'news/newsThumbnails/news4_thumbnail.png', 'Seasonal Care for Koi', GETDATE(), 'Get seasonal tips on how to adjust your koi care routine throughout the year, including temperature changes, feeding adjustments, and health monitoring.');
 
 
 INSERT INTO BlogComments (UserID, BlogId, Content, CreateDate)
@@ -302,18 +315,14 @@ VALUES
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 3, 'I appreciate the dietary advice for koi.', GETDATE()),  -- VIP user
 ('979a42a8-ecc7-4d15-ab6f-410755b9e593', 4, 'Very informative article on seasonal care.', GETDATE());  -- Admin user
 
-INSERT INTO ShopRatings (UserId, ShopId, Rating, CreateAt)
-VALUES 
-('156e10b8-ca91-4925-938f-1d872a357ebe', 1, 4, GETDATE()),
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 5, GETDATE());
 
--- ComissionFee = 15% Order total price
+-- Inserting Revenue based on Commission Fees (15% of Total Prices for each product)
 INSERT INTO Revenue (OrderID, Income)
 VALUES
-(1, 12.30),  -- Revenue from Order ID 1
-(2, 5.00),   -- Revenue from Order ID 2
-(3, 60.00),  -- Revenue from Order ID 3
-(4, 11.25);   -- Revenue from Order ID 4
+(1, (2 * 600000 * 0.15) + (1 * 700000 * 0.15)),  -- Revenue from Order ID 1
+(2, (1 * 550000 * 0.15)),                         -- Revenue from Order ID 2
+(3, (1 * 5000000 * 0.15) + (2 * 2400000 * 0.15)), -- Revenue from Order ID 3
+(4, (1 * 1800000 * 0.15));                        -- Revenue from Order ID 4
 
 
 INSERT INTO Blog_Image (ImageUrl, BlogID)
@@ -346,3 +355,76 @@ VALUES
 ('news/newsImages/4/news4_image1.png', 4),
 ('news/newsImages/4/news4_image2.png', 4),
 ('news/newsImages/4/news4_image3.png', 4);
+
+
+INSERT INTO Cart (UserId, TotalAmount)
+VALUES
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1200000),  -- Cart for vip (1200000 from Premium Koi Food + Growth Formula)
+('156e10b8-ca91-4925-938f-1d872a357ebe', 7500000),  -- Cart for member (5000000 for Pond Pump + 2500000 for Pond Skimmer)
+('1432d10e-64e9-4b0e-b7ff-05253aa0000d', 9100000);  -- Cart for new member (7000000 for Filter System + 2100000 for Pond Bacteria)
+
+
+INSERT INTO CartItem (CartId, ProductId, ProductName, Quantity, Price, TotalPrice, Thumbnail)
+VALUES
+-- CartId 1
+(1, 1, 'Premium Koi Food', 2, 600000, 1200000, 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/premium_koi_food.png'),  
+(1, 2, 'Growth Formula', 1, 750000, 750000, 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/growth_formula.png'),  
+
+-- CartId 2
+(2, 10, 'Pond Pump', 1, 5000000, 5000000, 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_pump.png'),  
+(2, 11, 'Pond Skimmer', 1, 2500000, 2500000, 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_skimmer.png'),  
+
+-- CartId 3
+(3, 14, 'Filter System', 1, 7000000, 7000000, 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/filter_system.png'),  
+(3, 24, 'Pond Bacteria', 3, 700000, 2100000, 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_bacteria.png');
+
+
+INSERT INTO VipPackage (Name, Description, Price)
+VALUES
+('VIP Package - 1 Month', 'Enjoy exclusive access to calculation tools, personalized reminders, enhanced charts, and priority customer support for one month.', 100000),  -- 1 Month
+('VIP Package - 6 Months', 'Gain six months of premium access to calculation tools, customized reminders, detailed charts, and priority customer support.', 500000),  -- 6 Months
+('VIP Package - 12 Months', 'Unlock a full year of VIP benefits, including calculation tools, tailored reminders, comprehensive charts, and priority customer support.', 1000000);  -- 12 Months
+
+
+INSERT INTO ShopRatings (UserId, ShopId, Rating, CreateAt)
+VALUES
+('156e10b8-ca91-4925-938f-1d872a357ebe', 1, 5, GETDATE()),  -- Member user rating Shop 1
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 4, GETDATE()),  -- VIP user rating Shop 1
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 2, 3, GETDATE()),  -- Admin user rating Shop 2
+('156e10b8-ca91-4925-938f-1d872a357ebe', 2, 5, GETDATE()),  -- Member user rating Shop 2
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 2, GETDATE()),  -- VIP user rating Shop 1
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 2, 4, GETDATE());  -- Admin user rating Shop 2
+
+
+INSERT INTO OrderVipDetail (OrderId, CreateDate)
+VALUES
+(5, GETDATE()); 
+
+
+INSERT INTO VipRecord (CreateDate, VipId, UserId, StartDate, EndDate)
+VALUES
+(GETDATE(), 3, '373236e8-0df7-44bf-9990-ce22fa1ff829', '2024-06-01', '2025-12-01'),  -- 6-month VIP package for vip b
+(DATEADD(day, 1, GETDATE()), 1, '1432d10e-64e9-4b0e-b7ff-05253aa0000d', GETDATE(), DATEADD(year, 1, GETDATE()));  -- 1-year VIP package for new member
+
+
+INSERT INTO PaymentTransaction 
+    (UserId, VnpTxnRef, VnpAmount, VnpBankCode, 
+     VnpBankTranNo, VnpCardType, VnpOrderInfo, VnpPayDate, 
+     VnpResponseCode, VnpTransactionNo, VnpTransactionStatus, 
+     VnpSecureHash, VnpTmnCode, PaymentStatus)
+VALUES
+    ('156e10b8-ca91-4925-938f-1d872a357ebe', 'TxnRef001', 3500000, 'ABC', 
+     'BankTranNo001', 'Visa', 1, GETDATE(), 
+     '00', 'TxnNo001', '00', 'SecureHash001', 'TmnCode001', 1),
+     
+    ('373236e8-0df7-44bf-9990-ce22fa1ff829', 'TxnRef002', 1750000, 'NBC', 
+     'BankTranNo002', 'MasterCard', 2, GETDATE(), 
+     '00', 'TxnNo002', '00', 'SecureHash002', 'TmnCode002', 1),
+     
+    ('373236e8-0df7-44bf-9990-ce22fa1ff829', 'TxnRef003', 4700000, 'TPB', 
+     'BankTranNo003', 'Visa', 3, GETDATE(), 
+     '00', 'TxnNo003', '00', 'SecureHash003', 'TmnCode003', 1),
+     
+    ('156e10b8-ca91-4925-938f-1d872a357ebe', 'TxnRef004', 2350000, 'MBB', 
+     'BankTranNo004', 'Bank', 4, GETDATE(), 
+     '00', 'TxnNo004', '00', 'SecureHash004', 'TmnCode004', 1);
