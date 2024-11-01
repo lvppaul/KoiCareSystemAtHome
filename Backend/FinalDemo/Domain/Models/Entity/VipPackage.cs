@@ -12,6 +12,7 @@ namespace Domain.Models.Entity
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public int Options { get; set; }
         public int Price { get; set; }
 
         public virtual ICollection<OrderVipDetail> OrderVipDetails { get; set; } = new List<OrderVipDetail>();

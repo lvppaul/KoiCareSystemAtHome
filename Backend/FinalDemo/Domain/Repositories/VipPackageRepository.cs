@@ -9,15 +9,65 @@ using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
-    public class VipPackageRepository: GenericRepository<VipRecord>
+    public class VipPackageRepository: GenericRepository<VipPackage>
     {
         public VipPackageRepository(KoiCareSystemAtHomeContext context) => _context = context;
 
+        public async Task<List<VipPackage>> GetAllAsync()
+        {
+            return await _context.VipPackages.ToListAsync();
+        }
 
-        public async Task<VipPackage> GetVipPackageByName(string name)
+        public async Task<VipPackage> GetByIdAsync(int id)
+        {
+            var result = await _context.VipPackages.FirstOrDefaultAsync(p => p.VipId == id);
+
+            return result;
+        }
+
+        public async Task<VipPackage> GetVipPackageByNameAsync(string name)
         {
             var result = await _context.VipPackages.Where(u => u.Name.Equals(name)).FirstOrDefaultAsync();
 
+            return result;
+        }
+
+        public Task<bool> CheckVipPackageOptionsCreateAsync(int op)
+        {
+            var result = false;
+            if (op ==1 || op==6 || op ==12)
+            {
+                result = true;
+            }
+            return Task.FromResult(result);
+        }
+
+        public async Task<bool> CheckVipPackageNameExistCreateAsync(string name)
+        {
+            var result = false;
+            var exist = await GetVipPackageByNameAsync(name);
+            if(exist != null)
+            {
+                result = true;
+            }
+            return result;
+        }
+
+        public async Task<bool> CheckVipPackageNameExistUpdateAsync(int id,string name)
+        {
+            var result = false;
+            var exist = await GetVipPackageByNameAsync(name);
+            if (exist != null )
+            {
+                if(exist.VipId == id)
+                {
+                    return false;
+                }
+                else
+                {
+                    result = true;
+                }
+            }
             return result;
         }
     }

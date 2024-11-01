@@ -8,12 +8,10 @@ namespace Domain.Models.Dto.Response
 {
     public class VipPackageDTO
     {
-        public int Id { get; set; }
-        public string UserId { get; set; }
+        public int VipId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public bool Status { get; set; }
+        public int Options { get; set; }
+        public int Price { get; set; }
     }
 }
