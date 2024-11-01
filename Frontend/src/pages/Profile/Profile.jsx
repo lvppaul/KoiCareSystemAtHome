@@ -96,8 +96,10 @@ const Profile = () => {
     setDetails({ ...details, [name]: value });
   };
 
-  const handleSexChange = (e) => {
-    setDetails({ ...details, sex: e.target.value });
+  const handleSexChange = async (e) => {
+    const newSex = e.target.value;
+    setDetails({ ...details, sex: newSex });
+    await updateAccount(userId, { ...details, sex: newSex });
   };
 
   const handleAvatarChange = async (e) => {
@@ -141,6 +143,7 @@ const Profile = () => {
   };
 
   const sexOptions = [
+    { value: "", label: "Select"},
     { value: "Male", label: "Male" },
     { value: "Female", label: "Female" },
     { value: "Other", label: "Other" },
@@ -212,6 +215,7 @@ const Profile = () => {
                 <Button
                   variant="danger"
                   className="mt-3"
+                  hidden="true"
                   onClick={() => setShowConfirmModal(true)}
                 >
                   Delete Account
@@ -263,10 +267,7 @@ const Profile = () => {
                         label="Sex"
                         name="sex"
                         value={details.sex ? details.sex : ""}
-                        isEditing={editingField === "sex"}
                         handleChange={handleSexChange}
-                        handleEditClick={() => handleEditClick("sex")}
-                        handleCancelClick={handleCancelClick}
                         options={sexOptions}
                       />
                       <EditableListItem
