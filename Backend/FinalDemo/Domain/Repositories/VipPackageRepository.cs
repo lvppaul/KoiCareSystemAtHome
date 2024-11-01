@@ -13,6 +13,17 @@ namespace Domain.Repositories
     {
         public VipPackageRepository(KoiCareSystemAtHomeContext context) => _context = context;
 
+        public async Task<List<VipPackage>> GetAllAsync()
+        {
+            return await _context.VipPackages.ToListAsync();
+        }
+
+        public async Task<VipPackage> GetByIdAsync(int id)
+        {
+            var result = await _context.VipPackages.FirstOrDefaultAsync(p => p.VipId == id);
+
+            return result;
+        }
 
         public async Task<VipPackage> GetVipPackageByName(string name)
         {

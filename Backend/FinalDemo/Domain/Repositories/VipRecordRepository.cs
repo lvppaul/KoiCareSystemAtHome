@@ -13,7 +13,7 @@ namespace Domain.Repositories
     {
         public VipRecordRepository(KoiCareSystemAtHomeContext context) => _context = context;
 
-        public async Task<VipRecord> GetVipByUserIdAsync(string id)
+        public async Task<VipRecord> GetVipRecordByUserIdAsync(string id)
         {
             var result = await _context.VipRecords.Include(u => u.User).Where(u => u.UserId.Equals(id)).FirstOrDefaultAsync();
 
@@ -25,11 +25,5 @@ namespace Domain.Repositories
             return await _context.VipRecords.ToListAsync();
         }
 
-        public async Task<VipRecord> GetByIdAsync(int id)
-        {
-            var result = await _context.VipRecords.FirstOrDefaultAsync(p => p.VipId == id);
-
-            return result;
-        }
     }
 }

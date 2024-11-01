@@ -150,9 +150,9 @@ namespace KCSAH.APIServer.Dto
             CreateMap<PaymentTransaction, PaymentTransactionDTO>().ReverseMap();
 
             //Vip
-            CreateMap<VipRecord,VipPackageDTO>().ReverseMap();
-            CreateMap<VipPackageRequestDTO,VipRecord>().ReverseMap();
-            CreateMap<VipPackageRequestDTO, VipPackageDTO>().ReverseMap();
+            CreateMap<VipRecord,VipRecordDTO>().ReverseMap();
+            CreateMap<VipRecordRequestDTO,VipRecord>().ReverseMap();
+            CreateMap<VipRecordRequestDTO, VipRecordDTO>().ReverseMap();
         }
     }
 }

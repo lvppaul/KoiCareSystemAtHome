@@ -23,7 +23,7 @@ namespace APIService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VipPackageDTO>>> GetAllSync()
+        public async Task<ActionResult<IEnumerable<VipRecordDTO>>> GetAllSync()
         {
             var vips = await _unitOfWork.VipPackageRepository.GetAllAsync();
             var vipDTOs = _mapper.Map<List<ProductDTO>>(vips);
@@ -31,31 +31,31 @@ namespace APIService.Controllers
         }
 
         [HttpGet("GetVipById/{id}")]
-        public async Task<ActionResult<VipPackageDTO>> GetByIdAsync(int id)
+        public async Task<ActionResult<VipRecordDTO>> GetByIdAsync(int id)
         {
             var vip = await _unitOfWork.VipPackageRepository.GetByIdAsync(id);
             if (vip == null)
             {
                 return NotFound();
             }
-            var result = _mapper.Map<VipPackageDTO>(vip);
+            var result = _mapper.Map<VipRecordDTO>(vip);
             return result;
         }
 
         [HttpGet("GetVipByUserId/{UserId}")]
-        public async Task<ActionResult<VipPackageDTO>> GetVipPackageByUserId(string UserId)
+        public async Task<ActionResult<VipRecordDTO>> GetVipPackageByUserId(string UserId)
         {
             var vip = await _unitOfWork.vipRecordRepository.GetVipByUserIdAsync(UserId);
             if (vip == null)
             {
                 return NotFound();
             }
-            var result = _mapper.Map<VipPackageDTO>(vip);
+            var result = _mapper.Map<VipRecordDTO>(vip);
             return result;
         }
 
         [HttpPost]
-        public async Task<ActionResult<VipRecord>> CreateVipPackage([FromBody] VipPackageRequestDTO vippackagedto)
+        public async Task<ActionResult<VipRecord>> CreateVipPackage([FromBody] VipRecordRequestDTO vippackagedto)
         {
             if (vippackagedto == null)
             {
@@ -83,14 +83,14 @@ namespace APIService.Controllers
                 ModelState.AddModelError("", "Something went wrong while saving the vip package.");
                 return StatusCode(500, ModelState);
             }
-            var vipPackageShow = _mapper.Map<VipPackageDTO>(vipPackageMap);
+            var vipPackageShow = _mapper.Map<VipRecordDTO>(vipPackageMap);
             return CreatedAtAction("GetById", new { id = vipPackageShow.Id }, vipPackageShow);
         }
 
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVipPackage(int id, [FromBody] VipPackageRequestDTO vipdto)
+        public async Task<IActionResult> UpdateVipPackage(int id, [FromBody] VipRecordRequestDTO vipdto)
         {
             if (vipdto == null)
             {
