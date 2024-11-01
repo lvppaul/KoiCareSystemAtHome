@@ -8,7 +8,7 @@ namespace Domain.Models.Dto.Response
 {
     public class VipRecordDTO
     {
-        public DateTime CreateDate { get; set; } = DateTime.Now;
+        public int Id { get; set; }
         public int VipId { get; set; }
         public string UserId { get; set; } = null!;
         public DateTime StartDate { get; set; }

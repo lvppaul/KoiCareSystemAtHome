@@ -153,6 +153,10 @@ namespace KCSAH.APIServer.Dto
             CreateMap<VipRecord,VipRecordDTO>().ReverseMap();
             CreateMap<VipRecordRequestDTO,VipRecord>().ReverseMap();
             CreateMap<VipRecordRequestDTO, VipRecordDTO>().ReverseMap();
+            //CreateMap<VipRecordUpdateDTO, VipRecord>().ReverseMap();
+            //CreateMap<VipRecordUpdateDTO, VipRecordDTO>().ReverseMap();
+
+
         }
     }
 }

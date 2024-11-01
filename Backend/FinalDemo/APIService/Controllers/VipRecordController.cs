@@ -62,12 +62,12 @@ namespace APIService.Controllers
                 return BadRequest(ModelState);
             }
 
-            //var existingvippackage = await _unitOfWork.VipPackageRepository.GetVipPackageByName(viprecorddto.Name);
+            var checkDate = await _unitOfWork.vipRecordRepository.CheckDateCreateInput(viprecorddto);
 
-            //if (existingvippackage != null)
-            //{
-            //    return BadRequest("This vip package already exists.");
-            //}
+            if (checkDate == false)
+            {
+                return BadRequest("This vip record input date is invalid.");
+            }
 
             if (!ModelState.IsValid)
             {
@@ -84,51 +84,58 @@ namespace APIService.Controllers
                 return StatusCode(500, ModelState);
             }
             var vipRecordShow = _mapper.Map<VipRecordDTO>(vipRecordMap);
-            return CreatedAtAction("GetById", new { id = vipRecordShow.CreateDate }, vipRecordShow);
+            return CreatedAtAction("GetById", new { id = vipRecordShow.Id }, vipRecordShow);
         }
 
 
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVipPackage(int id, [FromBody] VipRecordRequestDTO vipdto)
-        {
-            if (vipdto == null)
-            {
-                return BadRequest();
-            }
-
-            var existingVip = await _unitOfWork.vipRecordRepository.GetByIdAsync(id);
-            if (existingVip == null)
-            {
-                return NotFound();
-            }
-
-            _mapper.Map(vipdto, existingVip);
-
-            var updateResult = await _unitOfWork.VipPackageRepository.UpdateAsync(existingVip);
-
-            if (updateResult <= 0)
-            {
-                ModelState.AddModelError("", "Something went wrong while updating vip");
-                return StatusCode(500, ModelState);
-            }
-
-            return NoContent();
-        }
-
-
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteVipPackage(int id)
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateVipRecord(int id, [FromBody] VipRecordUpdateDTO vipdto)
         //{
-        //    var vipPackage = await _unitOfWork.VipPackageRepository.GetByIdAsync(id);
-        //    if (vipPackage == null)
+        //    if (vipdto == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    var existingVip = await _unitOfWork.vipRecordRepository.GetByIdAsync(id);
+        //    if (existingVip == null)
         //    {
         //        return NotFound();
         //    }
-        //    await _unitOfWork.VipPackageRepository.RemoveAsync(vipPackage);
+
+        //    var checkDate = await _unitOfWork.vipRecordRepository.CheckDateUpdateInput(vipdto);
+
+        //    if (checkDate == false)
+        //    {
+        //        return BadRequest("This vip record input date is invalid.");
+        //    }
+
+        //    _mapper.Map(vipdto, existingVip);
+
+        //    var updateResult = await _unitOfWork.vipRecordRepository.UpdateAsync(existingVip);
+
+        //    if (updateResult <= 0)
+        //    {
+        //        ModelState.AddModelError("", "Something went wrong while updating vip");
+        //        return StatusCode(500, ModelState);
+        //    }
 
         //    return NoContent();
         //}
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteVipRecord(int id)
+        {
+            var vipRecord = await _unitOfWork.vipRecordRepository.GetByIdAsync(id);
+            if (vipRecord == null)
+            {
+                return NotFound();
+            }
+            await _unitOfWork.vipRecordRepository.RemoveAsync(vipRecord);
+
+            return NoContent();
+        }
     }
 }
 
