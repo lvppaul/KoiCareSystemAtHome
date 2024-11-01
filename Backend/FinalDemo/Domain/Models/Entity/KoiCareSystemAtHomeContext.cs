@@ -479,7 +479,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
         modelBuilder.Entity<VipRecord>(entity =>
         {
-            entity.HasKey(e => e.CreateDate).HasName("PK__VipR__B40CC6ED16BED2A9");
+            entity.HasKey(e => e.Id).HasName("PK__VipR__B40CC6ED16BED2A9");
 
             entity.ToTable("VipRecord");
 
@@ -491,12 +491,14 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.HasOne(e => e.VipPackage).WithMany(p => p.VipRecords)
                 .HasForeignKey(e => e.VipId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__VipPackage__User__3C69FB99");
+                .HasConstraintName("FK__VipRecord__VipPackage__3C69FB99");
 
-            entity.Property(e => e.CreateDate)
-                .HasColumnName("CreateDate").HasDefaultValueSql("GETUTCDATE()").HasColumnType("datetime");
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .IsUnicode(false)
+                .HasColumnName("VipRecordId");
             entity.Property(e => e.UserId).HasColumnName("UserId");
-            entity.Property(e => e.StartDate).HasColumnType("datetime");
+            entity.Property(e => e.StartDate).HasDefaultValueSql("GETUTCDATE()").HasColumnType("datetime");
             entity.Property(e => e.EndDate).HasColumnType("datetime");
 
         });
