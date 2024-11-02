@@ -527,6 +527,8 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("Product");
 
+            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+
             entity.Property(e => e.ProductId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
