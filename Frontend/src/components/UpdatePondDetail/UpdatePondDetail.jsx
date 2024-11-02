@@ -5,6 +5,7 @@ import { storage } from '../../Config/firebase';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { useAuth } from '../../pages/Login/AuthProvider';
 import { updatePond } from '../../Config/PondApi';
+import { ToastifyMessage } from '../Toastify/ToastifyModel';
 
 const UpdatePondDetail = ({ show, setShow, pond, setPond }) => {
     const [loading, setLoading] = useState(false);
@@ -14,6 +15,7 @@ const UpdatePondDetail = ({ show, setShow, pond, setPond }) => {
     const [previewImage, setPreviewImage] = useState(null);
     const handleClose = () => setShow(false);
     const userId = useAuth().user.userId;
+    const [toastMessages, setToastMessages] = useState([]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -61,9 +63,11 @@ const UpdatePondDetail = ({ show, setShow, pond, setPond }) => {
             setPreviewImage(null);
             setLoading(false);
             handleClose();
+            setToastMessages((prev) => [...prev, 'Pond updated successful!']);
         } catch (error) {
             console.error('Error updating pond:', error);
             setLoading(false);
+            setToastMessages((prev) => [...prev, 'Pond updated failed!']);
         }
     };
 
@@ -71,6 +75,9 @@ const UpdatePondDetail = ({ show, setShow, pond, setPond }) => {
 
     return (
         <>
+            <ToastifyMessage messages={toastMessages} onClose={(index) => {
+                setToastMessages((prev) => prev.filter((_, i) => i !== index));
+            }} />
             <Button variant='success' onClick={setShow} 
             style={{ width: '180px', height: '70px', 
             fontWeight: 'bold', fontSize: '18px', 

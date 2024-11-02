@@ -8,12 +8,14 @@ import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
 import { useAuth } from '../../pages/Login/AuthProvider';
 import { postKoi } from '../../Config/KoiApi';
 import { useParams } from 'react-router-dom';
+import { ToastifyMessage } from '../Toastify/ToastifyModel';
 
 const AddNewFish = ({ show, setShow, onKoiAdded }) => {
     const newKoi = { name: '', age: '', sex: '', variety: '', physique: '', note: '', origin: '', length: '', weight: '', color: '', status: true, thumbnail: '', pondId: '' };
     const[loading, setLoading] = useState(false);
     const handleClose = () => setShow(false);
     const [koidetail, setKoiDetail] = useState(newKoi);
+    const [toastMessages, setToastMessages] = useState([]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -55,8 +57,10 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                 setKoiDetail(newKoi);
                 setPreviewImage(null);
                 setShow(false);
+                setToastMessages((prev) => [...prev, 'Fish added successful!']);
         } catch (error) {
             console.error('Error adding pond:', error);
+            setToastMessages((prev) => [...prev, 'Fish added failed!']);
         } finally {
             setLoading(false);
         }
@@ -64,6 +68,9 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
 
     return (
         <>
+            <ToastifyMessage messages={toastMessages} onClose={(index) => {
+                setToastMessages((prev) => prev.filter((_, i) => i !== index));
+            }} />
             <Row className='fish-item' 
             style={{justifyContent:'flex-end', margin:'20px 0'}} >
                 <Button  

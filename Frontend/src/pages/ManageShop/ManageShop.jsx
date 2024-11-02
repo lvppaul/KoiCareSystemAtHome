@@ -110,22 +110,22 @@ const ManageShop = () => {
     }, [fetchShopDetails]);
 
     const handleUpdateProduct = async (newProduct, imageFiles) => {
-
         await updateProduct(newProduct);
         const category = await getCategoryById(newProduct.categoryId);
         const updatedProduct = { ...newProduct, category: category };
-        if (newProduct.thumbnail) {
+        if (updatedProduct.thumbnail) {
             try {
-                const storageRef = ref(storage, newProduct.thumbnail);
-                newProduct.thumbnail = await getDownloadURL(storageRef);
+                const storageRef = ref(storage, updatedProduct.thumbnail);
+                updatedProduct.thumbnail = await getDownloadURL(storageRef);
             } catch (error) {
                 console.error('The file does not exist in firebase anymore!', error);
                 const storageRef = ref(storage, 'others/NotFound.jpg');
-                newProduct.thumbnail = await getDownloadURL(storageRef);
+                updatedProduct.thumbnail = await getDownloadURL(storageRef);
             }
         }
         setProducts(products.map(product => product.productId === updatedProduct.productId ? updatedProduct : product));
-
+        console.log('Product updated successfully', updatedProduct);
+        console.log('product',products);
 
         if (imageFiles && imageFiles.length > 0) {
             try {

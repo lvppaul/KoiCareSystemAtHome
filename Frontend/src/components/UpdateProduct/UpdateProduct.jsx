@@ -13,6 +13,7 @@ import {
   deleteProductImage,
   getProductImagesByProductId,
 } from "../../Config/ProductApi";
+import { FaChevronDown } from "react-icons/fa";
 
 const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
   const [newProduct, setNewProduct] = useState({
@@ -200,8 +201,8 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="formProductCategoryId" className="mb-3">
-            <Form.Label>Category ID</Form.Label>
+          <Form.Group controlId="formProductCategoryId" className="position-relative mb-3">
+            <Form.Label>Category</Form.Label>
             <Form.Control
               as="select"
               name="categoryId"
@@ -215,6 +216,7 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
                 </option>
               ))}
             </Form.Control>
+            <FaChevronDown style={{ position: 'absolute', right: '1rem', top: '80%', transform: 'translateY(-80%)', pointerEvents: 'none' }} />
           </Form.Group>
           <Form.Group controlId="formProductImages" className="mb-3">
             <Form.Label>Product Images</Form.Label>

@@ -12,7 +12,7 @@ namespace Domain.Models.Dto.Response
         public string UserId { get; set; } = null!;
         public DateTime CreateDate { get; set; } = DateTime.Now;
         public string OrderStatus { get; set; } = null!;
-        public List<OrderDetailDTO> orderDetails { get; set; }
-        public int TotalPrice => orderDetails.Sum(od => od.Quantity * od.UnitPrice);
+        public List<OrderVipDetailDTO> orderVipDetails { get; set; }
+        public int TotalPrice { get; set; }
     }
 }

@@ -162,7 +162,7 @@ const getUserIdByEmail = async (email) => {
 // Function to delete account
 const deleteAccount = async (userId) => {
   try {
-    const response = await api.put(`Account/DeleteAccount/${userId}`, {
+    const response = await api.delete(`Account/DeleteAccount/${userId}`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
