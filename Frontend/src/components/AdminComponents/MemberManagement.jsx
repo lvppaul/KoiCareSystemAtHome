@@ -51,7 +51,7 @@ const Members = () => {
   return (
     <>
       <div className="right-content">
-        <div className="members-content  shadow border-0 p-3 mt-4 ">
+        <div className="members-content shadow border-0 p-3 mt-4 ">
           <div className="member-content-header d-flex ">
             <h3 className="hd">Members Management</h3>
             <SearchBar />

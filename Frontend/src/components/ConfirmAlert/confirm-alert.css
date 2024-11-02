@@ -1,0 +1,23 @@
+.react-confirm-alert-body{
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    min-width: 30vw;
+    min-height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.react-confirm-alert-button-group{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 20px;
+    > button {
+        font-size: 20px !important;
+    }
+}
+

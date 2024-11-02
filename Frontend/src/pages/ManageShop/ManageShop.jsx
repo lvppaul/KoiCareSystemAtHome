@@ -110,7 +110,6 @@ const ManageShop = () => {
     }, [fetchShopDetails]);
 
     const handleUpdateProduct = async (newProduct, imageFiles) => {
-
         await updateProduct(newProduct);
         const category = await getCategoryById(newProduct.categoryId);
         const updatedProduct = { ...newProduct, category: category };

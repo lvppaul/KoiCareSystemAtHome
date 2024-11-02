@@ -6,6 +6,7 @@ import { storage } from '../../Config/firebase';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { useAuth } from '../../pages/Login/AuthProvider';
 import {updateKoi} from '../../Config/KoiApi'
+import { ToastifyMessage } from '../Toastify/ToastifyModel';
 
 const UpdateKoiDetail = ({show, setShow, koidetail, setKoiDetail}) => {
     const [loading, setLoading] = useState(false);
@@ -15,7 +16,8 @@ const UpdateKoiDetail = ({show, setShow, koidetail, setKoiDetail}) => {
     const [previewImage, setPreviewImage] = useState(null);
     const handleClose = () => setShow(false);
     const userId = useAuth().user.userId;
-                                  
+    const [toastMessages, setToastMessages] = useState([]);
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setKoi({ ...koi, [name]: value });
@@ -63,13 +65,18 @@ const UpdateKoiDetail = ({show, setShow, koidetail, setKoiDetail}) => {
             setPreviewImage(null);
             setLoading(false);
             handleClose();
+            setToastMessages((prev) => [...prev, 'Koi updated successful!']);
         } catch (error) {
             console.error('Error updating pond:', error);
             setLoading(false);
+            setToastMessages((prev) => [...prev, 'Koi updated failed!']);
         }
     };
     return (
         <>
+            <ToastifyMessage messages={toastMessages} onClose={(index) => {
+                setToastMessages((prev) => prev.filter((_, i) => i !== index));
+            }} />
             <Button onClick={setShow} 
             style={{ width: '180px', height: '70px', fontWeight: 'bold', fontSize: '18px', 
             borderRadius: '15px', backgroundColor: '#FF8433', transition: 'background-color 0.3s ease'}}
