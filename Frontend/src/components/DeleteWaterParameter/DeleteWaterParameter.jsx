@@ -1,6 +1,7 @@
 import { BiTrash } from 'react-icons/bi'
 import { deleteWaterData } from '../../Config/WaterParameterApi'
 import { useState } from 'react'
+import { showConfirmAlert } from '../ConfirmAlert/ConfirmAlert'
 
 const DeleteWaterParameter = ({waterData, updateDeleteWaterData}) => {
     const [measureId, setMeasureId] = useState(waterData);
@@ -8,7 +9,7 @@ const DeleteWaterParameter = ({waterData, updateDeleteWaterData}) => {
     const handleDeleteWaterData = () => {
         if(measureId){
             try{
-                const result = window.confirm('Are you sure you want to delete this WaterData?')
+                const result = showConfirmAlert('Delete WaterData', 'Are you sure you want to delete this water data?');
                 if(result){
                     deleteWaterData(measureId)
                     .then((response) => {
