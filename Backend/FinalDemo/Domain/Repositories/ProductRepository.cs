@@ -20,7 +20,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            var result = await _context.Products.Include(p => p.Category).FirstAsync(p => p.ProductId.Equals(id));
+            var result = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId.Equals(id) && p.IsDeleted == false && p.Status == true);
 
             return result;
         }
@@ -34,20 +34,34 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Product>> GetProductByCategoryId(int categoryId)
         {
-            var result = _context.Products.Include(p => p.Category).Where(p => p.CategoryId == categoryId).ToListAsync();
+            var result = _context.Products.Include(p => p.Category).Where(p => p.CategoryId == categoryId && p.IsDeleted == false).ToListAsync();
+
+            return await result;
+        }
+
+        public async Task<List<Product>> GetProductOnShop(int ShopId)
+        {
+            var result = _context.Products.Include(p => p.Category).Where(p => p.Status == true && p.IsDeleted == false && p.ShopId == ShopId).ToListAsync();
+
+            return await result;
+        }
+
+        public async Task<List<Product>> GetProductOutOfStock(int ShopId)
+        {
+            var result = _context.Products.Include(p => p.Category).Where(p => p.ShopId == ShopId && p.Status == false && p.IsDeleted == false).ToListAsync();
 
             return await result;
         }
 
         public async Task<List<Product>> GetProductByName(string name)
         { 
-            return await _context.Products.Include(p => p.Category).Where(p => p.Name.Contains(name)).ToListAsync(); ;
+            return await _context.Products.Include(p => p.Category).Where(p => p.Name.Contains(name) && p.IsDeleted == false).ToListAsync(); ;
         }
 
-        public async Task<List<Product>> GetProductsBySID(int id)
+        public async Task<List<Product>> GetProductsByShopID(int id)
         {
             var products = await _context.Products.Include(c =>c.Category)
-                .Where(u => u.ShopId.Equals(id))
+                .Where(u => u.ShopId.Equals(id) && u.IsDeleted == false)
                 .ToListAsync();
 
             return products ?? new List<Product> ();
@@ -55,7 +69,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         public async Task<Product> GetProductsByProductID(int id)
         {
             var products = await _context.Products
-                .Where(u => u.ProductId == id)
+                .Where(u => u.ProductId == id && u.IsDeleted == false)
                 .FirstOrDefaultAsync();
 
             return products;
@@ -65,7 +79,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         {
             var result = await _context.Products
             .Include(p => p.Category)
-            .Where(p => p.CategoryId == categoryId && p.ShopId == shopId)
+            .Where(p => p.CategoryId == categoryId && p.ShopId == shopId && p.IsDeleted == false)
             .ToListAsync();
             return result;
         }
@@ -76,7 +90,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
                             decimal? maxPrice = null,
                             int? shopId = null)
         {
-            IQueryable<Product> result = _context.Products.Include(p => p.Category);
+            IQueryable<Product> result = _context.Products.Include(p => p.Category).Where(p => p.IsDeleted == false);
             if (!string.IsNullOrEmpty(name))
             {
                 result = result.Where(p => p.Name.Contains(name));

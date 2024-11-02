@@ -93,6 +93,30 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
+        [HttpGet("GetProductOnShop/{ShopId}")]
+        public async Task<ActionResult<List<ProductDTO>>> GetProductOnShop(int ShopId)
+        {
+            var product = await _unitOfWork.ProductRepository.GetProductOnShop(ShopId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<ProductDTO>>(product);
+            return result;
+        }
+
+        [HttpGet("GetProductOutOfStockInShop/{ShopId}")]
+        public async Task<ActionResult<List<ProductDTO>>> GetProductOutOfStockOnShop(int ShopId)
+        {
+            var product = await _unitOfWork.ProductRepository.GetProductOutOfStock(ShopId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<ProductDTO>>(product);
+            return result;
+        }
+
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<ProductDTO> GetById(int id)
@@ -109,7 +133,7 @@ namespace KCSAH.APIServer.Controllers
         [HttpGet("ShopId/{id}")]
         public async Task<IActionResult> GetProductByShopIdAsync(int id)
         {
-            var result = await _unitOfWork.ProductRepository.GetProductsBySID(id);
+            var result = await _unitOfWork.ProductRepository.GetProductsByShopID(id);
             if (result == null)
             {
                 return NotFound();
@@ -210,8 +234,6 @@ namespace KCSAH.APIServer.Controllers
             return Ok(productDTOs);
         }
 
-
-
         private async Task<CategoryDTO> GetCategoryAsync(int id)
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(id);
@@ -223,13 +245,35 @@ namespace KCSAH.APIServer.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            await _unitOfWork.ProductRepository.RemoveCartItemsByProductIdAsync(id);
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
-            await _unitOfWork.ProductRepository.RemoveAsync(product);
+
+            var cartsWithProduct = await _unitOfWork.CartRepository.GetCartsByProductIdAsync(id);
+
+            product.IsDeleted = true;
+            await _unitOfWork.ProductRepository.UpdateAsync(product);
+
+            await _unitOfWork.ProductRepository.RemoveCartItemsByProductIdAsync(id);
+
+            foreach (var cart in cartsWithProduct)
+            {
+
+                var updatedCart = await _unitOfWork.CartRepository.GetCartById(cart.CartId);
+
+                if (updatedCart != null)
+                {
+                    int newTotal = updatedCart.CartItems
+                        .Where(ci => ci.Product != null && !ci.Product.IsDeleted)
+                        .Sum(ci => ci.Quantity * ci.Price);
+
+
+                    updatedCart.TotalAmount = newTotal;
+                    await _unitOfWork.CartRepository.UpdateAsync(updatedCart);
+                }
+            }
 
             return NoContent();
         }
