@@ -61,12 +61,21 @@ namespace APIService.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var existingVip = await _unitOfWork.vipRecordRepository.GetByvipIdAndUserIdAsync(viprecorddto.VipId,viprecorddto.UserId);
-            if (existingVip == null)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingVip = await _unitOfWork.vipRecordRepository.GetVipRecordByvipIdAndUserIdAsync(viprecorddto.VipId,viprecorddto.UserId);
+            if (existingVip != null && existingVip.EndDate>DateTime.Now)
             {
                 return BadRequest("User already upgrade vip");
             }
             var package = await _unitOfWork.VipPackageRepository.GetByIdAsync(viprecorddto.VipId);
+            if(package == null)
+            {
+                return BadRequest("Invalid Package");
+            }
             var viprecordcreate = await _unitOfWork.vipRecordRepository.CheckCreateAsync(viprecorddto, package.Options);
 
             var checkDate = await _unitOfWork.vipRecordRepository.CheckDateCreateInput(viprecorddto);
@@ -77,10 +86,7 @@ namespace APIService.Controllers
             }
             
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            
 
             var vipRecordMap = _mapper.Map<VipRecord>(viprecorddto);
 

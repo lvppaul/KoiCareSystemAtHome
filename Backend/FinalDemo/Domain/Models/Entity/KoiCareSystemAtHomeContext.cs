@@ -388,10 +388,8 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.ToTable("OrderVipDetail");
 
             entity.Property(e => e.OrderId).HasColumnName("OrderId");
-            entity.Property(e => e.VipId)
-                .ValueGeneratedOnAdd()
-                .IsUnicode(false)
-                .HasColumnName("VipId");
+            entity.Property(e => e.VipId).HasColumnName("VipId");
+            //entity.Property(e => e.CreateDate).HasColumnType("datetime").HasDefaultValueSql("GETDATE()");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderVipDetails)
                 .HasForeignKey(d => d.OrderId)
@@ -399,7 +397,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .HasConstraintName("FK__OrderDeta__OrderVip__5CD6CB2B");
 
             entity.HasOne(d => d.VipPackage).WithMany(p => p.OrderVipDetails)
-                .HasForeignKey(d => d.OrderId)
+                .HasForeignKey(d => d.VipId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__VipPackage__OrderVip__5CD6CB2B");
         });
