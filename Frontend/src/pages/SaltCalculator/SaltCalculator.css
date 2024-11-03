@@ -1,63 +1,65 @@
 .salt-calculator-container {
-  display: flex;
-  justify-content: space-between;
   padding: 24px;
-
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .salt-calculator {
-  width: 490px;
-  margin-left: 390px;
   padding: 24px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #f9f9f9;
-  text-align: center;
-  justify-content: center;
+  text-align: left; /* Align text to the left */
+  margin: 10px;
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
 }
 
 .salt-calculator h1 {
   margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
 }
 
 .salt-input-group {
   margin-bottom: 20px;
+}
+
+.salt-input-group .label-and-value {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
 .salt-input-group label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.salt-input-group input {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
+  font-weight: bold;
+  color: #555;
 }
 
 .salt-input-group input[type="range"] {
-  width: 300px;
-  
+  width: 100%;
 }
 
 .salt-input-group span {
   margin-top: 10px;
+  color: #777;
 }
 
 .right-container {
   margin-top: 36px;
-  margin-right: 390px;
-  margin-left: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
 }
 
-.salt-calculator-disclaimer {
-  max-width: 416px;
+.salt-calculator-disclaimer,
+.salt-calculator-result {
+  max-width: 100%;
   padding: 24px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -66,11 +68,12 @@
   margin-bottom: 20px;
 }
 
-.salt-calculator-result {
-  max-width: 416px;
-  padding: 24px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  text-align: center;
+.salt-calculator-disclaimer h3,
+.salt-calculator-result h2 {
+  color: #333;
+}
+
+.salt-calculator-disclaimer p {
+  color: #777;
+  font-size: 14px;
 }

@@ -1,19 +1,20 @@
 .food-calculator-container {
-  display: flex;
-  justify-content: space-between;
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px;
 }
 
 .food-calculator {
-  flex: 1;
-  margin-right: 20px;
-  background-color: #f9f9f9;
-  padding: 24px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  text-align: center;
+  margin-bottom: 20px;
+}
+
+.food-calculator .card-title {
+  font-size: 2rem; /* Make the title bigger */
+  font-weight: bold;
+}
+
+.food-calculator .form-label {
+  font-weight: bold; /* Make the labels bold */
 }
 
 .feeding-info {
@@ -46,18 +47,4 @@
 .temperature-buttons button {
   flex: 1;
   margin: 0 5px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #e0e0e0;
-  cursor: pointer;
-}
-
-.temperature-buttons button:hover {
-  background-color: #d0d0d0;
-}
-
-.temperature-buttons button.selected {
-  background-color: #a0a0a0;
-  color: white;
 }

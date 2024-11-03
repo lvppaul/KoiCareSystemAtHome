@@ -1,6 +1,7 @@
 import api from './AxiosConfig';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from './firebase';
+
 // Function to get kois
 const getKoiByUserId = async (userId) => {
     try {
@@ -20,6 +21,8 @@ const getKoiByUserId = async (userId) => {
         throw error;
     }
 }
+
+// Function to get kois by userId
 const getKoiListByUserId = async (koiId) => {
     try {
         const response = await api.get(`Koi/${koiId}`, {
@@ -35,6 +38,7 @@ const getKoiListByUserId = async (koiId) => {
         throw error;
     }
 }
+
 //Get Koi by userId 
 const getKoiWithThumbnail= async (koiList) => {
     const notFound = 'others/NotFound.jpg';
@@ -95,6 +99,7 @@ const getKoiById = async (koiId) => {
     }
 };
 
+// Function to post Koi
 const postKoi = async (koi) => {
     try {
         const response = await api.post('Koi', koi);
@@ -105,6 +110,7 @@ const postKoi = async (koi) => {
     }
 };
 
+// Function to update Koi
 const updateKoi = async (koi) => {
     try {
         const response = await api.put(`Koi/${koi.koiId}`, koi);
@@ -115,6 +121,7 @@ const updateKoi = async (koi) => {
     }
 };
 
+// Function to delete Koi
 const deleteKoi = async (koiId) => {
     try {
         await api.delete(`Koi/${koiId}`);
@@ -123,6 +130,8 @@ const deleteKoi = async (koiId) => {
         throw error;
     }
 }
+
+// Function to get Koi Record
 const getKoiRecord = async (recordId) => {
     try {
         const response = await api.get(`KoiRecord/async/${recordId}`);
@@ -132,6 +141,8 @@ const getKoiRecord = async (recordId) => {
         throw error;
     }
 }
+
+// Function to add Koi Record
 const addRecord = async (record) => {
     try {
         const response = await api.post('KoiRecord', record);
@@ -142,6 +153,7 @@ const addRecord = async (record) => {
     }
 };
 
+// Function to delete Koi Record
 const deleteRecord = async (recordId) => {
     console.log('recordId', recordId)
     try {
@@ -153,6 +165,7 @@ const deleteRecord = async (recordId) => {
     }
 };
 
+// Function to update Koi Record
 const updateKoiRecord = async (record) => {
     try {
         const response = await api.put(`KoiRecord/${record.recordId}`, record);

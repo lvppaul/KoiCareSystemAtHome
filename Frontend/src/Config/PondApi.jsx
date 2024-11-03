@@ -17,6 +17,7 @@ const getPonds = async () => {
     }
 }
 
+// Function to get ponds by user id
 const getPondByUserId = async (userId) => {
     try {
         const pondList = await api.get(`Pond/GetPondsByUserId/${userId}`);
@@ -32,6 +33,7 @@ const getPondByUserId = async (userId) => {
     }
 }
 
+// Function to get ponds by id
 const getPondsById = async (pondId) => {
     const notFound = 'others/NotFound.jpg';
     try {
@@ -79,6 +81,7 @@ const postPond = async (pondData) => {
         ;}
 };
 
+// Function to update pond data
 const updatePond = async (pondData) => {
     try {
         const response = await api.put(`Pond/${pondData.pondId}`, pondData);
@@ -89,6 +92,7 @@ const updatePond = async (pondData) => {
     }
 }
 
+// Function to delete pond
 const deletePond = async (pondId) => {
     try {
         await api.delete(`Pond/${pondId}`);
@@ -98,6 +102,7 @@ const deletePond = async (pondId) => {
     }
 }
 
+// Function to get koi in pond
 const getKoiInPond = async (pondId) => {
     const notFound = 'others/NotFound.jpg';
     try {
@@ -130,6 +135,7 @@ const getKoiInPond = async (pondId) => {
     }
 }
 
+// Function to get water parameter
 const getWaterParameter = async (pondId) => {
     try {
         const response = await api.get(`Pond/ListWaterParameter/${pondId}`);
@@ -140,6 +146,7 @@ const getWaterParameter = async (pondId) => {
         throw error;
     }
 }
+
 export { getPonds, getPondByUserId , getPondsById, postPond, updatePond, deletePond, getKoiInPond
     , getWaterParameter
 };
