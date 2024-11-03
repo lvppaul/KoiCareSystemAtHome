@@ -8,6 +8,9 @@
 
   <ItemGroup>
 	  <PackageReference Include="AutoMapper" Version="13.0.1" />
+	  <PackageReference Include="DinkToPdf" Version="1.0.8" />
+	  <PackageReference Include="DinkToPdf.Standard" Version="1.1.0" />
+	  <PackageReference Include="DinkToPdfCopy" Version="1.0.0" />
 	  <PackageReference Include="FirebaseAdmin" Version="3.0.1" />
 	  <PackageReference Include="MailKit" Version="4.8.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />

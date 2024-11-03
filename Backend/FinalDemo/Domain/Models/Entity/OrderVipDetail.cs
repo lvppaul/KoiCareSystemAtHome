@@ -12,7 +12,7 @@ namespace Domain.Models.Entity
 
         public int VipId { get; set; }
 
-        public DateTime CreateDate { get; set; }
+     //   public DateTime CreateDate { get; set; }
 
         public virtual Order Order { get; set; } = null!;
 

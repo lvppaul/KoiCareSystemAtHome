@@ -13,6 +13,8 @@ public partial class Product
     public string? Thumbnail { get; set; }
     public int Quantity { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public int Price { get; set; }
 
     public bool? Status { get; set; }

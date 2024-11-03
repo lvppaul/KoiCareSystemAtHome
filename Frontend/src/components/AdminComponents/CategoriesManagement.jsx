@@ -33,7 +33,7 @@ const AdminCategories = () => {
   return (
     <>
       <div className="right-content">
-        <div className="members-content card shadow border-0 p-3 mt-4">
+        <div className="members-content shadow border-0 p-3 mt-4">
           <div className="member-content-header d-flex ">
             <h3 className="hd">Categories Management</h3>
             <SearchBar />

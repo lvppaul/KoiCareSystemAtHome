@@ -33,6 +33,9 @@ namespace KCSAH.APIServer.Dto
             CreateMap<Order, OrderDTO>().ReverseMap();
             CreateMap<OrderRequestDTO, Order>().ReverseMap();
             CreateMap<OrderRequestDTO, OrderDTO>().ReverseMap();
+            CreateMap<Order, OrderVipDTO>().ReverseMap();
+            CreateMap<OrderVipRequestDTO, Order>().ReverseMap();
+            CreateMap<OrderVipRequestDTO, OrderVipDTO>().ReverseMap();
             //OrderDetail
             CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
             CreateMap<OrderDetailRequestDTO, OrderDetail>().ReverseMap();
@@ -160,6 +163,11 @@ namespace KCSAH.APIServer.Dto
             CreateMap<VipPackage, VipPackageDTO>().ReverseMap();
             CreateMap<VipPackageRequestDTO, VipPackage>().ReverseMap();
             CreateMap<VipPackageRequestDTO, VipPackageDTO>().ReverseMap();
+
+            //OrderVip
+            CreateMap<OrderVipDetail, OrderVipDetailDTO>().ReverseMap();
+            CreateMap<OrderVipDetailRequestDTO, OrderVipDetail>().ReverseMap();
+            CreateMap<OrderVipDetailRequestDTO, OrderVipDetailDTO>().ReverseMap();
 
         }
     }

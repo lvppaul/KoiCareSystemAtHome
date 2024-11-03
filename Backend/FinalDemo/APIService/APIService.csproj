@@ -10,6 +10,9 @@
 	  <PackageReference Include="AutoMapper" Version="13.0.1" />
 	  <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.3.2" />
 	  <PackageReference Include="Azure.Identity" Version="1.13.1" />
+	  <PackageReference Include="DinkToPdf" Version="1.0.8" />
+	  <PackageReference Include="DinkToPdf.Standard" Version="1.1.0" />
+	  <PackageReference Include="DinkToPdfCopy" Version="1.0.0" />
 	  <PackageReference Include="FirebaseAdmin" Version="3.0.1" />
 	  <PackageReference Include="FirebaseAuthentication.net" Version="3.7.2" />
 	  <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />

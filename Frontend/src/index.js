@@ -13,7 +13,6 @@ import Shop from "./pages/Shop/Shop";
 import NotPage from "./pages/NotPage/NotPage";
 import Pond from "./pages/Pond/Pond";
 import AdminHome from "./pages/Admin/Home/AdminHome";
-import TableUser from "./components/TableUser/TableUser";
 import SaltCalculator from "./pages/SaltCalculator/SaltCalculator";
 import FoodCalculator from "./pages/FoodCalculator/FoodCalculator";
 import Product from "./pages/Product/Product";
@@ -39,7 +38,7 @@ import AdminShops from "./components/AdminComponents/ShopManagement";
 import AdminCategories from "./components/AdminComponents/CategoriesManagement";
 import PaymentPage from "./pages/PaymentPage/PaymentPage";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
-import UpdateVipAccount from "./pages/UpdateVipAccount/UpdateVipAccount";
+import UpgradeVipAccount from "./pages/UpgradeVipAccount/UpgradeVipAccount";
 import Cart from "./pages/Cart/Cart";
 import Order from "./pages/Order/Order";
 import PaymentResult from "./pages/PaymentPage/PaymentResult";
@@ -58,7 +57,7 @@ root.render(
           <Route path="signup" element={<Signup />} />
           <Route path="createshopacc" element={<CreateShopAcc />} />
           <Route path="resetpassword" element={<ResetPassword />} />
-          <Route path="updateaccount" element={<UpdateVipAccount />} />
+          <Route path="updateaccount" element={<UpgradeVipAccount />} />
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="order/:orderId" element={<Order />} />

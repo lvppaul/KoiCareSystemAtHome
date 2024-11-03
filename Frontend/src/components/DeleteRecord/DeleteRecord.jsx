@@ -1,13 +1,14 @@
 import {useState } from 'react'
 import { BiTrash } from 'react-icons/bi'
 import { deleteRecord } from '../../Config/KoiApi'
+import { showConfirmAlert } from '../ConfirmAlert/ConfirmAlert'
 
 const DeleteRecord = ({recordData, updateDeleteRecord}) => {
     const [recordId, setRecordId] = useState(recordData);
     const handleDeleteRecord = () => {
         if(recordId){
             try{
-                const result = window.confirm('Are you sure you want to delete this record?')
+                const result = showConfirmAlert('Delete Record', 'Are you sure you want to delete this record?');
                 if(result){
                     deleteRecord(recordId)
                     .then((response) => {

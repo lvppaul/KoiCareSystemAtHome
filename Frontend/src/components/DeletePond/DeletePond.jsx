@@ -4,19 +4,23 @@ import { deletePond } from '../../Config/PondApi';
 import { storage } from '../../Config/firebase';
 import { ref, deleteObject } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
+import { showConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
+import Alert from '@mui/material/Alert';
+import { useState } from 'react';
 
 const DeletePond = ({ pondData, koiInPond, onPondDelete }) => {
     const pondId = pondData.pondId;
-    
     const notFound = 'others/NotFound.jpg';
     const pondThumbnail = pondData.thumbnail;
-    
-    const handleDelete = () => {
+    const [alert, setAlert] = useState(false);
+
+    const handleDelete = async () => {
         if (koiInPond.length > 0) {
-            alert('Please delete all koi in the pond before deleting the pond');
+            setAlert(true);
             return;
         } else {
-            const confirmDelete = window.confirm('Are you sure you want to delete this pond?');
+            
+            const confirmDelete = await showConfirmAlert('Delete Pond', 'Are you sure you want to delete this pond?');
             if (!confirmDelete) {
                 return;
             }
@@ -44,6 +48,14 @@ const DeletePond = ({ pondData, koiInPond, onPondDelete }) => {
 
     return (
         <>
+            {alert && 
+            <Alert 
+            style={{ position: 'absolute', zIndex: '1000', right: '10px', top: '10px' }} 
+            severity="error"
+            onClose={() => setAlert(false)}
+            >
+                Please remove all koi fish from the pond before deleting!</Alert>}
+            
             <Button 
                 onClick={handleDelete}
                 style={{ 

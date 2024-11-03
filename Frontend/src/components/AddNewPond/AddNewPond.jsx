@@ -7,6 +7,7 @@ import { storage } from '../../Config/firebase';
 import { ref, uploadBytes } from 'firebase/storage';
 import { useAuth } from '../../pages/Login/AuthProvider';
 import { postPond } from '../../Config/PondApi';
+import {ToastifyMessage} from '../Toastify/ToastifyModel';
 
 const AddNewPond = ({ show, setShow, onPondAdded }) => {
     const initialPondState = { name: '', volume: '', depth: '', pumpingCapacity: '', drain: '', skimmer: '', note: '', thumbnail: null };
@@ -16,6 +17,7 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
     const [storageRef, setStorageRef] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const userId = useAuth().user.userId;
+    const [toastMessages, setToastMessages] = useState([]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -45,12 +47,14 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
             const newPond = { ...ponddetail, userId };
             console.log('Adding pond:', newPond);
             await postPond(newPond);
-            onPondAdded(newPond);
+            await onPondAdded(newPond);
+            setToastMessages((prev) => [...prev, 'Pond added successful!']);
             setPondDetail(initialPondState);
             setPreviewImage(null);
             setShow(false);
         } catch (error) {
             console.error('Error adding pond:', error);
+            setToastMessages((prev) => [...prev, 'Pond added failed!']);
         } finally {
             setLoading(false);
         }
@@ -58,6 +62,9 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
 
     return (
         <>  
+            <ToastifyMessage messages={toastMessages} onClose={(index) => {
+                setToastMessages((prev) => prev.filter((_, i) => i !== index));
+            }} />
                 <Button variant="success" onClick={() => setShow(true)}
                     style={{ width: '180px', height: '70px', 
                         fontWeight: 'bold', fontSize: '16px', 

@@ -47,7 +47,7 @@ namespace Domain.Repositories
             return Task.FromResult(viprecorddto);
         }
 
-        public async Task<VipRecord> GetByvipIdAndUserIdAsync(int vipId, string userId)
+        public async Task<VipRecord> GetVipRecordByvipIdAndUserIdAsync(int vipId, string userId)
         {
             var result = await _context.VipRecords.Where(p => p.VipId == vipId && p.UserId == userId).FirstOrDefaultAsync();
             return result;

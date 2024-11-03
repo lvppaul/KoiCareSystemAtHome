@@ -167,6 +167,65 @@ namespace KCSAH.APIServer.Controllers
         }
 
 
+        [HttpPost("CreateOrderVip")]
+        public async Task<ActionResult<OrderDTO>> CreateOrderVip([FromBody] OrderVipRequestDTO ordervipdto)
+        {
+            if (ordervipdto == null)
+            {
+                return BadRequest("Order data cannot be null.");
+            }
+
+            
+
+            var orderVipMap = _mapper.Map<Order>(ordervipdto);
+            if (orderVipMap == null)
+            {
+                return BadRequest("Mapping to order entity failed.");
+            }
+
+            int total=0; // Khởi tạo giá trị cho total
+
+            foreach (var detail in orderVipMap.OrderVipDetails)
+            {
+                var vip = await _unitOfWork.VipPackageRepository.GetByIdAsync(detail.VipId);
+                if (vip == null)
+                {
+                    return NotFound($"Vip with ID {detail.VipId} not found.");
+                }
+
+                total = vip.Price;    
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            orderVipMap.isVipUpgrade = true;
+            orderVipMap.TotalPrice = total;
+            
+
+            // Lưu đơn hàng vào cơ sở dữ liệu
+            var createResult = await _unitOfWork.OrderRepository.CreateAsync(orderVipMap);
+            if (createResult <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while saving the order.");
+                return StatusCode(500, ModelState);
+            }
+
+            // Tạo và lưu thông tin doanh thu
+            var revenue = _mapper.Map<Revenue>(orderVipMap);
+            revenue.Income = total;
+            var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
+            if (createResultRevenue <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while saving revenue.");
+                return StatusCode(500, ModelState);
+            }
+
+            var order = _mapper.Map<OrderVipDTO>(orderVipMap);
+            return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
+        }
+
+
         private async Task<Product> GetProductAsync(int id)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
