@@ -12,6 +12,7 @@ import {
   Image,
   Spinner,
   Toast,
+  Pagination,
 } from "react-bootstrap";
 import { createPortal } from "react-dom";
 import { getShopByUserId } from "../../Config/ShopApi";
@@ -39,7 +40,11 @@ import { useAuth } from "../Login/AuthProvider";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
 
 const ManageShop = () => {
+  const { user } = useAuth();
+  const userId = user.userId;
+
   const [loading, setLoading] = useState(true);
+  const [productLoading, setProductLoading] = useState(true);
   const [carouselLoading, setCarouselLoading] = useState(true);
   const [productImages, setProductImages] = useState([]);
   const [products, setProducts] = useState([]);
@@ -50,11 +55,11 @@ const ManageShop = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const { user } = useAuth();
-  const userId = user.userId;
   const [errorCategory, setErrorCategory] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 7;
 
   const fetchProductImages = useCallback(async (productId) => {
     try {
@@ -109,9 +114,11 @@ const ManageShop = () => {
         );
         setProducts(updatedProducts);
         setLoading(false);
+        setProductLoading(false);
       } catch (error) {
         console.error("Error fetching products:", error);
         setLoading(false);
+        setProductLoading(false);
       }
     },
     [fetchProductImages]
@@ -354,12 +361,27 @@ const ManageShop = () => {
     }
   };
 
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const nextPage = () => setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.ceil(products.length / productsPerPage)));
+  const prevPage = () => setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center mt-5"
+        style={{ height: "100%" }}
+      >
+        <Spinner animation="border" size="xl" role="status" />
+      </div>
+    );
   }
 
   return (
-    <Container>
+    <Container className="p-3">
       <Card className="mb-4 shadow-sm">
         <Row>
           <Col md={4}>
@@ -417,102 +439,124 @@ const ManageShop = () => {
           </Button>
         </Col>
       </Row>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th style={{ width: "100px" }}>Thumbnail</th>
-            <th style={{ width: "150px" }}>Product Images</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th style={{ width: "150px" }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.productId}>
-              <td className="d-flex justify-content-center align-items-center">
-                <CardImg
-                  src={product.thumbnail}
-                  alt="Product Thumbnail"
-                  style={{ objectFit: "fill", width: "75px" }}
-                />
-              </td>
-              <td>
-                {carouselLoading ? (
-                  <div
-                    className="d-flex justify-content-center align-items-center"
-                    style={{ height: "100%" }}
-                  >
-                    <Spinner animation="border" size="xl" role="status" />
-                  </div>
-                ) : (
-                  <Carousel variant="dark">
-                    {[
-                      ...new Set(
-                        productImages
-                          .filter(
-                            (image) => image.productId === product.productId
-                          )
-                          .map((image) => image.imageId)
-                      ),
-                    ].map((imageId) => {
-                      const productImage = productImages.find(
-                        (image) => image.imageId === imageId
-                      );
-                      if (!productImage) return null;
-                      return (
-                        <Carousel.Item
-                          key={productImage.imageId}
-                          style={{ textAlign: "center" }}
-                        >
-                          <Image
-                            src={productImage.imageUrl}
-                            alt={`${product.name} image ${productImage.imageId}`}
-                            style={{ objectFit: "fill", width: "75px" }}
-                            fluid
-                          />
-                        </Carousel.Item>
-                      );
-                    })}
-                  </Carousel>
-                )}
-              </td>
-              <td>{product.name}</td>
-              <td>
-                {product.category ? product.category.name : errorCategory.name}
-              </td>
-              <td>{product.description}</td>
-              <td>{product.quantity}</td>
-              <td>{product.price}</td>
-              <td>{product.status ? "Available" : "Unavailable"}</td>
-              <td>
-                <div className="d-flex">
-                  <Button
-                    variant="warning"
-                    className="me-2"
-                    onClick={() => {
-                      setSelectedProduct(product);
-                      setShowUpdateProductModal(true);
-                    }}
-                  >
-                    Update
-                  </Button>
-                  <Button
-                    variant="danger"
-                    onClick={() => handleDeleteProduct(product.productId)}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      {productLoading ? (
+        <div
+          className="d-flex justify-content-center align-items-center mt-5 mb-5"
+          style={{ height: "100%" }}
+        >
+          <Spinner animation="border" size="xl" role="status" />
+        </div>
+      ) : (
+        <>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th style={{ width: "100px" }}>Thumbnail</th>
+                <th style={{ width: "150px" }}>Product Images</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th style={{ width: "150px" }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentProducts.map((product) => (
+                <tr key={product.productId}>
+                  <td className="d-flex justify-content-center align-items-center">
+                    <CardImg
+                      src={product.thumbnail}
+                      alt="Product Thumbnail"
+                      style={{ objectFit: "cover", width: "75px", height: "75px" }}
+                    />
+                  </td>
+                  <td>
+                    {carouselLoading ? (
+                      <div
+                        className="d-flex justify-content-center align-items-center"
+                        style={{ height: "100%" }}
+                      >
+                        <Spinner animation="border" size="xl" role="status" />
+                      </div>
+                    ) : (
+                      <Carousel variant="dark" indicators={false}>
+                        {[
+                          ...new Set(
+                            productImages
+                              .filter(
+                                (image) => image.productId === product.productId
+                              )
+                              .map((image) => image.imageId)
+                          ),
+                        ].map((imageId) => {
+                          const productImage = productImages.find(
+                            (image) => image.imageId === imageId
+                          );
+                          if (!productImage) return null;
+                          return (
+                            <Carousel.Item
+                              key={productImage.imageId}
+                              style={{ textAlign: "center" }}
+                            >
+                              <Image
+                                src={productImage.imageUrl}
+                                alt={`${product.name} image ${productImage.imageId}`}
+                                style={{ objectFit: "cover", width: "75px", height: "75px" }}
+                                fluid
+                              />
+                            </Carousel.Item>
+                          );
+                        })}
+                      </Carousel>
+                    )}
+                  </td>
+                  <td>{product.name}</td>
+                  <td>
+                    {product.category
+                      ? product.category.name
+                      : errorCategory.name}
+                  </td>
+                  <td>{product.description}</td>
+                  <td>{product.quantity}</td>
+                  <td>{product.price}</td>
+                  <td>{product.status ? "Available" : "Unavailable"}</td>
+                  <td>
+                    <div className="d-flex">
+                      <Button
+                        variant="warning"
+                        className="me-2"
+                        onClick={() => {
+                          setSelectedProduct(product);
+                          setShowUpdateProductModal(true);
+                        }}
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDeleteProduct(product.productId)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          <Pagination className="d-flex justify-content-center">
+            <Pagination.Prev onClick={prevPage} disabled={currentPage === 1} />
+            {Array.from({ length: Math.ceil(products.length / productsPerPage) }, (_, index) => (
+              <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
+                {index + 1}
+              </Pagination.Item>
+            ))}
+            <Pagination.Next onClick={nextPage} disabled={currentPage === Math.ceil(products.length / productsPerPage)} />
+          </Pagination>
+        </>
+      )}
       {selectedProduct && (
         <UpdateProduct
           product={selectedProduct}
