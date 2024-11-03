@@ -1,3 +1,5 @@
+using DinkToPdf.Contracts;
+using DinkToPdf;
 using Domain.Base;
 using Domain.Models.Entity;
 using Domain.Repositories;
@@ -74,6 +76,8 @@ FirebaseApp.Create(new AppOptions()
 });
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+builder.Services.AddScoped<PdfGenerator>();
 builder.Services.AddScoped<PondService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<VnPayService>();
