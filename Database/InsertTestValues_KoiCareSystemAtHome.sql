@@ -394,11 +394,11 @@ VALUES
 (3, 11, 2, 2400000),  -- OrderID 3, Product P011
 (4, 18, 1, 1800000);  -- OrderID 4, Product P018
 
-/*
-INSERT INTO OrderVipDetail (OrderId, VipId, CreateDate)
+
+INSERT INTO OrderVipDetail (OrderId, VipId)
 VALUES
-(5, 2,GETDATE()); 
-*/
+(5, 2); 
+
 
 -- Inserting Revenue based on Commission Fees (15% of Total Prices for each product)
 INSERT INTO Revenue (OrderID, Income)
