@@ -163,13 +163,21 @@ const Profile = () => {
                       style={{ color: "black", width: "3rem", height: "3rem" }}
                     />
                   ) : (
-                    <Image
-                      className="d-flex"
-                      style={{ maxBlockSize: "250px", objectFit: "cover", flex: 1 }}
-                      src={avatar}
-                      roundedCircle
-                      fluid
-                    />
+                    <>
+                      <Image
+                        className="d-flex"
+                        style={{ maxBlockSize: "250px", objectFit: "cover", flex: 1 }}
+                        src={avatar}
+                        roundedCircle
+                        fluid
+                      />
+                      <RequestResetPassword
+                        show={showResetPassword}
+                        setShow={() => setShowResetPassword(false)}
+                        userEmail={details.email}
+                        hidden={true}
+                      />
+                    </>
                   )}
                 </div>
                 <input type="file" id="avatarInput" style={{ display: "none" }} onChange={handleAvatarChange} />
@@ -185,12 +193,6 @@ const Profile = () => {
                 <Button variant="danger" className="mt-3" hidden="true" onClick={() => setShowConfirmModal(true)}>
                   Delete Account
                 </Button>
-                <RequestResetPassword
-                  show={showResetPassword}
-                  setShow={() => setShowResetPassword(false)}
-                  userEmail={details.email}
-                  hidden={true}
-                />
               </Col>
               <Col md={8}>
                 <ListGroup variant="flush">
