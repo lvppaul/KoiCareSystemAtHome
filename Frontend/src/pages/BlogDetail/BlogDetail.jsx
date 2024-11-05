@@ -2,16 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getBlogByBlogId } from "../../Config/BlogApi";
 import CommentSection from "../../components/CommentSection/CommentSection";
-import {
-  Container,
-  Row,
-  Col,
-  Spinner,
-  Alert,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Container, Row, Col, Spinner, Alert, Breadcrumb } from "react-bootstrap";
 import { format } from "date-fns";
 import { getAccountByUserId } from "../../Config/UserApi";
+import { storage } from "../../Config/firebase";
+import { getDownloadURL, ref } from "firebase/storage";
 
 const BlogDetail = () => {
   const { blogId } = useParams();
@@ -26,6 +21,13 @@ const BlogDetail = () => {
         const user = await getAccountByUserId(blogs.userId);
         const updatedBlog = { ...blogs, userName: `${user.firstName} ${user.lastName}` };
         setBlog(updatedBlog);
+
+
+        const storageRef = ref(storage, `news/newsImages/news2_image3.png`);
+        const url = await getDownloadURL(storageRef);
+        console.log('url', url);
+
+
       } catch (error) {
         console.error("Error fetching blog:", error);
         setError("Error fetching blog. Please try again later.");
@@ -80,17 +82,13 @@ const BlogDetail = () => {
             border: "none",
           }}
         />
-        <Container
-          className="py-3"
-          style={{ backgroundColor: "white", borderRadius: "10px" }}
-        >
+        <Container className="py-3" style={{ backgroundColor: "white", borderRadius: "10px" }}>
           <Row>
             <Col>
               <h1 style={{ fontWeight: "bolder" }}>{blog.title}</h1>
-              <p style={{ fontWeight: "bold"}}>Author: {blog.userName}</p>
+              <p style={{ fontWeight: "bold" }}>Author: {blog.userName}</p>
               <p style={{ fontWeight: "bold", color: "gray" }}>
-                Published on:{" "}
-                {format(new Date(blog.publishDate), "MMMM dd, yyyy - hh:mm a")}{" "}
+                Published on: {format(new Date(blog.publishDate), "MMMM dd, yyyy - hh:mm a")}{" "}
               </p>
               <hr /> <div dangerouslySetInnerHTML={{ __html: blog.content }} />
             </Col>
