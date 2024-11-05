@@ -1,24 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  Tabs,
-  Tab,
-  Button,
-  Spinner,
-  Container,
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Form,
-} from "react-bootstrap";
+import { Tabs, Tab, Button, Spinner, Container, Row, Col, Image, ListGroup, Form } from "react-bootstrap";
 import { useAuth } from "../Login/AuthProvider";
 import EditableListItem from "../../components/EditableListItem/EditableListItem";
 import EditableSelectItem from "../../components/EditableListItem/EditableSelectItem";
-import {
-  getAccountByUserId,
-  updateAccount,
-  deleteAccount,
-} from "../../Config/UserApi";
+import RequestResetPassword from "../../components/ResetPassword/RequestResetPassword";
+import { getAccountByUserId, updateAccount, deleteAccount } from "../../Config/UserApi";
 import { storage } from "../../Config/firebase";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
@@ -37,22 +23,19 @@ const Profile = () => {
   const [loadingAvatar, setLoadingAvatar] = useState(true);
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showResetPassword, setShowResetPassword] = useState(false);
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
       const accountDetails = await getAccountByUserId(userId);
       if (accountDetails) {
-
         if (accountDetails.avatar) {
           try {
             const storageRef = ref(storage, accountDetails.avatar);
             const previewAvatar = await getDownloadURL(storageRef);
             setAvatar(previewAvatar);
           } catch (error) {
-            console.error(
-              "The file does not exist in firebase anymore!",
-              error
-            );
+            console.error("The file does not exist in firebase anymore!", error);
             const storageRef = ref(storage, "others/NotFound.jpg");
             const previewAvatar = await getDownloadURL(storageRef);
             setAvatar(previewAvatar);
@@ -106,10 +89,7 @@ const Profile = () => {
     setLoadingAvatar(true);
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
-      const storageRef = ref(
-        storage,
-        `users/${userId}/userAvatars/${Date.now()}_${file.name}`
-      );
+      const storageRef = ref(storage, `users/${userId}/userAvatars/${Date.now()}_${file.name}`);
       try {
         const updateStatus = await updateAccount(userId, {
           ...details,
@@ -143,7 +123,7 @@ const Profile = () => {
   };
 
   const sexOptions = [
-    { value: "", label: "Select"},
+    { value: "", label: "Select" },
     { value: "Male", label: "Male" },
     { value: "Female", label: "Female" },
     { value: "Other", label: "Other" },
@@ -151,11 +131,7 @@ const Profile = () => {
 
   return (
     <Container className="p-3">
-      <Tabs
-        className="profile-tabs"
-        defaultActiveKey="account"
-        id="profile-tabs"
-      >
+      <Tabs className="profile-tabs" defaultActiveKey="account" id="profile-tabs">
         <Tab eventKey="account" title="Your Account" style={{ color: "white" }}>
           <Container
             className="p-2"
@@ -187,46 +163,41 @@ const Profile = () => {
                       style={{ color: "black", width: "3rem", height: "3rem" }}
                     />
                   ) : (
-                    <Image
-                    className="d-flex"
-                      style={{ maxBlockSize: "250px", objectFit: "cover", flex: 1 }}
-                      src={avatar}
-                      roundedCircle
-                      fluid
-                    />
+                    <>
+                      <Image
+                        className="d-flex"
+                        style={{ maxBlockSize: "250px", objectFit: "cover", flex: 1 }}
+                        src={avatar}
+                        roundedCircle
+                        fluid
+                      />
+                      <RequestResetPassword
+                        show={showResetPassword}
+                        setShow={() => setShowResetPassword(false)}
+                        userEmail={details.email}
+                        hidden={true}
+                      />
+                    </>
                   )}
                 </div>
-                <input
-                  type="file"
-                  id="avatarInput"
-                  style={{ display: "none" }}
-                  onChange={handleAvatarChange}
-                />
-                <Button
-                  variant="link"
-                  onClick={() => document.getElementById("avatarInput").click()}
-                >
+                <input type="file" id="avatarInput" style={{ display: "none" }} onChange={handleAvatarChange} />
+                <Button variant="link" onClick={() => document.getElementById("avatarInput").click()}>
                   Change Avatar
                 </Button>
-                <Button onClick={() => navigate("/updateaccount")}
-                 variant="primary" className="mt-5">
+                <Button onClick={() => navigate("/updateaccount")} variant="primary" className="mt-5">
                   Upgrade to VIP Account
                 </Button>
-                <Button
-                  variant="danger"
-                  className="mt-3"
-                  hidden="true"
-                  onClick={() => setShowConfirmModal(true)}
-                >
+                <Button onClick={() => setShowResetPassword(true)} variant="secondary" className="mt-3">
+                  Change password
+                </Button>
+                <Button variant="danger" className="mt-3" hidden="true" onClick={() => setShowConfirmModal(true)}>
                   Delete Account
                 </Button>
               </Col>
               <Col md={8}>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
-                    <h3 style={{ fontWeight: "bolder", textAlign: "center" }}>
-                      Account Details
-                    </h3>
+                    <h3 style={{ fontWeight: "bolder", textAlign: "center" }}>Account Details</h3>
                   </ListGroup.Item>
                   {loadingDetails ? (
                     <div
