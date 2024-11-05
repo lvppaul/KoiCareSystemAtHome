@@ -36,7 +36,7 @@ import Members from "./components/AdminComponents/MemberManagement";
 import Vips from "./components/AdminComponents/VipManagement";
 import AdminShops from "./components/AdminComponents/ShopManagement";
 import AdminCategories from "./components/AdminComponents/CategoriesManagement";
-import PaymentPage from "./pages/PaymentPage/PaymentPage";
+import VipPaymentResult from "./pages/PaymentPage/VipPaymentResult";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import UpgradeVipAccount from "./pages/UpgradeVipAccount/UpgradeVipAccount";
 import Cart from "./pages/Cart/Cart";
@@ -178,6 +178,7 @@ root.render(
       <Route path="confirmemail" element={<Confirmation />} />
       <Route path="reset-password" element={<ResetPasswordPage />} />
       {/* <Route path="*" element={<NotPage />} /> */}
+      <Route path='vip-payment' element={<VipPaymentResult />} />
     </Routes>
   </BrowserRouter>
 );

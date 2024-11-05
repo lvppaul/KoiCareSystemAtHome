@@ -55,7 +55,7 @@ const deleteVipPackage = async (id) => {
 
 const orderVipPackage = async (data) => {
     try{
-        const response = await api.post(`VipRecord/`, data);
+        const response = await api.post(`Order/CreateOrderVip`, data);
         console.log(response);
         return response;
     } catch (error) {

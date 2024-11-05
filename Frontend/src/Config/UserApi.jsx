@@ -206,6 +206,18 @@ const updateAccount = async (userId, account) => {
   }
 };
 
+const vipRecord = async (data) => {
+  try {
+    const response = api.post(`VipRecord`, data);
+    return response.status;
+  } catch (error) {
+    console.error("Error:", error);
+    return error.response;
+  }
+};
+
+const upgradeVip
+
 export {
   getAccountByUserId,
   getUserIdByEmail,
@@ -219,4 +231,5 @@ export {
   getTotalShops,
   lockUser,
   unLockUser,
+  vipRecord
 };

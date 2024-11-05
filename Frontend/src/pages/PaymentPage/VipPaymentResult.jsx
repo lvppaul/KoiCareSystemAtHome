@@ -5,29 +5,36 @@ import background from '../../assets/images/updateaccountbackground.png';
 import { BiXCircle, BiCheckCircle } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { getOrderById } from '../../Config/OrderApi';
+import { vipRecord } from '../../Config/UserApi';
+import { useAuth } from '../Login/AuthProvider';
 
-const PaymentResult = () => {
+const VipPaymentResult = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [paymentState, setPaymentState] = useState(false);
-  const returnUrl = window.location.href;
+  const orderId = localStorage.getItem('orderId');
+  const userId = useAuth().user.userId;
+
   const sendReturnUrl = async () => {
-    const url = new URL(window.location.href);
-    const orderId = url.searchParams.get('vnp_OrderInfo');
+    const returnUrl = window.location.href;
     if (returnUrl) {
       // Call the backend API with the returnUrl
-      const orderIdNumber = orderId ? orderId.match(/\d+/)[0] : null;
       const response = await getVNPayResult(returnUrl);
-      if (response) {
-        console.log('response:', response);
-        const orderResponse = await getOrderById(orderIdNumber);
-        orderResponse.isVipUpgrade ? 
-        if (response.status === 200){
-          setPaymentState(true);
-        } else {
-          setPaymentState(false);
+        if (response.status === 200) {
+            console.log('response:', orderId);
+            const order = await getOrderById(orderId);
+            if (order.isVipUpgrade) {
+                const upgradeData = {
+                    "vipId": order.vipId,
+                    "userId": userId,
+                };
+                const upgrade = await vipRecord(upgradeData);
+                upgrade.status === 201 ? setPaymentState(true) : setPaymentState(false);
+                setLoading(false);
+        } else { 
+            setPaymentState(false);
+            setLoading(false);
         }
-        setLoading(false);
       } else {
         setLoading(false);
       }
@@ -39,7 +46,7 @@ const PaymentResult = () => {
 
   useEffect(() => {
     sendReturnUrl();
-  }, [sendReturnUrl]);
+  }, []);
 
   return (
     <Container style={{
@@ -83,4 +90,4 @@ const PaymentResult = () => {
   );
 };
 
-export default PaymentResult;
+export default VipPaymentResult
