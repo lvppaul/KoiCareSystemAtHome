@@ -572,6 +572,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.Property(e => e.OrderId).HasColumnName("OrderId");
 
+            entity.Property(e => e.CreateAt).HasColumnType("datetime");
+            
+            entity.Property(e => e.isVip).HasDefaultValue(false);
+
             entity.HasOne(d => d.Order).WithMany(p => p.Revenues)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.Cascade)
