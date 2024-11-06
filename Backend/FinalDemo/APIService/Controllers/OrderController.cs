@@ -88,7 +88,7 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest("Order data cannot be null.");
             }
-        
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -100,7 +100,7 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest("Mapping to order entity failed.");
             }
 
-            int total = 0; // Khởi tạo giá trị cho total
+            int total = 0;
 
             foreach (var detail in orderMap.OrderDetails)
             {
@@ -130,7 +130,6 @@ namespace KCSAH.APIServer.Controllers
 
             orderMap.TotalPrice = total;
 
-            // Lưu đơn hàng vào cơ sở dữ liệu
             var createResult = await _unitOfWork.OrderRepository.CreateAsync(orderMap);
             if (createResult <= 0)
             {
@@ -138,7 +137,6 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            // Tạo và lưu thông tin doanh thu
             var revenue = _mapper.Map<Revenue>(orderMap);
             revenue.Income = (total * 10 / 100);
             var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
@@ -151,13 +149,10 @@ namespace KCSAH.APIServer.Controllers
             var cart = await _unitOfWork.CartRepository.GetByIdAsync(orderdto.UserId);
             if (cart != null)
             {
-                cart.CartItems.Clear();
-                cart.TotalAmount = 0;
-
-                var updateCartResult = await _unitOfWork.CartRepository.UpdateAsync(cart);
-                if (updateCartResult <= 0)
+                var deleteCartResult = await _unitOfWork.CartRepository.RemoveAsync(cart);
+                if (!deleteCartResult)
                 {
-                    ModelState.AddModelError("", "Something went wrong while resetting the cart.");
+                    ModelState.AddModelError("", "Something went wrong while deleting the cart.");
                     return StatusCode(500, ModelState);
                 }
             }
@@ -165,6 +160,7 @@ namespace KCSAH.APIServer.Controllers
             var order = _mapper.Map<OrderDTO>(orderMap);
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
         }
+
 
 
         [HttpPost("CreateOrderVip")]
@@ -183,7 +179,7 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest("Mapping to order entity failed.");
             }
 
-            int total=0; // Khởi tạo giá trị cho total
+            int total=0;
 
             foreach (var detail in orderVipMap.OrderVipDetails)
             {
@@ -203,7 +199,6 @@ namespace KCSAH.APIServer.Controllers
             orderVipMap.TotalPrice = total;
             
 
-            // Lưu đơn hàng vào cơ sở dữ liệu
             var createResult = await _unitOfWork.OrderRepository.CreateAsync(orderVipMap);
             if (createResult <= 0)
             {
@@ -211,7 +206,6 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            // Tạo và lưu thông tin doanh thu
             var revenue = _mapper.Map<Revenue>(orderVipMap);
             revenue.Income = total;
             var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);

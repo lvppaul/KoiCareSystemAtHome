@@ -45,7 +45,7 @@ namespace Domain.Services
             vnpay.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(context));
             vnpay.AddRequestData("vnp_Locale", _config["VnPay:Locale"]);
 
-            vnpay.AddRequestData("vnp_OrderInfo", "Thanh toán cho đơn hàng:" + model.OrderId);
+            vnpay.AddRequestData("vnp_OrderInfo", model.OrderId.ToString());
             vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
             vnpay.AddRequestData("vnp_ReturnUrl", _config["VnPay:PaymentBackReturnUrl"]);
 

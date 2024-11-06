@@ -53,6 +53,18 @@ namespace APIService.Controllers
             return result;
         }
 
+        [HttpGet("GetVipPackageByOrderId")]
+        public async Task<ActionResult<VipPackageDTO>> GetVipPackageByOrderId(int orderId)
+        {
+            var vip = await _unitOfWork.VipPackageRepository.GetVipPackageByOrderIdAsync(orderId);
+            if (vip == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<VipPackageDTO>(vip);
+            return result;
+        }
+
         [HttpPost]
         public async Task<ActionResult<VipPackage>> CreateVipRecord([FromBody] VipPackageRequestDTO vippackagedto)
         {

@@ -70,5 +70,19 @@ namespace Domain.Repositories
             }
             return result;
         }
+
+        public async Task<VipPackage> GetVipPackageByOrderIdAsync(int orderId)
+        {
+            var order = await _context.Orders.Where(o => o.OrderId == orderId).Include(p => p.OrderVipDetails).ThenInclude(v => v.VipPackage).FirstOrDefaultAsync();
+            if(order != null)
+            {
+                foreach (var item in order.OrderVipDetails)
+                {
+                    return item.VipPackage;
+                }
+            }
+            return null;
+            
+        }
     }
 }

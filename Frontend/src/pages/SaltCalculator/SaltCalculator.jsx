@@ -1,17 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getPondByUserId } from "../../Config/PondApi";
 import { useAuth } from "../Login/AuthProvider";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  FormLabel,
-  FormControl,
-  FormText,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, Form, FormGroup, FormLabel, FormControl, FormText, Button } from "react-bootstrap";
 import "./SaltCalculator.css";
 
 const SaltCalculator = () => {
@@ -35,12 +25,7 @@ const SaltCalculator = () => {
         if (pondsData.length > 0) {
           setSelectedPond(pondsData[0].pondId);
           setVolume(pondsData[0].volume);
-          showResult(
-            pondsData[0].volume,
-            currentConcentration,
-            desiredConcentration,
-            waterChange
-          );
+          showResult(pondsData[0].volume, currentConcentration, desiredConcentration, waterChange);
         }
       } catch (error) {
         console.error("Error fetching ponds:", error);
@@ -54,31 +39,15 @@ const SaltCalculator = () => {
     if (selectedPond !== null) {
       const pond = ponds.find((p) => p.pondId === selectedPond);
       console.log(ponds);
-      console.log('selectedPond', selectedPond);
+      console.log("selectedPond", selectedPond);
       if (pond) {
         setVolume(pond.volume);
-        showResult(
-          pond.volume,
-          currentConcentration,
-          desiredConcentration,
-          waterChange
-        );
+        showResult(pond.volume, currentConcentration, desiredConcentration, waterChange);
       }
     }
-  }, [
-    selectedPond,
-    ponds,
-    currentConcentration,
-    desiredConcentration,
-    waterChange,
-  ]);
+  }, [selectedPond, ponds, currentConcentration, desiredConcentration, waterChange]);
 
-  const showResult = (
-    volume,
-    currentConcentration,
-    desiredConcentration,
-    waterChange
-  ) => {
+  const showResult = (volume, currentConcentration, desiredConcentration, waterChange) => {
     if (desiredConcentration < currentConcentration) {
       let tempConcentration = currentConcentration;
       let changes = 0;
@@ -98,8 +67,7 @@ const SaltCalculator = () => {
     } else {
       const concentrationDiff = desiredConcentration - currentConcentration;
       const saltAmount = (volume * concentrationDiff) / 100;
-      const saltPerChange =
-        (volume * waterChange * desiredConcentration) / 10000;
+      const saltPerChange = (volume * waterChange * desiredConcentration) / 10000;
       setResult({ total: saltAmount, perChange: saltPerChange });
     }
   };
@@ -120,12 +88,7 @@ const SaltCalculator = () => {
                   setSelectedPond(parseInt(e.target.value));
                   const pond = ponds.find((p) => p.pondId === parseInt(e.target.value));
                   if (pond) {
-                    showResult(
-                      pond.volume,
-                      currentConcentration,
-                      desiredConcentration,
-                      waterChange
-                    );
+                    showResult(pond.volume, currentConcentration, desiredConcentration, waterChange);
                   }
                 }}
               >
@@ -142,9 +105,7 @@ const SaltCalculator = () => {
             </FormGroup>
             <FormGroup className="salt-input-group">
               <div className="label-and-value">
-                <FormLabel htmlFor="currentConcentration">
-                  Current Salt Concentration (%):
-                </FormLabel>
+                <FormLabel htmlFor="currentConcentration">Current Salt Concentration (%):</FormLabel>
                 <FormText>{currentConcentration} %</FormText>
               </div>
               <FormControl
@@ -163,9 +124,7 @@ const SaltCalculator = () => {
             </FormGroup>
             <FormGroup className="salt-input-group">
               <div className="label-and-value">
-                <FormLabel htmlFor="desiredConcentration">
-                  Desired Salt Concentration (%):
-                </FormLabel>
+                <FormLabel htmlFor="desiredConcentration">Desired Salt Concentration (%):</FormLabel>
                 <FormText>{desiredConcentration} %</FormText>
               </div>
               <FormControl
@@ -186,8 +145,7 @@ const SaltCalculator = () => {
               <div className="label-and-value">
                 <FormLabel htmlFor="waterChange">Water Change (%):</FormLabel>
                 <FormText>
-                  {waterChange} % ({((volume * waterChange) / 100).toFixed(2)}{" "}
-                  liters)
+                  {waterChange} % ({((volume * waterChange) / 100).toFixed(2)} liters)
                 </FormText>
               </div>
               <FormControl
@@ -200,12 +158,7 @@ const SaltCalculator = () => {
                 onChange={(e) => {
                   const value = parseFloat(e.target.value);
                   setWaterChange(value);
-                  showResult(
-                    volume,
-                    currentConcentration,
-                    desiredConcentration,
-                    value
-                  );
+                  showResult(volume, currentConcentration, desiredConcentration, value);
                 }}
               />
             </FormGroup>
@@ -215,34 +168,23 @@ const SaltCalculator = () => {
           <div className="salt-calculator-disclaimer">
             <h3>Disclaimer</h3>
             <p>
-              Only add pure salt without iodine to the water! Too high of a salt
-              concentration can be damaging to the koi. If you are unsure,
-              please talk to a veterinarian. For fighting diseases and algae or
-              for taking precautions a concentration of 0.5% is recommended.
+              Only add pure salt without iodine to the water! Too high of a salt concentration can be damaging to the
+              koi. If you are unsure, please talk to a veterinarian. For fighting diseases and algae or for taking
+              precautions a concentration of 0.5% is recommended.
             </p>
           </div>
           {result && (
             <div className="salt-calculator-result">
               {result.changes ? (
-                <h2>
-                  Number of water changes to reach desired concentration:{" "}
-                  {result.changes}
-                </h2>
+                <h2>Number of water changes to reach desired concentration: {result.changes}</h2>
               ) : (
                 <>
                   <h2>
-                    Required Salt Amount:{" "}
-                    {Number.isInteger(result.total)
-                      ? result.total
-                      : result.total.toFixed(1)}{" "}
-                    kg
+                    Required Salt Amount: {Number.isInteger(result.total) ? result.total : result.total.toFixed(1)} kg
                   </h2>
                   <h2>
                     Per water change (refill):{" "}
-                    {Number.isInteger(result.perChange)
-                      ? result.perChange
-                      : result.perChange.toFixed(2)}{" "}
-                    kg
+                    {Number.isInteger(result.perChange) ? result.perChange : result.perChange.toFixed(2)} kg
                   </h2>
                 </>
               )}
