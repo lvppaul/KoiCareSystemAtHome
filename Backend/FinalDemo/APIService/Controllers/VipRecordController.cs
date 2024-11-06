@@ -25,7 +25,7 @@ namespace APIService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VipRecordDTO>>> GetAllSync()
         {
-            var vips = await _unitOfWork.vipRecordRepository.GetAllAsync();
+            var vips = await _unitOfWork.VipRecordRepository.GetAllAsync();
             var vipDTOs = _mapper.Map<List<VipRecordDTO>>(vips);
             return Ok(vipDTOs);
         }
@@ -33,7 +33,7 @@ namespace APIService.Controllers
         [HttpGet("GetVipRecordById/{id}")]
         public async Task<ActionResult<VipRecordDTO>> GetByIdAsync(int id)
         {
-            var vip = await _unitOfWork.vipRecordRepository.GetByIdAsync(id);
+            var vip = await _unitOfWork.VipRecordRepository.GetByIdAsync(id);
             if (vip == null)
             {
                 return NotFound();
@@ -45,7 +45,7 @@ namespace APIService.Controllers
         [HttpGet("GetVipRecordByUserId/{UserId}")]
         public async Task<ActionResult<VipRecordDTO>> GetVipRecordByUserId(string UserId)
         {
-            var vip = await _unitOfWork.vipRecordRepository.GetVipRecordByUserIdAsync(UserId);
+            var vip = await _unitOfWork.VipRecordRepository.GetVipRecordByUserIdAsync(UserId);
             if (vip == null)
             {
                 return NotFound();
@@ -66,7 +66,7 @@ namespace APIService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existingVip = await _unitOfWork.vipRecordRepository.GetVipRecordByvipIdAndUserIdAsync(viprecorddto.VipId,viprecorddto.UserId);
+            var existingVip = await _unitOfWork.VipRecordRepository.GetVipRecordByvipIdAndUserIdAsync(viprecorddto.VipId,viprecorddto.UserId);
             if (existingVip != null && existingVip.EndDate>DateTime.Now)
             {
                 return BadRequest("User already upgrade vip");
@@ -76,9 +76,9 @@ namespace APIService.Controllers
             {
                 return BadRequest("Invalid Package");
             }
-            var viprecordcreate = await _unitOfWork.vipRecordRepository.CheckCreateAsync(viprecorddto, package.Options);
+            var viprecordcreate = await _unitOfWork.VipRecordRepository.CheckCreateAsync(viprecorddto, package.Options);
 
-            var checkDate = await _unitOfWork.vipRecordRepository.CheckDateCreateInput(viprecorddto);
+            var checkDate = await _unitOfWork.VipRecordRepository.CheckDateCreateInput(viprecorddto);
 
             if (checkDate == false)
             {
@@ -90,7 +90,7 @@ namespace APIService.Controllers
 
             var vipRecordMap = _mapper.Map<VipRecord>(viprecorddto);
 
-            var createResult = await _unitOfWork.vipRecordRepository.CreateAsync(vipRecordMap);
+            var createResult = await _unitOfWork.VipRecordRepository.CreateAsync(vipRecordMap);
 
             if (createResult <= 0)
             {
@@ -141,12 +141,12 @@ namespace APIService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVipRecord(int id)
         {
-            var vipRecord = await _unitOfWork.vipRecordRepository.GetByIdAsync(id);
+            var vipRecord = await _unitOfWork.VipRecordRepository.GetByIdAsync(id);
             if (vipRecord == null)
             {
                 return NotFound();
             }
-            await _unitOfWork.vipRecordRepository.RemoveAsync(vipRecord);
+            await _unitOfWork.VipRecordRepository.RemoveAsync(vipRecord);
 
             return NoContent();
         }
