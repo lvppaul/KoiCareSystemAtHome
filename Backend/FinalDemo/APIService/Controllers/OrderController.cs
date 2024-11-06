@@ -7,6 +7,7 @@ using Domain.Models.Entity;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Request;
 using Domain.Services;
+using Domain.Base;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -15,14 +16,16 @@ namespace KCSAH.APIServer.Controllers
     public class OrderController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly IAccountRepository accountRepository;
         private readonly IMapper _mapper;
         private UserService _getService;
 
-        public OrderController(UnitOfWork unitOfWork, IMapper mapper, UserService getService)
+        public OrderController(UnitOfWork unitOfWork, IMapper mapper, UserService getService, IAccountRepository accountRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _getService = getService;
+            this.accountRepository = accountRepository; 
         }
 
         [HttpGet]
@@ -90,6 +93,18 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
             var show = _mapper.Map<List<OrderDTO>>(result);
+            return Ok(show);
+        }
+
+        [HttpGet("VipOrderByUserId/{id}")]
+        public async Task<IActionResult> GetVipOrderByUserIdAsync(string id)
+        {
+            var result = await _getService.GetVipOrderByUserIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderVipDTO>>(result);
             return Ok(show);
         }
 
@@ -176,7 +191,14 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest("Order data cannot be null.");
             }
 
-            
+            var user = await _unitOfWork.vipRecordRepository.GetAccountByUserIdAsync(ordervipdto.UserId);
+            foreach(var item in user.VipRecords)
+            {
+                if(item.EndDate> DateTime.Now)
+                {
+                    return BadRequest("User is already VIP.");
+                }
+            }
 
             var orderVipMap = _mapper.Map<Order>(ordervipdto);
             if (orderVipMap == null)
