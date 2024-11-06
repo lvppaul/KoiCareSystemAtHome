@@ -216,7 +216,15 @@ const vipRecord = async (data) => {
   }
 };
 
-const upgradeVip
+const upgradeVipAccount = async (userId) => {
+  try {
+    const response = api.put(`Account/ChangeToVipAccount${userId}`);
+    return response.status;
+  } catch (error) {
+    console.error("Error:", error);
+    return error.response;
+  }
+};
 
 export {
   getAccountByUserId,
@@ -231,5 +239,5 @@ export {
   getTotalShops,
   lockUser,
   unLockUser,
-  vipRecord
+  upgradeVipAccount,
 };
