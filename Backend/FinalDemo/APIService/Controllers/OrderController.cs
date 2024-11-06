@@ -45,6 +45,18 @@ namespace KCSAH.APIServer.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetVippackageOrder")]
+        public ActionResult<OrderVipDTO> GetVipOrder()
+        {
+            var order = _unitOfWork.OrderRepository.GetVipOrder();
+            if (order == null)
+            {
+                return NoContent();
+            }
+            var result = _mapper.Map<OrderDTO>(order);
+            return Ok(result);
+        }
+
         [HttpGet("OrderId/{id}")]
         public async Task<ActionResult<OrderDTO>> GetOrderByIdAsync(int id)
         {
@@ -155,8 +167,6 @@ namespace KCSAH.APIServer.Controllers
             var order = _mapper.Map<OrderDTO>(orderMap);
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
         }
-
-
 
         [HttpPost("CreateOrderVip")]
         public async Task<ActionResult<OrderDTO>> CreateOrderVip([FromBody] OrderVipRequestDTO ordervipdto)

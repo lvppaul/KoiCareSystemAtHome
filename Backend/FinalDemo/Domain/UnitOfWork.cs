@@ -18,6 +18,7 @@ namespace SWP391.KCSAH.Repository
         private ProductRepository _productRepository;
         private CategoryRepository _categoryRepository;
         private CartRepository _cartRepository;
+        private CartItemRepository _cartItemRepository;
         private UserRepository _userRepository;
         private OrderRepository _orderRepository;
         private OrderDetailRepository _orderDetailRepository;
@@ -160,11 +161,19 @@ namespace SWP391.KCSAH.Repository
             }
         }
 
-        public VipRecordRepository vipRecordRepository
+        public VipRecordRepository VipRecordRepository
         {
             get
             {
                 return _vipRecordRepository ??= new VipRecordRepository(_context);
+            }
+        }
+
+        public CartItemRepository CartItemRepository
+        {
+            get
+            {
+                return _cartItemRepository ??= new CartItemRepository(_context);
             }
         }
 
