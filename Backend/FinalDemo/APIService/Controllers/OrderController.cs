@@ -152,17 +152,6 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            var cart = await _unitOfWork.CartRepository.GetByIdAsync(orderdto.UserId);
-            if (cart != null)
-            {
-                var deleteCartResult = await _unitOfWork.CartRepository.RemoveAsync(cart);
-                if (!deleteCartResult)
-                {
-                    ModelState.AddModelError("", "Something went wrong while deleting the cart.");
-                    return StatusCode(500, ModelState);
-                }
-            }
-
             var order = _mapper.Map<OrderDTO>(orderMap);
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
         }
