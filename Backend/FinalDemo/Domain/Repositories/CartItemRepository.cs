@@ -24,5 +24,12 @@ namespace Domain.Repositories
 
             return result;
         }
+
+        public async Task RemoveAllItemsInCart(int cartId)
+        {
+            var items = _context.CartItems.Where(ci => ci.CartId == cartId);
+            _context.CartItems.RemoveRange(items);
+            await _context.SaveChangesAsync();
+        }
     }
 }
