@@ -64,7 +64,7 @@ const AdminSideBar = () => {
               </Button>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="categories">
               <Button className="w-100">
                 <span className="icon">
@@ -73,8 +73,8 @@ const AdminSideBar = () => {
                 Category
               </Button>
             </Link>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <Link to="vippackages">
               <Button className="w-100">
                 <span className="icon">
@@ -83,8 +83,8 @@ const AdminSideBar = () => {
                 Vip Packages
               </Button>
             </Link>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <Link to="categories">
               <Button className="w-100">
                 <span className="icon">
@@ -93,7 +93,7 @@ const AdminSideBar = () => {
                 News
               </Button>
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link to="#">
               <Button className="w-100" onClick={handleLogOut}>
