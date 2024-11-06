@@ -17,6 +17,7 @@ const Home = () => {
   const user = useAuth();
   return (
     <>
+    {console.log('user:', user)}
       <Container fluid className="homepage">
         <div className='landing'>
           <Row className="hero-section">

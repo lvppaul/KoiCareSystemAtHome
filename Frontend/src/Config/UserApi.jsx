@@ -206,16 +206,6 @@ const updateAccount = async (userId, account) => {
   }
 };
 
-const vipRecord = async (data) => {
-  try {
-    const response = api.post(`VipRecord`, data);
-    return response.status;
-  } catch (error) {
-    console.error("Error:", error);
-    return error.response;
-  }
-};
-
 const upgradeVipAccount = async (userId) => {
   try {
     console.log('userId to api:', userId);
@@ -223,6 +213,16 @@ const upgradeVipAccount = async (userId) => {
   } catch (error) {
     console.error("Error:", error);
     return error.response;
+  }
+};
+
+const refreshToken = async (refreshToken) => {
+  try {
+    const response = await api.post("Account/refresh-token", refreshToken);
+    return response.data;
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+    return null;
   }
 };
 
@@ -240,4 +240,5 @@ export {
   lockUser,
   unLockUser,
   upgradeVipAccount,
+  refreshToken,
 };

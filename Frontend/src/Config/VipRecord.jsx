@@ -42,7 +42,7 @@ const getVipRecordByUserId = async (id) => {
         return response;
     } catch (error) {
         console.error("Error fetching vip record by user id:", error);
-        return null;
+        return error.response;
     }
 };
 

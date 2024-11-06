@@ -25,7 +25,7 @@ const Profile = () => {
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showResetPassword, setShowResetPassword] = useState(false);
-  const [vipRecord, setVipRecord] = useState({});
+  const [vipRecord, setVipRecord] = useState();
   useEffect(() => {
     fetchVipRecordsUserId();
     const fetchAccountDetails = async () => {
@@ -63,6 +63,8 @@ const Profile = () => {
     const response = await getVipRecordByUserId(userId);
     if (response.status === 200) {
       setVipRecord(response.data);
+    } else {
+      setVipRecord(null);
     }
   };
     

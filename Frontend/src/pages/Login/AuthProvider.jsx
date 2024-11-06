@@ -49,8 +49,15 @@ export const AuthProvider = ({ children }) => {
         return user && roleHierarchy[user.role] >= roleHierarchy[requiredRole];
     };
 
+    const updateAuthToken = (newToken) => {
+        const updatedUser = { ...user, token: newToken };
+        setUser(updatedUser);
+        console.log('updatedUser:', updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, logout, hasRole }}>
+        <AuthContext.Provider value={{ user, login, logout, hasRole, updateAuthToken }}>
             {!loading && children}
         </AuthContext.Provider>
     );

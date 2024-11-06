@@ -57,7 +57,6 @@ root.render(
           <Route path="signup" element={<Signup />} />
           <Route path="createshopacc" element={<CreateShopAcc />} />
           <Route path="resetpassword" element={<ResetPassword />} />
-          <Route path="updateaccount" element={<UpgradeVipAccount />} />
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
             <Route path="order/:orderId" element={<Order />} />
@@ -170,6 +169,7 @@ root.render(
       </AuthProvider>
     </React.StrictMode>
     {/*Route no StrictMode*/}
+    <AuthProvider>
     <Routes>
       <Route
         path="payment/api/VNPay/vnpay-return"
@@ -178,7 +178,9 @@ root.render(
       <Route path="confirmemail" element={<Confirmation />} />
       <Route path="reset-password" element={<ResetPasswordPage />} />
       {/* <Route path="*" element={<NotPage />} /> */}
+      <Route path="updateaccount" element={<UpgradeVipAccount />} />
     </Routes>
+  </AuthProvider>
   </BrowserRouter>
 );
 

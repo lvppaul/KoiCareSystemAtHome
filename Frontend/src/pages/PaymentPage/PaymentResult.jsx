@@ -9,13 +9,15 @@ import { upgradeVipAccount } from '../../Config/UserApi';
 import { useAuth } from '../Login/AuthProvider';
 import { getVipPackageByOrderId } from '../../Config/VipPackageApi';
 import { createVipRecord } from '../../Config/VipRecord';
+import { refreshToken } from '../../Config/UserApi';
 
 const PaymentResult = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [paymentState, setPaymentState] = useState(false);
   const returnUrl = window.location.href;
-  
+  const [isVipUpgrade, setIsVipUpgrade] = useState(false);
+  const {logout} = useAuth();
   const [userId, setUserId] = useState('');
 
   const sendReturnUrl = async () => {
@@ -40,9 +42,8 @@ const PaymentResult = () => {
               userId: userId,
               vipId: vipPackage.vipId,
             };
-            console.log(vipRecord);
-            const newVipRecord = await createVipRecord(vipRecord);
-            console.log('vip record',newVipRecord);
+            await createVipRecord(vipRecord);
+            setIsVipUpgrade(true);
           }
         } else {
           setPaymentState(false);
@@ -95,7 +96,14 @@ const PaymentResult = () => {
             <h2>Payment Failed Please Try Again</h2>
           </>
         )}
-        <Button onClick={() => navigate('/')}>back to home page</Button>
+        {(isVipUpgrade && paymentState) ? (
+          <>
+          <h2 style={{textAlign:'center'}}>Account upgraded to VIP signout then signin again to upgrade account</h2>
+          <Button style={{maxHeight:'50px', maxWidth:'300px', height:'100%', width:"100%"}} onClick={() => logout()}>Log out</Button>
+          </>
+        ) : 
+        <Button style={{maxHeight:'50px', maxWidth:'300px', height:'100%', width:"100%"}} onClick={() => navigate('/')}>back to home page</Button>
+        }
       </div>
     </Container>
   );
