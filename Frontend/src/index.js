@@ -163,8 +163,7 @@ root.render(
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="members" element={<Members />} />
             <Route path="vips" element={<Vips />} />
-            <Route path="categories" element={<AdminCategories />} />
-            <Route path="vippackages" element={<AdminVipPackManagement />} />
+
             <Route path="shops" element={<AdminShops />} />
           </Route>
         </Routes>

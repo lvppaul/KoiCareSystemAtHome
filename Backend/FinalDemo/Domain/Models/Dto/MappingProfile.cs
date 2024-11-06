@@ -131,6 +131,7 @@ namespace KCSAH.APIServer.Dto
             //Revenue
             CreateMap<Order, Revenue>().ReverseMap();
             CreateMap<Revenue, RevenueDTO>().ReverseMap();
+            CreateMap<RevenueRequestDTO, Revenue>().ReverseMap();
 
             //Water Parameter
             CreateMap<WaterParameterDTO, WaterParameterRequestDTO>().ReverseMap();

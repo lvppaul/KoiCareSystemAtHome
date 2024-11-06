@@ -13,5 +13,7 @@ namespace Domain.Models.Dto.Response
         public int OrderId { get; set; }
 
         public int Income { get; set; }
+
+        public DateTime CreateAt { get; set; }
     }
 }

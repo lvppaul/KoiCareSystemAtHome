@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Models.Entity;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore.Storage;
 using SWP391.KCSAH.Repository.KCSAH.Repository;
 using System.Text.RegularExpressions;
 
@@ -9,6 +10,7 @@ namespace SWP391.KCSAH.Repository
     public class UnitOfWork
     {
         private readonly KoiCareSystemAtHomeContext _context;
+        private IDbContextTransaction _transaction;
         private readonly IMapper _mapper;
         private KoiRepository _koiRepository;
         private ShopRepository _shopRepository;
@@ -165,5 +167,12 @@ namespace SWP391.KCSAH.Repository
                 return _vipRecordRepository ??= new VipRecordRepository(_context);
             }
         }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            _transaction = await _context.Database.BeginTransactionAsync();
+            return _transaction;
+        }
+
     }
 }

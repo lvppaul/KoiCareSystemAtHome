@@ -392,13 +392,13 @@ VALUES
 (5, 2); 
 
 
--- Inserting Revenue based on Commission Fees (15% of Total Prices for each product)
-INSERT INTO Revenue (OrderID, Income)
+-- Inserting Revenue based on Commission Fees (8% of Total Prices for each product)
+INSERT INTO Revenue (OrderID, Income, CreateAt)
 VALUES
-(1, (2 * 600000 * 0.15) + (1 * 700000 * 0.15)),  -- Revenue from Order ID 1
-(2, (1 * 550000 * 0.15)),                         -- Revenue from Order ID 2
-(3, (1 * 5000000 * 0.15) + (2 * 2400000 * 0.15)), -- Revenue from Order ID 3
-(4, (1 * 1800000 * 0.15));                        -- Revenue from Order ID 4
+(1, (2 * 600000 * 0.08) + (1 * 700000 * 0.08), GETDATE()),  -- Revenue from Order ID 1
+(2, (1 * 550000 * 0.08), GETDATE()),                         -- Revenue from Order ID 2
+(3, (1 * 5000000 * 0.08) + (2 * 2400000 * 0.08), GETDATE()), -- Revenue from Order ID 3
+(4, (1 * 1800000 * 0.08), GETDATE());                        -- Revenue from Order ID 4
 
 
 INSERT INTO PaymentTransaction 

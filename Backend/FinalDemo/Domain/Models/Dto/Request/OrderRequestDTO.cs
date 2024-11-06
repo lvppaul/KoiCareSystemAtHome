@@ -33,7 +33,5 @@ namespace Domain.Models.Dto.Request
         public List<OrderDetailRequestDTO> orderDetails { get; set; }
         [JsonIgnore]
         public int TotalPrice { get; set; }
-
-        public bool isVipUpgrade { get; set; } = false;
     }
 }
