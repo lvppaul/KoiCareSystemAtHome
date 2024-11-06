@@ -9,13 +9,16 @@ import { useAuth } from '../../pages/Login/AuthProvider';
 import { orderVipPackage } from '../../Config/VipPackageApi';
 import { useNavigate } from 'react-router-dom';
 import { BiArrowBack } from 'react-icons/bi';
+import OrderVip from '../Order/OrderVip';
 
 const UpgradeVipAccount = () => {
+  const [showModalConfirmOrder, setShowModalConfirmOrder] = useState(false);
   const [selectId, setSelectId] = useState(null);
   const [selectPackage, setSelectPackage] = useState({});
   const [vipPackages, setVipPackages] = useState([]);
   const userId = useAuth().user.userId;
   const navigate = useNavigate();
+
   const handleSelect = async (id) => {
     const response = await getVipPackagesById(id)
     console.log('response select',response);
@@ -44,10 +47,7 @@ const UpgradeVipAccount = () => {
   }, []);
 
   const handlePurchase = async () => {
-    const data = { vipId: selectPackage.vipId, userId: userId };
-    console.log('data', data);
-    const response = await orderVipPackage(data);
-    console.log('response', response);
+  
   }
 
   return (
@@ -120,7 +120,7 @@ const UpgradeVipAccount = () => {
 
       <Row className="mt-4" style={{ flex: 1 }}>
         <Col md={6} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-            borderRadius: '20px', alignItems: 'center'}}>
+            borderRadius: '20px'}}>
           <div style={{display:'flex', flexDirection:'column', alignItems: 'center', backgroundColor:'#fff', justifyContent:'space-evenly', padding:'20px',
             width:'100%', height:'100%', borderRadius:'20px' ,maxWidth:'100vw', maxHeight:'100vh'}}>
           <h1 style={{fontWeight:'bold'}}>Payment Method</h1>
@@ -134,11 +134,18 @@ const UpgradeVipAccount = () => {
             <p>Name: {selectPackage.name}</p>
             <p>Price: {formatPrice(selectPackage.price)}</p>
             <p>Duration: {selectPackage.options} months</p>
-            <Button onClick={handlePurchase}
+            <Button onClick={() => setShowModalConfirmOrder(true)}
             style={{background: 'rgba(0, 0, 0, 1)', backgroundColor:'#FF4900', opacity: 1, 
             width:'300px', height:'75px', maxWidth:'300px', 
             borderRadius:'20px', fontSize:'25px', fontWeight:'bold'}}>Purchase</Button>
           </Col>
+      )}
+      {selectPackage && (
+      <OrderVip
+        show={showModalConfirmOrder}
+        setShow={() => setShowModalConfirmOrder(false)}
+        data={selectPackage}
+      />
       )}
         </Row>
     </Container>

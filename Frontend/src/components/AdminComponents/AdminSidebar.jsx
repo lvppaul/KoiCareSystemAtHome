@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaShop } from "react-icons/fa6";
 import { adminHomeContext } from "../../pages/Admin/Home/AdminHome";
-
+import { MdOutlineAttachMoney } from "react-icons/md";
 import { RiVipLine } from "react-icons/ri";
 
 import { useAuth } from "../../pages/Login/AuthProvider";
@@ -64,16 +64,16 @@ const AdminSideBar = () => {
               </Button>
             </Link>
           </li>
-          {/* <li>
-            <Link to="categories">
+          <li>
+            <Link to="#">
               <Button className="w-100">
                 <span className="icon">
-                  <MdCategory />
+                  <MdOutlineAttachMoney />
                 </span>
-                Category
+                Order
               </Button>
             </Link>
-          </li> */}
+          </li>
           {/* <li>
             <Link to="vippackages">
               <Button className="w-100">

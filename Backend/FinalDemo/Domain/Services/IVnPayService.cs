@@ -13,6 +13,7 @@ namespace Domain.Services
 
        // Task<(bool success, string message)> ProcessVnPayCallback(IQueryCollection queryCollection);
         Task<(bool success, string message)> ProcessVnPayReturn(string returnUrl);
+        Task<(bool success, string message)> ProcessVnPayReturnBuyNow(string returnUrl);
         //Task<(bool Success, string Message)> ProcessVnPayCallback2(IQueryCollection queryCollection);
     }
 }

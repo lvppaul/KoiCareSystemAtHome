@@ -36,7 +36,6 @@ import Members from "./components/AdminComponents/MemberManagement";
 import Vips from "./components/AdminComponents/VipManagement";
 import AdminShops from "./components/AdminComponents/ShopManagement";
 import AdminCategories from "./components/AdminComponents/CategoriesManagement";
-import PaymentPage from "./pages/PaymentPage/PaymentPage";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import UpgradeVipAccount from "./pages/UpgradeVipAccount/UpgradeVipAccount";
 import Cart from "./pages/Cart/Cart";
@@ -44,6 +43,7 @@ import Order from "./pages/Order/Order";
 import PaymentResult from "./pages/PaymentPage/PaymentResult";
 import AdminVipPackManagement from "./components/AdminComponents/AdminVipPackManament";
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage";
+import OrderHistory from "./pages/Order/OrderHistory";
 const container = document.getElementById("root");
 
 const root = createRoot(container);
@@ -69,6 +69,7 @@ root.render(
             <Route path="product/:productId" element={<Product />} />
             <Route path="notauthorized" element={<NotAuthorized />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="orderhistory" element={<OrderHistory />} />
 
             {/* Protected Routes for Authenticated Users */}
             <Route
@@ -162,8 +163,7 @@ root.render(
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="members" element={<Members />} />
             <Route path="vips" element={<Vips />} />
-            <Route path="categories" element={<AdminCategories />} />
-            <Route path="vippackages" element={<AdminVipPackManagement />} />
+
             <Route path="shops" element={<AdminShops />} />
           </Route>
         </Routes>

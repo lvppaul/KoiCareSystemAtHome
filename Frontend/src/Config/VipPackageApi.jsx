@@ -55,7 +55,7 @@ const deleteVipPackage = async (id) => {
 
 const orderVipPackage = async (data) => {
     try{
-        const response = await api.post(`VipRecord/`, data);
+        const response = await api.post(`Order/CreateOrderVip`, data);
         console.log(response);
         return response;
     } catch (error) {
@@ -63,4 +63,20 @@ const orderVipPackage = async (data) => {
         return error.response;
     }
 }
-export {getVipPackages,getVipPackagesById ,addVipPackage, updateVipPackage, deleteVipPackage, orderVipPackage};
+
+const getVipPackageByOrderId = async (id) => {
+    try{
+        const response = await api.get(`VipPackage/GetVipPackageByOrderId`,
+        {
+            params: {
+                orderId: id
+            }
+        }); 
+        return response.data;
+    }
+    catch(error){
+        console.error('Error:', error);
+        return error.response;
+    }
+}
+export {getVipPackages,getVipPackagesById ,addVipPackage, updateVipPackage, deleteVipPackage, orderVipPackage, getVipPackageByOrderId};

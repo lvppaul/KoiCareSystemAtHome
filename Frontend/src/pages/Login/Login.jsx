@@ -26,7 +26,7 @@ function Login() {
     try {
       const response = await signIn({ email, password });
       if (response.userId) {
-        login({ email, role: response.userRole, userId: response.userId });
+        login({ email, role: response.userRole, userId: response.userId, resetToken: response.resetToken });
         if (response.userRole === 'admin') {
           navigate('/admin');
         } else {

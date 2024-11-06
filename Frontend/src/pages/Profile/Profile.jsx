@@ -9,6 +9,7 @@ import { storage } from "../../Config/firebase";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
 import { useNavigate } from "react-router-dom";
+import { getVipRecordByUserId } from "../../Config/VipRecord";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -24,8 +25,9 @@ const Profile = () => {
   const [loadingDetails, setLoadingDetails] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showResetPassword, setShowResetPassword] = useState(false);
-
+  const [vipRecord, setVipRecord] = useState({});
   useEffect(() => {
+    fetchVipRecordsUserId();
     const fetchAccountDetails = async () => {
       const accountDetails = await getAccountByUserId(userId);
       if (accountDetails) {
@@ -55,6 +57,15 @@ const Profile = () => {
     };
     fetchAccountDetails();
   }, [userId]);
+
+  //get vip records
+  const fetchVipRecordsUserId = async () => {
+    const response = await getVipRecordByUserId(userId);
+    if (response.status === 200) {
+      setVipRecord(response.data);
+    }
+  };
+    
 
   const handleEditClick = async (field) => {
     if (editingField === field) {
@@ -129,6 +140,11 @@ const Profile = () => {
     { value: "Other", label: "Other" },
   ];
 
+  const formatDate = (date) => {
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString();
+  }
+
   return (
     <Container className="p-3">
       <Tabs className="profile-tabs" defaultActiveKey="account" id="profile-tabs">
@@ -184,9 +200,21 @@ const Profile = () => {
                 <Button variant="link" onClick={() => document.getElementById("avatarInput").click()}>
                   Change Avatar
                 </Button>
-                <Button onClick={() => navigate("/updateaccount")} variant="primary" className="mt-5">
-                  Upgrade to VIP Account
-                </Button>
+                {!vipRecord ? (
+                  <>
+                    <Button onClick={() => navigate("/updateaccount")} variant="primary" className="mt-5">
+                      Upgrade to VIP Account
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                  <div style={{color:'black'}}>
+                    <h3>VIP Duration</h3>
+                    <p>Start date: {formatDate(vipRecord.startDate)}</p>
+                    <p>End date: {formatDate(vipRecord.endDate)}</p>
+                  </div>
+                  </>
+                )}
                 <Button onClick={() => setShowResetPassword(true)} variant="secondary" className="mt-3">
                   Change password
                 </Button>

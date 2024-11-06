@@ -79,6 +79,7 @@ const signIn = async (credentials) => {
     });
 
     const decoded = jwtDecode(response.data.accessToken);
+
     const email =
       decoded[
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
@@ -89,11 +90,14 @@ const signIn = async (credentials) => {
       ];
     const userRole =
       decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-
+    
+    const refreshToken = response.data.refreshToken;
     localStorage.setItem("user", JSON.stringify({ userId, userRole }));
     const message = response.data.message;
     console.log(message);
-    return { userId, email, userRole, message };
+    console.log("response", userId, email, userRole, message, refreshToken);
+    console.log("response", response.data);
+    return { userId, email, userRole, message, refreshToken };
   } catch (error) {
     if (error.response) {
       console.error("Error response data:", error.response.data);

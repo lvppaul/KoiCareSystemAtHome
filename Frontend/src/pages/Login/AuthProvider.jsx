@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
                 setUser(JSON.parse(storedUser));
             } catch (error) {
                 console.error('Error parsing stored user:', error);
-                localStorage.removeItem('user'); // Clear invalid data
+                localStorage.removeItem('user'); 
             }
         }
         setLoading(false);
@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }) => {
     const login = (userData) => {
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
+        console.log('userData:', userData);
         navigate('/');
     };
 
