@@ -1,6 +1,6 @@
 --drop database KoiCareSystemAtHome;
 
-use KoiCareSystemAtHome3;
+use KoiCareSystemAtHome;
 
 --Disable Foreign Key Constraints
 --EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL';
