@@ -129,13 +129,12 @@ const Cart = () => {
         district: userDetails.district,
         city: userDetails.city,
         country: userDetails.country,
-        orderStatus: "Pending",
         orderDetails: cartItems.map((item) => ({
           productId: item.productId,
           quantity: item.quantity,
         })),
       };
-
+      
       const response = await createOrder(orderData);
       console.log(response);
       if (response.orderId) {

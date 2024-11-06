@@ -37,7 +37,6 @@ const CKEditorComponent = forwardRef(({ value, onChange, uploadPath, onImageUplo
         }
 
         abort() {
-            // Handle aborting the upload process if necessary
         }
     }
 
@@ -49,7 +48,6 @@ const CKEditorComponent = forwardRef(({ value, onChange, uploadPath, onImageUplo
 
     useImperativeHandle(ref, () => ({
         focus: () => {
-            // Focus the editor if needed
         }
     }));
 
@@ -73,12 +71,8 @@ const CKEditorComponent = forwardRef(({ value, onChange, uploadPath, onImageUplo
                     'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 
                     'imageUpload', '|', 
                     'undo', 'redo', '|',
-                    'alignment:left', 'alignment:center', 'alignment:right', 'alignment:justify', '|',
                     'removeFormat'
                 ],
-                alignment: {
-                    options: [ 'left', 'center', 'right', 'justify' ]
-                }
             }}
         />
     );
