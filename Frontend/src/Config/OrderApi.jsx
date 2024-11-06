@@ -46,4 +46,19 @@ const getOrderByUserId = async (userId) => {
     }
 }
 
-export { createOrder, getOrderById, getOrderByUserId };
+const getVipOrderByUserId = async (userId) => {
+    try {
+        const response = await api.get(`Order/VipOrderByUserId/${userId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching order:', error);
+        return null;
+    }
+}
+
+export { createOrder, getOrderById, getOrderByUserId, getVipOrderByUserId };

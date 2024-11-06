@@ -75,6 +75,21 @@ const getProductById = async (productId) => {
         throw error;
     }
 };
+//get product name by id
+const getProductNameById = async (productId) => {
+    try {
+        const response = await api.get(`Product/GetProductById/${productId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        return response.data.name; // Assuming the response contains a 'name' field
+    } catch (error) {
+        console.error(`Error fetching product with ID ${productId}:`, error);
+        throw error;
+    }
+};
 
 // Function to get products by shopId
 const getProductsByShopId = async (shopId) => {
@@ -153,5 +168,5 @@ const deleteProductImage = async (imageId) => {
 export {
     getProducts, addProduct, updateProduct, deleteProduct,
     getProductById, getProductsByShopId, getProductsByCategoryId, getProductImagesByProductId,
-    addProductImages, deleteProductImage
+    addProductImages, deleteProductImage, getProductNameById
 };

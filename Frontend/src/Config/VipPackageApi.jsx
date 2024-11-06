@@ -79,4 +79,15 @@ const getVipPackageByOrderId = async (id) => {
         return error.response;
     }
 }
-export {getVipPackages,getVipPackagesById ,addVipPackage, updateVipPackage, deleteVipPackage, orderVipPackage, getVipPackageByOrderId};
+
+const getVipPackageName = async (vipId) => {
+    try {
+        const response = await api.get(`VipPackage/GetVipPackageById/${vipId}`);
+        return response.data.name;
+    } catch (error) {
+        console.error('Error fetching vip name:', error);
+        return null;
+    }
+}
+
+export {getVipPackages,getVipPackagesById ,addVipPackage, updateVipPackage, deleteVipPackage, orderVipPackage, getVipPackageByOrderId, getVipPackageName};

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Table, Spinner, Alert, Tabs, Tab } from 'react-bootstrap';
 import { useAuth } from '../Login/AuthProvider';
 import { getOrderByUserId, getOrderById } from '../../Config/OrderApi';
-import { getProductById } from '../../Config/ProductApi';
-import { getVipPackageByOrderId } from '../../Config/VipPackageApi';
+import { getProductNameById } from '../../Config/ProductApi';
+import { getVipPackagesById } from '../../Config/VipPackageApi';
+import { getVipOrderByUserId } from '../../Config/OrderApi';
+import ProductNameComponent from './ProductNameComponent';
+import VipPackageName from './VipPackageName';
 
 const OrderHistory = () => {
     const [orders, setOrders] = useState([]);
@@ -14,55 +17,37 @@ const OrderHistory = () => {
     const userId = useAuth().user.userId;
 
     useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const orderData = await getOrderByUserId(userId);
-                setOrders(orderData);
-                getVipOrders(orderData);
-                getRegularOrders(orderData);
-            } catch (err) {
-                setError('Failed to fetch order history');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchOrders();
-    }, []);
-
-    const getVipOrders = async (orders) => {
-        const filteredVipOrders = orders.filter(order => order.isVipUpgrade);
+        fetchOrderByUserId();
+        fetchVipOrderByUserId();
+    }, [userId]);
+    
+    const fetchOrderByUserId = async () => {
         try {
-            const vipOrderData = await Promise.all(
-                filteredVipOrders.map(async (order) => {
-                    const vipPackage = await getVipPackageByOrderId(order.orderId);
-                    return { ...order, vipPackage };
-                })
-            );
-            setVipOrders(vipOrderData);
+            const response = await getOrderByUserId(userId);
+            if (response) {
+                setRegularOrders(response);
+            } else {
+                setError('Error fetching orders');
+            }
         } catch (error) {
-            console.error('Error fetching VIP orders:', error);
+            setError('Error fetching orders');
+        } finally {
+            setLoading(false);
         }
     };
-
-    const getRegularOrders = async (orders) => {
-        const filteredRegularOrders = orders.filter(order => !order.isVipUpgrade);
+   
+    const fetchVipOrderByUserId = async () => {
         try {
-            const regularOrderData = await Promise.all(
-                filteredRegularOrders.map(async (order) => {
-                    const regularOrder = await getOrderById(order.orderId);
-                    const productDetails = await Promise.all(
-                        regularOrder.orderDetails.map(async (product) => {
-                            const productData = await getProductById(product.productId);
-                            return { ...product, productData };
-                        })
-                    );
-                    return { ...order, regularOrder: { ...regularOrder, orderDetails: productDetails } };
-                })
-            );
-            setRegularOrders(regularOrderData);
+            const response = await getVipOrderByUserId(userId);
+            if (response) {
+                setVipOrders(response);
+            } else {
+                setError('Error fetching orders');
+            }
         } catch (error) {
-            console.error('Error fetching regular orders:', error);
+            setError('Error fetching orders');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -83,6 +68,12 @@ const OrderHistory = () => {
         return new Intl.NumberFormat('vn-VN', { style: 'currency', currency: 'VND' }).format(price);
     };
 
+    const getVipPackageName = async (vipId) => {
+        const vipPackage = await getVipPackagesById(vipId);
+        console.log('vipPackage:', vipPackage);
+        return vipPackage.name;
+    };
+
     const renderTable = (orders) => (
         <Table striped bordered hover responsive>
             <thead>
@@ -100,7 +91,7 @@ const OrderHistory = () => {
                     <tr key={order.orderId}>
                         <td>{order.orderId}</td>
                         <td>
-                            {order.isVipUpgrade ? order.vipPackage.name : (
+                            {!order.orderVipDetails ? (
                                 <Table striped bordered hover responsive>
                                     <thead>
                                         <tr>
@@ -109,20 +100,20 @@ const OrderHistory = () => {
                                             <th>Price</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {order.regularOrder.orderDetails.map(product => (
-                                            <tr key={product.productId}>
-                                                <td>{product.productData.name}</td>
-                                                <td>{product.quantity}</td>
-                                                <td>{formatPrice(product.productData.price)}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
+                                    {order.orderDetails.map((orderDetail, index) => (
+                                    <tbody key={index}>
+                                        <tr>
+                                            <td>{<ProductNameComponent  productId={orderDetail.productId} />}</td>
+                                            <td>{orderDetail.quantity}</td>
+                                            <td>{formatPrice(orderDetail.unitPrice)}</td>
+                                        </tr>
+                                        </tbody>
+                                    ))}
                                 </Table>
-                            )}
+                            ) : <VipPackageName  vipId={order.orderVipDetails[0].vipId} />}
                         </td>
                         <td>{formatDate(order.createDate)}</td>
-                        <td>{order.isVipUpgrade ? formatPrice(order.vipPackage.price) : formatPrice(order.regularOrder.totalPrice)}</td>
+                        <td>{formatPrice(order.totalPrice)}</td>
                         <td>{order.orderStatus}</td>
                         {/* Add more order details as needed */}
                     </tr>
@@ -135,18 +126,16 @@ const OrderHistory = () => {
         <div>
             
             <h1>Order History</h1>
-            {orders.length === 0 ? (
-                <p>No orders found.</p>
-            ) : (
                 <Tabs defaultActiveKey="regular" id="order-history-tabs">
                     <Tab eventKey="regular" title="Regular Orders">
+                        {console.log('regularOrders:', regularOrders)}
                         {renderTable(regularOrders)}
                     </Tab>
                     <Tab eventKey="vip" title="VIP Upgrade Orders">
+                        {console.log('vipOrders:', vipOrders)}
                         {renderTable(vipOrders)}
                     </Tab>
                 </Tabs>
-            )}
         </div>
     );
 };
