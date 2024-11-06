@@ -61,5 +61,13 @@ namespace Domain.Repositories
 
         //    return true;
         //}
+        public async Task<ApplicationUser> GetAccountByUserIdAsync(string id)
+        {
+            var user = await _context.Users
+                .Include(u => u.VipRecords) // Bao gồm collection Orders trong kết quả
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            return user;
+        }
     }
 }

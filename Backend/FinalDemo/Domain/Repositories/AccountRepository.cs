@@ -657,6 +657,8 @@ namespace Domain.Repositories
             return user;
         }
 
+        
+
         public async Task<string> RemoveAccountByIdAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);

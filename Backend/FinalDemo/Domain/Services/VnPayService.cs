@@ -388,6 +388,7 @@ namespace Domain.Services
                             }
                             await _unitOfWork.PaymentTransactionRepository.CreateAsync(result);
                             await UpdateOrderStatus(order, "Giao dịch thành công");
+
                             return (true, "Payment processed successfully");
                         }
                     }
