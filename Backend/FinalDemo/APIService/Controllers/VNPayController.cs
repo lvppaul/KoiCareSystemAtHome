@@ -93,7 +93,7 @@ namespace APIService.Controllers
         //    }
         //}
 
-        [HttpPost("vnpay-return")]
+        [HttpGet("vnpay-return")]
         public async Task<IActionResult> VnPayReturn([FromQuery] string returnUrl)
         {
             try
