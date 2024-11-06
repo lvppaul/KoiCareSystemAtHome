@@ -391,7 +391,12 @@ namespace Domain.Services
                             return (true, "Payment processed successfully");
                         }
                     }
+                    await _unitOfWork.PaymentTransactionRepository.CreateAsync(result);
+                    await UpdateOrderStatus(order, "Giao dịch thành công");
+                    return (true, "Payment processed successfully");
+
                 }
+
                     await UpdateOrderStatus(order, "Giao dịch thất bại");
                     return (false, "Error processing payment");
                 //}
@@ -490,6 +495,9 @@ namespace Domain.Services
 
                     // Save transaction and update order
                     var result = _mapper.Map<PaymentTransaction>(paymentResponse);
+                    await _unitOfWork.PaymentTransactionRepository.CreateAsync(result);
+                    await UpdateOrderStatus(order, "Giao dịch thành công");
+                    return (true, "Payment processed successfully");
                 }
                 await UpdateOrderStatus(order, "Giao dịch thất bại");
                 return (false, "Error processing payment");
