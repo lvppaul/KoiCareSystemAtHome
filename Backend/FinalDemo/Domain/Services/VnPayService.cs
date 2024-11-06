@@ -325,7 +325,7 @@ namespace Domain.Services
                     return (false, "Invalid order ID format");
                 }
 
-                Order order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+                Order order = await _unitOfWork.OrderRepository.GetByOrderIdAsync(orderId);
                 if (order == null)
                 {
                     return (false, "Order not found");
@@ -376,13 +376,28 @@ namespace Domain.Services
                     // Save transaction and update order
                     var result = _mapper.Map<PaymentTransaction>(paymentResponse);
 
+                    //Nếu không phải đơn hàng vip
                     if (order.isVipUpgrade != true)
                     {
-                        var cart = await _unitOfWork.CartRepository.GetByIdAsync(order.UserId);
-                        if (cart != null)
+                        //Nếu không phải dạng buy now
+                        if (order.isBuyNow != true)
                         {
-                            await _unitOfWork.CartItemRepository.RemoveAllItemsInCart(cart.CartId);
+                            //xóa cart items
+                            var cart = await _unitOfWork.CartRepository.GetByIdAsync(order.UserId);
+                            if (cart != null)
+                            {
+                                await _unitOfWork.CartItemRepository.RemoveAllItemsInCart(cart.CartId);
+                            }
+
                         }
+                        //Cập nhật lại số lượng product
+                        await UpdateProductQuantity(order);
+                        //Cập nhật doanh thu
+                        await UpdateRevenue(order);
+                    }
+                    else
+                    {
+                        await UpdateVipRevenue(order);
                     }
                     await _unitOfWork.PaymentTransactionRepository.CreateAsync(result);
                     await UpdateOrderStatus(order, "Giao dịch thành công");
@@ -403,107 +418,158 @@ namespace Domain.Services
             }
         }
 
-        public async Task<(bool success, string message)> ProcessVnPayReturnBuyNow(string returnUrl)
+        private async Task UpdateProductQuantity(Order order)
         {
             try
             {
-                // 1. Validate input
-                if (string.IsNullOrEmpty(returnUrl))
+                foreach (var item in order.OrderDetails)
                 {
-                    return (false, "Return URL is empty or null");
-                }
-
-                var queryParams = ParseVnPayUrl(returnUrl);
-                if (!queryParams.Any())
-                {
-                    return (false, "No parameters found in return URL");
-                }
-
-                // 2. Get and validate order information
-                if (!queryParams.ContainsKey("vnp_OrderInfo"))
-                {
-                    return (false, "Order information not found");
-                }
-
-                string orderGet = queryParams["vnp_OrderInfo"];
-                if (string.IsNullOrEmpty(orderGet) || orderGet.Length < 1)
-                {
-                    return (false, "Invalid order information format");
-                }
-
-                // 3. Parse order ID and get order
-                string orderIdString = orderGet.Substring(orderGet.Length - 1);
-                if (!int.TryParse(orderIdString, out int orderId))
-                {
-                    return (false, "Invalid order ID format");
-                }
-
-                Order order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
-                if (order == null)
-                {
-                    return (false, "Order not found");
-                }
-
-                string userId = order.UserId;
-                VnPayLibrary vnpay = new VnPayLibrary();
-                if (!queryParams.ContainsKey("vnp_SecureHash"))
-                {
-                    return (false, "SecureHash Not found");
-                }
-
-                string vnp_SecureHash = queryParams["vnp_SecureHash"];
-                string hashSecret = _config["VnPay:HashSecret"];
-
-                // 4. Validate signature
-                AddResponseData(queryParams, vnpay);
-                if (!vnpay.ValidateSignature(vnp_SecureHash, hashSecret))
-                {
-                    await UpdateOrderStatus(order, "Giao dịch thất bại");
-                    return (false, "Error processing payment due to Invalid Signature");
-                }
-
-                // 5. Validate amount and process transaction
-                //if (IsEqualAmount(queryParams, order))
-                //{
-                if (IsSuccessfulTransaction(queryParams))
-                {
-                    // Create payment response
-                    var paymentResponse = new PaymentTransactionDTO
+                
+                    var product = await _unitOfWork.ProductRepository.GetByIdAsync(item.ProductId);
+                    product.Quantity -= item.Quantity;
+                    if (product.Quantity <= 0)
                     {
-                        VnpAmount = queryParams.GetValueOrDefault("vnp_Amount"),
-                        VnpBankCode = queryParams.GetValueOrDefault("vnp_BankCode"),
-                        VnpBankTranNo = queryParams.GetValueOrDefault("vnp_BankTranNo"),
-                        VnpCardType = queryParams.GetValueOrDefault("vnp_CardType"),
-                        VnpOrderInfo = orderId,
-                        VnpPayDate = queryParams.GetValueOrDefault("vnp_PayDate"),
-                        VnpResponseCode = queryParams.GetValueOrDefault("vnp_ResponseCode"),
-                        VnpTmnCode = queryParams.GetValueOrDefault("vnp_TmnCode"),
-                        VnpTransactionNo = queryParams.GetValueOrDefault("vnp_TransactionNo"),
-                        VnpTransactionStatus = queryParams.GetValueOrDefault("vnp_TransactionStatus"),
-                        VnpTxnRef = queryParams.GetValueOrDefault("vnp_TxnRef"),
-                        VnpSecureHash = queryParams.GetValueOrDefault("vnp_SecureHash"),
-                        PaymentStatus = queryParams.GetValueOrDefault("vnp_ResponseCode") == "00",
-                        userId = userId
-                    };
+                        product.Quantity = 0;
+                        product.Status = false;
+                    }
 
-                    // Save transaction and update order
-                    var result = _mapper.Map<PaymentTransaction>(paymentResponse);
-                    await _unitOfWork.PaymentTransactionRepository.CreateAsync(result);
-                    await UpdateOrderStatus(order, "Giao dịch thành công");
-                    return (true, "Payment processed successfully");
+                    var updateProductResult = await _unitOfWork.ProductRepository.UpdateAsync(product);
                 }
-                await UpdateOrderStatus(order, "Giao dịch thất bại");
-                return (false, "Error processing payment");
-                //}
-
-                //await UpdateOrderStatus(order, "Giao dịch thất bại");
-                //return (false, "Error processing payment due to Invalid Amount");
             }
             catch (Exception ex)
             {
-                return (false, $"Error processing payment: {ex.Message}");
+                throw new Exception(ex.Message);
             }
         }
+
+        private async Task UpdateRevenue(Order order)
+        {
+
+            var revenueDto = new RevenueRequestDTO
+            {
+                OrderId = order.OrderId,
+                Income = (order.TotalPrice * 8 / 100)
+            };
+
+            var revenue = _mapper.Map<Revenue>(revenueDto);
+
+            var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
+        }
+
+        private async Task UpdateVipRevenue(Order order)
+        {
+            var revenueDto = new RevenueRequestDTO
+            {
+                OrderId = order.OrderId,
+                isVip = true,
+                Income = order.TotalPrice
+            };
+
+            var revenue = _mapper.Map<Revenue>(revenueDto);
+            var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
+        }
+
+        //public async Task<(bool success, string message)> ProcessVnPayReturnBuyNow(string returnUrl)
+        //{
+        //    try
+        //    {
+        //        // 1. Validate input
+        //        if (string.IsNullOrEmpty(returnUrl))
+        //        {
+        //            return (false, "Return URL is empty or null");
+        //        }
+
+        //        var queryParams = ParseVnPayUrl(returnUrl);
+        //        if (!queryParams.Any())
+        //        {
+        //            return (false, "No parameters found in return URL");
+        //        }
+
+        //        // 2. Get and validate order information
+        //        if (!queryParams.ContainsKey("vnp_OrderInfo"))
+        //        {
+        //            return (false, "Order information not found");
+        //        }
+
+        //        string orderGet = queryParams["vnp_OrderInfo"];
+        //        if (string.IsNullOrEmpty(orderGet) || orderGet.Length < 1)
+        //        {
+        //            return (false, "Invalid order information format");
+        //        }
+
+        //        // 3. Parse order ID and get order
+        //        string orderIdString = orderGet.Substring(orderGet.Length - 1);
+        //        if (!int.TryParse(orderIdString, out int orderId))
+        //        {
+        //            return (false, "Invalid order ID format");
+        //        }
+
+        //        Order order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+        //        if (order == null)
+        //        {
+        //            return (false, "Order not found");
+        //        }
+
+        //        string userId = order.UserId;
+        //        VnPayLibrary vnpay = new VnPayLibrary();
+        //        if (!queryParams.ContainsKey("vnp_SecureHash"))
+        //        {
+        //            return (false, "SecureHash Not found");
+        //        }
+
+        //        string vnp_SecureHash = queryParams["vnp_SecureHash"];
+        //        string hashSecret = _config["VnPay:HashSecret"];
+
+        //        // 4. Validate signature
+        //        AddResponseData(queryParams, vnpay);
+        //        if (!vnpay.ValidateSignature(vnp_SecureHash, hashSecret))
+        //        {
+        //            await UpdateOrderStatus(order, "Giao dịch thất bại");
+        //            return (false, "Error processing payment due to Invalid Signature");
+        //        }
+
+        //        // 5. Validate amount and process transaction
+        //        //if (IsEqualAmount(queryParams, order))
+        //        //{
+        //        if (IsSuccessfulTransaction(queryParams))
+        //        {
+        //            // Create payment response
+        //            var paymentResponse = new PaymentTransactionDTO
+        //            {
+        //                VnpAmount = queryParams.GetValueOrDefault("vnp_Amount"),
+        //                VnpBankCode = queryParams.GetValueOrDefault("vnp_BankCode"),
+        //                VnpBankTranNo = queryParams.GetValueOrDefault("vnp_BankTranNo"),
+        //                VnpCardType = queryParams.GetValueOrDefault("vnp_CardType"),
+        //                VnpOrderInfo = orderId,
+        //                VnpPayDate = queryParams.GetValueOrDefault("vnp_PayDate"),
+        //                VnpResponseCode = queryParams.GetValueOrDefault("vnp_ResponseCode"),
+        //                VnpTmnCode = queryParams.GetValueOrDefault("vnp_TmnCode"),
+        //                VnpTransactionNo = queryParams.GetValueOrDefault("vnp_TransactionNo"),
+        //                VnpTransactionStatus = queryParams.GetValueOrDefault("vnp_TransactionStatus"),
+        //                VnpTxnRef = queryParams.GetValueOrDefault("vnp_TxnRef"),
+        //                VnpSecureHash = queryParams.GetValueOrDefault("vnp_SecureHash"),
+        //                PaymentStatus = queryParams.GetValueOrDefault("vnp_ResponseCode") == "00",
+        //                userId = userId
+        //            };
+
+        //            // Save transaction and update order
+        //            var result = _mapper.Map<PaymentTransaction>(paymentResponse);
+        //            await _unitOfWork.PaymentTransactionRepository.CreateAsync(result);
+        //            await UpdateOrderStatus(order, "Giao dịch thành công");
+        //            return (true, "Payment processed successfully");
+        //        }
+        //        await UpdateOrderStatus(order, "Giao dịch thất bại");
+        //        return (false, "Error processing payment");
+        //        //}
+
+        //        //await UpdateOrderStatus(order, "Giao dịch thất bại");
+        //        //return (false, "Error processing payment due to Invalid Amount");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return (false, $"Error processing payment: {ex.Message}");
+        //    }
+        //}
 
         public void AddResponseData(Dictionary<string, string> queryParams, VnPayLibrary vnpay)
         {

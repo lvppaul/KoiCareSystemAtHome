@@ -140,19 +140,19 @@ namespace KCSAH.APIServer.Controllers
                 detail.UnitPrice = product.Price;
                 total += detail.UnitPrice * detail.Quantity;
 
-                product.Quantity -= detail.Quantity;
-                if (product.Quantity <= 0)
-                {
-                    product.Quantity = 0;
-                    product.Status = false;
-                }
+                //product.Quantity -= detail.Quantity;
+                //if (product.Quantity <= 0)
+                //{
+                //    product.Quantity = 0;
+                //    product.Status = false;
+                //}
 
-                var updateProductResult = await _unitOfWork.ProductRepository.UpdateAsync(product);
-                if (updateProductResult <= 0)
-                {
-                    ModelState.AddModelError("", "Something went wrong while updating product.");
-                    return StatusCode(500, ModelState);
-                }
+                //var updateProductResult = await _unitOfWork.ProductRepository.UpdateAsync(product);
+                //if (updateProductResult <= 0)
+                //{
+                //    ModelState.AddModelError("", "Something went wrong while updating product.");
+                //    return StatusCode(500, ModelState);
+                //}
             }
 
             orderMap.TotalPrice = total;
@@ -164,18 +164,65 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            var revenueDto = new RevenueRequestDTO
-            {
-                OrderId = orderMap.OrderId,
-                Income = (total * 8 / 100)
-            };
+            //var revenueDto = new RevenueRequestDTO
+            //{
+            //    OrderId = orderMap.OrderId,
+            //    Income = (total * 8 / 100)
+            //};
 
-            var revenue = _mapper.Map<Revenue>(revenueDto);
+            //var revenue = _mapper.Map<Revenue>(revenueDto);
 
-            var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
-            if (createResultRevenue <= 0)
+            //var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
+            //if (createResultRevenue <= 0)
+            //{
+            //    ModelState.AddModelError("", "Something went wrong while saving revenue.");
+            //    return StatusCode(500, ModelState);
+            //}
+
+            var order = _mapper.Map<OrderDTO>(orderMap);
+            return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
+        }
+
+        [HttpPost("CreateOrderBuyNow")]
+        public async Task<ActionResult<OrderDTO>> CreateOrderBuyNow([FromBody] OrderRequestDTO orderdto)
+        {
+            if (orderdto == null)
             {
-                ModelState.AddModelError("", "Something went wrong while saving revenue.");
+                return BadRequest("Order data cannot be null.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var orderMap = _mapper.Map<Order>(orderdto);
+            if (orderMap == null)
+            {
+                return BadRequest("Mapping to order entity failed.");
+            }
+
+            int total = 0;
+
+            foreach (var detail in orderMap.OrderDetails)
+            {
+                var product = await GetProductAsync(detail.ProductId);
+                if (product == null)
+                {
+                    return NotFound($"Product with ID {detail.ProductId} not found.");
+                }
+
+                detail.UnitPrice = product.Price;
+                total += detail.UnitPrice * detail.Quantity;
+            }
+
+            orderMap.TotalPrice = total;
+            orderMap.isBuyNow = true;
+
+            var createResult = await _unitOfWork.OrderRepository.CreateAsync(orderMap);
+            if (createResult <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while saving the order.");
                 return StatusCode(500, ModelState);
             }
 
@@ -232,20 +279,20 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            var revenueDto = new RevenueRequestDTO
-            {
-                OrderId = orderVipMap.OrderId,
-                isVip = true,
-                Income = total
-            };
+            //var revenueDto = new RevenueRequestDTO
+            //{
+            //    OrderId = orderVipMap.OrderId,
+            //    isVip = true,
+            //    Income = total
+            //};
 
-            var revenue = _mapper.Map<Revenue>(revenueDto);
-            var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
-            if (createResultRevenue <= 0)
-            {
-                ModelState.AddModelError("", "Something went wrong while saving revenue.");
-                return StatusCode(500, ModelState);
-            }
+            //var revenue = _mapper.Map<Revenue>(revenueDto);
+            //var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
+            //if (createResultRevenue <= 0)
+            //{
+            //    ModelState.AddModelError("", "Something went wrong while saving revenue.");
+            //    return StatusCode(500, ModelState);
+            //}
             var order = _mapper.Map<OrderVipDTO>(orderVipMap);
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
         }

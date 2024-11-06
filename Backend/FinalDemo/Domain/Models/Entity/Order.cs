@@ -29,6 +29,8 @@ public partial class Order
 
     public bool isVipUpgrade { get; set; }
 
+    public bool isBuyNow {  get; set; }
+
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     public virtual ICollection<OrderVipDetail> OrderVipDetails { get; set; } = new List<OrderVipDetail>();
 
