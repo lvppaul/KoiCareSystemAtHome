@@ -381,15 +381,7 @@ namespace Domain.Services
                         var cart = await _unitOfWork.CartRepository.GetByIdAsync(order.UserId);
                         if (cart != null)
                         {
-                            var deleteCartResult = await _unitOfWork.CartRepository.RemoveAsync(cart);
-                            if (!deleteCartResult)
-                            {
-                                return (false, "Something went wrong while deleting the cart.");
-                            }
-                            await _unitOfWork.PaymentTransactionRepository.CreateAsync(result);
-                            await UpdateOrderStatus(order, "Giao dịch thành công");
-
-                            return (true, "Payment processed successfully");
+                            await _unitOfWork.CartItemRepository.RemoveAllItemsInCart(cart.CartId);
                         }
                     }
                     await _unitOfWork.PaymentTransactionRepository.CreateAsync(result);
