@@ -43,6 +43,7 @@ import Order from "./pages/Order/Order";
 import PaymentResult from "./pages/PaymentPage/PaymentResult";
 import AdminVipPackManagement from "./components/AdminComponents/AdminVipPackManament";
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage";
+import OrderHistory from "./pages/Order/OrderHistory";
 const container = document.getElementById("root");
 
 const root = createRoot(container);
@@ -68,6 +69,7 @@ root.render(
             <Route path="product/:productId" element={<Product />} />
             <Route path="notauthorized" element={<NotAuthorized />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="orderhistory" element={<OrderHistory />} />
 
             {/* Protected Routes for Authenticated Users */}
             <Route

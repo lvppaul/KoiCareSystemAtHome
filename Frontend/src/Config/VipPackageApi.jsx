@@ -63,4 +63,20 @@ const orderVipPackage = async (data) => {
         return error.response;
     }
 }
-export {getVipPackages,getVipPackagesById ,addVipPackage, updateVipPackage, deleteVipPackage, orderVipPackage};
+
+const getVipPackageByOrderId = async (id) => {
+    try{
+        const response = await api.get(`VipPackage/GetVipPackageByOrderId`,
+        {
+            params: {
+                orderId: id
+            }
+        }); 
+        return response.data;
+    }
+    catch(error){
+        console.error('Error:', error);
+        return error.response;
+    }
+}
+export {getVipPackages,getVipPackagesById ,addVipPackage, updateVipPackage, deleteVipPackage, orderVipPackage, getVipPackageByOrderId};

@@ -18,7 +18,7 @@ const createOrder = async (orderData) => {
 
 const getOrderById = async (orderId) => {
     try {
-        const response = await api.get(`Order/${orderId}`, {
+        const response = await api.get(`Order/OrderId/${orderId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
@@ -31,4 +31,19 @@ const getOrderById = async (orderId) => {
     }
 }
 
-export { createOrder, getOrderById };
+const getOrderByUserId = async (userId) => {
+    try {
+        const response = await api.get(`Order/UserId/${userId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching order:', error);
+        return null;
+    }
+}
+
+export { createOrder, getOrderById, getOrderByUserId };

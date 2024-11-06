@@ -3,7 +3,7 @@ import api from "./AxiosConfig";
 // Get Vip Records
 const getVipRecords = async () => {
   try {
-    const response = await api.get("Account/VipRecord", {
+    const response = await api.get("VipRecord", {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -18,7 +18,7 @@ const getVipRecords = async () => {
 
 const createVipRecord = async (data) => {
     try {
-        const response = await api.post("Account/VipRecord", data, {
+        const response = await api.post("VipRecord", data, {
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
@@ -31,7 +31,22 @@ const createVipRecord = async (data) => {
     }
 };
 
+const getVipRecordByUserId = async (id) => {
+    try {
+        const response = await api.get(`VipRecord/GetVipRecordByUserId/${id}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        });
+        return response;
+    } catch (error) {
+        console.error("Error fetching vip record by user id:", error);
+        return null;
+    }
+};
 
 
-export { getVipRecords, createVipRecord };
+
+export { getVipRecords, createVipRecord, getVipRecordByUserId };
     

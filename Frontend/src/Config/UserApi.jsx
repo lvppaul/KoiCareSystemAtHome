@@ -218,8 +218,8 @@ const vipRecord = async (data) => {
 
 const upgradeVipAccount = async (userId) => {
   try {
+    console.log('userId to api:', userId);
     const response = api.put(`Account/ChangeToVipAccount${userId}`);
-    return response.status;
   } catch (error) {
     console.error("Error:", error);
     return error.response;

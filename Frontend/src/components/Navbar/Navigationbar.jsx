@@ -153,6 +153,9 @@ const Navigationbar = () => {
                   <NavDropdown.Item as={NavLink} to="/profile">
                     Profile
                   </NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to="orderhistory">
+                    Order History
+                  </NavDropdown.Item>
                   <NavDropdown.Item onClick={handleLogOut}>
                     Log out
                   </NavDropdown.Item>
