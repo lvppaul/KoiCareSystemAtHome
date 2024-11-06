@@ -191,7 +191,7 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest("Order data cannot be null.");
             }
 
-            var user = await _unitOfWork.vipRecordRepository.GetAccountByUserIdAsync(ordervipdto.UserId);
+            var user = await _unitOfWork.VipRecordRepository.GetAccountByUserIdAsync(ordervipdto.UserId);
             foreach(var item in user.VipRecords)
             {
                 if(item.EndDate> DateTime.Now)
