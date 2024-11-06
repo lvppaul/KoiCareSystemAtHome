@@ -4,6 +4,7 @@ using Domain.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SWP391.KCSAH.Repository;
 
 namespace APIService.Controllers
 {
@@ -12,9 +13,11 @@ namespace APIService.Controllers
     public class VNPayController : ControllerBase
     {
         private readonly IVnPayService _vnpayService;
-        public VNPayController(IVnPayService vnPayService)
+        private readonly UnitOfWork _unitOfWork;
+        public VNPayController(IVnPayService vnPayService,UnitOfWork unitOfWork)
         {
             _vnpayService = vnPayService;
+            _unitOfWork = unitOfWork;
         }
         [HttpPost("create-payment")]
         public async Task<IActionResult> CreatePayment([FromBody] VNPayRequestDTO model)
@@ -29,6 +32,44 @@ namespace APIService.Controllers
                 // Log exception
                 return BadRequest(new { Message = "Có lỗi xảy ra", Error = ex.Message });
             }
+            //using (var transaction = await _unitOfWork.BeginTransactionAsync())
+            //{
+            //    try
+            //    {
+            //        // Kiểm tra trạng thái đơn hàng trước khi thực hiện thanh toán
+            //        var order = await _unitOfWork.OrderRepository.GetByIdAsync(model.OrderId);
+            //        if (order == null)
+            //        {
+            //            return NotFound(new { Message = "Order not found" });
+            //        }
+
+            //        // Kiểm tra nếu đơn hàng đã được thanh toán
+            //        if (order.OrderStatus == "Giao dịch thành công")
+            //        {
+            //            return BadRequest(new { Message = "This order has already been paid." });
+            //        }
+
+            //        // Đánh dấu đơn hàng là 'Pending' để ngăn chặn các giao dịch khác xử lý cùng lúc
+            //        order.OrderStatus = "Đang chờ thanh toán";
+            //        await _unitOfWork.OrderRepository.UpdateAsync(order);
+
+            //        // Tạo URL thanh toán VNPay
+            //        var result = await _vnpayService.CreatePaymentUrl(HttpContext, model);
+
+            //        // Sau khi có URL thanh toán, commit transaction để lưu lại trạng thái 'Pending'
+            //        await transaction.CommitAsync();
+
+            //        return Ok(result);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Nếu có lỗi xảy ra, rollback transaction để giữ nguyên trạng thái của đơn hàng
+            //        await transaction.RollbackAsync();
+
+            //        // Log lỗi (nếu cần)
+            //        return BadRequest(new { Message = "Có lỗi xảy ra", Error = ex.Message });
+            //    }
+            //}
         }
 
         //[HttpGet("payment-callback")]
