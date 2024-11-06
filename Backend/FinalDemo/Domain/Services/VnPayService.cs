@@ -56,43 +56,43 @@ namespace Domain.Services
             return await Task.FromResult(paymentUrl);
         }
 
-        public async Task<VNPayResponseDTO> PaymentCallback(IQueryCollection collections)
-        {
-            var vnpay = new VnPayLibrary();
-            foreach (var (key, value) in collections)
-            {
-                if (!string.IsNullOrEmpty(key) && key.StartsWith("vnp_"))
-                {
-                    vnpay.AddResponseData(key, value.ToString());
-                }
-            }
+        //public async Task<VNPayResponseDTO> PaymentCallback(IQueryCollection collections)
+        //{
+        //    var vnpay = new VnPayLibrary();
+        //    foreach (var (key, value) in collections)
+        //    {
+        //        if (!string.IsNullOrEmpty(key) && key.StartsWith("vnp_"))
+        //        {
+        //            vnpay.AddResponseData(key, value.ToString());
+        //        }
+        //    }
 
-            var vnp_orderId = Convert.ToInt64(vnpay.GetResponseData("vnp_TxnRef"));
-            var vnp_TransactionId = Convert.ToInt64(vnpay.GetResponseData("vnp_TransactionNo"));
-            var vnp_SecureHash = collections.FirstOrDefault(p => p.Key == "vnp_SecureHash").Value;
-            var vnp_ResponseCode = vnpay.GetResponseData("vnp_ResponseCode");
-            var vnp_OrderInfo = vnpay.GetResponseData("vnp_OrderInfo");
+        //    var vnp_orderId = Convert.ToInt64(vnpay.GetResponseData("vnp_TxnRef"));
+        //    var vnp_TransactionId = Convert.ToInt64(vnpay.GetResponseData("vnp_TransactionNo"));
+        //    var vnp_SecureHash = collections.FirstOrDefault(p => p.Key == "vnp_SecureHash").Value;
+        //    var vnp_ResponseCode = vnpay.GetResponseData("vnp_ResponseCode");
+        //    var vnp_OrderInfo = vnpay.GetResponseData("vnp_OrderInfo");
 
-            bool checkSignature = vnpay.ValidateSignature(vnp_SecureHash, _config["VnPay:HashSecret"]);
-            if (!checkSignature)
-            {
-                return await Task.FromResult(new VNPayResponseDTO
-                {
-                    Success = false
-                });
-            }
+        //    bool checkSignature = vnpay.ValidateSignature(vnp_SecureHash, _config["VnPay:HashSecret"]);
+        //    if (!checkSignature)
+        //    {
+        //        return await Task.FromResult(new VNPayResponseDTO
+        //        {
+        //            Success = false
+        //        });
+        //    }
 
-            return await Task.FromResult(new VNPayResponseDTO
-            {
-                Success = true,
-                PaymentMethod = "VnPay",
-                OrderDescription = vnp_OrderInfo,
-                OrderId = vnp_orderId.ToString(),
-                TransactionId = vnp_TransactionId.ToString(),
-                Token = vnp_SecureHash,
-                VnPayResponseCode = vnp_ResponseCode
-            });
-        }
+        //    return await Task.FromResult(new VNPayResponseDTO
+        //    {
+        //        Success = true,
+        //        PaymentMethod = "VnPay",
+        //        OrderDescription = vnp_OrderInfo,
+        //        OrderId = vnp_orderId.ToString(),
+        //        TransactionId = vnp_TransactionId.ToString(),
+        //        Token = vnp_SecureHash,
+        //        VnPayResponseCode = vnp_ResponseCode
+        //    });
+        //}
 
         //public async Task<(bool success, string message)> ProcessVnPayCallback(IQueryCollection queryCollection)
         //{
@@ -121,23 +121,23 @@ namespace Domain.Services
         //    }
         //}
 
-        private VnPayCallbackDTO ParseVnPayData(IQueryCollection queryCollection)
-        {
-            return new VnPayCallbackDTO
-            {
-                VnpTxnRef = queryCollection["vnp_TxnRef"].ToString(),
-                VnpAmount = queryCollection["vnp_Amount"].ToString(),
-                VnpBankCode = queryCollection["vnp_BankCode"].ToString(),
-                VnpBankTranNo = queryCollection["vnp_BankTranNo"].ToString(),
-                VnpCardType = queryCollection["vnp_CardType"].ToString(),
-                VnpOrderInfo = queryCollection["vnp_OrderInfo"].ToString(),
-                VnpPayDate = queryCollection["vnp_PayDate"].ToString(),
-                VnpResponseCode = queryCollection["vnp_ResponseCode"].ToString(),
-                VnpTransactionNo = queryCollection["vnp_TransactionNo"].ToString(),
-                VnpTransactionStatus = queryCollection["vnp_TransactionStatus"].ToString(),
-                VnpSecureHash = queryCollection["vnp_SecureHash"].ToString()
-            };
-        }
+        //private VnPayCallbackDTO ParseVnPayData(IQueryCollection queryCollection)
+        //{
+        //    return new VnPayCallbackDTO
+        //    {
+        //        VnpTxnRef = queryCollection["vnp_TxnRef"].ToString(),
+        //        VnpAmount = queryCollection["vnp_Amount"].ToString(),
+        //        VnpBankCode = queryCollection["vnp_BankCode"].ToString(),
+        //        VnpBankTranNo = queryCollection["vnp_BankTranNo"].ToString(),
+        //        VnpCardType = queryCollection["vnp_CardType"].ToString(),
+        //        VnpOrderInfo = queryCollection["vnp_OrderInfo"].ToString(),
+        //        VnpPayDate = queryCollection["vnp_PayDate"].ToString(),
+        //        VnpResponseCode = queryCollection["vnp_ResponseCode"].ToString(),
+        //        VnpTransactionNo = queryCollection["vnp_TransactionNo"].ToString(),
+        //        VnpTransactionStatus = queryCollection["vnp_TransactionStatus"].ToString(),
+        //        VnpSecureHash = queryCollection["vnp_SecureHash"].ToString()
+        //    };
+        //}
 
         //private bool ValidateSignature(Dictionary<string, string> queryParams)
         //{
@@ -375,9 +375,15 @@ namespace Domain.Services
 
                         // Save transaction and update order
                         var result = _mapper.Map<PaymentTransaction>(paymentResponse);
+
+                    var cart = await _unitOfWork.CartRepository.GetByIdAsync(order.UserId);
+                    var deleteCartResult = await _unitOfWork.CartRepository.RemoveAsync(cart);
+                        if (!deleteCartResult)
+                        {
+                            return (false, "Something went wrong while deleting the cart.");
+                        }
                         await _unitOfWork.PaymentTransactionRepository.CreateAsync(result);
                         await UpdateOrderStatus(order, "Giao dịch thành công");
-
                         return (true, "Payment processed successfully");
                     }
 

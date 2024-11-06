@@ -38,5 +38,39 @@ namespace APIService.Controllers
             var result = _mapper.Map<RevenueDTO>(revenue);
             return result;
         }
+
+        [HttpGet("GetVipUpgradeRevenue")]
+        public async Task<ActionResult<List<RevenueDTO>>> GetVipUpgradeRevenue()
+        {
+            var revenue = await _unitOfWork.RevenueRepository.GetVipUpgradeRevenue();
+
+            var result = _mapper.Map<List<RevenueDTO>>(revenue);
+
+            return result;
+        }
+
+        [HttpGet("GetProductRevenue")]
+        public async Task<ActionResult<List<RevenueDTO>>> GetProductRevenue()
+        {
+            var revenue = await _unitOfWork.RevenueRepository.GetProductRevenue();
+
+            var result = _mapper.Map<List<RevenueDTO>>(revenue);
+
+            return result;
+        }
+
+        [HttpGet("GetVipPackageOrderNumber")]
+        public async Task<IActionResult> GetVipPackageOrder()
+        {
+            var result = await _unitOfWork.RevenueRepository.GetNumberofVipUpgrade();
+            return Ok(result);
+        }
+
+        [HttpGet("GetProductOrderNumber")]
+        public async Task<IActionResult> GetProductOrderNumber()
+        {
+            var result = await _unitOfWork.RevenueRepository.GetNumberofProductOrder();
+            return Ok(result);
+        }
     }
 }

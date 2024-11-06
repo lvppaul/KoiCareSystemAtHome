@@ -137,8 +137,14 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            var revenue = _mapper.Map<Revenue>(orderMap);
-            revenue.Income = (total * 10 / 100);
+            var revenueDto = new RevenueRequestDTO
+            {
+                OrderId = orderMap.OrderId,
+                Income = (total * 8 / 100)
+            };
+
+            var revenue = _mapper.Map<Revenue>(revenueDto);
+
             var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
             if (createResultRevenue <= 0)
             {
@@ -197,21 +203,26 @@ namespace KCSAH.APIServer.Controllers
             }
             orderVipMap.isVipUpgrade = true;
             orderVipMap.TotalPrice = total;
-            
+
+            var revenueDto = new RevenueRequestDTO
+            {
+                OrderId = orderVipMap.OrderId,
+                isVip = true,
+                Income = total
+            };
+                
+            var revenue = _mapper.Map<Revenue>(revenueDto);
+            var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
+            if (createResultRevenue <= 0)
+            {
+                ModelState.AddModelError("", "Something went wrong while saving revenue.");
+                return StatusCode(500, ModelState);
+            }
 
             var createResult = await _unitOfWork.OrderRepository.CreateAsync(orderVipMap);
             if (createResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while saving the order.");
-                return StatusCode(500, ModelState);
-            }
-
-            var revenue = _mapper.Map<Revenue>(orderVipMap);
-            revenue.Income = total;
-            var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
-            if (createResultRevenue <= 0)
-            {
-                ModelState.AddModelError("", "Something went wrong while saving revenue.");
                 return StatusCode(500, ModelState);
             }
 

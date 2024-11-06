@@ -11,5 +11,9 @@ public partial class Revenue
 
     public int Income { get; set; }
 
+    public bool isVip { get; set; }
+
+    public DateTime CreateAt { get; set; }
+
     public virtual Order Order { get; set; } = null!;
 }
