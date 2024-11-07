@@ -170,6 +170,9 @@ namespace KCSAH.APIServer.Dto
             CreateMap<OrderVipDetailRequestDTO, OrderVipDetail>().ReverseMap();
             CreateMap<OrderVipDetailRequestDTO, OrderVipDetailDTO>().ReverseMap();
 
+
+            CreateMap<OrderDTO, OrderVipDTO>().ReverseMap();
+
         }
     }
 }

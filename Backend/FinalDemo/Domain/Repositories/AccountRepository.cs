@@ -168,6 +168,8 @@ namespace Domain.Repositories
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null) return new AuthenticationResponse { Message = notExistAcc };
 
+
+
             bool isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user!);
             if (!isEmailConfirmed) return new AuthenticationResponse { Message = notConfirmEmail };
 

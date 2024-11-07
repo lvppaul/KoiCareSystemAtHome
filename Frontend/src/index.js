@@ -35,13 +35,13 @@ import Profile from "./pages/Profile/Profile";
 import Members from "./components/AdminComponents/MemberManagement";
 import Vips from "./components/AdminComponents/VipManagement";
 import AdminShops from "./components/AdminComponents/ShopManagement";
-import AdminCategories from "./components/AdminComponents/CategoriesManagement";
+import AdminOrderManagement from "./components/AdminComponents/AdminOrderManagement";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import UpgradeVipAccount from "./pages/UpgradeVipAccount/UpgradeVipAccount";
 import Cart from "./pages/Cart/Cart";
 import Order from "./pages/Order/Order";
 import PaymentResult from "./pages/PaymentPage/PaymentResult";
-import AdminVipPackManagement from "./components/AdminComponents/AdminVipPackManament";
+
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage";
 import OrderHistory from "./pages/Order/OrderHistory";
 const container = document.getElementById("root");
@@ -162,25 +162,25 @@ root.render(
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="members" element={<Members />} />
             <Route path="vips" element={<Vips />} />
-
             <Route path="shops" element={<AdminShops />} />
+            <Route path="orders" element={<AdminOrderManagement />} />
           </Route>
         </Routes>
       </AuthProvider>
     </React.StrictMode>
     {/*Route no StrictMode*/}
     <AuthProvider>
-    <Routes>
-      <Route
-        path="payment/api/VNPay/vnpay-return"
-        element={<PaymentResult />}
-      />
-      <Route path="confirmemail" element={<Confirmation />} />
-      <Route path="reset-password" element={<ResetPasswordPage />} />
-      {/* <Route path="*" element={<NotPage />} /> */}
-      <Route path="updateaccount" element={<UpgradeVipAccount />} />
-    </Routes>
-  </AuthProvider>
+      <Routes>
+        <Route
+          path="payment/api/VNPay/vnpay-return"
+          element={<PaymentResult />}
+        />
+        <Route path="confirmemail" element={<Confirmation />} />
+        <Route path="reset-password" element={<ResetPasswordPage />} />
+        {/* <Route path="*" element={<NotPage />} /> */}
+        <Route path="updateaccount" element={<UpgradeVipAccount />} />
+      </Routes>
+    </AuthProvider>
   </BrowserRouter>
 );
 
