@@ -18,7 +18,6 @@ const PaymentResult = () => {
   const returnUrl = window.location.href;
   const [isVipUpgrade, setIsVipUpgrade] = useState(false);
   const {logout} = useAuth();
-  const [userId, setUserId] = useState('');
 
   const sendReturnUrl = async () => {
     const url = new URL(window.location.href);
@@ -35,7 +34,6 @@ const PaymentResult = () => {
           console.log('orderResponse:', orderResponse);
           if (orderResponse.isVipUpgrade) {
             const userId = orderResponse.userId;
-            setUserId(userId);
             const vipPackage = await getVipPackageByOrderId(orderId);
             await upgradeVipAccount(userId);
             let vipRecord = {

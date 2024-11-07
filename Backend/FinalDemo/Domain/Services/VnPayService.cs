@@ -345,7 +345,7 @@ namespace Domain.Services
                 AddResponseData(queryParams,vnpay);
                 if (!vnpay.ValidateSignature(vnp_SecureHash,hashSecret))
                 {
-                    await UpdateOrderStatus(order, "Giao dịch thất bại");
+                    await UpdateOrderStatus(order, "Failed");
                     return (false, "Error processing payment due to Invalid Signature");
                 }
 
@@ -402,12 +402,12 @@ namespace Domain.Services
                         await UpdateVipRevenue(order);
                     }
                     await _unitOfWork.PaymentTransactionRepository.CreateAsync(result);
-                    await UpdateOrderStatus(order, "Giao dịch thành công");
+                    await UpdateOrderStatus(order, "Successful");
                     return (true, "Payment processed successfully");
 
                 }
 
-                    await UpdateOrderStatus(order, "Giao dịch thất bại");
+                    await UpdateOrderStatus(order, "Failed");
                     return (false, "Error processing payment");
                 //}
 

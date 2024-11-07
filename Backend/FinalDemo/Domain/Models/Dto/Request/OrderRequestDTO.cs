@@ -29,7 +29,7 @@ namespace Domain.Models.Dto.Request
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
         [JsonIgnore]
-        public string OrderStatus { get; set; } = "Đang chờ";
+        public string OrderStatus { get; set; } = "Pending";
         public List<OrderDetailRequestDTO> orderDetails { get; set; }
         [JsonIgnore]
         public int TotalPrice { get; set; }
