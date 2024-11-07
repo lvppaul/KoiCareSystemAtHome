@@ -10,6 +10,7 @@ import { useAuth } from "../Login/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { getAccountByUserId } from "../../Config/UserApi";
 import { createOrder } from "../../Config/OrderApi";
+import LoginNeeded from "../../components/LoginNeeded/LoginNeeded";
 
 const Product = () => {
   const { productId } = useParams();
@@ -20,10 +21,11 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   const [errorMessages, setErrorMessages] = useState("");
+  const [showLoginNeeded, setShowLoginNeeded] = useState(false);
 
   const navigate = useNavigate();
   const { user } = useAuth();
-  const userId = user.userId;
+  const userId = user?.userId;
 
   useEffect(() => {
     if (product) {
@@ -37,6 +39,10 @@ const Product = () => {
   };
 
   const addToCart = async (product) => {
+    if (!userId) {
+      setShowLoginNeeded(true);
+      return;
+    }
     try {
       await addItemToCart(userId, {
         productId: product.productId,
@@ -95,6 +101,11 @@ const Product = () => {
   }
 
   const handleCreateOrder = async () => {
+    if (!userId) {
+      setShowLoginNeeded(true);
+      return;
+    }
+
     try {
       const userDetails = await getAccountByUserId(userId);
       const orderData = {
@@ -158,7 +169,12 @@ const Product = () => {
                 <Carousel variant="dark">
                   {productImages.map((productImage) => (
                     <Carousel.Item key={productImage.imageId}>
-                      <Image style={{width: '700px', height: '600px', objectFit: 'cover'}} src={productImage.imageUrl} alt={`${product.name} image ${productImage.imageId}`} fluid />
+                      <Image
+                        style={{ width: "700px", height: "600px", objectFit: "cover" }}
+                        src={productImage.imageUrl}
+                        alt={`${product.name} image ${productImage.imageId}`}
+                        fluid
+                      />
                     </Carousel.Item>
                   ))}
                 </Carousel>
@@ -187,7 +203,9 @@ const Product = () => {
             <p className="mb-3">{product.description}</p>
             <hr />
             <div className="d-flex justify-content mb-3">
-              <Form.Label className="me-3" style={{ fontWeight: "bold" }}>Quantity:</Form.Label>
+              <Form.Label className="me-3" style={{ fontWeight: "bold" }}>
+                Quantity:
+              </Form.Label>
               <Form.Control
                 as="select"
                 value={quantity}
@@ -222,6 +240,7 @@ const Product = () => {
             </div>
           </Col>
         </Row>
+        <LoginNeeded show={showLoginNeeded} handleClose={() => setShowLoginNeeded(false)} />
       </Container>
     </Container>
   );

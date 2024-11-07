@@ -29,19 +29,14 @@ import {
 import UpdateShopDetails from "../../components/UpdateShopDetails/UpdateShopDetails";
 import UpdateProduct from "../../components/UpdateProduct/UpdateProduct";
 import AddNewProduct from "../../components/AddNewProduct/AddNewProduct";
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-} from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 import { useAuth } from "../Login/AuthProvider";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
 
 const ManageShop = () => {
   const { user } = useAuth();
-  const userId = user.userId;
+  const userId = user?.userId;
 
   const [loading, setLoading] = useState(true);
   const [productLoading, setProductLoading] = useState(true);
@@ -71,10 +66,7 @@ const ManageShop = () => {
               const storageRef = ref(storage, image.imageUrl);
               image.imageUrl = await getDownloadURL(storageRef);
             } catch (error) {
-              console.error(
-                "The file does not exist in firebase anymore!",
-                error
-              );
+              console.error("The file does not exist in firebase anymore!", error);
               const storageRef = ref(storage, "others/NotFound.jpg");
               image.imageUrl = await getDownloadURL(storageRef);
             }
@@ -100,10 +92,7 @@ const ManageShop = () => {
                 const storageRef = ref(storage, product.thumbnail);
                 product.thumbnail = await getDownloadURL(storageRef);
               } catch (error) {
-                console.error(
-                  "The file does not exist in firebase anymore!",
-                  error
-                );
+                console.error("The file does not exist in firebase anymore!", error);
                 const storageRef = ref(storage, "others/NotFound.jpg");
                 product.thumbnail = await getDownloadURL(storageRef);
               }
@@ -169,28 +158,18 @@ const ManageShop = () => {
         updatedProduct.thumbnail = await getDownloadURL(storageRef);
       }
     }
-    setProducts(
-      products.map((product) =>
-        product.productId === updatedProduct.productId
-          ? updatedProduct
-          : product
-      )
-    );
+    setProducts(products.map((product) => (product.productId === updatedProduct.productId ? updatedProduct : product)));
     console.log("Product updated successfully", updatedProduct);
     console.log("product", products);
 
     if (imageFiles && imageFiles.length > 0) {
       try {
-        const validImageFiles = imageFiles.filter(
-          (file) => file !== null && file !== undefined
-        );
+        const validImageFiles = imageFiles.filter((file) => file !== null && file !== undefined);
 
         const imageUploadPromises = validImageFiles.map(async (file) => {
           const imageRef = ref(
             storage,
-            `product/productImages/${userId}/ProductId:${
-              updatedProduct.productId
-            }_${Date.now()}_${file.name}}`
+            `product/productImages/${userId}/ProductId:${updatedProduct.productId}_${Date.now()}_${file.name}}`
           );
           await uploadBytes(imageRef, file);
           return {
@@ -214,12 +193,8 @@ const ManageShop = () => {
           })
         );
 
-        const validUploadedImages = uploadedImages.filter(
-          (image) => image !== null
-        );
-        const filteredProductImages = productImages.filter(
-          (image) => image.productId !== updatedProduct.productId
-        );
+        const validUploadedImages = uploadedImages.filter((image) => image !== null);
+        const filteredProductImages = productImages.filter((image) => image.productId !== updatedProduct.productId);
 
         setProductImages([...filteredProductImages, ...validUploadedImages]);
         setCarouselLoading(false);
@@ -274,9 +249,7 @@ const ManageShop = () => {
 
       await deleteProduct(productId);
 
-      setProducts(
-        products.filter((product) => product.productId !== productId)
-      );
+      setProducts(products.filter((product) => product.productId !== productId));
       console.log("Product deleted successfully");
       setToastMessage("Product deleted successfully.");
       setShowToast(true);
@@ -305,9 +278,7 @@ const ManageShop = () => {
         return;
       }
 
-      const validImageFiles = imageFiles.filter(
-        (file) => file !== null && file !== undefined
-      );
+      const validImageFiles = imageFiles.filter((file) => file !== null && file !== undefined);
 
       if (validImageFiles.length === 0) {
         setProducts([...products, addedProduct]);
@@ -319,9 +290,7 @@ const ManageShop = () => {
       const imageUploadPromises = validImageFiles.map(async (file) => {
         const imageRef = ref(
           storage,
-          `product/productImages/${userId}/ProductId:${
-            addedProduct.productId
-          }_${Date.now()}_${file.name}`
+          `product/productImages/${userId}/ProductId:${addedProduct.productId}_${Date.now()}_${file.name}`
         );
         await uploadBytes(imageRef, file);
         return {
@@ -345,9 +314,7 @@ const ManageShop = () => {
         })
       );
 
-      const validUploadedImages = uploadedImages.filter(
-        (image) => image !== null
-      );
+      const validUploadedImages = uploadedImages.filter((image) => image !== null);
 
       setProductImages([...productImages, ...validUploadedImages]);
       setCarouselLoading(false);
@@ -366,15 +333,13 @@ const ManageShop = () => {
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const nextPage = () => setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.ceil(products.length / productsPerPage)));
+  const nextPage = () =>
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.ceil(products.length / productsPerPage)));
   const prevPage = () => setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
 
   if (loading) {
     return (
-      <div
-        className="d-flex justify-content-center align-items-center mt-5"
-        style={{ height: "100%" }}
-      >
+      <div className="d-flex justify-content-center align-items-center mt-5" style={{ height: "100%" }}>
         <Spinner animation="border" size="xl" role="status" />
       </div>
     );
@@ -411,10 +376,7 @@ const ManageShop = () => {
                 </ListGroup.Item>
               </ListGroup>
               <div className="d-flex justify-content-center">
-                <Button
-                  variant="primary"
-                  onClick={() => setShowShopModal(true)}
-                >
+                <Button variant="primary" onClick={() => setShowShopModal(true)}>
                   Edit Shop Details
                 </Button>
               </div>
@@ -431,19 +393,13 @@ const ManageShop = () => {
       <h2>Shop Products</h2>
       <Row className="mb-3">
         <Col className="d-flex justify-content-end">
-          <Button
-            variant="success"
-            onClick={() => setShowAddProductModal(true)}
-          >
+          <Button variant="success" onClick={() => setShowAddProductModal(true)}>
             Add New Product
           </Button>
         </Col>
       </Row>
       {productLoading ? (
-        <div
-          className="d-flex justify-content-center align-items-center mt-5 mb-5"
-          style={{ height: "100%" }}
-        >
+        <div className="d-flex justify-content-center align-items-center mt-5 mb-5" style={{ height: "100%" }}>
           <Spinner animation="border" size="xl" role="status" />
         </div>
       ) : (
@@ -474,10 +430,7 @@ const ManageShop = () => {
                   </td>
                   <td>
                     {carouselLoading ? (
-                      <div
-                        className="d-flex justify-content-center align-items-center"
-                        style={{ height: "100%" }}
-                      >
+                      <div className="d-flex justify-content-center align-items-center" style={{ height: "100%" }}>
                         <Spinner animation="border" size="xl" role="status" />
                       </div>
                     ) : (
@@ -485,21 +438,14 @@ const ManageShop = () => {
                         {[
                           ...new Set(
                             productImages
-                              .filter(
-                                (image) => image.productId === product.productId
-                              )
+                              .filter((image) => image.productId === product.productId)
                               .map((image) => image.imageId)
                           ),
                         ].map((imageId) => {
-                          const productImage = productImages.find(
-                            (image) => image.imageId === imageId
-                          );
+                          const productImage = productImages.find((image) => image.imageId === imageId);
                           if (!productImage) return null;
                           return (
-                            <Carousel.Item
-                              key={productImage.imageId}
-                              style={{ textAlign: "center" }}
-                            >
+                            <Carousel.Item key={productImage.imageId} style={{ textAlign: "center" }}>
                               <Image
                                 src={productImage.imageUrl}
                                 alt={`${product.name} image ${productImage.imageId}`}
@@ -513,11 +459,7 @@ const ManageShop = () => {
                     )}
                   </td>
                   <td>{product.name}</td>
-                  <td>
-                    {product.category
-                      ? product.category.name
-                      : errorCategory.name}
-                  </td>
+                  <td>{product.category ? product.category.name : errorCategory.name}</td>
                   <td>{product.description}</td>
                   <td>{product.quantity}</td>
                   <td>{product.price}</td>
@@ -534,10 +476,7 @@ const ManageShop = () => {
                       >
                         Update
                       </Button>
-                      <Button
-                        variant="danger"
-                        onClick={() => handleDeleteProduct(product.productId)}
-                      >
+                      <Button variant="danger" onClick={() => handleDeleteProduct(product.productId)}>
                         Delete
                       </Button>
                     </div>
@@ -553,7 +492,10 @@ const ManageShop = () => {
                 {index + 1}
               </Pagination.Item>
             ))}
-            <Pagination.Next onClick={nextPage} disabled={currentPage === Math.ceil(products.length / productsPerPage)} />
+            <Pagination.Next
+              onClick={nextPage}
+              disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+            />
           </Pagination>
         </>
       )}

@@ -2,17 +2,18 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import { getComments, addComment } from "../../Config/BlogApi";
 import { getAccountByUserId } from "../../Config/UserApi";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { useAuth } from "../../pages/Login/AuthProvider";
+import LoginNeeded from "../LoginNeeded/LoginNeeded";
 
 const CommentSection = ({ blogId }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showLoginNeeded, setShowLoginNeeded] = useState(false);
 
   const { user } = useAuth();
-  const userId = user.userId;
-  console.log("userId", userId);
+  const userId = user?.userId;
 
   const fetchComments = useCallback(async () => {
     try {
@@ -37,6 +38,12 @@ const CommentSection = ({ blogId }) => {
 
   const handleAddComment = async (e) => {
     e.preventDefault();
+
+    if (!userId) {
+      setShowLoginNeeded(true);
+      return;
+    }
+
     const user = await getAccountByUserId(userId);
 
     const comment = {
@@ -76,10 +83,7 @@ const CommentSection = ({ blogId }) => {
         <p>Loading comments...</p>
       ) : (
         <div>
-          <Container
-            className="p-3"
-            style={{ backgroundColor: "#E4E0E1", borderRadius: "10px" }}
-          >
+          <Container className="p-3" style={{ backgroundColor: "#E4E0E1", borderRadius: "10px" }}>
             {comments.map((comment) => (
               <div
                 className="mb-3"
@@ -92,12 +96,7 @@ const CommentSection = ({ blogId }) => {
                 <p className="mb-0">
                   <strong>{comment.userName}</strong>
                 </p>
-                <p style={{ color: "gray" }}>
-                  {format(
-                    new Date(comment.createDate),
-                    "MMMM dd, yyyy - hh:mm a"
-                  )}
-                </p>
+                <p style={{ color: "gray" }}>{format(new Date(comment.createDate), "MMMM dd, yyyy - hh:mm a")}</p>
                 <hr />
                 <p>{comment.content}</p>
               </div>
@@ -105,6 +104,7 @@ const CommentSection = ({ blogId }) => {
           </Container>
         </div>
       )}
+      <LoginNeeded show={showLoginNeeded} handleClose={() => setShowLoginNeeded(false)} />
     </Container>
   );
 };

@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { user } = useAuth();
-  const userId = user.userId;
+  const userId = user?.userId;
 
   const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState([]);

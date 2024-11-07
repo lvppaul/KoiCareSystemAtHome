@@ -14,7 +14,7 @@ const SaltCalculator = () => {
   const [result, setResult] = useState(null);
 
   const { user } = useAuth();
-  const userId = user.userId;
+  const userId = user?.userId;
 
   useEffect(() => {
     const fetchPonds = async () => {
