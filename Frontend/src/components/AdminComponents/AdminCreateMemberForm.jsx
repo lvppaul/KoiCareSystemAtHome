@@ -16,7 +16,7 @@ const AdminCreateAccountDialog = (props) => {
   const { register, handleSubmit, reset } = useForm();
 
   const options = props.option;
-
+  const refreshMembers = props.refreshMembers;
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -31,11 +31,12 @@ const AdminCreateAccountDialog = (props) => {
     try {
       if (options === "SignUp") {
         await signUp(data); // Gọi API signUp với dữ liệu từ form
-        handleClose(); // Đóng dialog nếu API thành công
+        // Đóng dialog nếu API thành công
       } else {
         await signUpVip(data); // Gọi API signUp với dữ liệu từ form
-        handleClose(); // Đóng dialog nếu API thành công
       }
+      refreshMembers();
+      handleClose();
     } catch (error) {
       console.error("Error in sign-up:", error); // Xử lý lỗi từ API nếu có
     }
