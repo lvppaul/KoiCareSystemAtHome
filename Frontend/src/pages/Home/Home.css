@@ -44,6 +44,7 @@
     font-weight: bold;
     width: 182px;
     height: 80px;
+    border: none;
     border-radius: 10px;
     &:hover{
         background-color: #CA6420;
@@ -75,6 +76,7 @@
 }
 .card-img-top {
   object-fit: cover;
+  height: 220px;
   padding: 10px 20px;
   border-radius: 25px;
 }

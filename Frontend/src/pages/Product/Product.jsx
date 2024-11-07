@@ -158,7 +158,7 @@ const Product = () => {
                 <Carousel variant="dark">
                   {productImages.map((productImage) => (
                     <Carousel.Item key={productImage.imageId}>
-                      <Image src={productImage.imageUrl} alt={`${product.name} image ${productImage.imageId}`} fluid />
+                      <Image style={{width: '700px', height: '600px', objectFit: 'cover'}} src={productImage.imageUrl} alt={`${product.name} image ${productImage.imageId}`} fluid />
                     </Carousel.Item>
                   ))}
                 </Carousel>
@@ -176,7 +176,7 @@ const Product = () => {
                   color: "#E47E39",
                 }}
               >
-                ${totalPrice}
+                {totalPrice} ₫
               </p>
               <p className="product-status" style={{ fontSize: "1rem", fontWeight: "bold" }}>
                 Status: {product.status ? "In Stock" : "Out of Stock"}
@@ -186,8 +186,8 @@ const Product = () => {
             <Form.Label style={{ fontWeight: "bold" }}>Description:</Form.Label>
             <p className="mb-3">{product.description}</p>
             <hr />
-            <div className="d-flex justify-content-around mb-3">
-              <Form.Label style={{ fontWeight: "bold" }}>Quantity:</Form.Label>
+            <div className="d-flex justify-content mb-3">
+              <Form.Label className="me-3" style={{ fontWeight: "bold" }}>Quantity:</Form.Label>
               <Form.Control
                 as="select"
                 value={quantity}
