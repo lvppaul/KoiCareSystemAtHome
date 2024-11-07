@@ -5,7 +5,7 @@ import { getBlogs } from '../../Config/BlogApi';
 import AddNewBlog from '../../components/AddNewBlog/AddNewBlog';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow } from 'date-fns'; 
 
 const Blog = () => {
     const [blogs, setBlogs] = useState([]);
@@ -83,7 +83,7 @@ const Blog = () => {
                         {currentBlogs.map(blog => (
                             <Col key={blog.blogId} md={4} className="mb-4">
                                 <Card>
-                                    <Card.Img style={{ height: "100%", width: "100%", objectFit: "cover" }} variant="top" src={blog.thumbnail} alt={blog.title} />
+                                    <Card.Img style={{ height: "300px", width: "100%", objectFit: "cover" }} variant="top" src={blog.thumbnail} alt={blog.title} />
                                     <Card.Body>
                                         <Card.Title className="mb-2">{blog.title}</Card.Title>
                                         <Card.Subtitle className="mb-2 text-muted">

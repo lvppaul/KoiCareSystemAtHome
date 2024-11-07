@@ -1,12 +1,4 @@
-import {
-  Navbar,
-  Nav,
-  Container,
-  Form,
-  FormControl,
-  NavDropdown,
-  Image,
-} from "react-bootstrap";
+import { Navbar, Nav, Container, Form, FormControl, NavDropdown, Image } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Logo from "../../assets/Fpt_TTKoi_logo.svg";
 import "./Navigationbar.css";
@@ -16,12 +8,14 @@ import { useState, useEffect } from "react";
 import { getAccountByUserId } from "../../Config/UserApi";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../Config/firebase";
+import LoginNeeded from "../LoginNeeded/LoginNeeded";
 
 const Navigationbar = () => {
   const auth = useAuth();
   const [avatar, setAvatar] = useState(null);
   const { user, logout } = auth;
   const role = user ? user.role : null;
+  const [showLoginNeeded, setShowLoginNeeded] = useState(false);
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -36,10 +30,7 @@ const Navigationbar = () => {
             const previewAvatar = await getDownloadURL(storageRef);
             setAvatar(previewAvatar);
           } catch (error) {
-            console.error(
-              "The file does not exist in firebase anymore!",
-              error
-            );
+            console.error("The file does not exist in firebase anymore!", error);
             setAvatar(null);
           }
         }
@@ -93,37 +84,46 @@ const Navigationbar = () => {
               Blogs
             </NavLink>
             {user && user.role === "shop" ? (
-              <NavLink className="nav-title" to="/manageshop" >
+              <NavLink className="nav-title" to="/manageshop">
                 Your Shop
               </NavLink>
             ) : (
-              <NavDropdown
-                title="Koi Pond"
-                id="basic-nav-dropdown"
-                className="custom-dropdown"
-              >
-                <NavDropdown.Item as={NavLink} to="/koilist">
-                  Koi Fish List
-                </NavDropdown.Item>
-                <NavDropdown.Item as={NavLink} to="/pond">
-                  Pond
-                </NavDropdown.Item>
-                <NavDropdown.Item as={NavLink} to="/foodcalculator">
-                  Food Calculator
-                </NavDropdown.Item>
-                <NavDropdown.Item as={NavLink} to="/saltcalculator">
-                  Salt Calculator
-                </NavDropdown.Item>
-              </NavDropdown>
+              <>
+                <NavDropdown
+                  title="Koi Pond"
+                  id="basic-nav-dropdown"
+                  className="custom-dropdown"
+                  onClick={(e) => {
+                    if (!user) {
+                      e.preventDefault();
+                      setShowLoginNeeded(true);
+                    }
+                  }}
+                >
+                  {user ? (
+                    <>
+                      <NavDropdown.Item as={NavLink} to="/koilist">
+                        Koi Fish List
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={NavLink} to="/pond">
+                        Pond
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={NavLink} to="/foodcalculator">
+                        Food Calculator
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={NavLink} to="/saltcalculator">
+                        Salt Calculator
+                      </NavDropdown.Item>
+                    </>
+                  ) : null}
+                </NavDropdown>
+                <LoginNeeded show={showLoginNeeded} handleClose={() => setShowLoginNeeded(false)} />
+              </>
             )}
           </Nav>
           <Nav className="flex-grow-4 ms-auto nav-right">
             <Form className="d-flex">
-              <FormControl
-                type="search"
-                placeholder="Search..."
-                className="me-2 rounded-pill"
-              />
+              <FormControl type="search" placeholder="Search..." className="me-2 rounded-pill" />
             </Form>
             <NavDropdown
               style={{ position: "relative" }}
@@ -145,25 +145,21 @@ const Navigationbar = () => {
               id="basic-nav-dropdown"
             >
               {user ? (
-                <>{role === "admin" ?
-                  <NavDropdown.Item as={NavLink} to="/admin">
-                    Go to Admin Page
-                  </NavDropdown.Item> : null
-                }
+                <>
+                  {role === "admin" ? (
+                    <NavDropdown.Item as={NavLink} to="/admin">
+                      Go to Admin Page
+                    </NavDropdown.Item>
+                  ) : null}
                   <NavDropdown.Item as={NavLink} to="/profile">
                     Profile
                   </NavDropdown.Item>
                   <NavDropdown.Item as={NavLink} to="orderhistory">
                     Order History
                   </NavDropdown.Item>
-                  <NavDropdown.Item onClick={handleLogOut}>
-                    Log out
-                  </NavDropdown.Item>
+                  <NavDropdown.Item onClick={handleLogOut}>Log out</NavDropdown.Item>
                   <hr />
-                  <NavDropdown.Item
-                    style={{ fontWeight: "bold", color: "black" }}
-                    disabled
-                  >
+                  <NavDropdown.Item style={{ fontWeight: "bold", color: "black" }} disabled>
                     Role: {user.role} <br />
                     Email: {user.email}
                   </NavDropdown.Item>
@@ -174,10 +170,15 @@ const Navigationbar = () => {
                 </NavDropdown.Item>
               )}
             </NavDropdown>
-            <NavLink to={"/cart"}>
-              <BiCart size={50} color="Black" style={{ marginTop: "5px" }} />
-            </NavLink>
+            {user ? (
+              <NavLink to={"/cart"}>
+                <BiCart size={50} color="Black" style={{ marginTop: "5px" }} />
+              </NavLink>
+            ) : (
+              <BiCart size={50} color="Black" style={{ marginTop: "5px" }} onClick={() => setShowLoginNeeded(true)} />
+            )}
           </Nav>
+          <LoginNeeded show={showLoginNeeded} handleClose={() => setShowLoginNeeded(false)} />
         </Container>
       </Navbar>
     </>

@@ -73,7 +73,7 @@ const News = () => {
   return (
     <Container>
       <h1
-        className="d-flex justify-content-center mt-3"
+        className="d-flex justify-content-center mt-3 mb-3"
         style={{ color: "#E47E39" }}
       >
         News
@@ -94,7 +94,7 @@ const News = () => {
                 <Card>
                   <Card.Img
                     style={{
-                      height: "100%",
+                      height: "300px",
                       width: "100%",
                       objectFit: "cover",
                     }}
