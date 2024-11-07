@@ -113,25 +113,25 @@ namespace APIService.Controllers
             }
         }
 
-        [HttpGet("vnpay-return-buynow")]
-        public async Task<IActionResult> VnPayReturnBuyNow([FromQuery] string returnUrl)
-        {
-            try
-            {
-                var (success, message) = await _vnpayService.ProcessVnPayReturnBuyNow(returnUrl);
+        //[HttpGet("vnpay-return-buynow")]
+        //public async Task<IActionResult> VnPayReturnBuyNow([FromQuery] string returnUrl)
+        //{
+        //    try
+        //    {
+        //        var (success, message) = await _vnpayService.ProcessVnPayReturnBuyNow(returnUrl);
 
-                if (!success)
-                {
-                    return BadRequest(new { Message = message });
-                }
+        //        if (!success)
+        //        {
+        //            return BadRequest(new { Message = message });
+        //        }
 
-                return Ok(new { Message = message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "An error occurred while processing the payment" });
-            }
-        }
+        //        return Ok(new { Message = message });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { Message = "An error occurred while processing the payment" });
+        //    }
+        //}
 
 
     }

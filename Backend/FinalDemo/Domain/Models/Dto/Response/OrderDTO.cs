@@ -29,6 +29,8 @@ namespace Domain.Models.Dto.Response
 
         public DateTime CreateDate { get; set; } = DateTime.Now;
         public bool isVipUpgrade { get; set; }
+        public bool isBuyNow { get; set; }
+
         public string OrderStatus { get; set; } = null!;
         public List<OrderDetailDTO> orderDetails { get; set; }
         public int TotalPrice => orderDetails.Sum(od => od.Quantity * od.UnitPrice);

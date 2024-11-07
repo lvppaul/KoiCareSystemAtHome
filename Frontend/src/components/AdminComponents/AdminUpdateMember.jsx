@@ -1,4 +1,6 @@
+import { updateAccountAdmin } from "../../Config/UserApi";
 import React, { useState } from "react";
+import { FaPen } from "react-icons/fa";
 import {
   Dialog,
   DialogActions,
@@ -7,15 +9,12 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import { FaPlus } from "react-icons/fa";
-import { signUp, signUpVip } from "../../Config/LogInApi";
 import { useForm } from "react-hook-form";
 
-const AdminCreateAccountDialog = (props) => {
+const AdminUpdateMemberDialog = (props) => {
   const [open, setOpen] = useState(false);
   const { register, handleSubmit, reset } = useForm();
-
-  const options = props.option;
+  const userId = props.userId;
   const refreshMembers = props.refreshMembers;
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,12 +28,7 @@ const AdminCreateAccountDialog = (props) => {
   const onSubmit = async (data) => {
     console.log("Form data:", data); // Kiểm tra xem dữ liệu form có được gửi
     try {
-      if (options === "SignUp") {
-        await signUp(data); // Gọi API signUp với dữ liệu từ form
-        // Đóng dialog nếu API thành công
-      } else {
-        await signUpVip(data); // Gọi API signUp với dữ liệu từ form
-      }
+      await updateAccountAdmin(userId, data);
       refreshMembers();
       handleClose();
     } catch (error) {
@@ -44,15 +38,13 @@ const AdminCreateAccountDialog = (props) => {
 
   return (
     <div>
-      <Button
-        className="buttonAdminCreate"
-        variant="outlined"
-        onClick={handleClickOpen}
-      >
-        <FaPlus />
+      <Button onClick={handleClickOpen}>
+        <div className="icon">
+          <FaPen />
+        </div>
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create Admin Account</DialogTitle>
+        <DialogTitle>Update Account</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextField
@@ -67,33 +59,44 @@ const AdminCreateAccountDialog = (props) => {
               fullWidth
               {...register("lastName", { required: true })}
             />
+
             <TextField
               margin="dense"
-              label="Email"
-              type="email"
+              label="Street"
               fullWidth
-              {...register("email", { required: true })}
+              {...register("street", { required: true })}
             />
             <TextField
               margin="dense"
-              label="Password"
-              type="password"
+              label="District"
               fullWidth
-              {...register("password", { required: true })}
+              {...register("district", { required: true })}
             />
             <TextField
               margin="dense"
-              label="Confirm Password"
-              type="password"
+              label="City"
               fullWidth
-              {...register("confirmPassword", { required: true })}
+              {...register("city", { required: true })}
             />
+            <TextField
+              margin="dense"
+              label="Country"
+              fullWidth
+              {...register("country", { required: true })}
+            />
+            <TextField
+              margin="dense"
+              label="PhoneNumber"
+              fullWidth
+              {...register("phoneNumber", { required: true })}
+            />
+
             <DialogActions>
               <Button onClick={handleClose} color="primary">
                 Cancel
               </Button>
               <Button type="submit" color="primary">
-                Create
+                Save
               </Button>
             </DialogActions>
           </form>
@@ -103,4 +106,4 @@ const AdminCreateAccountDialog = (props) => {
   );
 };
 
-export default AdminCreateAccountDialog;
+export default AdminUpdateMemberDialog;

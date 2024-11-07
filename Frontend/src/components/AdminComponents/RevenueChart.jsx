@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -10,36 +10,88 @@ import {
 } from "recharts";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-
-const data = {
-  monthly: [
-    { name: "Jan", revenue: 1000 },
-    { name: "Feb", revenue: 1200 },
-    { name: "Mar", revenue: 1500 },
-    { name: "Apr", revenue: 1400 },
-    { name: "May", revenue: 1600 },
-    { name: "Jun", revenue: 1800 },
-    { name: "Jul", revenue: 1700 },
-    { name: "Aug", revenue: 1900 },
-    { name: "Sep", revenue: 2000 },
-    { name: "Oct", revenue: 2200 },
-    { name: "Nov", revenue: 2100 },
-    { name: "Dec", revenue: 2300 },
-  ],
-  quarterly: [
-    { name: "Q1", revenue: 3700 },
-    { name: "Q2", revenue: 4700 },
-    { name: "Q3", revenue: 5800 },
-    { name: "Q4", revenue: 7200 },
-  ],
-  yearly: [
-    { name: "2022", revenue: 21400 },
-    { name: "2023", revenue: 23000 },
-  ],
-};
+import { getDataRevenue } from "../../Config/RevenueApi";
+import dayjs from "dayjs";
 
 const RevenueChart = () => {
   const [dataType, setDataType] = useState("monthly"); // Default to monthly data
+  const [revenue, setRevenue] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const formatData = (data) => {
+    const groupedData = {};
+
+    data.forEach((item) => {
+      // Xác định key nhóm theo dataType
+      const key =
+        dataType === "monthly"
+          ? dayjs(item.createAt).format("MM/YYYY")
+          : dataType === "quarterly"
+          ? `Q${Math.ceil((dayjs(item.createAt).month() + 1) / 3)}-${dayjs(
+              item.createAt
+            ).year()}`
+          : dayjs(item.createAt).format("YYYY");
+
+      // Tính tổng revenue cho mỗi nhóm
+      if (!groupedData[key]) {
+        groupedData[key] = { date: key, revenue: 0 };
+      }
+      groupedData[key].revenue += item.income;
+    });
+
+    // Tạo các khoảng thời gian cho từng loại dữ liệu
+    const year = dayjs().year();
+    let filledData = [];
+
+    if (dataType === "monthly") {
+      filledData = Array.from({ length: 12 }, (_, i) => {
+        const month = (i + 1).toString().padStart(2, "0");
+        const dateKey = `${month}/${year}`;
+        return {
+          date: dateKey,
+          revenue: groupedData[dateKey]?.revenue || 0,
+        };
+      });
+    } else if (dataType === "quarterly") {
+      filledData = Array.from({ length: 4 }, (_, i) => {
+        const quarter = `Q${i + 1}-${year}`;
+        return {
+          date: quarter,
+          revenue: groupedData[quarter]?.revenue || 0,
+        };
+      });
+    } else if (dataType === "yearly") {
+      // Giả định là hiển thị dữ liệu trong 5 năm gần nhất
+      filledData = Array.from({ length: 5 }, (_, i) => {
+        const pastYear = year - (4 - i);
+        return {
+          date: pastYear.toString(),
+          revenue: groupedData[pastYear]?.revenue || 0,
+        };
+      });
+    }
+
+    return filledData;
+  };
+
+  const fetchRevenue = async () => {
+    try {
+      const response = await getDataRevenue();
+      setRevenue(formatData(response));
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRevenue();
+  }, [dataType]); // refetch data when dataType changes
+
+  if (loading) return <p>Loading ...</p>;
+  if (error != null) return <p>Error: {error}</p>;
 
   return (
     <div style={{ width: `100%` }}>
@@ -56,9 +108,9 @@ const RevenueChart = () => {
       </Stack>
 
       <ResponsiveContainer width="100%" height={500}>
-        <BarChart data={data[dataType]}>
-          <CartesianGrid strokeDasharray="3 2" />
-          <XAxis dataKey="name" />
+        <BarChart data={revenue}>
+          <CartesianGrid strokeDasharray="2 2" />
+          <XAxis dataKey="date" />
           <YAxis />
           <Tooltip />
           <Bar dataKey="revenue" fill="#9FE2BF" />

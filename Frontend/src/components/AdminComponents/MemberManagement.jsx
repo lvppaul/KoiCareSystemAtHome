@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Button from "@mui/material/Button";
-import { FaPen } from "react-icons/fa";
+
 import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 import { useState } from "react";
@@ -9,6 +9,7 @@ import { getMembers, lockUser, unLockUser } from "../../Config/UserApi";
 import { AiOutlineCheck } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 import AdminCreateAccountDialog from "./AdminCreateMemberForm";
+import AdminUpdateMemberDialog from "./AdminUpdateMember";
 const Members = () => {
   const [members, setMembers] = useState([]);
 
@@ -46,7 +47,7 @@ const Members = () => {
 
   useEffect(() => {
     fetchMembers();
-  }, [<AdminCreateAccountDialog option={"SignUp"} />]);
+  }, []);
   console.log("member", members.lockoutEnabled);
   return (
     <>
@@ -57,7 +58,10 @@ const Members = () => {
             <SearchBar />
           </div>
           <div>
-            <AdminCreateAccountDialog option={"SignUp"} />
+            <AdminCreateAccountDialog
+              option={"SignUp"}
+              refreshMembers={fetchMembers}
+            />
           </div>
           <div className="table-response">
             <table className="table table-sm  ">
@@ -69,6 +73,7 @@ const Members = () => {
                   <th>Address</th>
                   <th>Email Confirm</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -103,6 +108,12 @@ const Members = () => {
                           {member.lockoutEnabled ? <FaLock /> : <FaLockOpen />}
                         </div>
                       </Button>
+                    </td>
+                    <td>
+                      <AdminUpdateMemberDialog
+                        userId={member.id}
+                        refreshMembers={fetchMembers}
+                      />
                     </td>
                   </tr>
                 ))}

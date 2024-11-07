@@ -348,6 +348,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .IsUnicode(false);
             entity.Property(e => e.Street).HasMaxLength(50);
             entity.Property(e => e.isVipUpgrade).HasDefaultValue(false);
+            entity.Property(e => e.isBuyNow).HasDefaultValue(false);
             entity.Property(e => e.UserId)
                 .HasMaxLength(450)
                 .HasColumnName("UserId");

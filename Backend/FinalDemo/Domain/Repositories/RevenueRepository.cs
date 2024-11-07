@@ -41,5 +41,32 @@ namespace Domain.Repositories
 
             return count;
         }
+
+        public async Task<int> GetTotalProductRevenue()
+        {
+            var list = await _context.Revenues.Where(r => r.isVip == false).ToListAsync();
+
+            var total = list.Sum(r => r.Income);
+
+            return total;
+        }
+
+        public async Task<int> GetTotalVipUpgradeRevenue()
+        {
+            var list = await _context.Revenues.Where(r => r.isVip == true).ToListAsync();
+
+            var total = list.Sum(r => r.Income);
+
+            return total;
+        }
+
+        public async Task<int> GetTotalRevenue()
+        {
+            var list = await _context.Revenues.ToListAsync();
+
+            var total = list.Sum(r => r.Income);
+
+            return total;
+        }
     }
 }

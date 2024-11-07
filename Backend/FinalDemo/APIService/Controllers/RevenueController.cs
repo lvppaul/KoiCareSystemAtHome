@@ -39,6 +39,14 @@ namespace APIService.Controllers
             return result;
         }
 
+        [HttpGet("TotalRevenue")]
+        public async Task<IActionResult> GetTotalRevenue()
+        {
+            var result = await _unitOfWork.RevenueRepository.GetTotalRevenue();
+
+            return Ok(result);
+        }
+
         [HttpGet("GetVipUpgradeRevenue")]
         public async Task<ActionResult<List<RevenueDTO>>> GetVipUpgradeRevenue()
         {
@@ -72,5 +80,22 @@ namespace APIService.Controllers
             var result = await _unitOfWork.RevenueRepository.GetNumberofProductOrder();
             return Ok(result);
         }
+
+        [HttpGet("GetTotalProductRevenue")]
+        public async Task<IActionResult> GetTotalProductRevenue()
+        {
+            var result = await _unitOfWork.RevenueRepository.GetTotalProductRevenue();
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetTotalVipUpgradeRevenue")]
+        public async Task<IActionResult> GetTotalVipUpgradeRevenue()
+        {
+            var result = await _unitOfWork.RevenueRepository.GetTotalVipUpgradeRevenue();
+
+            return Ok(result);
+        }
+
     }
 }
