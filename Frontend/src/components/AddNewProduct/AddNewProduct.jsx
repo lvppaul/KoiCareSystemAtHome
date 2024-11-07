@@ -26,7 +26,7 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
     const [categories, setCategories] = useState([]);
 
     const { user } = useAuth();
-    const userId = user.userId;
+    const userId = user?.userId;
 
     useEffect(() => {
         const fetchCategories = async () => {

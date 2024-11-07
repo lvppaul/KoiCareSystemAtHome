@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { user } = useAuth();
-  const userId = user.userId;
+  const userId = user?.userId;
 
   const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState([]);
@@ -129,13 +129,12 @@ const Cart = () => {
         district: userDetails.district,
         city: userDetails.city,
         country: userDetails.country,
-        orderStatus: "Pending",
         orderDetails: cartItems.map((item) => ({
           productId: item.productId,
           quantity: item.quantity,
         })),
       };
-
+      
       const response = await createOrder(orderData);
       console.log(response);
       if (response.orderId) {
@@ -174,26 +173,14 @@ const Cart = () => {
               </Row>
               <ListGroup variant="flush">
                 {cartItems.map((cartItem) => (
-                  <ListGroup.Item
-                    key={cartItem.productId}
-                    className="cart-item"
-                    style={{ marginBottom: "10px" }}
-                  >
+                  <ListGroup.Item key={cartItem.productId} className="cart-item" style={{ marginBottom: "10px" }}>
                     <Row className="align-items-center">
                       <Col md={2}>
                         <Link to={`/product/${cartItem.productId}`}>
-                          <Image
-                            src={cartItem.thumbnail}
-                            alt={cartItem.productName}
-                            fluid
-                            rounded
-                          />
+                          <Image src={cartItem.thumbnail} alt={cartItem.productName} fluid rounded />
                         </Link>
                       </Col>
-                      <Col
-                        md={4}
-                        className="d-flex flex-column align-items-start"
-                      >
+                      <Col md={4} className="d-flex flex-column align-items-start">
                         <Link
                           to={`/product/${cartItem.productId}`}
                           className="cart-item-name"
@@ -206,20 +193,14 @@ const Cart = () => {
                         >
                           {cartItem.productName}
                         </Link>
-                        <p style={{ fontWeight: "bold", color: "gray" }}>
-                          Price: {cartItem.price} ₫
-                        </p>
+                        <p style={{ fontWeight: "bold", color: "gray" }}>Price: {cartItem.price} ₫</p>
                       </Col>
                       <Col md={2}>
-                        <Form.Label style={{ fontWeight: "bold" }}>
-                          Quantity:
-                        </Form.Label>
+                        <Form.Label style={{ fontWeight: "bold" }}>Quantity:</Form.Label>
                         <Form.Control
                           as="select"
                           value={cartItem.quantity}
-                          onChange={(e) =>
-                            handleQuantityChange(cartItem.productId, e)
-                          }
+                          onChange={(e) => handleQuantityChange(cartItem.productId, e)}
                           className="text-center"
                           style={{ width: "60px" }}
                         >
@@ -231,10 +212,7 @@ const Cart = () => {
                         </Form.Control>
                       </Col>
 
-                      <Col
-                        md={4}
-                        className="d-flex flex-column justify-content-end align-items-end"
-                      >
+                      <Col md={4} className="d-flex flex-column justify-content-end align-items-end">
                         <p
                           style={{
                             fontWeight: "bolder",
@@ -244,11 +222,7 @@ const Cart = () => {
                         >
                           Total: {cartItem.totalPrice} ₫
                         </p>
-                        <Button
-                          type="button"
-                          variant="danger"
-                          onClick={() => handleRemoveItem(cartItem)}
-                        >
+                        <Button type="button" variant="danger" onClick={() => handleRemoveItem(cartItem)}>
                           Remove
                         </Button>
                       </Col>
@@ -262,7 +236,7 @@ const Cart = () => {
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <h2>
-                  Subtotal ({cartItems.length} items): ${calculateTotalAmount()}
+                  Subtotal ({cartItems.length} items): {calculateTotalAmount()} ₫
                 </h2>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -274,9 +248,7 @@ const Cart = () => {
                 >
                   Proceed to Checkout
                 </Button>
-                {errorMessages && (
-                  <p className="error-message mt-3">{errorMessages}</p>
-                )}
+                {errorMessages && <p className="error-message mt-3">{errorMessages}</p>}
               </ListGroup.Item>
             </ListGroup>
           </Col>

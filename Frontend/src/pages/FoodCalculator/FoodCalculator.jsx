@@ -12,7 +12,7 @@ const FoodCalculator = () => {
   const [totalWeight, setTotalWeight] = useState(0);
   const [foodRequirement, setFoodRequirement] = useState(0);
   const { user } = useAuth();
-  const userId = user.userId;
+  const userId = user?.userId;
 
   useEffect(() => {
     const fetchPondsAndKois = async () => {

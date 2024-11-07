@@ -56,7 +56,7 @@ namespace KCSAH.APIServer.Controllers
             {
                 return NoContent();
             }
-            var result =  _mapper.Map<List<OrderVipDTO>>(order);
+            var result = _mapper.Map<List<OrderVipDTO>>(order);
             return Ok(result);
         }
 

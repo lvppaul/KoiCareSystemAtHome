@@ -13,7 +13,7 @@ import { getVipRecordByUserId } from "../../Config/VipRecord";
 
 const Profile = () => {
   const { user } = useAuth();
-  const userId = user.userId;
+  const userId = user?.userId;
   const logout = useAuth().logout;
   const navigate = useNavigate();
 

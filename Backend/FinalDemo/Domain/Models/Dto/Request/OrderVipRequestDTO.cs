@@ -14,7 +14,7 @@ namespace Domain.Models.Dto.Request
         [JsonIgnore]
         public DateTime CreateDate { get; set; } = DateTime.Now;
         [JsonIgnore]
-        public string OrderStatus { get; set; } = "Đang chờ thanh toán";
+        public string OrderStatus { get; set; } = "Pending";
         public List<OrderVipDetailRequestDTO> orderVipDetails { get; set; }
         [JsonIgnore]
         public int TotalPrice { get; set; }
