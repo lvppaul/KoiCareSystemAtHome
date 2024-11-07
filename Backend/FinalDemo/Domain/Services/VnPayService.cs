@@ -319,8 +319,8 @@ namespace Domain.Services
                 }
 
                 // 3. Parse order ID and get order
-                string orderIdString = orderGet.Substring(orderGet.Length - 1);
-                if (!int.TryParse(orderIdString, out int orderId))
+               // string orderIdString = orderGet.Substring(orderGet.Length - 1);
+                if (!int.TryParse(orderGet, out int orderId))
                 {
                     return (false, "Invalid order ID format");
                 }
@@ -387,6 +387,8 @@ namespace Domain.Services
                             if (cart != null)
                             {
                                 await _unitOfWork.CartItemRepository.RemoveAllItemsInCart(cart.CartId);
+                                cart.TotalAmount = 0;
+                                await _unitOfWork.CartRepository.UpdateAsync(cart);
                             }
 
                         }
@@ -445,12 +447,17 @@ namespace Domain.Services
         private async Task UpdateRevenue(Order order)
         {
 
+            var totalRevenue = 0;
+            foreach (var item in order.OrderDetails)
+            {
+                totalRevenue += (item.UnitPrice* item.Quantity * 8 / 100);
+            }
             var revenueDto = new RevenueRequestDTO
             {
                 OrderId = order.OrderId,
-                Income = (order.TotalPrice * 8 / 100)
+                // Income = (order.TotalPrice * 8 / 100)
+                Income = totalRevenue
             };
-
             var revenue = _mapper.Map<Revenue>(revenueDto);
 
             var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
