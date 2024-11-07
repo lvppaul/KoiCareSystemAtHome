@@ -34,22 +34,6 @@ const AdminHeader = () => {
                 )}
               </Button>
             </div>
-            <div className="col-8 d-flex align-items-center justify-content-end part3 ">
-              <div className="account d-flex align-items-center">
-                <div className="account-img">
-                  <span className="rounded-circle">
-                    <img
-                      src="https://scontent.fsgn21-1.fna.fbcdn.net/v/t39.30808-6/460321487_505751425410707_7289942400838563554_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=GKwKBiPXioUQ7kNvgF0i6DH&_nc_zt=23&_nc_ht=scontent.fsgn21-1.fna&_nc_gid=AwkhrViJzQeTTVhNDtdLOz4&oh=00_AYDZP4otGStW5612SBTxwj64iYr7-Szo1RgXI3z78BqNCA&oe=672423C1"
-                      alt="chochohong"
-                    />
-                  </span>
-                </div>
-                <div className="accountInfo">
-                  <h4>Admin</h4>
-                  <p>admin@gmail.com</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </header>

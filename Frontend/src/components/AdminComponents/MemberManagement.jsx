@@ -5,15 +5,11 @@ import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
-import {
-  getMembers,
-  lockUser,
-  unLockUser,
-  updateAccount,
-} from "../../Config/UserApi";
+import { getMembers, lockUser, unLockUser } from "../../Config/UserApi";
 import { AiOutlineCheck } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 import AdminCreateAccountDialog from "./AdminCreateMemberForm";
+import AdminUpdateMemberDialog from "./AdminUpdateMember";
 const Members = () => {
   const [members, setMembers] = useState([]);
 
@@ -51,7 +47,7 @@ const Members = () => {
 
   useEffect(() => {
     fetchMembers();
-  }, [<AdminCreateAccountDialog option={"SignUp"} />]);
+  }, []);
   console.log("member", members.lockoutEnabled);
   return (
     <>
@@ -59,10 +55,12 @@ const Members = () => {
         <div className="members-content shadow border-0 p-3 mt-4 ">
           <div className="member-content-header d-flex ">
             <h3 className="hd">Members Management</h3>
-            <SearchBar />
           </div>
           <div>
-            <AdminCreateAccountDialog option={"SignUp"} />
+            <AdminCreateAccountDialog
+              option={"SignUp"}
+              refreshMembers={fetchMembers}
+            />
           </div>
           <div className="table-response">
             <table className="table table-sm  ">
@@ -74,6 +72,7 @@ const Members = () => {
                   <th>Address</th>
                   <th>Email Confirm</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -91,7 +90,7 @@ const Members = () => {
                     </td>
                     <td>
                       <div className="actions">
-                        {member.emailConfirmed == true ? (
+                        {member.emailConfirmed === true ? (
                           <AiOutlineCheck />
                         ) : (
                           <AiOutlineClose />
@@ -108,6 +107,12 @@ const Members = () => {
                           {member.lockoutEnabled ? <FaLock /> : <FaLockOpen />}
                         </div>
                       </Button>
+                    </td>
+                    <td>
+                      <AdminUpdateMemberDialog
+                        userId={member.id}
+                        refreshMembers={fetchMembers}
+                      />
                     </td>
                   </tr>
                 ))}

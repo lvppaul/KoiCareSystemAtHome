@@ -4,17 +4,18 @@ import { getVipPackages, updateVipPackage } from "../../Config/VipPackageApi";
 import AddVipPackage from "../VipPackage/AddVipPackage";
 import UpdateVipPackage from "../VipPackage/UpdateVipPackage";
 import DeleteVipPackage from "../VipPackage/DeleteVipPackage";
-import { BiEdit } from 'react-icons/bi';
-import { Button } from 'react-bootstrap';
+import { BiEdit } from "react-icons/bi";
+import { Button } from "react-bootstrap";
+import AdminUpdateMemberDialog from "./AdminUpdateMember";
 
 const AdminVipPackManagement = () => {
-  const [vipPackages, setVipPackages] = useState([]);  
-  const [editingVipPack, setEditingVipPack] = useState(null); 
+  const [vipPackages, setVipPackages] = useState([]);
+  const [editingVipPack, setEditingVipPack] = useState(null);
   const [showModalAddVipPack, setShowModalAddVipPack] = useState(false);
   const [showModalUpdateVipPack, setShowModalUpdateVipPack] = useState(false);
-  console.log('select', editingVipPack);
+  console.log("select", editingVipPack);
   const formatPrice = (value) => {
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
 
   // Fetch VIP packages from API
@@ -75,17 +76,24 @@ const AdminVipPackManagement = () => {
                     <td>{vip.name}</td>
                     <td>{formatPrice(vip.price)} VND</td>
                     <td>{vip.options}</td>
-                    <td style={{ maxWidth: '250px', wordWrap: 'break-word' }}>{vip.description}</td>
+                    <td style={{ maxWidth: "250px", wordWrap: "break-word" }}>
+                      {vip.description}
+                    </td>
                     <td>
                       <Button
-                        style={{ backgroundColor: '#FFCC00' }}
-                        onMouseEnter={(e) => e.target.style.backgroundColor = 'orange'}
-                        onMouseLeave={(e) => e.target.style.backgroundColor = '#FFCC00'}
-                        onClick={() => {setEditingVipPack(vip);
-                          setShowModalUpdateVipPack(true);}  
-                        } 
+                        style={{ backgroundColor: "#FFCC00" }}
+                        onMouseEnter={(e) =>
+                          (e.target.style.backgroundColor = "orange")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.target.style.backgroundColor = "#FFCC00")
+                        }
+                        onClick={() => {
+                          setEditingVipPack(vip);
+                          setShowModalUpdateVipPack(true);
+                        }}
                       >
-                        <BiEdit size={30} color='black' />
+                        <BiEdit size={30} color="black" />
                       </Button>
                       <DeleteVipPackage
                         vipPack={vip}
@@ -104,8 +112,8 @@ const AdminVipPackManagement = () => {
         <UpdateVipPackage
           show={showModalUpdateVipPack}
           setShow={setShowModalUpdateVipPack}
-          vipPackData={editingVipPack} 
-          fetchVipPackages={fetchVipPackages} 
+          vipPackData={editingVipPack}
+          fetchVipPackages={fetchVipPackages}
         />
       )}
     </>

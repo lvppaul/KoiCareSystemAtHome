@@ -29,12 +29,14 @@ namespace Domain.Base
         Task<string> ChangePasswordAsync(string userId,ChangePasswordModel model);
         Task<string> ConfirmEmailAsync(ConfirmEmailRequest model);
         Task<string> UpdateAccountDetailAsync(string userId, AccountDetailModel model);
+        Task<string> UpdateAccountDetailAdminAsync(string userId, AccountDetailForAdmin model);
         Task<string> ChangeRoleToVipAsync(string userId);
 
         Task<string> LockoutEnabledAsync(string userId);
         Task<string> LockoutDisabledAsync(string userId);
 
 
+        
         //public Task<bool> CheckLockoutEnabledAsync(ApplicationUser user);
 
         Task<ApplicationUser> GetAccountByUserIdAsync(string id);
