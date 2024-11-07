@@ -49,14 +49,14 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("GetVippackageOrder")]
-        public ActionResult<OrderVipDTO> GetVipOrder()
+        public async Task<IActionResult> GetVipOrder()
         {
-            var order = _unitOfWork.OrderRepository.GetVipOrder();
+            var order = await _unitOfWork.OrderRepository.GetVipOrder();
             if (order == null)
             {
                 return NoContent();
             }
-            var result = _mapper.Map<OrderDTO>(order);
+            var result = _mapper.Map<List<OrderVipDTO>>(order);
             return Ok(result);
         }
 
