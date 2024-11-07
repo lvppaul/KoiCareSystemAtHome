@@ -55,7 +55,6 @@ const Members = () => {
         <div className="members-content shadow border-0 p-3 mt-4 ">
           <div className="member-content-header d-flex ">
             <h3 className="hd">Members Management</h3>
-            <SearchBar />
           </div>
           <div>
             <AdminCreateAccountDialog
@@ -91,7 +90,7 @@ const Members = () => {
                     </td>
                     <td>
                       <div className="actions">
-                        {member.emailConfirmed == true ? (
+                        {member.emailConfirmed === true ? (
                           <AiOutlineCheck />
                         ) : (
                           <AiOutlineClose />

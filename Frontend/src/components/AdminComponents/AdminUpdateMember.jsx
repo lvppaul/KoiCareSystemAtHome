@@ -1,5 +1,5 @@
-import { updateAccountAdmin } from "../../Config/UserApi";
-import React, { useState } from "react";
+import { updateAccountAdmin, getAccountByUserId } from "../../Config/UserApi";
+import React, { useEffect, useState } from "react";
 import { FaPen } from "react-icons/fa";
 import {
   Dialog,
@@ -13,11 +13,31 @@ import { useForm } from "react-hook-form";
 
 const AdminUpdateMemberDialog = (props) => {
   const [open, setOpen] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, setValue } = useForm();
+  const [account, setAccount] = useState(null);
   const userId = props.userId;
   const refreshMembers = props.refreshMembers;
+
+  const fetchAccount = async () => {
+    try {
+      const acc = await getAccountByUserId(userId);
+      setAccount(acc);
+
+      setValue("firstName", acc.firstName);
+      setValue("lastName", acc.lastName);
+      setValue("street", acc.street);
+      setValue("district", acc.district);
+      setValue("city", acc.city);
+      setValue("country", acc.country);
+      setValue("phoneNumber", acc.phoneNumber);
+    } catch (error) {
+      console.error("Error in fetch account:", error);
+    }
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
+    fetchAccount();
   };
 
   const handleClose = () => {
@@ -26,7 +46,7 @@ const AdminUpdateMemberDialog = (props) => {
   };
 
   const onSubmit = async (data) => {
-    console.log("Form data:", data); // Kiểm tra xem dữ liệu form có được gửi
+    console.log("Form data:", data);
     try {
       await updateAccountAdmin(userId, data);
       refreshMembers();
@@ -49,44 +69,37 @@ const AdminUpdateMemberDialog = (props) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextField
               margin="dense"
-              label="First Name"
               fullWidth
               {...register("firstName", { required: true })}
             />
             <TextField
               margin="dense"
-              label="Last Name"
               fullWidth
               {...register("lastName", { required: true })}
             />
 
             <TextField
               margin="dense"
-              label="Street"
               fullWidth
               {...register("street", { required: true })}
             />
             <TextField
               margin="dense"
-              label="District"
               fullWidth
               {...register("district", { required: true })}
             />
             <TextField
               margin="dense"
-              label="City"
               fullWidth
               {...register("city", { required: true })}
             />
             <TextField
               margin="dense"
-              label="Country"
               fullWidth
               {...register("country", { required: true })}
             />
             <TextField
               margin="dense"
-              label="PhoneNumber"
               fullWidth
               {...register("phoneNumber", { required: true })}
             />

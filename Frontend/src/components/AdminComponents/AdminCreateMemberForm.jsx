@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 const AdminCreateAccountDialog = (props) => {
   const [open, setOpen] = useState(false);
   const { register, handleSubmit, reset } = useForm();
-
+  // const [loading, setLoading] = useState(false);
   const options = props.option;
   const refreshMembers = props.refreshMembers;
   const handleClickOpen = () => {
@@ -27,19 +27,21 @@ const AdminCreateAccountDialog = (props) => {
   };
 
   const onSubmit = async (data) => {
-    console.log("Form data:", data); // Kiểm tra xem dữ liệu form có được gửi
+    console.log("Form data:", data);
+    // setLoading(true);
     try {
       if (options === "SignUp") {
-        await signUp(data); // Gọi API signUp với dữ liệu từ form
-        // Đóng dialog nếu API thành công
+        await signUp(data);
       } else {
-        await signUpVip(data); // Gọi API signUp với dữ liệu từ form
+        await signUpVip(data);
       }
-      refreshMembers();
+      await refreshMembers();
       handleClose();
     } catch (error) {
-      console.error("Error in sign-up:", error); // Xử lý lỗi từ API nếu có
-    }
+      console.error("Error in sign-up:", error);
+    } //finally {
+    //   setLoading(false); // Tắt loading khi hoàn tất
+    // }
   };
 
   return (

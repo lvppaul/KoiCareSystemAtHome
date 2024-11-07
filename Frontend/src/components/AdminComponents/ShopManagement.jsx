@@ -48,7 +48,6 @@ const AdminShops = () => {
         <div className="members-content shadow border-0 p-3 mt-4">
           <div className="member-content-header d-flex ">
             <h3 className="hd">Shop Management</h3>
-            <SearchBar />
           </div>
           <div className="table-response">
             <table className="table table-sm  ">
