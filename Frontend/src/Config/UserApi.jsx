@@ -208,7 +208,7 @@ const updateAccount = async (userId, account) => {
 
 const upgradeVipAccount = async (userId) => {
   try {
-    console.log('userId to api:', userId);
+    console.log("userId to api:", userId);
     const response = api.put(`Account/ChangeToVipAccount${userId}`);
   } catch (error) {
     console.error("Error:", error);
@@ -226,6 +226,31 @@ const refreshToken = async (refreshToken) => {
   }
 };
 
+// update account used by admin
+const updateAccountAdmin = async (userId, account) => {
+  try {
+    const response = await api.put(
+      `Account/AdminUpdateAccount${userId}`,
+      account,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating account:", error);
+    if (error.response) {
+      console.error("Error response data:", error.response.data);
+      return error.response.data;
+    } else {
+      return { error: "Unknown error occurred" };
+    }
+  }
+};
 export {
   getAccountByUserId,
   getUserIdByEmail,
@@ -241,4 +266,5 @@ export {
   unLockUser,
   upgradeVipAccount,
   refreshToken,
+  updateAccountAdmin,
 };

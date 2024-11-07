@@ -155,13 +155,12 @@ body {
 }
 
 .dashboardBoxWrapper .dashboardBox .col1 h4 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
 }
 .dashboardBoxWrapper .dashboardBox .col1 span {
   font-size: 26px !important;
   font-weight: bold;
-  flex-grow: 1;
   padding-left: 18px;
 }
 .dashboardBoxWrapper .dashboardBox .icon svg {

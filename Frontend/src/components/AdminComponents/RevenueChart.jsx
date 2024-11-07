@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import { getTotalRevenue } from "../../Config/RevenueApi";
+import { getDataRevenue } from "../../Config/RevenueApi";
 import dayjs from "dayjs";
 
 const RevenueChart = () => {
@@ -40,13 +40,44 @@ const RevenueChart = () => {
       groupedData[key].revenue += item.income;
     });
 
-    // Chuyển đổi groupedData từ đối tượng sang mảng để dùng trong biểu đồ
-    return Object.values(groupedData);
+    // Tạo các khoảng thời gian cho từng loại dữ liệu
+    const year = dayjs().year();
+    let filledData = [];
+
+    if (dataType === "monthly") {
+      filledData = Array.from({ length: 12 }, (_, i) => {
+        const month = (i + 1).toString().padStart(2, "0");
+        const dateKey = `${month}/${year}`;
+        return {
+          date: dateKey,
+          revenue: groupedData[dateKey]?.revenue || 0,
+        };
+      });
+    } else if (dataType === "quarterly") {
+      filledData = Array.from({ length: 4 }, (_, i) => {
+        const quarter = `Q${i + 1}-${year}`;
+        return {
+          date: quarter,
+          revenue: groupedData[quarter]?.revenue || 0,
+        };
+      });
+    } else if (dataType === "yearly") {
+      // Giả định là hiển thị dữ liệu trong 5 năm gần nhất
+      filledData = Array.from({ length: 5 }, (_, i) => {
+        const pastYear = year - (4 - i);
+        return {
+          date: pastYear.toString(),
+          revenue: groupedData[pastYear]?.revenue || 0,
+        };
+      });
+    }
+
+    return filledData;
   };
 
   const fetchRevenue = async () => {
     try {
-      const response = await getTotalRevenue();
+      const response = await getDataRevenue();
       setRevenue(formatData(response));
     } catch (error) {
       setError(error.message);

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+
 import Button from "@mui/material/Button";
-import { FaPen } from "react-icons/fa";
+
 import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import { getVips, lockUser, unLockUser } from "../../Config/UserApi";
 import { AiOutlineCheck } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 import AdminCreateAccountDialog from "./AdminCreateMemberForm";
+import AdminUpdateMemberDialog from "./AdminUpdateMember";
 const Vips = () => {
   const [members, setMembers] = useState([]);
 
@@ -55,10 +56,12 @@ const Vips = () => {
         <div className="members-content shadow border-0 p-3 mt-4 ">
           <div className="member-content-header d-flex ">
             <h3 className="hd">Vip Members Management</h3>
-            <SearchBar />
           </div>
           <div>
-            <AdminCreateAccountDialog option={"SignUpVip"} />
+            <AdminCreateAccountDialog
+              option={"SignUpVip"}
+              refreshMembers={fetchMembers}
+            />
           </div>
           <div className="table-response">
             <table className="table table-sm  ">
@@ -70,6 +73,7 @@ const Vips = () => {
                   <th>Address</th>
                   <th>Email Confirm</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -87,7 +91,7 @@ const Vips = () => {
                     </td>
                     <td>
                       <div className="actions">
-                        {member.emailConfirmed == true ? (
+                        {member.emailConfirmed === true ? (
                           <AiOutlineCheck />
                         ) : (
                           <AiOutlineClose />
@@ -104,6 +108,13 @@ const Vips = () => {
                           {member.lockoutEnabled ? <FaLock /> : <FaLockOpen />}
                         </div>
                       </Button>
+                    </td>
+                    <td>
+                      {" "}
+                      <AdminUpdateMemberDialog
+                        userId={member.id}
+                        refreshMembers={fetchMembers}
+                      />
                     </td>
                   </tr>
                 ))}

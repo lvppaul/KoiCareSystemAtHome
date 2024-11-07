@@ -576,6 +576,31 @@ namespace Domain.Repositories
             return Success;
         }
 
+
+        public async Task<string> UpdateAccountDetailAdminAsync(string userId, AccountDetailForAdmin model)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return notExistAcc;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Street = model.Street;
+            user.District = model.District;
+            user.City = model.City;
+            user.Country = model.Country;
+            user.PhoneNumber = model.PhoneNumber;
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    return error.Description;
+                }
+            }
+            return Success;
+        }
+
+
         public async Task<string> ChangeRoleToVipAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -752,6 +777,8 @@ namespace Domain.Repositories
             }
             return count;
         }
+
+     
 
 
 

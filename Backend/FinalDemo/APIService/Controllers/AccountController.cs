@@ -144,7 +144,16 @@ namespace ApiService.Controllers
             var result = await _accountRepository.UpdateAccountDetailAsync(id,model);
             if (!result.Equals(Success)) return BadRequest(result);
             return Ok(result);
-        }       
+        }
+
+
+        [HttpPut("AdminUpdateAccount{id}")]
+        public async Task<IActionResult> UpdateAccountDetailAdmin(string id, AccountDetailForAdmin model)
+        {
+            var result = await _accountRepository.UpdateAccountDetailAdminAsync(id, model);
+            if (!result.Equals(Success)) return BadRequest(result);
+            return Ok(result);
+        }
 
         [HttpPut("ChangeToVipAccount{id}")]
         public async Task<IActionResult> ChangeRoleToVipAsync(string id)
