@@ -119,19 +119,19 @@ const AdminDashboard = () => {
               <DashboardBox
                 color={["#1E90FF", "#87CEFA"]}
                 icon={<MdAttachMoney />}
-                object={"Revenue-CurrentYear"}
+                object={"Revenue"}
                 number={amountRevenue + " đ"}
               />
               <DashboardBox
                 color={["#D2691E", "#FFDEAD"]}
                 icon={<MdOutlineCardMembership />}
-                object={"Registration fee-CurrentYear"}
+                object={"Registration fee"}
                 number={amountVipPackage + " đ"}
               />
               <DashboardBox
                 color={["#606060", "#E8E8E8"]}
                 icon={<IoBagCheckOutline />}
-                object={"Commission fee-CurrentYear"}
+                object={"Commission fee"}
                 number={amountCommission + " đ"}
               />
             </div>
