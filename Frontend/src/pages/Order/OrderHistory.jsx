@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Spinner, Alert, Tabs, Tab } from "react-bootstrap";
+import { Table, Spinner, Alert, Tabs, Tab, Container } from "react-bootstrap";
 import { useAuth } from "../Login/AuthProvider";
 import { getOrderByUserId, getOrderById } from "../../Config/OrderApi";
 import { getProductNameById } from "../../Config/ProductApi";
@@ -134,19 +134,26 @@ const OrderHistory = () => {
   );
 
   return (
-    <div>
-      <h1>Order History</h1>
-      <Tabs defaultActiveKey="regular" id="order-history-tabs">
-        <Tab eventKey="regular" title="Regular Orders">
-          {console.log("regularOrders:", regularOrders)}
-          {renderTable(regularOrders)}
-        </Tab>
-        <Tab eventKey="vip" title="VIP Upgrade Orders">
-          {console.log("vipOrders:", vipOrders)}
-          {renderTable(vipOrders)}
-        </Tab>
-      </Tabs>
-    </div>
+    <Container>
+      <h1
+        className="m-5"
+        style={{ textAlign: "center", fontSize: "50px", fontWeight: "600" }}
+      >
+        Order History
+      </h1>
+      <Container>
+        <Tabs defaultActiveKey="regular" id="order-history-tabs">
+          <Tab eventKey="regular" title="Regular Orders">
+            {console.log("regularOrders:", regularOrders)}
+            {renderTable(regularOrders)}
+          </Tab>
+          <Tab eventKey="vip" title="VIP Upgrade Orders">
+            {console.log("vipOrders:", vipOrders)}
+            {renderTable(vipOrders)}
+          </Tab>
+        </Tabs>
+      </Container>
+    </Container>
   );
 };
 
