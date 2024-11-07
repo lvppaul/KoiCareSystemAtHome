@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import { getTotalRevenue } from "../../Config/RevenueApi";
+import { getDataRevenue } from "../../Config/RevenueApi";
 import dayjs from "dayjs";
 
 const RevenueChart = () => {
@@ -77,7 +77,7 @@ const RevenueChart = () => {
 
   const fetchRevenue = async () => {
     try {
-      const response = await getTotalRevenue();
+      const response = await getDataRevenue();
       setRevenue(formatData(response));
     } catch (error) {
       setError(error.message);
