@@ -1,6 +1,28 @@
-import { useStat, useEffect } from "react";
-
+import { useState, useEffect } from "react";
+import { getListVipOrder } from "../../Config/OrderApi";
+import Button from "@mui/material/Button";
+import { FaEye } from "react-icons/fa";
+import AdminViewOrderDetailDialog from "./AdminViewOrderDetail";
 const AdminOrderManagement = () => {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchOrders = async () => {
+    try {
+      const order = await getListVipOrder();
+      setOrders(order);
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
   return (
     <div className="right-content">
       <div className="members-content shadow border-0 p-3 mt-4">
@@ -12,38 +34,35 @@ const AdminOrderManagement = () => {
             <thead>
               <tr>
                 <th>Order ID</th>
-                <th>Shop Name</th>
+                <th>User Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Rating</th>
-                <th>Status</th>
+                <th>Create At</th>
+                <th>Total Price</th>
+                <th>View</th>
               </tr>
             </thead>
-            {/* <tbody>
-              {shops.map((shop) => (
-                <tr key={shop.id}>
-                  <td>{shop.shopId}</td>
-                  <td>{shop.shopName}</td>
-                  <td>{shop.email}</td>
-                  <td>{shop.phone}</td>
-                  <td>{shop.rating}</td>
+            <tbody>
+              {orders.map((order) => (
+                <tr key={order.id}>
+                  <td>{order.orderId}</td>
+                  <td>{order.fullName}</td>
+                  <td>{order.email}</td>
+                  <td>{order.phone}</td>
+                  <td>{order.createDate}</td>
+                  <td>{order.totalPrice}</td>
                   <td>
-                    <Button
-                      onClick={() =>
-                        toggleUserLockStatus(
-                          shop.userId,
-                          accounts[shop.userId] // Sử dụng trạng thái từ accounts state
-                        )
-                      }
-                    >
-                      <div className="icon">
-                        {accounts[shop.userId] ? <FaLock /> : <FaLockOpen />}
-                      </div>
-                    </Button>
+                    <AdminViewOrderDetailDialog
+                      orderDetail={order.orderDetails}
+                    />
+
+                    <div className="icon">
+                      <FaEye />
+                    </div>
                   </td>
                 </tr>
               ))}
-            </tbody> */}
+            </tbody>
           </table>
         </div>
       </div>

@@ -186,6 +186,12 @@ body {
   color: #000;
 }
 
+button .icon svg {
+  height: 18px;
+  width: 18px;
+  color: #000;
+}
+
 .member-content-header {
   flex-direction: row;
   align-items: center;

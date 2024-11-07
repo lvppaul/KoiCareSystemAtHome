@@ -62,19 +62,25 @@ const getVipOrderByUserId = async (userId) => {
 };
 
 // get list order
-// const getListVipOrder = async () => {
-//   try {
-//     const response = await api.get(`Order/VipOrderByUserId/${userId}`, {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Accept: "application/json",
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching order:", error);
-//     return null;
-//   }
-// };
+const getListVipOrder = async () => {
+  try {
+    const response = await api.get(`Order`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
 
-export { createOrder, getOrderById, getOrderByUserId, getVipOrderByUserId };
+export {
+  createOrder,
+  getOrderById,
+  getOrderByUserId,
+  getVipOrderByUserId,
+  getListVipOrder,
+};
