@@ -53,9 +53,9 @@ const AdminViewOrderDetailDialog = (props) => {
     }
   };
 
-  useEffect(() => {
-    dataOrderDetail();
-  }, []);
+  // useEffect(() => {
+  //   dataOrderDetail();
+  // }, []);
 
   if (loading) return <div>Loading ...</div>;
 
@@ -81,7 +81,7 @@ const AdminViewOrderDetailDialog = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {viewOrderDetails.map((viewOrderDetail) => (
+                {/* {viewOrderDetails.map((viewOrderDetail) => (
                   <tr
                     key={`${viewOrderDetail.orderId}-${viewOrderDetail.productId}`}
                   >
@@ -91,7 +91,7 @@ const AdminViewOrderDetailDialog = (props) => {
                     <td>{viewOrderDetail.quantity}</td>
                     <td>{viewOrderDetail.unitPrice}</td>
                   </tr>
-                ))}
+                ))}*/}
               </tbody>
             </table>
           </div>
