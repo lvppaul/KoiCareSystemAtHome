@@ -48,7 +48,7 @@ namespace KCSAH.APIServer.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetVippackageOrder")]
+        [HttpGet("GetVipOrder")]
         public async Task<IActionResult> GetVipOrder()
         {
             var order = await _unitOfWork.OrderRepository.GetVipOrder();
