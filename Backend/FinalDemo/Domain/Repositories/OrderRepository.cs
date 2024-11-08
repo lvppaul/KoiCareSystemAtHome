@@ -15,7 +15,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
             public async Task<List<Order>> GetAllAsync()
             {
-                return await _context.Orders.Include(p => p.OrderDetails).ToListAsync();
+                return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade==false).ToListAsync();
             }
 
             public async Task<Order> GetByOrderIdAsync(int id)
