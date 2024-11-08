@@ -2,21 +2,21 @@ import { BiTrash } from 'react-icons/bi'
 import { showConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
 import { deleteVipPackage } from '../../Config/VipPackageApi';
 import Button from 'react-bootstrap/Button';
-import {ToastifyMessage} from '../Toastify/ToastifyModel';
-import { useState } from 'react';
+import { ToastContext } from "../../App";
+import { useContext } from 'react';
 
 const DeleteVipPackage = ({vipPack, updateDeleteVipPack}) => {
     const id = vipPack.vipId;
-    const [toastMessages, setToastMessages] = useState([]);
+  const { setToastMessage } = useContext(ToastContext);
     const handleDelete = async () => {
         const confirm = await showConfirmAlert('Delete Vip Package', 'Are you sure you want to delete this Vip Package?');
         if (confirm) {
             const response = await deleteVipPackage(id);
             if (response.status === 204) {
-                await updateDeleteVipPack();
-                // setToastMessages((prev) => [...(prev), 'Vip Package deleted successful!']);
+              await updateDeleteVipPack();
+              // setToastMessage('Vip Package deleted successful!');
             } else {
-                setToastMessages((prev) => [...(prev), 'Failed to delete Vip Package!']);
+                setToastMessage("Failed to delete Vip Package!");
                 // console.error('Failed to delete Vip Package!');
             }
         }
@@ -28,9 +28,6 @@ const DeleteVipPackage = ({vipPack, updateDeleteVipPack}) => {
 
     return (
     <>
-        {/* <ToastifyMessage messages={toastMessages} onClose={(index) => {
-            setToastMessages((prev) => prev.filter((_, i) => i !== index));
-        }} /> */}
         <Button onClick={handleDelete} style={{backgroundColor:'red'}}
         onMouseEnter={(e) => e.target.style.backgroundColor = 'darkred'}
         onMouseLeave={(e) => e.target.style.backgroundColor = 'red'}>
