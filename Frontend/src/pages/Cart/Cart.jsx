@@ -1,20 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Image,
-  ListGroup,
-  Form,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, Image, ListGroup, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Login/AuthProvider";
-import {
-  getCartByUserId,
-  addItemToCart,
-  removeItemFromCart,
-} from "../../Config/CartApi";
+import { getCartByUserId, addItemToCart, removeItemFromCart } from "../../Config/CartApi";
 import { createOrder } from "../../Config/OrderApi"; // Add this import
 import { getAccountByUserId } from "../../Config/UserApi"; // Add this import
 import { getDownloadURL, ref } from "firebase/storage";
@@ -25,7 +13,6 @@ const Cart = () => {
   const { user } = useAuth();
   const userId = user?.userId;
 
-  const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [errorMessages, setErrorMessages] = useState([]);
   const navigate = useNavigate();
@@ -46,10 +33,7 @@ const Cart = () => {
                 quantity: item.quantity || 1,
               };
             } catch (error) {
-              console.error(
-                "The file does not exist in firebase anymore!",
-                error
-              );
+              console.error("The file does not exist in firebase anymore!", error);
               const storageRef = ref(storage, "others/NotFound.jpg");
               const productThumbnail = await getDownloadURL(storageRef);
               return {
@@ -63,7 +47,6 @@ const Cart = () => {
       );
 
       setCartItems(updatedItems);
-      setCart(response);
     } catch (error) {
       console.error("Error fetching cart:", error);
     }
@@ -107,9 +90,7 @@ const Cart = () => {
   };
 
   const handleRemoveItem = async (cartItem) => {
-    const updatedCartItems = cartItems.filter(
-      (item) => item.productId !== cartItem.productId
-    );
+    const updatedCartItems = cartItems.filter((item) => item.productId !== cartItem.productId);
     setCartItems(updatedCartItems);
     await removeItemFromCart(userId, {
       productId: cartItem.productId,
@@ -134,16 +115,14 @@ const Cart = () => {
           quantity: item.quantity,
         })),
       };
-      
+
       const response = await createOrder(orderData);
       console.log(response);
       if (response.orderId) {
         navigate(`/order/${response.orderId}`);
       } else {
         console.error("Error creating order:", response);
-        setErrorMessages(
-          "Please fill your information in the profile page before proceeding to checkout"
-        );
+        setErrorMessages("Please fill your information in the profile page before proceeding to checkout");
       }
     } catch (error) {
       console.error("Error creating order:", error);
@@ -151,6 +130,13 @@ const Cart = () => {
         console.error("Server response:", error.response.data);
       }
     }
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("vn-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
   };
 
   return (
@@ -193,7 +179,7 @@ const Cart = () => {
                         >
                           {cartItem.productName}
                         </Link>
-                        <p style={{ fontWeight: "bold", color: "gray" }}>Price: {cartItem.price} ₫</p>
+                        <p style={{ fontWeight: "bold", color: "gray" }}>Price: {formatPrice(cartItem.price)}</p>
                       </Col>
                       <Col md={2}>
                         <Form.Label style={{ fontWeight: "bold" }}>Quantity:</Form.Label>
@@ -220,7 +206,7 @@ const Cart = () => {
                             color: "#E47E39",
                           }}
                         >
-                          Total: {cartItem.totalPrice} ₫
+                          Total: {formatPrice(cartItem.totalPrice)}
                         </p>
                         <Button type="button" variant="danger" onClick={() => handleRemoveItem(cartItem)}>
                           Remove
@@ -236,7 +222,7 @@ const Cart = () => {
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <h2>
-                  Subtotal ({cartItems.length} items): {calculateTotalAmount()} ₫
+                  Subtotal ({cartItems.length} items): {formatPrice(calculateTotalAmount())}
                 </h2>
               </ListGroup.Item>
               <ListGroup.Item>
