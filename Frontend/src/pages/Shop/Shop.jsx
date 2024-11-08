@@ -102,7 +102,10 @@ const Shop = () => {
   };
 
   const formatPrice = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " ₫";
+    return new Intl.NumberFormat("vn-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
   };
 
   return (
@@ -137,8 +140,8 @@ const Shop = () => {
                   <Link to={`/product/${product.productId}`} className="productLink">
                     <div className="product-card">
                       <Image src={product.thumbnail} alt={product.name} className="img-fluid mb-1" rounded />
-                      <h5 style={{ fontWeight: "bold" }}>{product.name}</h5>
-                      <p>{formatPrice(product.price)}</p>
+                      <h5 style={{ fontWeight: "bolder", color: "#9e4a11" }}>{product.name}</h5>
+                      <p style={{ fontWeight: "bold" }}>{formatPrice(product.price)}</p>
                     </div>
                   </Link>
                 </Col>
