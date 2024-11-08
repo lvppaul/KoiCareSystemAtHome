@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import {
   Container,
   Card,
@@ -11,10 +11,8 @@ import {
   Carousel,
   Image,
   Spinner,
-  Toast,
   Pagination,
 } from "react-bootstrap";
-import { createPortal } from "react-dom";
 import { getShopByUserId } from "../../Config/ShopApi";
 import { getCategoryById } from "../../Config/CategoryApi";
 import {
@@ -33,8 +31,10 @@ import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage
 import { storage } from "../../Config/firebase";
 import { useAuth } from "../Login/AuthProvider";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
+import { ToastContext } from "../../App";
 
 const ManageShop = () => {
+  const { setToastMessage } = useContext(ToastContext);
   const { user } = useAuth();
   const userId = user?.userId;
 
@@ -48,8 +48,6 @@ const ManageShop = () => {
   const [showUpdateProductModal, setShowUpdateProductModal] = useState(false);
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
   const [errorCategory, setErrorCategory] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState(null);
@@ -198,16 +196,13 @@ const ManageShop = () => {
 
         setProductImages([...filteredProductImages, ...validUploadedImages]);
         setCarouselLoading(false);
-        setToastMessage("Product updated successfully.");
-        setShowToast(true);
+        setToastMessage("Product updated successfully");
       } catch (error) {
         console.error("Error updating product images:", error);
-        setToastMessage("Error updating product.");
-        setShowToast(true);
+        setToastMessage("Error updating product");
       }
     } else {
-      setToastMessage("Product updated successfully.");
-      setShowToast(true);
+      setToastMessage("Product updated successfully");
     }
   };
 
@@ -251,12 +246,10 @@ const ManageShop = () => {
 
       setProducts(products.filter((product) => product.productId !== productId));
       console.log("Product deleted successfully");
-      setToastMessage("Product deleted successfully.");
-      setShowToast(true);
+      setToastMessage("Product deleted successfully");
     } catch (error) {
       console.error("Error deleting product:", error);
-      setToastMessage("Error deleting product.");
-      setShowToast(true);
+      setToastMessage("Error deleting product");
     }
   };
 
@@ -273,8 +266,7 @@ const ManageShop = () => {
 
       if (!imageFiles || imageFiles.length === 0) {
         setProducts([...products, addedProduct]);
-        setToastMessage("Product added successfully.");
-        setShowToast(true);
+        setToastMessage("Product added successfully");
         return;
       }
 
@@ -282,8 +274,7 @@ const ManageShop = () => {
 
       if (validImageFiles.length === 0) {
         setProducts([...products, addedProduct]);
-        setToastMessage("Product added successfully.");
-        setShowToast(true);
+        setToastMessage("Product added successfully");
         return;
       }
 
@@ -319,12 +310,10 @@ const ManageShop = () => {
       setProductImages([...productImages, ...validUploadedImages]);
       setCarouselLoading(false);
       setProducts([...products, addedProduct]);
-      setToastMessage("Product added successfully.");
-      setShowToast(true);
+      setToastMessage("Product added successfully");
     } catch (error) {
       console.error("Error adding product:", error);
-      setToastMessage("Error adding product.");
-      setShowToast(true);
+      setToastMessage("Error adding product");
     }
   };
 
@@ -516,33 +505,6 @@ const ManageShop = () => {
         handleAddProduct={handleAddProduct}
         shopId={shop.shopId}
       />
-      {createPortal(
-        <Toast
-          onClose={() => setShowToast(false)}
-          show={showToast}
-          delay={5000}
-          autohide
-          bg={
-            toastMessage === "Error adding product." ||
-            toastMessage === "Error updating product." ||
-            toastMessage === "Error deleting product."
-              ? "danger"
-              : "success"
-          }
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            zIndex: 1050,
-          }}
-        >
-          <Toast.Header>
-            <strong className="me-auto">Notification</strong>
-          </Toast.Header>
-          <Toast.Body className="text-white">{toastMessage}</Toast.Body>
-        </Toast>,
-        document.body
-      )}
       <ConfirmModal
         show={showConfirmModal}
         handleClose={() => setShowConfirmModal(false)}
