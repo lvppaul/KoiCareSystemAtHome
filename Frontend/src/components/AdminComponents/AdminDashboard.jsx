@@ -120,19 +120,28 @@ const AdminDashboard = () => {
                 color={["#1E90FF", "#87CEFA"]}
                 icon={<MdAttachMoney />}
                 object={"Revenue"}
-                number={amountRevenue + " đ"}
+                number={amountRevenue.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
               />
               <DashboardBox
                 color={["#D2691E", "#FFDEAD"]}
                 icon={<MdOutlineCardMembership />}
                 object={"Registration fee"}
-                number={amountVipPackage + " đ"}
+                number={amountVipPackage.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
               />
               <DashboardBox
                 color={["#606060", "#E8E8E8"]}
                 icon={<IoBagCheckOutline />}
                 object={"Commission fee"}
-                number={amountCommission + " đ"}
+                number={amountCommission.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
               />
             </div>
             <div className="dashboardChart  shadow border-0  ">

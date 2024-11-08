@@ -62,7 +62,7 @@ const getVipOrderByUserId = async (userId) => {
 };
 
 // get list order
-const getListVipOrder = async () => {
+const getListOrder = async () => {
   try {
     const response = await api.get(`Order`, {
       headers: {
@@ -82,5 +82,5 @@ export {
   getOrderById,
   getOrderByUserId,
   getVipOrderByUserId,
-  getListVipOrder,
+  getListOrder,
 };

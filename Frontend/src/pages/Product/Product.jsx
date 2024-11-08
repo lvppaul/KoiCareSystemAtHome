@@ -1,7 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col, Image, Button, Spinner, Carousel, Breadcrumb, Form } from "react-bootstrap";
-import { getProductById, getProductImagesByProductId } from "../../Config/ProductApi";
+import {
+  Container,
+  Row,
+  Col,
+  Image,
+  Button,
+  Spinner,
+  Carousel,
+  Breadcrumb,
+  Form,
+} from "react-bootstrap";
+import {
+  getProductById,
+  getProductImagesByProductId,
+} from "../../Config/ProductApi";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 import { FaShoppingCart } from "react-icons/fa";
@@ -64,7 +77,10 @@ const Product = () => {
               const storageRef = ref(storage, image.imageUrl);
               image.imageUrl = await getDownloadURL(storageRef);
             } catch (error) {
-              console.error("The file does not exist in firebase anymore!", error);
+              console.error(
+                "The file does not exist in firebase anymore!",
+                error
+              );
               const storageRef = ref(storage, "others/NotFound.jpg");
               image.imageUrl = await getDownloadURL(storageRef);
             }
@@ -94,7 +110,10 @@ const Product = () => {
 
   if (!product && loading) {
     return (
-      <Container className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
         <Spinner animation="border" size="xl" role="status" />
       </Container>
     );
@@ -131,7 +150,9 @@ const Product = () => {
         navigate(`/order/${response.orderId}`);
       } else {
         console.error("Error creating order:", response);
-        setErrorMessages("Please fill your information in the profile page before proceeding to checkout");
+        setErrorMessages(
+          "Please fill your information in the profile page before proceeding to checkout"
+        );
       }
     } catch (error) {
       console.error("Error creating order:", error);
@@ -162,7 +183,10 @@ const Product = () => {
           <Col md={8} className="product-image mb-4 mb-md-0">
             <div style={{ maxWidth: "624px", width: "100%" }}>
               {carouselLoading ? (
-                <div className="d-flex justify-content-center align-items-center" style={{ height: "100%" }}>
+                <div
+                  className="d-flex justify-content-center align-items-center"
+                  style={{ height: "100%" }}
+                >
                   <Spinner animation="border" size="xl" role="status" />
                 </div>
               ) : (
@@ -170,7 +194,11 @@ const Product = () => {
                   {productImages.map((productImage) => (
                     <Carousel.Item key={productImage.imageId}>
                       <Image
-                        style={{ width: "700px", height: "600px", objectFit: "cover" }}
+                        style={{
+                          width: "700px",
+                          height: "600px",
+                          objectFit: "cover",
+                        }}
                         src={productImage.imageUrl}
                         alt={`${product.name} image ${productImage.imageId}`}
                         fluid
@@ -192,9 +220,15 @@ const Product = () => {
                   color: "#E47E39",
                 }}
               >
-                {totalPrice} ₫
+                {totalPrice.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
               </p>
-              <p className="product-status" style={{ fontSize: "1rem", fontWeight: "bold" }}>
+              <p
+                className="product-status"
+                style={{ fontSize: "1rem", fontWeight: "bold" }}
+              >
                 Status: {product.status ? "In Stock" : "Out of Stock"}
               </p>
             </div>
@@ -222,7 +256,11 @@ const Product = () => {
             </div>
             <div className="d-flex justify-content-around">
               <Col md={9} className="d-flex">
-                <Button className="flex-grow-1 me-2" variant="primary" onClick={() => handleCreateOrder()}>
+                <Button
+                  className="flex-grow-1 me-2"
+                  variant="primary"
+                  onClick={() => handleCreateOrder()}
+                >
                   Buy Now
                 </Button>
               </Col>
@@ -235,12 +273,17 @@ const Product = () => {
                   <FaShoppingCart />
                   <span style={{ fontSize: "0.9rem" }}>Add to Cart</span>
                 </Button>
-                {errorMessages && <p className="error-message mt-3">{errorMessages}</p>}
+                {errorMessages && (
+                  <p className="error-message mt-3">{errorMessages}</p>
+                )}
               </Col>
             </div>
           </Col>
         </Row>
-        <LoginNeeded show={showLoginNeeded} handleClose={() => setShowLoginNeeded(false)} />
+        <LoginNeeded
+          show={showLoginNeeded}
+          handleClose={() => setShowLoginNeeded(false)}
+        />
       </Container>
     </Container>
   );

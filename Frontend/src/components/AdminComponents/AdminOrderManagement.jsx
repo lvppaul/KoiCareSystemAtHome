@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { getListVipOrder } from "../../Config/OrderApi";
+import { getListOrder } from "../../Config/OrderApi";
 import Button from "@mui/material/Button";
-import { FaEye } from "react-icons/fa";
+
 import AdminViewOrderDetailDialog from "./AdminViewOrderDetail";
 const AdminOrderManagement = () => {
   const [orders, setOrders] = useState([]);
@@ -9,7 +9,7 @@ const AdminOrderManagement = () => {
 
   const fetchOrders = async () => {
     try {
-      const order = await getListVipOrder();
+      const order = await getListOrder();
       setOrders(order);
     } catch (error) {
       console.log(error.message);
@@ -49,16 +49,25 @@ const AdminOrderManagement = () => {
                   <td>{order.fullName}</td>
                   <td>{order.email}</td>
                   <td>{order.phone}</td>
-                  <td>{order.createDate}</td>
-                  <td>{order.totalPrice}</td>
+                  <td>
+                    {new Date(order.createDate).toLocaleDateString("vi-VN", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })}
+                  </td>
+                  <td>
+                    {" "}
+                    {order.totalPrice.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </td>
                   <td>
                     <AdminViewOrderDetailDialog
                       orderDetail={order.orderDetails}
+                      isVip={order.isVipUpgrade}
                     />
-
-                    <div className="icon">
-                      <FaEye />
-                    </div>
                   </td>
                 </tr>
               ))}

@@ -163,7 +163,7 @@ root.render(
             <Route path="members" element={<Members />} />
             <Route path="vips" element={<Vips />} />
             <Route path="shops" element={<AdminShops />} />
-            <Route path="orders" element={<AdminOrderManagement />} />
+            <Route path="adminOrders" element={<AdminOrderManagement />} />
           </Route>
         </Routes>
       </AuthProvider>

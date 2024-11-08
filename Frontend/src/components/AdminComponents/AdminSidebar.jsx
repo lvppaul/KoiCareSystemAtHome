@@ -65,7 +65,7 @@ const AdminSideBar = () => {
             </Link>
           </li>
           <li>
-            <Link to="orders">
+            <Link to="adminOrders">
               <Button className="w-100">
                 <span className="icon">
                   <MdOutlineAttachMoney />
