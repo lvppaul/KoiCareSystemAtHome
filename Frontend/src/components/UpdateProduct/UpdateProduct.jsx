@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-import {
-  ref,
-  uploadBytes,
-  deleteObject,
-  getDownloadURL,
-} from "firebase/storage";
+import { ref, uploadBytes, deleteObject, getDownloadURL } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 import { getCategories } from "../../Config/CategoryApi";
 import { useAuth } from "../../pages/Login/AuthProvider";
-import {
-  deleteProductImage,
-  getProductImagesByProductId,
-} from "../../Config/ProductApi";
+import { deleteProductImage, getProductImagesByProductId } from "../../Config/ProductApi";
 import { FaChevronDown } from "react-icons/fa";
 
 const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
@@ -51,16 +43,15 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
       const previewUrl = URL.createObjectURL(file);
-      const storageRef = ref(
-        storage,
-        `product/productThumbnails/${userId}/${Date.now()}_${file.name}`
-      );
+      const storageRef = ref(storage, `product/productThumbnails/${userId}/${Date.now()}_${file.name}`);
       try {
-        const notFound = await getDownloadURL(
-          ref(storage, "others/NotFound.jpg")
-        );
-        if (newProduct.thumbnail && newProduct.thumbnail !== notFound && newProduct.thumbnail !== 'Others/NotFound.jpg') {
-          const oldThumbnailRef = ref(storage, newProduct.thumbnail);   
+        const notFound = await getDownloadURL(ref(storage, "others/NotFound.jpg"));
+        if (
+          newProduct.thumbnail &&
+          newProduct.thumbnail !== notFound &&
+          newProduct.thumbnail !== "Others/NotFound.jpg"
+        ) {
+          const oldThumbnailRef = ref(storage, newProduct.thumbnail);
           try {
             await uploadBytes(storageRef, file);
             await deleteObject(oldThumbnailRef);
@@ -79,14 +70,10 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
   };
 
   const handleImagesChange = async (e) => {
-    const files = Array.from(e.target.files).filter(
-      (file) => file && file.type.startsWith("image/")
-    );
+    const files = Array.from(e.target.files).filter((file) => file && file.type.startsWith("image/"));
     const previewUrls = files.map((file) => URL.createObjectURL(file));
     try {
-      const productImages = await getProductImagesByProductId(
-        newProduct.productId
-      );
+      const productImages = await getProductImagesByProductId(newProduct.productId);
       if (productImages && productImages.length > 0) {
         await Promise.all(
           productImages.map(async (productImage) => {
@@ -137,17 +124,9 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formProductThumbnail" className="mb-3">
             <Form.Label>Product Thumbnail</Form.Label>
-            <Form.Control
-              type="file"
-              accept="image/*"
-              onChange={handleThumbnailChange}
-            />
+            <Form.Control type="file" accept="image/*" onChange={handleThumbnailChange} />
             {previewThumbnail && (
-              <img
-                src={previewThumbnail}
-                alt="Product Thumbnail"
-                style={{ width: "100px", margin: "5px" }}
-              />
+              <img src={previewThumbnail} alt="Product Thumbnail" style={{ width: "100px", margin: "5px" }} />
             )}
           </Form.Group>
           <Form.Group controlId="formProductName" className="mb-3">
@@ -180,6 +159,7 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
               name="quantity"
               value={newProduct.quantity}
               onChange={handleChange}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formProductPrice" className="mb-3">
@@ -190,6 +170,7 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
               name="price"
               value={newProduct.price}
               onChange={handleChange}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formProductStatus" className="mb-3">
@@ -203,12 +184,7 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
           </Form.Group>
           <Form.Group controlId="formProductCategoryId" className="position-relative mb-3">
             <Form.Label>Category</Form.Label>
-            <Form.Control
-              as="select"
-              name="categoryId"
-              onChange={handleChange}
-              required
-            >
+            <Form.Control as="select" name="categoryId" onChange={handleChange} required>
               <option value={newProduct.categoryId}>Select Category</option>
               {categories.map((category) => (
                 <option key={category.categoryId} value={category.categoryId}>
@@ -216,16 +192,19 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
                 </option>
               ))}
             </Form.Control>
-            <FaChevronDown style={{ position: 'absolute', right: '1rem', top: '80%', transform: 'translateY(-80%)', pointerEvents: 'none' }} />
+            <FaChevronDown
+              style={{
+                position: "absolute",
+                right: "1rem",
+                top: "80%",
+                transform: "translateY(-80%)",
+                pointerEvents: "none",
+              }}
+            />
           </Form.Group>
           <Form.Group controlId="formProductImages" className="mb-3">
             <Form.Label>Product Images</Form.Label>
-            <Form.Control
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleImagesChange}
-            />
+            <Form.Control type="file" accept="image/*" multiple onChange={handleImagesChange} />
             {previewImages.map((url, index) => (
               <img
                 key={index}

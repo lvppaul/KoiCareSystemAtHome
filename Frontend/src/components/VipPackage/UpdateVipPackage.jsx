@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Modal, Button, ToastContainer } from 'react-bootstrap';
+import React, { useState, useEffect, useContext } from 'react';
+import { Form, Modal, Button } from 'react-bootstrap';
 import { updateVipPackage } from '../../Config/VipPackageApi';
-import { ToastifyMessage } from '../Toastify/ToastifyModel';
+import { ToastContext } from "../../App";
 
 const UpdateVipPackage = ({ show, setShow, vipPackData, fetchVipPackages }) => {
   const [vipPack, setVipPack] = useState(vipPackData || {}); 
-  const [toastMessages, setToastMessages] = useState([]);
+  const { setToastMessages } = useContext(ToastContext);
 
   useEffect(() => {
     setVipPack(vipPackData);
@@ -26,15 +26,15 @@ const UpdateVipPackage = ({ show, setShow, vipPackData, fetchVipPackages }) => {
       const response = await updateVipPackage(vipPack.vipId, vipPack);
       if (response.status === 204) {
         await fetchVipPackages();
-        setToastMessages((prev) => [...prev, 'VIP Package updated successful !']);
+        setToastMessages("VIP Package updated successful !");
         handleClose()
       } else {
-        setToastMessages((prev) => [...prev, 'Failed to update VIP Package']);
+        setToastMessages("Failed to update VIP Package");
         handleClose()
       }
     } catch (error) {
       console.error('There was an error updating the VIP Package!', error);
-      setToastMessages((prev) => [...prev, 'Error updating VIP Package']);
+      setToastMessages("Error updating VIP Package");
 
     }
   };
@@ -50,10 +50,6 @@ const UpdateVipPackage = ({ show, setShow, vipPackData, fetchVipPackages }) => {
 
   return (
     <>
-      <ToastifyMessage messages={toastMessages} onClose={(index) => {
-        setToastMessages((prev) => prev.filter((_, i) => i !== index));
-      }} />
-
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Update VIP Package</Modal.Title>
