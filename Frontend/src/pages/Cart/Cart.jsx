@@ -158,63 +158,78 @@ const Cart = () => {
                 </div>
               </Row>
               <ListGroup variant="flush">
-                {cartItems.map((cartItem) => (
-                  <ListGroup.Item key={cartItem.productId} className="cart-item" style={{ marginBottom: "10px" }}>
-                    <Row className="align-items-center">
-                      <Col md={2}>
-                        <Link to={`/product/${cartItem.productId}`}>
-                          <Image src={cartItem.thumbnail} alt={cartItem.productName} fluid rounded />
-                        </Link>
-                      </Col>
-                      <Col md={4} className="d-flex flex-column align-items-start">
-                        <Link
-                          to={`/product/${cartItem.productId}`}
-                          className="cart-item-name"
-                          style={{
-                            fontWeight: "bold",
-                            fontSize: "1.2rem",
-                            color: "black",
-                            textDecoration: "none",
-                          }}
-                        >
-                          {cartItem.productName}
-                        </Link>
-                        <p style={{ fontWeight: "bold", color: "gray" }}>Price: {formatPrice(cartItem.price)}</p>
-                      </Col>
-                      <Col md={2}>
-                        <Form.Label style={{ fontWeight: "bold" }}>Quantity:</Form.Label>
-                        <Form.Control
-                          as="select"
-                          value={cartItem.quantity}
-                          onChange={(e) => handleQuantityChange(cartItem.productId, e)}
-                          className="text-center"
-                          style={{ width: "60px" }}
-                        >
-                          {[...Array(12).keys()].map((x) => (
-                            <option key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </option>
-                          ))}
-                        </Form.Control>
-                      </Col>
+                {cartItems.length === 0 ? (
+                  <div style={{ textAlign: "center" }}>
+                    <ListGroup.Item>
+                      <h2 style={{ textAlign: "center" }}>Your cart is empty</h2>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Link to="/shop" className="btn btn-secondary">
+                        Go to Shop
+                      </Link>
+                    </ListGroup.Item>
+                  </div>
+                ) : (
+                  <>
+                    {cartItems.map((cartItem) => (
+                      <ListGroup.Item key={cartItem.productId} className="cart-item" style={{ marginBottom: "10px" }}>
+                        <Row className="align-items-center">
+                          <Col md={2}>
+                            <Link to={`/product/${cartItem.productId}`}>
+                              <Image src={cartItem.thumbnail} alt={cartItem.productName} fluid rounded />
+                            </Link>
+                          </Col>
+                          <Col md={4} className="d-flex flex-column align-items-start">
+                            <Link
+                              to={`/product/${cartItem.productId}`}
+                              className="cart-item-name"
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: "1.2rem",
+                                color: "black",
+                                textDecoration: "none",
+                              }}
+                            >
+                              {cartItem.productName}
+                            </Link>
+                            <p style={{ fontWeight: "bold", color: "gray" }}>Price: {formatPrice(cartItem.price)}</p>
+                          </Col>
+                          <Col md={2}>
+                            <Form.Label style={{ fontWeight: "bold" }}>Quantity:</Form.Label>
+                            <Form.Control
+                              as="select"
+                              value={cartItem.quantity}
+                              onChange={(e) => handleQuantityChange(cartItem.productId, e)}
+                              className="text-center"
+                              style={{ width: "60px" }}
+                            >
+                              {[...Array(12).keys()].map((x) => (
+                                <option key={x + 1} value={x + 1}>
+                                  {x + 1}
+                                </option>
+                              ))}
+                            </Form.Control>
+                          </Col>
 
-                      <Col md={4} className="d-flex flex-column justify-content-end align-items-end">
-                        <p
-                          style={{
-                            fontWeight: "bolder",
-                            fontSize: "1.1rem",
-                            color: "#E47E39",
-                          }}
-                        >
-                          Total: {formatPrice(cartItem.totalPrice)}
-                        </p>
-                        <Button type="button" variant="danger" onClick={() => handleRemoveItem(cartItem)}>
-                          Remove
-                        </Button>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                ))}
+                          <Col md={4} className="d-flex flex-column justify-content-end align-items-end">
+                            <p
+                              style={{
+                                fontWeight: "bolder",
+                                fontSize: "1.1rem",
+                                color: "#E47E39",
+                              }}
+                            >
+                              Total: {formatPrice(cartItem.totalPrice)}
+                            </p>
+                            <Button type="button" variant="danger" onClick={() => handleRemoveItem(cartItem)}>
+                              Remove
+                            </Button>
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))}
+                  </>
+                )}
               </ListGroup>
             </Container>
           </Col>
