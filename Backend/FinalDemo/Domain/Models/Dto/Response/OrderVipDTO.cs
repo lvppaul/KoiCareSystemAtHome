@@ -10,6 +10,13 @@ namespace Domain.Models.Dto.Response
     {
         public int OrderId { get; set; }
         public string UserId { get; set; } = null!;
+
+        public string FullName { get; set; } = null!;
+
+        public string Phone { get; set; } = null!;
+
+        public string Email { get; set; } = null!;
+
         public DateTime CreateDate { get; set; } = DateTime.Now;
         public string OrderStatus { get; set; } = null!;
         public List<OrderVipDetailDTO> orderVipDetails { get; set; }
