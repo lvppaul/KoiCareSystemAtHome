@@ -1,29 +1,57 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import { useAuth } from '../../pages/Login/AuthProvider'
 import { createKoiRemind } from '../../Config/KoiRemind';
-import { ToastifyMessage } from '../Toastify/ToastifyModel';
+import { ToastContext } from '../../App';
+import { getKoiByUserId } from '../../Config/KoiApi';
 
-const CreateNewReminded = ({ show, setShow, koiList }) => {
+const CreateNewReminded = ({ show, setShow , koiId, updateKoiReminder }) => {   
+    const {setToastMessage} = useContext(ToastContext);
     const userId = useAuth().user.userId;
+    const [koiList, setKoiList] = useState([]);
     const createDate = new Date().toISOString();
-    console.log('createDate:', createDate);
     const [reminderData, setReminderData] = useState({ userId: userId, koiId: '', dateRemind: createDate, remindDescription: '' });
+    const [koiDetailRemind, setKoiDetailRemind] = useState({
+        ...reminderData, 
+        koiId: koiId 
+      });
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setReminderData({ ...reminderData, [name]: value });
     };
 
+    useEffect(() => {
+        getKoiByUserId(userId).then((data) => {
+            setKoiList(data);
+        }
+        );
+        if (koiId) {
+            setReminderData(prev => ({
+                ...prev,
+                koiId: koiId
+            }));
+        }
+    }, [koiId]);
+
     const handleCreateRemind = async (event) => {
         event.preventDefault();
+        console.log('reminderData', reminderData);
+        
         try {
             const response = await createKoiRemind(reminderData);
-            response.status === 201 ? 
-            ToastifyMessage('success', 'Create reminder successfully') :
-            ToastifyMessage('error', 'Create reminder failed'); 
+            if (response) {
+                setToastMessage('Create reminder successfully');
+                setReminderData(reminderData);
+                if(koiId) {
+                    await updateKoiReminder(koiId);
+                }
+            } else {
+                setToastMessage('Create reminder failed'); 
+            }
         } catch (error) {
             console.error('Error creating reminder:', error);
-            ToastifyMessage('error', 'Create reminder failed');
+            setToastMessage('Create reminder failed');
         }
         setShow(false);
     }
@@ -35,6 +63,7 @@ const CreateNewReminded = ({ show, setShow, koiList }) => {
             <Modal.Body>
                 <Form onSubmit={handleCreateRemind}>
                     <Form.Group controlId="koiId">
+                        {!koiId ? <>
                         <Form.Label>Koi Name</Form.Label>
                         <Form.Control as="select" name="koiId" value={reminderData.koiId} onChange={handleInputChange}>
                             <option value="">Select Koi</option>
@@ -42,6 +71,9 @@ const CreateNewReminded = ({ show, setShow, koiList }) => {
                                 <option key={koi.koiId} value={koi.koiId}>{koi.name}</option>
                             ))}
                         </Form.Control>
+                        </>
+                        : null 
+                        }
                     </Form.Group>
                     <Form.Group controlId="remindDescription">
                         <Form.Label>Description</Form.Label>

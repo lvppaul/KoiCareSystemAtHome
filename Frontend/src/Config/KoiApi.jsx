@@ -99,6 +99,16 @@ const getKoiById = async (koiId) => {
     }
 };
 
+const getKoiName = async (koiId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiById/${koiId}`);
+        return response.data.name;
+    } catch (error) {
+        console.error('Error fetching koi name:', error);
+        throw error;
+    }
+}
+
 // Function to post Koi
 const postKoi = async (koi) => {
     try {
@@ -347,5 +357,5 @@ const getKoiMaleDeadInPond = async (pondId, userId) => {
 
 
 export { getKoiByUserId, getKoiById, postKoi, deleteKoi, updateKoi, getKoiListByUserId
-    , addRecord, deleteRecord, updateKoiRecord, getKoiRecord, getKoiMaleInAllPond, getKoiFemaleInAllPond, getAllKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleDeadInAllPond, getKoiFemaleDeadInAllPond, getKoiMaleAliveInAllPond, getKoiFemaleAliveInAllPond, getKoiFemaleAliveInPond, getKoiMaleAliveInPond, getKoiFemaleDeadInPond, getKoiMaleDeadInPond, getKoiWithThumbnail
+    , addRecord, deleteRecord, updateKoiRecord, getKoiRecord, getKoiMaleInAllPond, getKoiFemaleInAllPond, getAllKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleDeadInAllPond, getKoiFemaleDeadInAllPond, getKoiMaleAliveInAllPond, getKoiFemaleAliveInAllPond, getKoiFemaleAliveInPond, getKoiMaleAliveInPond, getKoiFemaleDeadInPond, getKoiMaleDeadInPond, getKoiWithThumbnail, getKoiName
  };
