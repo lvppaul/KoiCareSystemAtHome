@@ -14,37 +14,32 @@ const AdminViewOrderDetailDialog = (props) => {
   const isVip = props.isVip;
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const [viewOrderDetails, setViewOrderDetails] = useState(null);
+  const [viewOrderDetails, setViewOrderDetails] = useState([]);
 
   const handleOpen = () => {
     setOpen(true);
+    dataOrderDetail();
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+  console.log(orderDetail);
 
   const dataOrderDetail = async () => {
     try {
-      const orderId = orderDetail.orderId;
-      const productId = orderDetail.productId;
-      const prod = await getProductById(productId);
-
-      console.log("data:" + productId);
-      const proName = prod.name;
-      const proDes = prod.description;
-      const quantity = orderDetail.quantity;
-      const unitPrice = orderDetail.unitPrice;
-
-      // Tạo đối tượng chi tiết đơn hàng
-      const data = {
-        orderId,
-        productId,
-        name: proName,
-        description: proDes,
-        quantity,
-        unitPrice,
-      };
+      const data = await Promise.all(
+        orderDetail.map(async (item) => {
+          const prod = await getProductById(item.productId);
+          return {
+            productId: item.productId,
+            name: prod.name,
+            description: prod.description,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+          };
+        })
+      );
       setViewOrderDetails(data);
     } catch (error) {
       console.log(error.message);
@@ -57,7 +52,7 @@ const AdminViewOrderDetailDialog = (props) => {
   //   dataOrderDetail();
   // }, []);
 
-  if (loading) return <div>Loading ...</div>;
+  // if (loading) return <div>Loading ...</div>;
 
   return (
     <div>
@@ -66,14 +61,14 @@ const AdminViewOrderDetailDialog = (props) => {
           <FaEye />
         </div>
       </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} maxWidth="lg">
         <DialogTitle>Order Detail</DialogTitle>
         <DialogContent>
           <div className="table-response">
             <table className="table table-sm">
               <thead>
                 <tr>
-                  <th>Order ID</th>
+                  <th>Product ID</th>
                   <th>Product Name</th>
                   <th>Product Description</th>
                   <th>Product Quantity</th>
@@ -81,17 +76,20 @@ const AdminViewOrderDetailDialog = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {/* {viewOrderDetails.map((viewOrderDetail) => (
-                  <tr
-                    key={`${viewOrderDetail.orderId}-${viewOrderDetail.productId}`}
-                  >
-                    <td>{viewOrderDetail.orderId}</td>
+                {viewOrderDetails.map((viewOrderDetail) => (
+                  <tr key={`${viewOrderDetail.productId}`}>
+                    <td>{viewOrderDetail.productId}</td>
                     <td>{viewOrderDetail.name}</td>
                     <td>{viewOrderDetail.description}</td>
                     <td>{viewOrderDetail.quantity}</td>
-                    <td>{viewOrderDetail.unitPrice}</td>
+                    <td>
+                      {viewOrderDetail.unitPrice.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </td>
                   </tr>
-                ))}*/}
+                ))}
               </tbody>
             </table>
           </div>
