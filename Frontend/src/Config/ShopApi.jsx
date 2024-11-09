@@ -15,6 +15,21 @@ const getShop = async () => {
   }
 };
 
+// Function to get shop by shopId
+const getShopByShopId = async (shopId) => {
+  try {
+    const response = await api.get(`Shop/GetShopByShopId/${shopId}`, {
+      headers: {
+        accept: "text/plain",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching shop with shopId ${shopId}:`, error);
+    throw error;
+  }
+};
+
 // Function to add a shop
 const addShop = async (data) => {
   try {
@@ -61,4 +76,4 @@ const updateShopDetails = async (data) => {
   }
 };
 
-export { getShop, addShop, getShopByUserId, updateShopDetails };
+export { getShop, getShopByShopId, addShop, getShopByUserId, updateShopDetails };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Container, Row, Col, Image, Button, Spinner, Carousel, Breadcrumb, Form } from "react-bootstrap";
-import { getProductById, getProductImagesByProductId } from "../../Config/ProductApi";
+import { getProductById, getProductImagesByProductId, getProductsByCategoryId } from "../../Config/ProductApi";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 import { FaShoppingCart } from "react-icons/fa";
@@ -12,6 +12,7 @@ import { getAccountByUserId } from "../../Config/UserApi";
 import { createOrder } from "../../Config/OrderApi";
 import LoginNeeded from "../../components/LoginNeeded/LoginNeeded";
 import { ToastContext } from "../../App";
+import { getShopByShopId } from "../../Config/ShopApi";
 
 const Product = () => {
   const { setToastMessage } = useContext(ToastContext);
@@ -24,16 +25,64 @@ const Product = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [errorMessages, setErrorMessages] = useState("");
   const [showLoginNeeded, setShowLoginNeeded] = useState(false);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [loadingRelated, setLoadingRelated] = useState(true);
+  const [shopDetails, setShopDetails] = useState({});
 
   const navigate = useNavigate();
   const { user } = useAuth();
   const userId = user?.userId;
 
+  const fetchShopDetails = useCallback(async () => {
+    try {
+      const response = await getShopByShopId(product.shopId);
+      setShopDetails(response);
+    } catch (error) {
+      console.error("Error fetching shop details:", error);
+    }
+  }, [product]);
+
+  const fetchRelatedProducts = useCallback(async () => {
+    if (!product) return;
+    try {
+      const products = await getProductsByCategoryId(product.category.categoryId);
+      const filtered = products.filter((p) => p.productId !== product.productId).slice(0, 6);
+
+      const productsWithImages = await Promise.all(
+        filtered.map(async (prod) => {
+          try {
+            const storageRef = ref(storage, prod.thumbnail);
+            const url = await getDownloadURL(storageRef);
+            return { ...prod, thumbnail: url };
+          } catch (error) {
+            const fallbackRef = ref(storage, "others/NotFound.jpg");
+            const url = await getDownloadURL(fallbackRef);
+            return { ...prod, thumbnail: url };
+          }
+        })
+      );
+      setRelatedProducts(productsWithImages);
+      setLoadingRelated(false);
+    } catch (error) {
+      console.error("Error fetching related products:", error);
+      setLoadingRelated(false);
+    }
+  }, [product]);
+
   useEffect(() => {
     if (product) {
+      fetchShopDetails();
+      fetchRelatedProducts();
       setTotalPrice(product.price * quantity);
     }
-  }, [product, quantity]);
+  }, [product, quantity, fetchRelatedProducts, fetchShopDetails]);
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("vn-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
+  };
 
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value);
@@ -61,23 +110,23 @@ const Product = () => {
       const allImages = await getProductImagesByProductId(productId);
       const updatedImages = await Promise.all(
         allImages.map(async (image) => {
-          if (image.imageUrl) {
-            try {
-              const storageRef = ref(storage, image.imageUrl);
-              image.imageUrl = await getDownloadURL(storageRef);
-            } catch (error) {
-              console.error("The file does not exist in firebase anymore!", error);
-              const storageRef = ref(storage, "others/NotFound.jpg");
-              image.imageUrl = await getDownloadURL(storageRef);
-            }
+          try {
+            const storageRef = ref(storage, image.imageUrl);
+            const url = await getDownloadURL(storageRef);
+            return { ...image, imageUrl: url };
+          } catch (error) {
+            console.error("Error loading image:", error);
+            const fallbackRef = ref(storage, "others/NotFound.jpg");
+            const fallbackUrl = await getDownloadURL(fallbackRef);
+            return { ...image, imageUrl: fallbackUrl };
           }
-          return image;
         })
       );
       setProductImages(updatedImages);
       setCarouselLoading(false);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setCarouselLoading(false);
     }
   }, [productId]);
 
@@ -143,11 +192,12 @@ const Product = () => {
     }
   };
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("vn-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
+  const chunkArray = (array, size) => {
+    const chunks = [];
+    for (let i = 0; i < array.length; i += size) {
+      chunks.push(array.slice(i, i + size));
+    }
+    return chunks;
   };
 
   return (
@@ -182,7 +232,7 @@ const Product = () => {
                         style={{
                           width: "700px",
                           height: "600px",
-                          objectFit: "cover",
+                          objectFit: "fill",
                         }}
                         src={productImage.imageUrl}
                         alt={`${product.name} image ${productImage.imageId}`}
@@ -212,6 +262,9 @@ const Product = () => {
               </p>
             </div>
             <hr />
+            <p className="mb-2" style={{ fontWeight: "bolder" }}>
+              Supplier: {shopDetails.shopName}
+            </p>
             <Form.Label style={{ fontWeight: "bold" }}>Description:</Form.Label>
             <p className="mb-3">{product.description}</p>
             <hr />
@@ -267,6 +320,37 @@ const Product = () => {
             </div>
             {errorMessages && <p className="error-message mt-3">{errorMessages}</p>}
           </Col>
+        </Row>
+        <Row className="mt-3 mb-3">
+          <h3 className="mb-4 fw-bold">Recommend Products</h3>
+          {loadingRelated ? (
+            <div className="d-flex justify-content-center">
+              <Spinner animation="border" />
+            </div>
+          ) : (
+            <Carousel variant="dark" interval={3000} indicators={false}>
+              {chunkArray(relatedProducts, 3).map((chunk, idx) => (
+                <Carousel.Item key={idx}>
+                  <div className="d-flex justify-content-center gap-4">
+                    {chunk.map((relatedProduct) => (
+                      <Link to={`/product/${relatedProduct.productId}`} className="productLink">
+                        <div className="product-card">
+                          <Image
+                            src={relatedProduct.thumbnail}
+                            alt={relatedProduct.name}
+                            className="img-fluid mb-1"
+                            rounded
+                          />
+                          <h5 style={{ fontWeight: "bolder", color: "#9e4a11" }}>{relatedProduct.name}</h5>
+                          <p style={{ fontWeight: "bold" }}>{formatPrice(relatedProduct.price)}</p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          )}
         </Row>
         <LoginNeeded show={showLoginNeeded} handleClose={() => setShowLoginNeeded(false)} />
       </Container>
