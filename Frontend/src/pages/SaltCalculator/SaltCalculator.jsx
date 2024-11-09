@@ -83,7 +83,7 @@ const SaltCalculator = () => {
               <FormControl
                 as="select"
                 id="pond"
-                value={selectedPond}
+                value={selectedPond ? selectedPond : ""}
                 onChange={(e) => {
                   setSelectedPond(parseInt(e.target.value));
                   const pond = ponds.find((p) => p.pondId === parseInt(e.target.value));
@@ -92,6 +92,9 @@ const SaltCalculator = () => {
                   }
                 }}
               >
+                <option value="" disabled>
+                  Select a pond
+                </option>
                 {ponds.map((pond) => (
                   <option key={pond.pondId} value={pond.pondId}>
                     {pond.name}

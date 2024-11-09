@@ -6,11 +6,12 @@ import { useAuth } from "../Login/AuthProvider";
 
 const FoodCalculator = () => {
   const [ponds, setPonds] = useState([]);
-  const [temperature, setTemperature] = useState(0); 
+  const [temperature, setTemperature] = useState(0);
   const [selectedTemp, setSelectedTemp] = useState(null);
   const [growthSpeed, setGrowthSpeed] = useState("medium");
   const [totalWeight, setTotalWeight] = useState(0);
   const [foodRequirement, setFoodRequirement] = useState(0);
+  const [selectedPond, setSelectedPond] = useState(null);
   const { user } = useAuth();
   const userId = user?.userId;
 
@@ -28,8 +29,10 @@ const FoodCalculator = () => {
 
   const handlePondChange = async (event) => {
     const pondId = event.target.value;
+    setSelectedPond(pondId);
+    if (!pondId) return;
     const pondKois = await getKoiInPond(pondId);
-    const weight = pondKois.reduce((total, koi) => total + koi.weight * 1000, 0);
+    const weight = pondKois.reduce((total, koi) => total + koi.weight, 0);
     setTotalWeight(weight);
   };
 
@@ -67,8 +70,10 @@ const FoodCalculator = () => {
               <Form>
                 <Form.Group controlId="pondSelect">
                   <Form.Label>Select Pond</Form.Label>
-                  <Form.Control as="select" onChange={handlePondChange}>
-                    <option value="">Select a pond</option>
+                  <Form.Control as="select" onChange={handlePondChange} value={selectedPond ? selectedPond : ""}>
+                    <option value="" disabled>
+                      Select a pond
+                    </option>
                     {ponds.map((pond) => (
                       <option key={pond.pondId} value={pond.pondId}>
                         {pond.name}
@@ -111,7 +116,8 @@ const FoodCalculator = () => {
             <Card.Body>
               <Card.Title>Feeding Information</Card.Title>
               <Card.Text>
-                The recommended amount of food should be split evenly into 3-5 feedings per day. This way the koi will ingest the food better.
+                The recommended amount of food should be split evenly into 3-5 feedings per day. This way the koi will
+                ingest the food better.
               </Card.Text>
             </Card.Body>
           </Card>
