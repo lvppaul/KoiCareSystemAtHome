@@ -7,11 +7,13 @@ import { Spinner } from 'react-bootstrap';
 import GrowHistory from '../../components/GrowthHistory/GrowHistory';
 import KoiGrowthChart from '../../components/GrowthChart/KoiGrowth';
 import { useAuth } from '../Login/AuthProvider';
-import { BiBell } from 'react-icons/bi';
+import { BiBell, BiInfoCircle } from 'react-icons/bi';
 import CreateNewReminded from '../../components/KoiReminder/CreateNewReminded';
 import KoiNameFromId from '../../components/KoiReminder/KoiNameFromId';
 import DeleteKoiRemind from '../../components/KoiReminder/DeleteKoiRemind';
 import { Pagination } from 'react-bootstrap';
+import UpdateKoiReminder from '../../components/KoiReminder/UpdateKoiReminder';
+
 
 
 const KoiDetail = () => {
@@ -22,6 +24,8 @@ const KoiDetail = () => {
   const [showGrowHistory, setShowGrowHistory] = useState(false);
   const [showRemind, setShowRemind] = useState(false);
   const [showModalAddRemind, setShowModalAddRemind] = useState(false);
+  const [showModalUpdateRemind, setShowModalUpdateRemind] = useState(false);
+  const [currentReminder, setCurrentReminder] = useState(null);
   const userId = useAuth().user.userId;
   const [remindList, setRemindList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,6 +60,11 @@ const KoiDetail = () => {
     const updateRemindList = currentRemind.filter(remind => remind.remindId !== remindId);
     setRemindList(updateRemindList);
   }
+
+  const handleUpdateKoiRemind = (remind) => {
+    setCurrentReminder(remind);
+    setShowModalUpdateRemind(true);
+  };
 
 
   const formatDate = (date) => {
@@ -119,6 +128,15 @@ const KoiDetail = () => {
           koiId={koidetail?.koiId}
           updateKoiReminder={fetchKoiDetail}
         />
+
+        {currentReminder && (
+        <UpdateKoiReminder
+          show={showModalUpdateRemind}
+          setShow={setShowModalUpdateRemind}
+          reminder={currentReminder}
+          updateKoiReminder={fetchKoiDetail}
+        />
+      )}
 
       <Row>
         {/* Koi Image */}
@@ -186,10 +204,19 @@ const KoiDetail = () => {
                                 }}>
                                     {koiRemind.remindDescription}
                                 </p>
+                                <div style={{
+                                  display: 'flex',
+                                  justifyContent: 'flex-end',
+                                }}>
+
+                                <Button variant='warning' style={{marginTop: '1rem', marginInlineEnd:'10px'}} onClick={() => handleUpdateKoiRemind(koiRemind)}> 
+                                  <BiInfoCircle size={30} />
+                                  </Button>
                                 <DeleteKoiRemind
                                     remindId={koiRemind.remindId}
                                     updateKoiRemind={handleDeleteKoiRemind}
-                                />
+                                    />
+                                </div>
                             </div>
                         </Accordion.Body>
                     </Accordion.Item>
