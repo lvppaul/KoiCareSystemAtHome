@@ -1,20 +1,20 @@
 import {useState, useEffect} from 'react'
-import { getKoiById } from '../../Config/KoiApi'
+import { getKoiById, getKoiName } from '../../Config/KoiApi'
 
 const KoiNameFromId = (koiId) => {
     const [koiName, setKoiName] = useState('');
-    const koiIdGetName = koiId.koiId;
+
     useEffect(() => {
         const fetchKoiName = async () => {
             try {
-                const name = await getKoiById(koiIdGetName);
-                setKoiName(name.name);
+                const name = await getKoiName(koiId.koiId);
+                setKoiName(name);
             } catch (error) {
                 console.error('Error fetching koi name:', error);
             }
         };
         fetchKoiName();
-    }, [koiIdGetName]);
+    }, [koiId]);
     
   return (
     <>

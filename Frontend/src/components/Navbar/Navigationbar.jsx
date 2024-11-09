@@ -4,13 +4,11 @@ import Logo from "../../assets/Fpt_TTKoi_logo.svg";
 import "./Navigationbar.css";
 import { BiUserCircle, BiCart } from "react-icons/bi";
 import { useAuth } from "../../pages/Login/AuthProvider";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getAccountByUserId } from "../../Config/UserApi";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 import LoginNeeded from "../LoginNeeded/LoginNeeded";
-import { getKoiRemindByUserId } from "../../Config/KoiRemind";
-import KoiReminderList from "../KoiReminder/KoiReminderList";
 
 const Navigationbar = () => {
   const auth = useAuth();
@@ -20,16 +18,8 @@ const Navigationbar = () => {
   const [showLoginNeeded, setShowLoginNeeded] = useState(false);
   const [koiReminders, setKoiReminders] = useState([]);
   const userId = auth.user ? auth.user.userId : null;
-  const [showKoiRemind, setShowKoiRemind] = useState(false);
-
-  const fetchKoiReminders = async () => {
-    const checkKoiReminds = await getKoiRemindByUserId(userId);//testing wait for get By userId
-    setKoiReminders(checkKoiReminds);
-  };
-
-  useEffect(() => {
-    fetchKoiReminders();
-  }, [userId]);
+ 
+  
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -134,16 +124,11 @@ const Navigationbar = () => {
                 <LoginNeeded show={showLoginNeeded} handleClose={() => setShowLoginNeeded(false)} />
               </>
             )}
-            {koiReminders.length > 0 ? (
+            {user ?  (
             <>
-              <NavLink as Button onClick={() => setShowKoiRemind(true)} className="nav-title" style={{color:'#fff'}}>
+              <NavLink to={"koiremind"} className="nav-title">
                 Koi Reminder
               </NavLink>
-              <KoiReminderList
-              show={showKoiRemind}
-              setShow={setShowKoiRemind}
-              koiReminders={koiReminders}
-            />
             </>
             ) : null}
 

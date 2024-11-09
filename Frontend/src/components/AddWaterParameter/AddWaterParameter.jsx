@@ -1,10 +1,13 @@
 import { Button, Col, Row } from "react-bootstrap";
 import { BiDroplet } from "react-icons/bi";
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import { useAuth } from '../../pages/Login/AuthProvider'
 import { addWaterParameter } from "../../Config/WaterParameterApi";
+import { ToastContext } from '../../App';
+
 const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
+    const {setToastMessage} = useContext(ToastContext);
     const userId = useAuth().user.userId;
     const [waterData, setWaterData] = useState({
         pondId: pondId,
@@ -58,6 +61,7 @@ const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
 
         })
         console.log('submit',waterData);
+        setToastMessage('Add water parameter successfully');
         setShow(false);
     };
 

@@ -23,7 +23,6 @@ import { AuthProvider } from "./pages/Login/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import News from "./pages/News/News";
 import ManageShop from "./pages/ManageShop/ManageShop";
-import KoiRemind from "./pages/KoiRemind/KoiRemind";
 import NotAuthorized from "./pages/NotAuthorized/NotAuthorized";
 import NewsDetail from "./pages/NewsDetail/NewsDetail";
 import BlogDetail from "./pages/BlogDetail/BlogDetail";
@@ -44,6 +43,7 @@ import PaymentResult from "./pages/PaymentPage/PaymentResult";
 
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage";
 import OrderHistory from "./pages/Order/OrderHistory";
+import KoiReminderList from "./components/KoiReminder/KoiReminderList";
 const container = document.getElementById("root");
 
 const root = createRoot(container);
@@ -143,7 +143,7 @@ root.render(
               path="koiremind"
               element={
                 <ProtectedRoute requiredRole="vip">
-                  <KoiRemind />
+                  <KoiReminderList />
                 </ProtectedRoute>
               }
             />

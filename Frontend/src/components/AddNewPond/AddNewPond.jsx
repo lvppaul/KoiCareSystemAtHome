@@ -1,5 +1,5 @@
 import './AddNewPond.css';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Button, Modal, Form, Row, Col, Spinner } from 'react-bootstrap/';
 import { BiImport } from "react-icons/bi";
 import PondIcon from "../../assets/Pond.svg";
@@ -7,7 +7,7 @@ import { storage } from '../../Config/firebase';
 import { ref, uploadBytes } from 'firebase/storage';
 import { useAuth } from '../../pages/Login/AuthProvider';
 import { postPond } from '../../Config/PondApi';
-import {ToastifyMessage} from '../Toastify/ToastifyModel';
+import { ToastContext } from '../../App';
 
 const AddNewPond = ({ show, setShow, onPondAdded }) => {
     const initialPondState = { name: '', volume: '', depth: '', pumpingCapacity: '', drain: '', skimmer: '', note: '', thumbnail: null };
@@ -17,7 +17,7 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
     const [storageRef, setStorageRef] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const userId = useAuth().user.userId;
-    const [toastMessages, setToastMessages] = useState([]);
+    const { setToastMessage } = useContext(ToastContext);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -48,23 +48,20 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
             console.log('Adding pond:', newPond);
             await postPond(newPond);
             await onPondAdded(newPond);
-            setToastMessages((prev) => [...prev, 'Pond added successful!']);
+            setToastMessage('Pond added successful!');
             setPondDetail(initialPondState);
             setPreviewImage(null);
             setShow(false);
         } catch (error) {
             console.error('Error adding pond:', error);
-            setToastMessages((prev) => [...prev, 'Pond added failed!']);
+            setToastMessage('Pond added failed!');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <>  
-            <ToastifyMessage messages={toastMessages} onClose={(index) => {
-                setToastMessages((prev) => prev.filter((_, i) => i !== index));
-            }} />
+        <>
                 <Button variant="success" onClick={() => setShow(true)}
                     style={{ width: '180px', height: '70px', 
                         fontWeight: 'bold', fontSize: '16px', 
