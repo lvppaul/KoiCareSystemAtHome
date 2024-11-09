@@ -590,7 +590,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.ToTable("Shop");
 
             entity.Property(e => e.ShopId).HasColumnName("ShopId");
-            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.Description).HasColumnName("Description");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .IsUnicode(false);

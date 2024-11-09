@@ -43,6 +43,19 @@ namespace APIService.Controllers
             return result;
         }
 
+        [HttpGet("GetKoiRemindByKoiId")]
+        public async Task<ActionResult<List<KoiRemindDTO>>> GetKoiRemindByKoiId(int koiId)
+        {
+            var koiRemindList = await _unitOfWork.KoiRemindRepository.GetKoiRemindByKoiId(koiId);
+            if (koiRemindList == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<KoiRemindDTO>>(koiRemindList);
+
+            return result;
+        }
+
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<KoiRemindDTO> GetById(int id)
