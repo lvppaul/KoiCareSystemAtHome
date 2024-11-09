@@ -61,7 +61,7 @@ const getVipOrderByUserId = async (userId) => {
   }
 };
 
-// get list order
+// get list commission fee order
 const getListOrder = async () => {
   try {
     const response = await api.get(`Order`, {
@@ -77,10 +77,26 @@ const getListOrder = async () => {
   }
 };
 
+// get list Vip package order
+const getListVipOrder = async () => {
+  try {
+    const response = await api.get(`Order/GetVipOrder`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
 export {
   createOrder,
   getOrderById,
   getOrderByUserId,
   getVipOrderByUserId,
   getListOrder,
+  getListVipOrder,
 };
