@@ -23,7 +23,7 @@ const Navigationbar = () => {
   const [showKoiRemind, setShowKoiRemind] = useState(false);
 
   const fetchKoiReminders = async () => {
-    const checkKoiReminds = await getKoiRemindByUserId(userId);//testing wait for get By userId
+    const checkKoiReminds = await getKoiRemindByUserId(userId); //testing wait for get By userId
     setKoiReminders(checkKoiReminds);
   };
 
@@ -131,30 +131,37 @@ const Navigationbar = () => {
                     </>
                   ) : null}
                 </NavDropdown>
+                {koiReminders.length > 0 ? (
+                  <>
+                    <NavLink
+                      as
+                      Button
+                      onClick={() => {
+                        if (!user) {
+                          setShowLoginNeeded(true);
+                        } else {
+                          setShowKoiRemind(true);
+                        }
+                      }}
+                      className="nav-title"
+                      style={{ color: "#fff" }}
+                    >
+                      Koi Reminder
+                    </NavLink>
+                    <KoiReminderList show={showKoiRemind} setShow={setShowKoiRemind} koiReminders={koiReminders} />
+                  </>
+                ) : null}
                 <LoginNeeded show={showLoginNeeded} handleClose={() => setShowLoginNeeded(false)} />
               </>
             )}
-            {koiReminders.length > 0 ? (
-            <>
-              <NavLink as Button onClick={() => setShowKoiRemind(true)} className="nav-title" style={{color:'#fff'}}>
-                Koi Reminder
-              </NavLink>
-              <KoiReminderList
-              show={showKoiRemind}
-              setShow={setShowKoiRemind}
-              koiReminders={koiReminders}
-            />
-            </>
-            ) : null}
-
-            
-
           </Nav>
           <Nav className="flex-grow-4 ms-auto nav-right">
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
               <FormControl type="search" placeholder="Search..." className="me-2 rounded-pill" />
-            </Form>
+            </Form> */}
             <NavDropdown
+              drop="down"
+              className="dropdown-centered"
               style={{ position: "relative" }}
               title={
                 user && avatar ? (
@@ -189,7 +196,7 @@ const Navigationbar = () => {
                   <NavDropdown.Item onClick={handleLogOut}>Log out</NavDropdown.Item>
                   <hr />
                   <NavDropdown.Item style={{ fontWeight: "bold", color: "black" }} disabled>
-                    Role: {user.role} <br />
+                    Membership Level: {user.role.toUpperCase()} <br />
                     Email: {user.email}
                   </NavDropdown.Item>
                 </>

@@ -98,21 +98,15 @@ const OrderHistory = () => {
                 <Table striped bordered hover responsive>
                   <thead>
                     <tr>
-                      <th>Product</th>
-                      <th>Quantity</th>
-                      <th>Price</th>
+                      <th style={{ width: "250px" }}>Product</th>
+                      <th style={{ width: "150px" }}>Quantity</th>
+                      <th style={{ width: "150px" }}>Price</th>
                     </tr>
                   </thead>
                   {order.orderDetails.map((orderDetail, index) => (
                     <tbody key={index}>
                       <tr>
-                        <td>
-                          {
-                            <ProductNameComponent
-                              productId={orderDetail.productId}
-                            />
-                          }
-                        </td>
+                        <td>{<ProductNameComponent productId={orderDetail.productId} />}</td>
                         <td>{orderDetail.quantity}</td>
                         <td>{formatPrice(orderDetail.unitPrice)}</td>
                       </tr>

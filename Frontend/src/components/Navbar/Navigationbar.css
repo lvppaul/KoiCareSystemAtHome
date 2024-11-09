@@ -18,6 +18,11 @@
   color: white;
 }
 
+.dropdown-centered .dropdown-menu {
+  left: 80%;
+  transform: translateX(-80%);
+}
+
 .nav-title {
   text-decoration: none;
   font-size: 25px;
