@@ -27,12 +27,12 @@ use KoiCareSystemAtHome;
 --1.
 INSERT INTO [AspNetUsers] (Id, FirstName, LastName, Sex, Street, District, City, Country, Avatar, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'member', 'a', NULL, '123 Main St', 'Central', 'New York', 'USA', NULL, 'member@example.com', 'MEMBER@EXAMPLE.COM', 'member@example.com', 'MEMBER@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEIu0gnPvb0zhWrk4NNA3wEMiOewPTGZLrYqgAOJs5OwUbuKXyPKTBekE9OveJ020gg==', 'RWVHVDP7IWP22CE4U3VXIEKH4ZOXHD2W', '71aae56b-e997-4ae0-8215-2e0f71381a88', '1234567890', 0, 0, NULL, 1, 0),
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip', 'b', NULL, '456 Elm St', 'North', 'Los Angeles', 'USA', NULL, 'vip@example.com', 'VIP@EXAMPLE.COM', 'vip@example.com', 'VIP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', '0987654321', 0, 0, NULL, 1, 0),
-('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'admin', 'd', NULL, NULL, NULL, NULL, NULL, NULL, 'admin@example.com', 'ADMIN@EXAMPLE.COM', 'admin@example.com', 'ADMIN@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMSsXYBri40up6lHG2s0YHq4+fVyvxAGIKkIXHGh1lHXfFRNq79FWJ/oka/KX0OusA==', 'UF5GBLSGV3DSLXRSIDKRAXKGEEIIM3TL', '82c5fd3e-d565-43d1-a031-8af185d68916', NULL, 0, 0, NULL, 1, 0),
-('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'shop', 'c2', NULL, NULL, NULL, NULL, NULL, NULL, 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 'shop2@example.com', 'SHOP2@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEAAinoUzd5JbC2ZXIsjuzrMAwLklvMaW0XlwQpaoRZHof+FMlGnMJSiNThEoQJ3C/Q==', '5YQ266SGHHXQ2W3KRSLNZKZSM7BB4XWC', 'fbd64607-02bd-47ca-8cb3-22d7c2f6a6c8', NULL, 0, 0, NULL, 1, 0),
-('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'shop', 'c', NULL, NULL, NULL, NULL, NULL, NULL, 'shop@example.com', 'SHOP@EXAMPLE.COM', 'shop@example.com', 'SHOP@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEMFEM383aESJByWGKS3TlzTnvQdLT1LzwWblpe2+AzVDIOIBfUqsZHnQkzC1oSo72g==', '5CIZCKPIKKLLFBIRJDJHT45DZ3V7DL2Q', '98bef99c-d585-4b37-be2d-6e57540bb48b', NULL, 0, 0, NULL, 1, 0),
-('1432d10e-64e9-4b0e-b7ff-05253aa0000d', 'member', 'new', NULL, '321 Pine St', 'East', 'Houston', 'USA', NULL, 'newmember@example.com', 'NEWMEMBER@EXAMPLE.COM', 'newmember@example.com', 'NEWMEMBER@EXAMPLE.COM', 1, 'AQAAAAIAAYagAAAAEFr2CdCRhT97+9YVoUzBTASFnivlAQhse85fiWfDVotU3zvnXyAOpsZREN5fd4udSQ==', 'VJ642LAK6R4YACZS3CX54BTPHUVG24UR', 'caa3d7e0-e031-455b-b577-4cdeac8a798e', '0123498765', 0, 0, NULL, 1, 0);
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'John', 'Cena', 'Male', '123 Main St', 'Central', 'New York', 'USA', NULL, 'john@gmail.com', 'JOHN@GMAIL.COM', 'john@gmail.com', 'JOHN@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEIu0gnPvb0zhWrk4NNA3wEMiOewPTGZLrYqgAOJs5OwUbuKXyPKTBekE9OveJ020gg==', 'RWVHVDP7IWP22CE4U3VXIEKH4ZOXHD2W', '71aae56b-e997-4ae0-8215-2e0f71381a88', '0974628465', 0, 0, NULL, 1, 0),
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Leo', 'Hong', 'Male', '456 Elm St', 'North', 'Los Angeles', 'USA', NULL, 'leo@gmail.com', 'VIP@GMAIL.COM', 'leo@gmail.com', 'VIP@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', '0912756395', 0, 0, NULL, 1, 0),
+('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'Tri', 'Vo', 'Male', 'D1', 'Long Thanh My', 'Thu Duc', 'Viet Nam', NULL, 'congtri@gmail.com', 'congtri@GMAIL.COM', 'congtri@gmail.com', 'congtri@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEMSsXYBri40up6lHG2s0YHq4+fVyvxAGIKkIXHGh1lHXfFRNq79FWJ/oka/KX0OusA==', 'UF5GBLSGV3DSLXRSIDKRAXKGEEIIM3TL', '82c5fd3e-d565-43d1-a031-8af185d68916', '0936584637', 0, 0, NULL, 1, 0),
+('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'Rize', 'Kate', 'Female', '324 Jos St', 'South', 'Washington', 'USA', NULL, 'koipremium@gmail.com', 'KOIPREMIUM@GMAIL.COM', 'koipremium@gmail.com', 'KOIPREMIUM@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEAAinoUzd5JbC2ZXIsjuzrMAwLklvMaW0XlwQpaoRZHof+FMlGnMJSiNThEoQJ3C/Q==', '5YQ266SGHHXQ2W3KRSLNZKZSM7BB4XWC', 'fbd64607-02bd-47ca-8cb3-22d7c2f6a6c8', '0965829475', 0, 0, NULL, 1, 0),
+('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'Mary', 'Derwin', 'Female', '42 Merlin St', 'West', 'Ohio', 'USA', NULL, 'thekotool@gmail.com', 'THEKOTOOL@GMAIL.COM', 'thekotool@gmail.com', 'THEKOTOOL@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEMFEM383aESJByWGKS3TlzTnvQdLT1LzwWblpe2+AzVDIOIBfUqsZHnQkzC1oSo72g==', '5CIZCKPIKKLLFBIRJDJHT45DZ3V7DL2Q', '98bef99c-d585-4b37-be2d-6e57540bb48b', '0959378542', 0, 0, NULL, 1, 0),
+('1432d10e-64e9-4b0e-b7ff-05253aa0000d', 'Eric', 'Lee', 'Male', '321 Pine St', 'East', 'Houston', 'USA', NULL, 'eric@gmail.com', 'ERIC@GMAIL.COM', 'eric@gmail.com', 'ERIC@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEFr2CdCRhT97+9YVoUzBTASFnivlAQhse85fiWfDVotU3zvnXyAOpsZREN5fd4udSQ==', 'VJ642LAK6R4YACZS3CX54BTPHUVG24UR', 'caa3d7e0-e031-455b-b577-4cdeac8a798e', '0957937561', 0, 0, NULL, 1, 0);
 
 --All roles password: Abc@123
 
@@ -65,8 +65,13 @@ VALUES
 
 INSERT INTO Shop (UserID, ShopName, Thumbnail, Description, Phone, Email, Rating)
 VALUES 
-('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'BEST KoiShop', 'shop/shopThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/shop2_thumbnail.png', 'Shop 2 specializing in koi care products.', '123456789', 'shop2@example.com', 4.8),
-('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'The KoTool', 'shop/shopThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/shop_thumbnail.png', 'Shop specializing in koi fish care products.', '987654321', 'shop@example.com', 4.8);
+('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'Koi Premium', 'shop/shopThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/shop2_thumbnail.png', 
+'Koi Premium offers a comprehensive selection of high-quality products for koi fish care, designed to meet the needs of both beginner and experienced koi enthusiasts. With a commitment to quality, Koi Premium ensures that each product is crafted to support the health, beauty, and growth of koi fish, making koi care accessible and effective.', 
+'0965829475', 'koipremium@gmail.com', 4.8),
+
+('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'The KoTool', 'shop/shopThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/shop_thumbnail.png', 
+'The KoTool specializes in providing essential tools and products for koi fish enthusiasts, focusing on the well-being of koi fish through expertly selected items. The KoTool aims to help hobbyists maintain optimal pond conditions with ease, offering reliable and trusted products to promote a thriving environment for koi fish.',
+'0959378542', 'thekotool@gmail.com', 4.6);
 
 
 INSERT INTO ShopRatings (UserId, ShopId, Rating, CreateAt)
@@ -363,17 +368,17 @@ VALUES
 
 INSERT INTO VipRecord ( VipId, UserId, StartDate, EndDate)
 VALUES
-( 2, '1432d10e-64e9-4b0e-b7ff-05253aa0000d', GETDATE(), DATEADD(year, 1, GETDATE())),  -- 6-month VIP package for vip b
-( 3, '373236e8-0df7-44bf-9990-ce22fa1ff829', '2024-06-01', '2025-12-01');  -- 1-year VIP package for new member
+( 2, '1432d10e-64e9-4b0e-b7ff-05253aa0000d', GETDATE(), DATEADD(MONTH, 6, GETDATE())),  -- 6-month VIP package for new member
+( 3, '373236e8-0df7-44bf-9990-ce22fa1ff829', '2024-06-01', '2025-06-01');  -- 1-year VIP package for vip b
 
 
 INSERT INTO Orders (UserID, FullName, Phone, CreateDate, Email, Street, District, City, Country, TotalPrice, OrderStatus, isVipUpgrade)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '1234567890', GETDATE(), 'member@example.com', '123 Main St', 'Central', 'New York', 'USA', 3500000, 'Successful', 0),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '0987654321', GETDATE(), 'vip@example.com', '456 Elm St', 'North', 'Los Angeles', 'USA', 1750000, 'Fail', 0),  -- VIP user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'vip b', '2345678901', GETDATE(), 'vip@example.com', '789 Oak St', 'West', 'Chicago', 'USA',  4700000, 'Successful', 0),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'member a', '3456789012', GETDATE(), 'member@example.com', '321 Pine St', 'East', 'Houston', 'USA', 2350000, 'Successful', 0),  -- Member user
-('1432d10e-64e9-4b0e-b7ff-05253aa0000d', 'member new', '0123498765', GETDATE(), 'newmember@example.com', '321 Pine St', 'East', 'Houston', 'USA', 500000, 'Successful', 1); -- Member user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'John Cena', '0974628465', GETDATE(), 'john@gmail.com', '123 Main St', 'Central', 'New York', 'USA', 3500000, 'Successful', 0),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Leo Hong', '0912756395', GETDATE(), 'leo@gmail.com', '456 Elm St', 'North', 'Los Angeles', 'USA', 1750000, 'Fail', 0),  -- VIP user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Leo Hong', '0912756395', GETDATE(), 'leo@gmail.com', '456 Elm St', 'North', 'Los Angeles', 'USA',  4700000, 'Successful', 0),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'John Cena', '0974628465', GETDATE(), 'john@gmail.com', '123 Main St', 'Central', 'New York', 'USA', 2350000, 'Successful', 0),  -- Member user
+('1432d10e-64e9-4b0e-b7ff-05253aa0000d', 'Eric Lee', '0957937561', GETDATE(), 'eric@gmail.com', '321 Pine St', 'East', 'Houston', 'USA', 500000, 'Successful', 1); -- Member user
 
 
 -- N-N Table

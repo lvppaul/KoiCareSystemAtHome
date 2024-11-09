@@ -38,11 +38,15 @@ namespace Domain.Services
         {
             List<Order> orderVipList = await _context.Orders.Where(p => p.UserId.Equals(id)).Include(p => p.OrderVipDetails).ToListAsync();
             List<Order> orderVipDetailList = new List<Order>();
-            foreach (var item in orderVipList)
+            foreach (var order in orderVipList)
             {
-                if (item.isVipUpgrade)
+                if (order.isVipUpgrade)
                 {
-                    orderVipDetailList.Add(item);
+                    var user = await _context.Users.FindAsync(order.UserId);
+                    order.Email = user.Email;
+                    order.Phone = user.PhoneNumber;
+                    order.FullName = user.FirstName + " " + user.LastName;
+                    orderVipDetailList.Add(order);
                 }
             }
             return orderVipDetailList;

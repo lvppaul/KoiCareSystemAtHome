@@ -271,6 +271,9 @@ namespace KCSAH.APIServer.Controllers
             }
             orderVipMap.isVipUpgrade = true;
             orderVipMap.TotalPrice = total;
+            orderVipMap.FullName = user.LastName + " " + user.FirstName;
+            orderVipMap.Email = user.Email;
+            orderVipMap.Phone = user.PhoneNumber;
 
             var createResult = await _unitOfWork.OrderRepository.CreateAsync(orderVipMap);
             if (createResult <= 0)
@@ -294,6 +297,7 @@ namespace KCSAH.APIServer.Controllers
             //    return StatusCode(500, ModelState);
             //}
             var order = _mapper.Map<OrderVipDTO>(orderVipMap);
+
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
         }
 
