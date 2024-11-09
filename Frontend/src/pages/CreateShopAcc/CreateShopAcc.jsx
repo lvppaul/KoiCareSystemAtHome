@@ -9,6 +9,7 @@ import { getUserIdByEmail, deleteAccount } from '../../Config/UserApi';
 import { addShop } from '../../Config/ShopApi';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { createCart } from '../../Config/CartApi';
 
 function CreateShopAcc() {
     const navigate = useNavigate();
@@ -42,6 +43,7 @@ function CreateShopAcc() {
 
             if (signUpResponse === null) {
                 const userIdResponse = await getUserIdByEmail(email);
+                await createCart(userIdResponse);
                 setCreateShopError(null);
                 setCreateShopSuccess(signUpResponse);
                 const thumbnail = 'others/NotFound.jpg';

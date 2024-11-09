@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Image, Button, Spinner, Carousel, Breadcrumb, Form } from "react-bootstrap";
 import { getProductById, getProductImagesByProductId } from "../../Config/ProductApi";
@@ -11,8 +11,10 @@ import { useNavigate } from "react-router-dom";
 import { getAccountByUserId } from "../../Config/UserApi";
 import { createOrder } from "../../Config/OrderApi";
 import LoginNeeded from "../../components/LoginNeeded/LoginNeeded";
+import { ToastContext } from "../../App";
 
 const Product = () => {
+  const { setToastMessage } = useContext(ToastContext);
   const { productId } = useParams();
   const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState(null);
@@ -48,7 +50,7 @@ const Product = () => {
         productId: product.productId,
         quantity: quantity,
       });
-      console.log("Item added to cart successfully");
+      setToastMessage("Item added to cart successfully");
     } catch (error) {
       console.error("Error adding item to cart:", error);
     }
@@ -261,9 +263,9 @@ const Product = () => {
                   <FaShoppingCart />
                   <span style={{ fontSize: "0.9rem" }}>Add to Cart</span>
                 </Button>
-                {errorMessages && <p className="error-message mt-3">{errorMessages}</p>}
               </Col>
             </div>
+            {errorMessages && <p className="error-message mt-3">{errorMessages}</p>}
           </Col>
         </Row>
         <LoginNeeded show={showLoginNeeded} handleClose={() => setShowLoginNeeded(false)} />
