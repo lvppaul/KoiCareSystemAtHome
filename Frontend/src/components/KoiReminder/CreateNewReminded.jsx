@@ -53,6 +53,7 @@ const CreateNewReminded = ({ show, setShow , koiId, updateKoiReminder }) => {
             console.error('Error creating reminder:', error);
             setToastMessage('Create reminder failed');
         }
+        setReminderData({ userId: userId, koiId: '', dateRemind: createDate, remindDescription: '' });
         setShow(false);
     }
     return (

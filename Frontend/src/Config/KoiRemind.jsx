@@ -51,7 +51,16 @@ const deleteKoiRemind = async (koiRemindId) => {
     }
 };
 
+const updateKoiRemind = async (remindId, koiRemind) => {
+    try {
+        const response = await api.put(`KoiRemind/${remindId}`, koiRemind);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
 
 
-export { getKoiRemind, getKoiRemindByUserId, createKoiRemind, deleteKoiRemind, getKoiRemindByKoiId };
+export { getKoiRemind, getKoiRemindByUserId, createKoiRemind, deleteKoiRemind, getKoiRemindByKoiId, updateKoiRemind };
     
