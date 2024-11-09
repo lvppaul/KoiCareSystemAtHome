@@ -9,6 +9,8 @@ import { getAccountByUserId } from "../../Config/UserApi";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 import LoginNeeded from "../LoginNeeded/LoginNeeded";
+import { getKoiRemindByUserId } from "../../Config/KoiRemind";
+import KoiReminderList from "../KoiReminder/KoiReminderList";
 
 const Navigationbar = () => {
   const auth = useAuth();
@@ -18,8 +20,16 @@ const Navigationbar = () => {
   const [showLoginNeeded, setShowLoginNeeded] = useState(false);
   const [koiReminders, setKoiReminders] = useState([]);
   const userId = auth.user ? auth.user.userId : null;
- 
-  
+  const [showKoiRemind, setShowKoiRemind] = useState(false);
+
+  const fetchKoiReminders = async () => {
+    const checkKoiReminds = await getKoiRemindByUserId(userId); //testing wait for get By userId
+    setKoiReminders(checkKoiReminds);
+  };
+
+  useEffect(() => {
+    fetchKoiReminders();
+  }, [userId]);
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -131,15 +141,14 @@ const Navigationbar = () => {
               </NavLink>
             </>
             ) : null}
-
-            
-
           </Nav>
           <Nav className="flex-grow-4 ms-auto nav-right">
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
               <FormControl type="search" placeholder="Search..." className="me-2 rounded-pill" />
-            </Form>
+            </Form> */}
             <NavDropdown
+              drop="down"
+              className="dropdown-centered"
               style={{ position: "relative" }}
               title={
                 user && avatar ? (
@@ -174,7 +183,7 @@ const Navigationbar = () => {
                   <NavDropdown.Item onClick={handleLogOut}>Log out</NavDropdown.Item>
                   <hr />
                   <NavDropdown.Item style={{ fontWeight: "bold", color: "black" }} disabled>
-                    Role: {user.role} <br />
+                    Membership Level: {user.role.toUpperCase()} <br />
                     Email: {user.email}
                   </NavDropdown.Item>
                 </>
