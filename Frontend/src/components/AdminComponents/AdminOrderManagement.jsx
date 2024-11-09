@@ -30,6 +30,9 @@ const AdminOrderManagement = () => {
           return {
             orderId: item.orderId,
             vipName: vipPackage.name,
+            fullName: item.fullName,
+            phone: item.phone,
+            email: item.email,
             createDate: item.createDate,
             totalPrice: item.totalPrice,
             orderStatus: item.orderStatus,
@@ -153,9 +156,9 @@ const AdminOrderManagement = () => {
                   <td>{vipOrder.orderId}</td>
                   {/* <td>{vipOrder.fullName}</td> */}
                   <td>{vipOrder.vipName}</td>
-                  <td>{vipOrder.vipName}</td>
-                  <td>{vipOrder.vipName}</td>
-                  <td>{vipOrder.vipName}</td>
+                  <td>{vipOrder.fullName}</td>
+                  <td>{vipOrder.phone}</td>
+                  <td>{vipOrder.email}</td>
                   <td>
                     {new Date(vipOrder.createDate).toLocaleDateString("vi-VN", {
                       year: "numeric",
