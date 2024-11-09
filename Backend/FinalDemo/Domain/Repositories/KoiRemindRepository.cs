@@ -32,5 +32,12 @@ namespace Domain.Repositories
 
             return result;
         }
+
+        public async Task<List<KoiRemind>> GetKoiRemindByUserId(string userId)
+        {
+            var result = await _context.KoiReminds.Where(k => k.UserId.Equals(userId)).ToListAsync();
+
+            return result;
+        }
     }
 }
