@@ -28,7 +28,7 @@ use KoiCareSystemAtHome;
 INSERT INTO [AspNetUsers] (Id, FirstName, LastName, Sex, Street, District, City, Country, Avatar, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount)
 VALUES
 ('156e10b8-ca91-4925-938f-1d872a357ebe', 'John', 'Cena', 'Male', '123 Main St', 'Central', 'New York', 'USA', NULL, 'john@gmail.com', 'JOHN@GMAIL.COM', 'john@gmail.com', 'JOHN@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEIu0gnPvb0zhWrk4NNA3wEMiOewPTGZLrYqgAOJs5OwUbuKXyPKTBekE9OveJ020gg==', 'RWVHVDP7IWP22CE4U3VXIEKH4ZOXHD2W', '71aae56b-e997-4ae0-8215-2e0f71381a88', '0974628465', 0, 0, NULL, 1, 0),
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Leo', 'Hong', 'Male', '456 Elm St', 'North', 'Los Angeles', 'USA', NULL, 'leo@gmail.com', 'VIP@GMAIL.COM', 'leo@gmail.com', 'VIP@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', '0912756395', 0, 0, NULL, 1, 0),
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Leo', 'Hong', 'Male', '456 Elm St', 'North', 'Los Angeles', 'USA', NULL, 'leo@gmail.com', 'LEO@GMAIL.COM', 'leo@gmail.com', 'LEO@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEGpxZE3331Wf1VD06SX9YwKAG5vWkybbOpLxqbv0tl8AO1Uqhi76j06+HI4eYqyy8w==', 'RWARB7P3OCYEXGGG7ETY3TGEX3FZPISM', '1a48b288-f740-4491-ae98-e50b5273fb21', '0912756395', 0, 0, NULL, 1, 0),
 ('979a42a8-ecc7-4d15-ab6f-410755b9e593', 'Tri', 'Vo', 'Male', 'D1', 'Long Thanh My', 'Thu Duc', 'Viet Nam', NULL, 'congtri@gmail.com', 'congtri@GMAIL.COM', 'congtri@gmail.com', 'congtri@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEMSsXYBri40up6lHG2s0YHq4+fVyvxAGIKkIXHGh1lHXfFRNq79FWJ/oka/KX0OusA==', 'UF5GBLSGV3DSLXRSIDKRAXKGEEIIM3TL', '82c5fd3e-d565-43d1-a031-8af185d68916', '0936584637', 0, 0, NULL, 1, 0),
 ('a5827eaf-5c36-414d-8e9c-d1de148d6911', 'Rize', 'Kate', 'Female', '324 Jos St', 'South', 'Washington', 'USA', NULL, 'koipremium@gmail.com', 'KOIPREMIUM@GMAIL.COM', 'koipremium@gmail.com', 'KOIPREMIUM@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEAAinoUzd5JbC2ZXIsjuzrMAwLklvMaW0XlwQpaoRZHof+FMlGnMJSiNThEoQJ3C/Q==', '5YQ266SGHHXQ2W3KRSLNZKZSM7BB4XWC', 'fbd64607-02bd-47ca-8cb3-22d7c2f6a6c8', '0965829475', 0, 0, NULL, 1, 0),
 ('b02dfef5-997d-49cd-89f5-1c44499ecdef', 'Mary', 'Derwin', 'Female', '42 Merlin St', 'West', 'Ohio', 'USA', NULL, 'thekotool@gmail.com', 'THEKOTOOL@GMAIL.COM', 'thekotool@gmail.com', 'THEKOTOOL@GMAIL.COM', 1, 'AQAAAAIAAYagAAAAEMFEM383aESJByWGKS3TlzTnvQdLT1LzwWblpe2+AzVDIOIBfUqsZHnQkzC1oSo72g==', '5CIZCKPIKKLLFBIRJDJHT45DZ3V7DL2Q', '98bef99c-d585-4b37-be2d-6e57540bb48b', '0959378542', 0, 0, NULL, 1, 0),
@@ -207,39 +207,39 @@ VALUES
 
 INSERT INTO Pond (UserID, Name, Volume, Thumbnail, Depth, PumpingCapacity, Drain, Skimmer, Note)
 VALUES 
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Main Pond', 1000.5, 'pond/pondThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/mainpond_thumbnail.png', 3, 500, 1, 1, 'This is the main pond for koi fish.'),
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Main Pond', 2000.0, 'pond/pondThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/mainpond_thumbnail.png', 4, 700, 1, 1, 'This is the main pond for koi fish.'),
 ('373236e8-0df7-44bf-9990-ce22fa1ff829', 'Small Pond', 500.0, 'pond/pondThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/smallpond_thumbnail.png', 2, 300, 1, 0, 'A small pond for young koi.'),
-('156e10b8-ca91-4925-938f-1d872a357ebe', 'Outdoor Pond', 1500.0, 'pond/pondThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/outdoorpond_thumbnail.png', 4, 700, 1, 1, 'Outdoor pond with a skimmer and large volume.'),
+('156e10b8-ca91-4925-938f-1d872a357ebe', 'Outdoor Pond', 1500.0, 'pond/pondThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/outdoorpond_thumbnail.png', 3, 500, 1, 1, 'Outdoor pond with a skimmer and large volume.'),
 ('156e10b8-ca91-4925-938f-1d872a357ebe', 'Indoor Pond', 750.0, 'pond/pondThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/indoorpond_thumbnail.png', 2, 400, 0, 1, 'Indoor pond for special koi breeding.');
 
 
 INSERT INTO Water_Parameter (UserID, PondID, Nitrite, Oxygen, Nitrate, CreatedAt, Temperature, Phosphate, pH, Ammonium, Hardness, CarbonDioxide, CarbonHardness, Salt, TotalChlorines, OutdoorTemp, AmountFed)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 0.1, 6.5, 5.0, GETDATE(), 24.0, 0.5, 7.2, 0.0, 150.0, 10.0, 5.0, 0.0, 1.0, 22.0, 100.0),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 0.2, 7.0, 6.0, GETDATE(), 23.5, 0.4, 7.5, 0.1, 140.0, 8.0, 4.5, 0.0, 0.5, 21.5, 90.0),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 0.05, 7.5, 4.5, GETDATE(), 25.0, 0.6, 7.0, 0.0, 160.0, 9.0, 6.0, 0.0, 1.5, 23.0, 110.0),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 0.15, 6.8, 5.5, GETDATE(), 24.5, 0.3, 7.3, 0.2, 155.0, 11.0, 5.5, 0.0, 1.0, 22.5, 95.0);  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 0.1, 6.5, 5.0, GETDATE(), 24.0, 0.1, 7.2, 0.3, 4.0, 10.0, 5.0, 0.3, 1.0, 22.0, 100.0),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 0.2, 7.0, 6.0, GETDATE(), 23.5, 0.03, 7.5, 0.7, 6.0, 8.0, 4.5, 0.5, 0.5, 21.5, 90.0),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 0.05, 7.5, 4.5, GETDATE(), 25.0, 0.01, 7.0, 1.2, 11.0, 9.0, 6.0, 1.0, 1.5, 23.0, 110.0),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 0.15, 6.8, 5.5, GETDATE(), 24.5, 0.06, 7.3, 0.1, 7.0, 11.0, 5.5, 0.1, 1.0, 22.5, 95.0);  -- VIP user
 
 
 INSERT INTO Koi (UserID, PondID, Thumbnail, Age, Name, Note, Origin, Length, Weight, Color, CreateAt, Sex, Variety, Physique, Status)
 VALUES
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi1_thumbnail.png', 2, 'Koi A', 'A beautiful koi with bright colors.', 'Japan', 30, 5, 'Orange and White', GETDATE(), 'Male','Kohaku','Small', 1),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi2_thumbnail.png', 1, 'Koi B', 'Young koi, growing fast.', 'USA', 20, 2, 'Black and Yellow', GETDATE(), 'Female','Sanke','Thin', 1),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi3_thumbnail.png', 3, 'Koi C', 'A stunning koi with unique patterns.', 'China', 35, 6, 'Red and White', GETDATE(), 'Male','Hikari','Large', 1),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi4_thumbnail.png', 4, 'Koi D', 'Very active koi, loves to swim.', 'Thailand', 32, 7, 'Blue and Orange', GETDATE(), 'Female','Kohaku','Round', 1),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi5_thumbnail.png', 2, 'Koi E', 'Friendly koi, often interacts with people.', 'Japan', 28, 4, 'White with Black Spots', GETDATE(), 'Female','Asagi','Smooth', 1),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi6_thumbnail.png', 1, 'Koi F', 'Small but very colorful.', 'USA', 15, 1, 'Yellow and Black', GETDATE(), 'Male','Sanke','Long', 1),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi7_thumbnail.png', 3, 'Koi G', 'A rare breed of koi.', 'China', 40, 8, 'Orange and Black', GETDATE(), 'Female','Shusui','Short', 1),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi8_thumbnail.png', 5, 'Koi H', 'An older koi with lots of personality.', 'Thailand', 38, 9, 'Calico', GETDATE(), 'Male','Hikari','Sleek', 1);  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi1_thumbnail.png', 3, 'Hotaro', 'A beautiful koi with bright colors.', 'Japan', 45, 3100, 'Orange and White', GETDATE(), 'Male','Kohaku','Corpulent', 1),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi2_thumbnail.png', 1, 'Kawasaki', 'Young koi, growing fast.', 'USA', 30, 2000, 'Black and Yellow', GETDATE(), 'Female','Sanke','Slim', 1),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi3_thumbnail.png', 2, 'Neru', 'A stunning koi with unique patterns.', 'China', 35, 3000, 'Red and White', GETDATE(), 'Male','Hikari','Normal', 1),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi4_thumbnail.png', 4, 'Yama', 'Very active koi, loves to swim.', 'Thailand', 52, 4600, 'Blue and Orange', GETDATE(), 'Female','Kohaku','Corpulent', 1),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 1, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi5_thumbnail.png', 2, 'Eitoku', 'Friendly koi, often interacts with people.', 'Japan', 38, 2600, 'White with Black Spots', GETDATE(), 'Female','Asagi','Slim', 1),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 3, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi6_thumbnail.png', 5, 'Anteiku', 'An older koi with lots of personality.', 'USA', 65, 5300, 'Yellow and Black', GETDATE(), 'Male','Sanke','Corpulent', 1),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 2, 'koi/koiThumbnails/373236e8-0df7-44bf-9990-ce22fa1ff829/koi7_thumbnail.png', 3, 'Garam', 'Small but very colorful.', 'China', 40, 3000, 'Orange and Black', GETDATE(), 'Female','Shusui','Slim', 1),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 'koi/koiThumbnails/156e10b8-ca91-4925-938f-1d872a357ebe/koi8_thumbnail.png', 3, 'Honda', 'A rare breed of koi.', 'Thailand', 48, 3700, 'Calico', GETDATE(), 'Male','Hikari','Normal', 1);  -- Member user
 
 
 INSERT INTO Koi_Record (UserID, KoiID, Weight, Length, UpdatedTime)
 VALUES
-('156e10b8-ca91-4925-938f-1d872a357ebe', 2, 5, 30, GETDATE()),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 3, 2, 20, GETDATE()),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 6, 35, GETDATE()),  -- Member user
-('373236e8-0df7-44bf-9990-ce22fa1ff829', 5, 7, 32, GETDATE()),  -- VIP user
-('156e10b8-ca91-4925-938f-1d872a357ebe', 6, 4, 28, GETDATE());  -- Member user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 2, 2200, 30, GETDATE()),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 3, 3100, 35, GETDATE()),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 4, 4400, 52, GETDATE()),  -- Member user
+('373236e8-0df7-44bf-9990-ce22fa1ff829', 5, 2700, 39, GETDATE()),  -- VIP user
+('156e10b8-ca91-4925-938f-1d872a357ebe', 6, 5500, 65, GETDATE());  -- Member user
 
 
 INSERT INTO Koi_Image (KoiID, ImageUrl)
