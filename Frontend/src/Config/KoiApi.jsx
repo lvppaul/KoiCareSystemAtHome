@@ -176,6 +176,176 @@ const updateKoiRecord = async (record) => {
     }
 }
 
+// Function to get all male Koi in all ponds
+const getKoiMaleInAllPond = async (userId) => {
+    try {
+        const response = await api.get('Koi/GetKoiMaleInAllPond', {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting male Koi in all ponds:', error);
+        throw error;
+    }
+};
+
+
+// Function to get all female Koi in all ponds
+const getKoiFemaleInAllPond = async (userId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiFemaleInAllPond`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting female Koi in all ponds:', error);
+        throw error;
+    }
+};
+
+// Function to get all Koi by user ID
+const getAllKoiByUserId = async (userId) => {
+    try {
+        const response = await api.get(`Koi/GetAllKoiByUserId`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting all Koi by user ID:', error);
+        throw error;
+    }
+};
+
+// Function to get all alive Koi in all ponds
+const getKoiAliveInAllPond = async (userId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiAliveInAllPond`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting alive Koi in all ponds:', error);
+        throw error;
+    }
+};
+
+// Function to get all dead Koi in all ponds
+const getKoiDeadInAllPond = async (userId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiDeadInAllPond`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting dead Koi in all ponds:', error);
+        throw error;
+    }
+};
+
+// Function to get all dead male Koi in all ponds
+const getKoiMaleDeadInAllPond = async (userId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiMaleDeadInAllPond`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting dead male Koi in all ponds:', error);
+        throw error;
+    }
+};
+
+// Function to get all dead female Koi in all ponds
+const getKoiFemaleDeadInAllPond = async (userId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiFemaleDeadInAllPond`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting dead female Koi in all ponds:', error);
+        throw error;
+    }
+};
+
+// Function to get all alive male Koi in all ponds
+const getKoiMaleAliveInAllPond = async (userId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiMaleAliveInAllPond`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting alive male Koi in all ponds:', error);
+        throw error;
+    }
+};
+
+// Function to get all alive female Koi in all ponds
+const getKoiFemaleAliveInAllPond = async (userId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiFemaleAliveInAllPond`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting alive female Koi in all ponds:', error);
+        throw error;
+    }
+};
+
+// Function to get all alive female Koi in a specific pond
+const getKoiFemaleAliveInPond = async (pondId, userId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiFemaleAliveInPond/${pondId}`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting alive female Koi in pond:', error);
+        throw error;
+    }
+};
+
+// Function to get all Male Alive Koi in a specific pond
+const getKoiMaleAliveInPond = async (pondId, userId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiMaleAliveInPond/${pondId}`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting alive koi');
+        throw error;
+    }
+}
+
+// Function to get all Koi Female Dead in a specific pond 
+const getKoiFemaleDeadInPond = async (pondId, userId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiFemaleDeadInPond/${pondId}`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting koi female dead in pond');
+        throw error;
+    }
+}
+
+const getKoiMaleDeadInPond = async (pondId, userId) => {
+    try {
+        const response = await api.get(`Koi/GetKoiMaleDeadInPond/${pondId}`, {
+            params: { userId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting koi male dead in pond');
+        throw error;
+    }
+}
+
+
 export { getKoiByUserId, getKoiById, postKoi, deleteKoi, updateKoi, getKoiListByUserId
-    , addRecord, deleteRecord, updateKoiRecord, getKoiRecord
+    , addRecord, deleteRecord, updateKoiRecord, getKoiRecord, getKoiMaleInAllPond, getKoiFemaleInAllPond, getAllKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleDeadInAllPond, getKoiFemaleDeadInAllPond, getKoiMaleAliveInAllPond, getKoiFemaleAliveInAllPond, getKoiFemaleAliveInPond, getKoiMaleAliveInPond, getKoiFemaleDeadInPond, getKoiMaleDeadInPond, getKoiWithThumbnail
  };

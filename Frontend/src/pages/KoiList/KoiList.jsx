@@ -1,32 +1,56 @@
-import { useState ,useCallback, useEffect } from 'react'
+import { useState , useEffect } from 'react'
 import { useAuth } from '../../pages/Login/AuthProvider'
-import { Container,Row,Col, Card } from 'react-bootstrap'
+import { Container,Row,Col, Card, Button } from 'react-bootstrap'
 import {Spinner   } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import DeleteKoi from '../../components/DeleteKoi/DeleteKoi'
-import { getKoiByUserId } from '../../Config/KoiApi'
+import { getKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleInAllPond, getKoiFemaleInAllPond,getKoiWithThumbnail } from '../../Config/KoiApi'
+import { set } from 'date-fns'
 
 const KoiList = () => {
-  const [koiList, setKoiList] = useState([])
-  const [loading, setLoading] = useState(false)
-  const userId = useAuth().user.userId
+  const userId = useAuth().user.userId;
+    const [koiList, setKoiList] = useState([]);
+    const [sortCriteria, setSortCriteria] = useState('all');
+    const [loading, setLoading] = useState(true);
+    const [showCreateKoiReminder, setShowCreateKoiReminder] = useState(false);
 
-  const fetchKoiList = useCallback(async () => {
-    setLoading(true)
-    try {
-      const data = await getKoiByUserId(userId)
-      setKoiList(data)
-      setLoading(false)
-    } catch (error) {
-      console.error('Error fetching koi list:', error)
-      setLoading(false)
-    }
-  }, [userId])
+    useEffect(() => {
+        const fetchKoiList = async () => {
+            setLoading(true);
+            try {
+                let kois;
+                switch (sortCriteria) {
+                    case 'male':
+                        kois = await getKoiMaleInAllPond(userId);
+                        break;
+                    case 'female':
+                        kois = await getKoiFemaleInAllPond(userId);
+                        break;
+                    case 'alive':
+                        kois = await getKoiAliveInAllPond(userId);
+                        break;
+                    case 'dead':
+                        kois = await getKoiDeadInAllPond(userId);
+                        break;
+                    default:
+                        kois = await getKoiByUserId(userId);
+                        break;
+                }
+                const koiListWithThumbnail = await getKoiWithThumbnail(kois);
+                setKoiList(koiListWithThumbnail);
+            } catch (error) {
+                console.error('Error fetching koi list:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-  useEffect(() => {
-    fetchKoiList()
-  }, [fetchKoiList])
+        fetchKoiList();
+    }, [sortCriteria, userId]);
 
+    const handleSortChange = (event) => {
+        setSortCriteria(event.target.value);
+    };
 
   const handleOnFishDeleted = (koiId) => {
     const updatedKoiList = koiList.filter(koi => koi.koiId !== koiId);
@@ -38,6 +62,27 @@ const KoiList = () => {
       <Row style={{textAlign:'center', paddingTop:'50px', paddingBottom:'50px'}}>
       <h1>All Koi Fish List</h1>
       </Row>
+      <Col className="d-flex justify-content-center" style={{display:'flex', alignItems:'flex-end', flexDirection:'column', marginBlockEnd:'30px'}}>
+        <Row>
+            <Button variant="success" onClick={() => setShowCreateKoiReminder(true)}
+                    style={{ width: '180px', height: '70px', 
+                        fontWeight: 'bold', fontSize: '16px',
+                        marginInlineEnd:'20px', 
+                        borderRadius: '15px', backgroundColor: '#FF8433', transition: 'background-color 0.3s ease'}}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#FF6204'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = '#FF8433'}
+              >New Reminder
+            </Button>
+            
+            <select style={{textAlign:'center', fontSize:'20px', fontWeight:'bold' ,width:'100%' , maxWidth:'200px', minWidth:'200px', height:"60px"}} onChange={handleSortChange} value={sortCriteria}>
+                <option value="all">All</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="alive">Alive</option>
+                <option value="dead">Dead</option>
+            </select>
+        </Row>
+      </Col>
       <Row>
           {loading ? (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>

@@ -246,7 +246,10 @@ export const KoiGrowthChart = ({ userId }) => {
                         border: '2px solid #ccc',  // Thêm viền
                         borderRadius: '10px',      // Bo góc
                         padding: '10px',           // Thêm khoảng trống bên trong
-                        backgroundColor: '#fff',   // Màu nền cho phần chứa biểu đồ
+                        backgroundColor: '#fff',// Màu nền cho phần chứa biểu đồ
+                        borderWidth:3,
+                        tension:0.4,
+                        fill: true,   
                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
                     }}>
                         <Line options={options} data={chartData} />

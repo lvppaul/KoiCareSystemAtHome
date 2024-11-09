@@ -233,6 +233,9 @@ export const WaterChemistryChart = ({ timeFilter, startDate, endDate, selectedPo
                         borderRadius: '10px',
                         padding: '10px',
                         backgroundColor: '#fff',
+                        borderWidth:3,
+                        tension:0.4,
+                        fill: true,
                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                     }}>
                         <Line options={options} data={chartData} />

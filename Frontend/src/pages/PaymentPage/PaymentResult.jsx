@@ -9,7 +9,7 @@ import { upgradeVipAccount } from '../../Config/UserApi';
 import { useAuth } from '../Login/AuthProvider';
 import { getVipPackageByOrderId } from '../../Config/VipPackageApi';
 import { createVipRecord } from '../../Config/VipRecord';
-import { refreshToken } from '../../Config/UserApi';
+import { getPDF } from '../../Config/VNPayApi';
 
 const PaymentResult = () => {
   const navigate = useNavigate();
@@ -53,6 +53,33 @@ const PaymentResult = () => {
     }
   }; 
 
+  const handleExportPDF = async () => {
+    console.log('Exporting PDF');
+    const url = new URL(window.location.href);
+    const orderId = url.searchParams.get('vnp_OrderInfo');
+    if (orderId) {
+        try {
+            const response = await getPDF(orderId);
+            if (response && response.data) {
+                const blob = new Blob([response], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = `Invoice.pdf`;
+                document.body.appendChild(link); // Append to the document body
+                link.click();
+                document.body.removeChild(link); // Remove from the document body
+                window.URL.revokeObjectURL(link.href);
+                console.log('PDF exported successfully:', response);
+            } else {
+                console.error('No data in response:', response);
+            }
+        } catch (error) {
+            console.error('Error exporting PDF:', error);
+        }
+    } else {
+        console.error('Order ID not found in URL');
+    }
+};
 
   useEffect(() => {
     sendReturnUrl();
@@ -87,6 +114,7 @@ const PaymentResult = () => {
           <>
             <BiCheckCircle size={500} color='green' />
             <h2>Payment Successful</h2>
+            <Button onClick={handleExportPDF} style={{maxHeight:'50px', maxWidth:'300px', height:'100%', width:"100%", marginBottom:'20px'}}>Export billing</Button>
           </>
         ) : (
           <>
@@ -103,6 +131,7 @@ const PaymentResult = () => {
         <Button style={{maxHeight:'50px', maxWidth:'300px', height:'100%', width:"100%"}} onClick={() => navigate('/')}>back to home page</Button>
         }
       </div>
+      <Button onClick={handleExportPDF} style={{maxHeight:'50px', maxWidth:'300px', height:'100%', width:"100%", marginBottom:'20px'}}>Export billing</Button>
     </Container>
   );
 };

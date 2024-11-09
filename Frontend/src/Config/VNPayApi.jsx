@@ -27,10 +27,38 @@ const getVNPayResult = async (returnUrl) => {
         });
         return response;
     } catch (error) {
-        console.log("error.response:", error.response.status);
-        return error.response;
+        if (error.response) {
+            console.log("error.response:", error.response.status);
+            return error.response;
+        } else {
+            console.error("Error getting VNPay result:", error);
+            return { status: 500, data: "Unknown error occurred" };
+        }
+    }
+};
+
+const getPDF = async (orderId) => {
+    try {
+        const response = await api.get(`PDF`, {
+            params: {
+                orderId: orderId,
+            },
+            responseType: 'blob', // Ensure the response is treated as a blob
+            headers: {
+                Accept: "application/pdf",
+            },
+        });
+        return response;
+    } catch (error) {
+        if (error.response) {
+            console.log("error.response:", error.response.status);
+            return error.response;
+        } else {
+            console.error("Error getting PDF:", error);
+            return { status: 500, data: "Unknown error occurred" };
+        }
     }
 };
 
 
-export { sendPayment, getVNPayResult };
+export { sendPayment, getVNPayResult, getPDF };
