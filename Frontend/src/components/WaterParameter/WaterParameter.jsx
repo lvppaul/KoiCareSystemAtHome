@@ -50,11 +50,22 @@ const WaterParameter = ({ show, setShow, pondId }) => {
     }, [lastestWaterParameter]);
 
     const handleAddWaterParameter = (newWaterParameter) => {
-        setWaterParameter([...waterParameter, newWaterParameter]);
+        setWaterParameter(prevParams => [...prevParams, newWaterParameter]);
+        getWaterParameter(pondId)
+        .then(data => {
+            setWaterParameter(data);
+            const sortedData = data.sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
+            setLastestWaterParameter(sortedData.length > 0 ? sortedData[0] : null);
+        })
     };
 
     const handleDeleteWaterData = (measureId) => {
         setWaterParameter(waterParameter.filter((parameter) => parameter.measureId !== measureId));
+        getWaterParameter(pondId)
+        .then(data => {
+            const sortedData = data.sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
+            setLastestWaterParameter(sortedData.length > 0 ? sortedData[0] : null);
+        })
     };
 
 

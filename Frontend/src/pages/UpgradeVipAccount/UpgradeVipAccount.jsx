@@ -22,7 +22,7 @@ const UpgradeVipAccount = () => {
   const handleSelect = async (id) => {
     const response = await getVipPackagesById(id)
     console.log('response select',response);
-    setSelectPackage(response.data);
+    setSelectPackage(response);
   };
 
   const fetchVipPackages = async () => {

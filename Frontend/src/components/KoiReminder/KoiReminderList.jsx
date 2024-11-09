@@ -5,9 +5,9 @@ import KoiNameFromId from './KoiNameFromId'
 const KoiReminderList = ({show, setShow, koiReminders}) => {
     const formatDate = (date) => {
         const d = new Date(date)
-        return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`
+        return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
     }
-
+    koiReminders.sort((a, b) => new Date(b.dateRemind) - new Date(a.dateRemind))
   return (
     <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>

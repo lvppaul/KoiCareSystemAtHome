@@ -9,7 +9,7 @@ import { getAccountByUserId } from "../../Config/UserApi";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 import LoginNeeded from "../LoginNeeded/LoginNeeded";
-import { getKoiRemind } from "../../Config/KoiRemind";
+import { getKoiRemindByUserId } from "../../Config/KoiRemind";
 import KoiReminderList from "../KoiReminder/KoiReminderList";
 
 const Navigationbar = () => {
@@ -23,7 +23,7 @@ const Navigationbar = () => {
   const [showKoiRemind, setShowKoiRemind] = useState(false);
 
   const fetchKoiReminders = async () => {
-    const checkKoiReminds = await getKoiRemind();//testing wait for get By userId
+    const checkKoiReminds = await getKoiRemindByUserId(userId);//testing wait for get By userId
     setKoiReminders(checkKoiReminds);
   };
 

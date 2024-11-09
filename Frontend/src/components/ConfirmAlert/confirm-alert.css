@@ -9,6 +9,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: hidden !important;
 }
 .react-confirm-alert-button-group{
     display: flex;
@@ -21,3 +22,10 @@
     }
 }
 
+.react-confirm-alert {
+    z-index: 9999 !important;
+    position: fixed !important;
+}
+.react-confirm-alert-overlay {
+    z-index: 9999 !important;
+}

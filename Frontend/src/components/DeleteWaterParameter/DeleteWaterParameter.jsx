@@ -6,16 +6,16 @@ import { showConfirmAlert } from '../ConfirmAlert/ConfirmAlert'
 const DeleteWaterParameter = ({waterData, updateDeleteWaterData}) => {
     const [measureId, setMeasureId] = useState(waterData);
 
-    const handleDeleteWaterData = () => {
+    const handleDeleteWaterData = async () => {
         if(measureId){
             try{
-                const result = showConfirmAlert('Delete WaterData', 'Are you sure you want to delete this water data?');
+                const result = await showConfirmAlert('Delete WaterData', 'Are you sure you want to delete this water data?');
                 if(result){
-                    deleteWaterData(measureId)
-                    .then((response) => {
+                    const response = await deleteWaterData(measureId)
+                    if (response) {
                         console.log('WaterData deleted successfully', response);
                         updateDeleteWaterData(measureId);
-                    })
+                    }
                 }
             } catch (error) {
                 console.error('Error deleting WaterData:', error);

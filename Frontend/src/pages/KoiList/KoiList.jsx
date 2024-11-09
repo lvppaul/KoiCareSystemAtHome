@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import DeleteKoi from '../../components/DeleteKoi/DeleteKoi'
 import { getKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleInAllPond, getKoiFemaleInAllPond,getKoiWithThumbnail } from '../../Config/KoiApi'
 import { set } from 'date-fns'
+import CreateNewReminded from '../../components/KoiReminder/CreateNewReminded'
 
 const KoiList = () => {
   const userId = useAuth().user.userId;
@@ -65,16 +66,21 @@ const KoiList = () => {
       <Col className="d-flex justify-content-center" style={{display:'flex', alignItems:'flex-end', flexDirection:'column', marginBlockEnd:'30px'}}>
         <Row>
             <Button variant="success" onClick={() => setShowCreateKoiReminder(true)}
-                    style={{ width: '180px', height: '70px', 
-                        fontWeight: 'bold', fontSize: '16px',
+                    style={{ width: '180px', height: '60px', 
+                        fontWeight: 'bold', fontSize: '20px',
                         marginInlineEnd:'20px', 
                         borderRadius: '15px', backgroundColor: '#FF8433', transition: 'background-color 0.3s ease'}}
                         onMouseEnter={(e) => e.target.style.backgroundColor = '#FF6204'}
                         onMouseLeave={(e) => e.target.style.backgroundColor = '#FF8433'}
               >New Reminder
             </Button>
+            <CreateNewReminded
+                show={showCreateKoiReminder}
+                setShow={setShowCreateKoiReminder}
+                koiList={koiList}
+            />
             
-            <select style={{textAlign:'center', fontSize:'20px', fontWeight:'bold' ,width:'100%' , maxWidth:'200px', minWidth:'200px', height:"60px"}} onChange={handleSortChange} value={sortCriteria}>
+            <select style={{textAlign:'center', fontSize:'20px', fontWeight:'bold' ,width:'100%' , maxWidth:'200px', minWidth:'200px', height:"60px",borderRadius: '15px'}} onChange={handleSortChange} value={sortCriteria}>
                 <option value="all">All</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
