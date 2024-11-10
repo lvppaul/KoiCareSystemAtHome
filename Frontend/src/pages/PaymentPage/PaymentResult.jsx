@@ -10,6 +10,7 @@ import { useAuth } from '../Login/AuthProvider';
 import { getVipPackageByOrderId } from '../../Config/VipPackageApi';
 import { createVipRecord } from '../../Config/VipRecord';
 import { getPDF } from '../../Config/VNPayApi';
+import OrderDetail from '../Order/OrderDetail';
 
 const PaymentResult = () => {
   const navigate = useNavigate();
@@ -17,7 +18,15 @@ const PaymentResult = () => {
   const [paymentState, setPaymentState] = useState(false);
   const returnUrl = window.location.href;
   const [isVipUpgrade, setIsVipUpgrade] = useState(false);
-  const {logout} = useAuth();
+  const { logout } = useAuth();
+  const [showOrderDetail, setShowOrderDetail] = useState(false);
+  const [orderId, setOrderId] = useState('');
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const orderId = url.searchParams.get('vnp_OrderInfo');
+    setOrderId(orderId);
+  }, []);
 
   const sendReturnUrl = async () => {
     const url = new URL(window.location.href);
@@ -51,35 +60,35 @@ const PaymentResult = () => {
         setLoading(false);
       }
     }
-  }; 
+  };
 
   const handleExportPDF = async () => {
     console.log('Exporting PDF');
     const url = new URL(window.location.href);
     const orderId = url.searchParams.get('vnp_OrderInfo');
     if (orderId) {
-        try {
-            const response = await getPDF(orderId);
-            if (response && response.data) {
-                const blob = new Blob([response], { type: 'application/pdf' });
-                const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = `Invoice.pdf`;
-                document.body.appendChild(link); // Append to the document body
-                link.click();
-                document.body.removeChild(link); // Remove from the document body
-                window.URL.revokeObjectURL(link.href);
-                console.log('PDF exported successfully:', response);
-            } else {
-                console.error('No data in response:', response);
-            }
-        } catch (error) {
-            console.error('Error exporting PDF:', error);
+      try {
+        const response = await getPDF(orderId);
+        if (response) {
+          const pdfData = await response.data;
+          console.log('pdfData:', typeof pdfData);
+          const blob = new Blob([pdfData], { type: 'application/pdf' });
+          const blobUrl = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = blobUrl;
+          link.download = `Invoice_${orderId}.pdf`;
+          link.click();
+          console.log('PDF exported successfully:');
+        } else {
+          console.error('No data in response:', response);
         }
+      } catch (error) {
+        console.error('Error exporting PDF:', error);
+      }
     } else {
-        console.error('Order ID not found in URL');
+      console.error('Order ID not found in URL');
     }
-};
+  };
 
   useEffect(() => {
     sendReturnUrl();
@@ -114,24 +123,35 @@ const PaymentResult = () => {
           <>
             <BiCheckCircle size={500} color='green' />
             <h2>Payment Successful</h2>
-            <Button onClick={handleExportPDF} style={{maxHeight:'50px', maxWidth:'300px', height:'100%', width:"100%", marginBottom:'20px'}}>Export billing</Button>
+            {!isVipUpgrade ? 
+            (<>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-evenly' }}>
+              <Button onClick={handleExportPDF} style={{ maxHeight: '50px', maxWidth: '300px', height: '100%', width: "100%", marginBottom: '20px', fontWeight: 'bold', fontSize: '20px', marginInlineEnd: '20px' }}>Export billing</Button>
+              <Button onClick={() => setShowOrderDetail(true)} style={{ maxHeight: '50px', maxWidth: '300px', height: '100%', width: "100%", marginBottom: '20px', fontWeight: 'bold', fontSize: '20px' }}>Order Detail</Button>
+            </div>
+            </>)
+            : null}
           </>
         ) : (
           <>
             <BiXCircle size={500} color='red' />
-            <h2>Payment Failed Please Try Again</h2>
+            <h2>Payment Failed Please Try Again in Order History</h2>
           </>
         )}
         {(isVipUpgrade && paymentState) ? (
           <>
-          <h2 style={{textAlign:'center'}}>Account upgraded to VIP signout then signin again to upgrade account</h2>
-          <Button style={{maxHeight:'50px', maxWidth:'300px', height:'100%', width:"100%"}} onClick={() => logout()}>Log out</Button>
+            <h2 style={{ textAlign: 'center' }}>Account upgraded to VIP signout then signin again to upgrade account</h2>
+            <Button style={{ maxHeight: '50px', maxWidth: '300px', height: '100%', width: "100%", fontWeight: 'bold', fontSize: '20px' }} onClick={() => logout()}>Log out</Button>
           </>
-        ) : 
-        <Button style={{maxHeight:'50px', maxWidth:'300px', height:'100%', width:"100%"}} onClick={() => navigate('/')}>back to home page</Button>
+        ) :
+          <Button style={{ maxHeight: '50px', maxWidth: '300px', height: '100%', width: "100%", fontWeight: 'bold', fontSize: '20px' }} onClick={() => navigate('/')}>back to home page</Button>
         }
       </div>
-      <Button onClick={handleExportPDF} style={{maxHeight:'50px', maxWidth:'300px', height:'100%', width:"100%", marginBottom:'20px'}}>Export billing</Button>
+      <OrderDetail
+        show={showOrderDetail}
+        setShow={setShowOrderDetail}
+        orderId={orderId}
+      />
     </Container>
   );
 };

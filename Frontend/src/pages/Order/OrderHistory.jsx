@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Table, Spinner, Alert, Tabs, Tab, Container } from "react-bootstrap";
+import { Table, Spinner, Alert, Tabs, Tab, Container, Button } from "react-bootstrap";
 import { useAuth } from "../Login/AuthProvider";
-import { getOrderByUserId, getOrderById } from "../../Config/OrderApi";
-import { getProductNameById } from "../../Config/ProductApi";
+import { getOrderByUserId } from "../../Config/OrderApi";
 import { getVipPackagesById } from "../../Config/VipPackageApi";
 import { getVipOrderByUserId } from "../../Config/OrderApi";
 import ProductNameComponent from "./ProductNameComponent";
 import VipPackageName from "./VipPackageName";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { getPDF, sendPayment } from "../../Config/VNPayApi";
+
 const OrderHistory = () => {
-  const [orders, setOrders] = useState([]);
   const [vipOrders, setVipOrders] = useState([]);
   const [regularOrders, setRegularOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const userId = useAuth().user.userId;
 
-  useEffect(() => {
-    fetchOrderByUserId();
-    fetchVipOrderByUserId();
-  }, [userId]);
-
+  
   const fetchOrderByUserId = async () => {
     try {
       const response = await getOrderByUserId(userId);
@@ -35,7 +31,7 @@ const OrderHistory = () => {
       setLoading(false);
     }
   };
-
+  
   const fetchVipOrderByUserId = async () => {
     try {
       const response = await getVipOrderByUserId(userId);
@@ -50,15 +46,20 @@ const OrderHistory = () => {
       setLoading(false);
     }
   };
-
+  
+  useEffect(() => {
+    fetchOrderByUserId();
+    fetchVipOrderByUserId();
+  }, [userId]);
+  
   if (loading) {
     return <Spinner animation="border" />;
   }
-
+  
   if (error) {
     return <Alert variant="danger">{error}</Alert>;
   }
-
+  
   const formatDate = (date) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(date).toLocaleDateString(undefined, options);
@@ -71,10 +72,59 @@ const OrderHistory = () => {
     }).format(price);
   };
 
-  const getVipPackageName = async (vipId) => {
-    const vipPackage = await getVipPackagesById(vipId);
-    console.log("vipPackage:", vipPackage);
-    return vipPackage.name;
+  const handleExportPDF = async (orderId) => {
+    console.log('Exporting PDF');
+    if (orderId) {
+      try {
+        const response = await getPDF(orderId);
+        if (response) {
+          const pdfData = await response.data;
+          console.log('pdfData:', typeof pdfData);
+          const blob = new Blob([pdfData], { type: 'application/pdf' });
+          const blobUrl = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = blobUrl;
+          link.download = `Invoice_${orderId}.pdf`;
+          link.click();
+          console.log('PDF exported successfully:');
+        } else {
+          console.error('No data in response:', response);
+        }
+      } catch (error) {
+        console.error('Error exporting PDF:', error);
+      }
+    } else {
+      console.error('Order ID not found in URL');
+    }
+  };
+
+  const payment = async (order) => {
+    console.log("Order found:", order);
+    if(order.orderVipDetails) { 
+      const data = {
+        orderId: order.orderId,
+        fullName: 'Vip Upgrade',
+        description: 'Vip Upgrade'
+      }
+        const response = await sendPayment(data);
+        if (response) {
+          window.location.href = response;
+        }
+        else {
+          console.error("Error: No URL returned from API");
+        }
+    }
+      const data = {
+      orderId: order.orderId,
+      fullName: order.fullName,
+      description: order.phone,
+      }
+    const response = await sendPayment(data);
+    if (response) {
+      window.location.href = response;
+    } else {
+      console.error("Error: No URL returned from API");
+    }
   };
 
   const renderTable = (orders) => (
@@ -86,6 +136,7 @@ const OrderHistory = () => {
           <th>Date</th>
           <th>Total</th>
           <th>Status</th>
+          <th>Actions</th>
           {/* Add more headers as needed */}
         </tr>
       </thead>
@@ -98,21 +149,15 @@ const OrderHistory = () => {
                 <Table striped bordered hover responsive>
                   <thead>
                     <tr>
-                      <th>Product</th>
-                      <th>Quantity</th>
-                      <th>Price</th>
+                      <th style={{ width: "250px" }}>Product</th>
+                      <th style={{ width: "150px" }}>Quantity</th>
+                      <th style={{ width: "150px" }}>Price</th>
                     </tr>
                   </thead>
                   {order.orderDetails.map((orderDetail, index) => (
                     <tbody key={index}>
                       <tr>
-                        <td>
-                          {
-                            <ProductNameComponent
-                              productId={orderDetail.productId}
-                            />
-                          }
-                        </td>
+                        <td>{<ProductNameComponent productId={orderDetail.productId} />}</td>
                         <td>{orderDetail.quantity}</td>
                         <td>{formatPrice(orderDetail.unitPrice)}</td>
                       </tr>
@@ -126,6 +171,16 @@ const OrderHistory = () => {
             <td>{formatDate(order.createDate)}</td>
             <td>{formatPrice(order.totalPrice)}</td>
             <td>{order.orderStatus}</td>
+            <td>
+            {order.orderStatus === "Successful" ? 
+              (!order.orderVipDetails ?
+              <Button onClick={() => handleExportPDF(order.orderId)}>Export PDF</Button>
+                : null)
+            :
+              <Button style={{backgroundColor:'transparent', color:'black'}} 
+              onClick={() => payment(order)}>Check out</Button>
+            }
+            </td>
             {/* Add more order details as needed */}
           </tr>
         ))}
