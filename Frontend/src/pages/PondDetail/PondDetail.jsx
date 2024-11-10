@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Table } from 'react-bootstrap';
 import './PondDetail.css';
 import { useEffect, useState } from 'react';
 import AddNewFish from '../../components/AddNewFish/AddNewFish';
@@ -95,14 +95,34 @@ const PondDetail = () => {
         </Col>
         <Col md={6} style={{ fontSize: '36px', fontWeight: 'bold' }}>
           <h1 style={{fontWeight: 'bold'}}>Pond Details</h1>
-          <ul className='pond-detail'>
-            <li><strong>Volume:</strong> {pond.volume} liters</li>
-            <li><strong>Depth:</strong> {pond.depth} meters</li>
-            <li><strong>Pumping Capacity:</strong> {pond.pumpingCapacity} liters/hour</li>
-            <li><strong>Drain:</strong> {pond.drain}</li>
-            <li><strong>Skimmer:</strong> {pond.skimmer}</li>
-            <li><strong>Note:</strong> {pond.note}</li>
-          </ul>
+          <Table striped bordered hover variant='#ff6800'>
+            <tbody>
+              <tr>
+                <td>Volume</td>
+                <td>{pond.volume}</td>
+              </tr>
+              <tr>
+                <td>Depth</td>
+                <td>{pond.depth}</td>
+              </tr>
+              <tr>
+                <td>Pumping Capacity</td>
+                <td>{pond.pumpingCapacity}</td>
+              </tr>
+              <tr>
+                <td>Drain</td>
+                <td>{pond.drain}</td>
+              </tr>
+              <tr>
+                <td>Skimmer</td>
+                <td>{pond.skimmer}</td>
+              </tr>
+              <tr>
+                <td>Note</td>
+                <td>{pond.note}</td>
+              </tr>
+            </tbody>
+          </Table>
         </Col>
       </Row>
       <hr style={{ width: '50%', borderTop: '5px solid #000', margin: '100px auto' }} />

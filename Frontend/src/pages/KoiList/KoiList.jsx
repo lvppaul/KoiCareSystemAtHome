@@ -14,7 +14,7 @@ const KoiList = () => {
     const [sortCriteria, setSortCriteria] = useState('all');
     const [loading, setLoading] = useState(true);
     const [showCreateKoiReminder, setShowCreateKoiReminder] = useState(false);
-
+    const { user } = useAuth();
     useEffect(() => {
         const fetchKoiList = async () => {
             setLoading(true);
@@ -65,6 +65,7 @@ const KoiList = () => {
       </Row>
       <Col className="d-flex justify-content-center" style={{display:'flex', alignItems:'flex-end', flexDirection:'column', marginBlockEnd:'30px'}}>
         <Row>
+          {user.role === 'vip' ?
             <Button variant="success" onClick={() => setShowCreateKoiReminder(true)}
                     style={{ width: '180px', height: '60px', 
                         fontWeight: 'bold', fontSize: '20px',
@@ -74,6 +75,7 @@ const KoiList = () => {
                         onMouseLeave={(e) => e.target.style.backgroundColor = '#FF8433'}
               >New Reminder
             </Button>
+            : null}
             <CreateNewReminded
                 show={showCreateKoiReminder}
                 setShow={setShowCreateKoiReminder}

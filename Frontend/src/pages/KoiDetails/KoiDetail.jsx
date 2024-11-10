@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button, Accordion } from 'react-bootstrap';
+import { Container, Row, Col, Button, Accordion, Table } from 'react-bootstrap';
 import UpdateKoiDetail from '../../components/UpdateKoiDetail/UpdateKoiDetail';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -29,6 +29,7 @@ const KoiDetail = () => {
   const userId = useAuth().user.userId;
   const [remindList, setRemindList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const { user } = useAuth();
 
   const fetchKoiDetail = async (koiId) => {
     setLoading(true);
@@ -95,8 +96,9 @@ const KoiDetail = () => {
   
   return (
     <Container style={{ maxWidth: '1536px', marginTop:'100px', marginBottom:'100px'}}>
-      <h1 >Koi Details</h1>
+      <h1 style={{fontWeight:'bold'}}>Koi Details</h1>
       <Row style={{display:'flex', justifyContent: 'flex-end', flexDirection:'row'}}>
+        {user.role === 'vip'?
         <Button
         onClick={() => {
           setShowModalAddRemind(true);
@@ -113,7 +115,9 @@ const KoiDetail = () => {
         }}
         onMouseEnter={(e) => (e.target.style.backgroundColor = "#FF6204")}
         onMouseLeave={(e) => (e.target.style.backgroundColor = "#FF8433")}>
-        <BiBell size={30}/>  New Remind</Button>
+          <BiBell size={30}/> New Remind
+        </Button>
+        : null}
 
         <UpdateKoiDetail
         show={showModalUpdateKoi}
@@ -141,14 +145,17 @@ const KoiDetail = () => {
 
       <Row>
         {/* Koi Image */}
-        <Col md={6} mb={6}>
+        <Col xs={12} md={6} mb={12} lg={6} xl={6}>
           <Row>
             <img
               src={koidetail.thumbnail}
               alt={koidetail.thumbnail}
-              style={{ objectFit:'fill',width: '650px', height: '1000px' }}
+              style={{ objectFit:'fill',width: '650px', height: '1000px', maxHeight:'1000px', maxWidth:'650px', 
+              minHeight:'200px', minWidth:'250'}}
               />
           </Row>
+          {/* Koi Reminders */}
+          {user.role === 'vip' ? (
           <Row>
             {koidetail.reminds.length > 0 ? (
             <>
@@ -241,46 +248,60 @@ const KoiDetail = () => {
           )
           : null}
           </Row>
+          ) : null}
         </Col>
 
         {/* Koi Details */}
         <Col md={6} mb={6}>
-          <ul style={{ paddingLeft:'50px', fontSize:'30px', paddingBottom: '50px' }}>
-            <li>
-              <strong>Name:</strong> {koidetail.name}
-            </li>
-            <li>
-              <strong>Age:</strong> {koidetail.age}
-            </li>
-            <li>
-              <strong>Sex:</strong> {koidetail.sex}
-            </li>
-            <li>
-              <strong>Length:</strong> {koidetail.length}
-            </li>
-            <li>
-              <strong>Weight:</strong> {koidetail.weight}
-            </li>
-            <li>
-              <strong>Color:</strong> {koidetail.color}
-            </li>
-            <li>
-              <strong>Variety:</strong> {koidetail.variety}
-            </li>
-            <li>
-              <strong>Physique:</strong> {koidetail.physique}
-            </li>
-            <li>
-              <strong>Origin:</strong> {koidetail.origin}
-            </li>
-            <li>
-              <strong>Note:</strong> {koidetail.note}
-            </li>
-            <li>
-              <strong>Status:</strong> {koidetail.status ? <>Active</> : <>Inactive</>}
-            </li>
-          </ul>
-
+        <Table striped hover bordered style={{marginTop:'20px', borderRadius:'15px', border:'1px solid black'}}>
+            <tbody>
+              <tr>
+                <td><strong>Name</strong></td>
+                <td>{koidetail.name}</td>
+              </tr>
+              <tr>
+                <td><strong>Age</strong></td>
+                <td>{koidetail.age}</td>
+              </tr>
+              <tr>
+                <td><strong>Sex</strong></td>
+                <td>{koidetail.sex}</td>
+              </tr>
+              <tr>
+                <td><strong>Length</strong></td>
+                <td>{koidetail.length}</td>
+              </tr>
+              <tr>
+                <td><strong>Weight</strong></td>
+                <td>{koidetail.weight}</td>
+              </tr>
+              <tr>
+                <td><strong>Color</strong></td>
+                <td>{koidetail.color}</td>
+              </tr>
+              <tr>
+                <td><strong>Variety</strong></td>
+                <td>{koidetail.variety}</td>
+              </tr>
+              <tr>
+                <td><strong>Physique</strong></td>
+                <td>{koidetail.physique}</td>
+              </tr>
+              <tr>
+                <td><strong>Origin</strong></td>
+                <td>{koidetail.origin}</td>
+              </tr>
+              <tr>
+                <td><strong>Note</strong></td>
+                <td>{koidetail.note}</td>
+              </tr>
+              <tr>
+                <td><strong>Status</strong></td>
+                <td>{koidetail.status ? 'Active' : 'InActive'}</td>
+              </tr>
+            </tbody>
+          </Table>
+        
           {/* Growth History */}
           <h1 style={{fontWeight:'bold'}}>Growth history</h1>
           <GrowHistory
