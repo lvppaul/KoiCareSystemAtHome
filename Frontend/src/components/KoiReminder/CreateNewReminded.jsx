@@ -9,11 +9,10 @@ const CreateNewReminded = ({ show, setShow , koiId, updateKoiReminder }) => {
     const {setToastMessage} = useContext(ToastContext);
     const userId = useAuth().user.userId;
     const [koiList, setKoiList] = useState([]);
-    const createDate = new Date().toISOString();
-    const [reminderData, setReminderData] = useState({ userId: userId, koiId: '', dateRemind: createDate, remindDescription: '' });
+    const [reminderData, setReminderData] = useState({ userId: userId, koiId: '', dateRemind: '', remindDescription: '' });
     const [koiDetailRemind, setKoiDetailRemind] = useState({
         ...reminderData, 
-        koiId: koiId 
+        koiId: koiId
       });
 
     const handleInputChange = (event) => {
@@ -53,7 +52,7 @@ const CreateNewReminded = ({ show, setShow , koiId, updateKoiReminder }) => {
             console.error('Error creating reminder:', error);
             setToastMessage('Create reminder failed');
         }
-        setReminderData({ userId: userId, koiId: '', dateRemind: createDate, remindDescription: '' });
+        setReminderData({ userId: userId, koiId: '', dateRemind: '', remindDescription: '' });
         setShow(false);
     }
     return (
@@ -76,6 +75,12 @@ const CreateNewReminded = ({ show, setShow , koiId, updateKoiReminder }) => {
                         : null 
                         }
                     </Form.Group>
+                    
+                    <Form.Group controlId="dateRemind">
+                        <Form.Label>Date Remind</Form.Label>
+                        <Form.Control type="date" name="dateRemind" value={reminderData.dateRemind} onChange={handleInputChange} />
+                    </Form.Group>
+
                     <Form.Group controlId="remindDescription">
                         <Form.Label>Description</Form.Label>
                         <Form.Control as="textarea" rows={3} name="remindDescription" value={reminderData.remindDescription} onChange={handleInputChange} />
