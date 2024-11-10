@@ -38,6 +38,10 @@ const UpdateKoiReminder = ({ show, setShow, reminder, updateKoiReminder }) => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleUpdateRemind}>
+                    <Form.Group controlId="remindDate">
+                        <Form.Label>Date</Form.Label>
+                        <Form.Control type="date" name="dateRemind" value={reminderData.dateRemind} onChange={handleInputChange} />
+                    </Form.Group>
                     <Form.Group controlId="remindDescription">
                         <Form.Label>Description</Form.Label>
                         <Form.Control as="textarea" rows={3} name="remindDescription" value={reminderData.remindDescription} onChange={handleInputChange} />

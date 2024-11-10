@@ -36,7 +36,8 @@ const KoiDetail = () => {
       const data = await getKoiById(koiId);
       console.log('koi detail', data);
       setKoiDetail(data);
-      setRemindList(data.reminds);
+      const sortedReminds = data.reminds.sort((a, b) => new Date(b.dateRemind) - new Date(a.dateRemind));
+      setRemindList(sortedReminds);
     } catch (error) {
       console.error('Error fetching koi detail:', error);
     } finally {
