@@ -173,7 +173,7 @@ const Navigationbar = () => {
                   <NavDropdown.Item onClick={handleLogOut}>Log out</NavDropdown.Item>
                   <hr />
                   <NavDropdown.Item style={{ fontWeight: "bold", color: "black" }} disabled>
-                    Membership Level: {user.role.toUpperCase()} <br />
+                    Membership Level: {user.role} <br />
                     Email: {user.email}
                   </NavDropdown.Item>
                 </>
