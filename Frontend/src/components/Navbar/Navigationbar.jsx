@@ -18,17 +18,8 @@ const Navigationbar = () => {
   const { user, logout } = auth;
   const role = user ? user.role : null;
   const [showLoginNeeded, setShowLoginNeeded] = useState(false);
-  const [koiReminders, setKoiReminders] = useState([]);
   const userId = auth.user ? auth.user.userId : null;
 
-  const fetchKoiReminders = async () => {
-    const checkKoiReminds = await getKoiRemindByUserId(userId); //testing wait for get By userId
-    setKoiReminders(checkKoiReminds);
-  };
-
-  useEffect(() => {
-    fetchKoiReminders();
-  }, [userId]);
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -135,11 +126,9 @@ const Navigationbar = () => {
             )}
             {user ?  (
             <>
-            {koiReminders.length > 0 ? 
               <NavLink to={"koiremind"} className="nav-title">
                 Koi Reminder
               </NavLink>
-              : null}
             </>
             ) : null}
           </Nav>
