@@ -140,6 +140,8 @@ root.render(
                 </ProtectedRoute>
               }
             />
+
+            <Route path="*" element={<NotPage />} />
           </Route>
 
           {/* Admin Routes */}
@@ -158,17 +160,16 @@ root.render(
             <Route path="shops" element={<AdminShops />} />
             <Route path="adminOrders" element={<AdminOrderManagement />} />
           </Route>
+
         </Routes>
       </AuthProvider>
     </React.StrictMode>
-    {/*Route no StrictMode*/}
 
     <AuthProvider>
       <Routes>
         <Route path="payment/api/VNPay/vnpay-return" element={<PaymentResult />} />
         <Route path="confirmemail" element={<Confirmation />} />
         <Route path="reset-password" element={<ResetPasswordPage />} />
-        {/* <Route path="*" element={<NotPage />} /> */}
         <Route path="updateaccount" element={<UpgradeVipAccount />} />
       </Routes>
     </AuthProvider>
