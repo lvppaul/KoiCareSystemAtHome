@@ -173,6 +173,9 @@ namespace Domain.Repositories
             bool isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user!);
             if (!isEmailConfirmed) return new AuthenticationResponse { Message = notConfirmEmail };
 
+            bool isLockOut = await _userManager.IsLockedOutAsync(user!);
+            if (isLockOut) return new AuthenticationResponse { Message = "Your account is blocked" };
+
             var passwordValid = await _userManager.CheckPasswordAsync(user!, model.Password);
             if (!passwordValid) return new AuthenticationResponse { Message = wrongPass };
 
