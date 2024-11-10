@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using DinkToPdf;
 using DinkToPdf.Contracts;
-using Domain.Models.Dto.Response;
+using Domain.Models.Entity;
 using SWP391.KCSAH.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Services
 {
@@ -16,7 +12,8 @@ namespace Domain.Services
         private readonly IConverter _converter;
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public PdfGenerator(UnitOfWork unitOfWork, IMapper mapper, IConverter converter) {
+        public PdfGenerator(UnitOfWork unitOfWork, IMapper mapper, IConverter converter)
+        {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _converter = converter;
@@ -26,19 +23,19 @@ namespace Domain.Services
         {
             var globalSettings = new GlobalSettings()
             {
-                ColorMode= ColorMode.Color,
+                ColorMode = ColorMode.Color,
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
-                Margins = new MarginSettings(10,10,10,10),
+                Margins = new MarginSettings(10, 10, 10, 10),
                 DocumentTitle = "Invoice"
             };
             var objectSettings = new ObjectSettings()
             {
                 PagesCount = true,
                 HtmlContent = htmlContent,
-                WebSettings = {DefaultEncoding = "utf-8"},
-                HeaderSettings = {FontSize =12,Right ="Page [page] of [toPage]",Line=true,Spacing=2.812},
-                FooterSettings = {FontSize = 12, Line = true,Right= "©" + DateTime.Now.Year}
+                WebSettings = { DefaultEncoding = "utf-8" },
+                HeaderSettings = { FontSize = 12, Right = "Page [page] of [toPage]", Line = true, Spacing = 2.812 },
+                FooterSettings = { FontSize = 12, Line = true, Right = "©" + DateTime.Now.Year }
             };
 
             var document = new HtmlToPdfDocument()
@@ -47,10 +44,10 @@ namespace Domain.Services
                 Objects = { objectSettings }
             };
 
-           return _converter.Convert(document);
+            return _converter.Convert(document);
         }
 
-        public string GenerateHtmlContent(OrderDTO request)
+        public string GenerateHtmlContent(Order request)
         {
             var total = request.TotalPrice;
 
@@ -185,8 +182,8 @@ namespace Domain.Services
             htmlBuilder.Append($@"
     <div class='invoice-header'>
         <div class='shop-name'>KOI SHOP</div>
-        <div class='shop-slogan'>Chuyên cung cấp thức ăn & thuốc cho cá Koi</div>
-        <div class='invoice-title'>HÓA ĐƠN {(request.isVipUpgrade ? "NÂNG CẤP VIP" : "MUA HÀNG")}</div>
+        <div class='shop-slogan'>Specializing in providing food & medicine for Koi fish</div>
+        <div class='invoice-title'>INVOICE</div>
     </div>
     <div class='two-columns'>");
 
@@ -194,11 +191,11 @@ namespace Domain.Services
             htmlBuilder.Append($@"
             <div class='column'>
                 <div class='info-group'>
-                    <div class='info-label'>Mã hóa đơn:</div>
+                    <div class='info-label'>Order Id:</div>
                     <div class='info-value'>{request.OrderId}</div>
                 </div>
                 <div class='info-group'>
-                    <div class='info-label'>Ngày:</div>
+                    <div class='info-label'>Date:</div>
                     <div class='info-value'>{DateTime.Now:dd/MM/yyyy HH:mm}</div>
                 </div>
             </div>");
@@ -207,38 +204,40 @@ namespace Domain.Services
             htmlBuilder.Append($@"
             <div class='column'>
                 <div class='info-group'>
-                    <div class='info-label'>Thông tin khách hàng:</div>
+                    <div class='info-label'>Customer Information:</div>
                     <div class='info-value'>{request.FullName}</div>
                     <div class='info-value'>{request.Phone}</div>
                     <div class='info-value'>{request.Email}</div>
-                    <div class='info-value'>{request.Street +" "+ request.District + " "+ request.City + " " + request.Country}</div>
+                    <div class='info-value'>{request.Street + " " + request.District + " " + request.City + " " + request.Country}</div>
                 </div>
             </div>
         </div>");
 
             // Items Table
-            htmlBuilder.Append(@"
+            if (request.isVipUpgrade == false)
+            {
+                htmlBuilder.Append(@"
     <table class='items-table'>
         <thead>
             <tr>
-                <th>STT</th>
-                <th>Sản phẩm</th>
-                <th>Cửa hàng</th>
-                <th>Số lượng</th>
-                <th>Đơn giá</th>
-                <th>Thành tiền</th>
+                <th>#</th>
+                <th>Product Name</th>
+                <th>Shop Name</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
             </tr>
         </thead>
         <tbody>");
 
-            int index = 1;
+                int index = 1;
 
-            foreach (var item in request.orderDetails)
-            {
-                var itemTotal = item.Quantity * item.UnitPrice;
-                var product = _unitOfWork.ProductRepository.GetById(item.ProductId);
-                var shop = _unitOfWork.ShopRepository.GetById(product.ShopId);
-                htmlBuilder.Append($@"
+                foreach (var item in request.OrderDetails)
+                {
+                    var itemTotal = item.Quantity * item.UnitPrice;
+                    var product = _unitOfWork.ProductRepository.GetById(item.ProductId);
+                    var shop = _unitOfWork.ShopRepository.GetById(product.ShopId);
+                    htmlBuilder.Append($@"
             <tr>
                 <td>{index++}</td>
                 <td>{product.Name}</td>
@@ -247,64 +246,49 @@ namespace Domain.Services
                 <td>{item.UnitPrice:#,##0} đ</td>
                 <td>{itemTotal:#,##0} đ</td>
             </tr>");
+                }
+            }
+            else
+            {
+                htmlBuilder.Append(@"
+    <table class='items-table'>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Vip Name</th>
+                <th>Vip Description</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>");
+
+                int index = 1;
+                foreach (var item in request.OrderVipDetails)
+                {
+                    var vip = _unitOfWork.VipPackageRepository.GetById(item.VipId);
+                    htmlBuilder.Append($@"
+            <tr>
+                <td>{index++}</td>
+                <td>{vip.Name}</td>
+                <td>{vip.Description}</td>
+                <td>{vip.Price:#,##0} đ</td>
+            </tr>");
+                }
             }
 
             htmlBuilder.Append("</tbody></table>");
 
-            // Totals
-            //        htmlBuilder.Append($@"
-            //<table class='amounts-table'>
-            //    <tr>
-            //        <td>Tạm tính:</td>
-            //        <td class='text-right'>{subtotal:#,##0} đ</td>
-            //    </tr>");
 
-            //    if (request.DiscountPercent.HasValue)
-            //    {
-            //        htmlBuilder.Append($@"
-            //<tr class='discount-row'>
-            //    <td>Giảm giá ({request.DiscountPercent}%):</td>
-            //    <td class='text-right'>-{(subtotal * request.DiscountPercent.Value / 100):#,##0} đ</td>
-            //</tr>");
-            //    }
-
-            //    if (request.DiscountAmount.HasValue && request.DiscountAmount.Value > 0)
-            //    {
-            //        htmlBuilder.Append($@"
-            //<tr class='discount-row'>
-            //    <td>Giảm giá trực tiếp:</td>
-            //    <td class='text-right'>-{request.DiscountAmount.Value:#,##0} đ</td>
-            //</tr>");
-            //    }
 
             htmlBuilder.Append($@"
         <tr class='total-row'>
-            <td>Tổng thanh toán:</td>
+            <td>SubTotal:</td>
             <td class='text-right'>{total:#,##0} đ</td>
         </tr>
     </table>");
 
-            // Payment Info
-            if (request.isVipUpgrade)
-            {
-                htmlBuilder.Append($@"
-    <div class='payment-info'>
-        <div class='info-label'>Quyền lợi VIP:</div>
-        <ul>
-            <li>Giảm 10% cho mọi đơn hàng</li>
-            <li>Tích điểm x2 khi mua hàng</li>
-            <li>Ưu tiên tư vấn và hỗ trợ kỹ thuật</li>
-            <li>Quà tặng sinh nhật đặc biệt</li>
-        </ul>
-    </div>");
-            }
-
             // Footer
             htmlBuilder.Append(@"
-    <div class='footer'>
-        <p>Địa chỉ: 123 Đường ABC, Quận XYZ, TP.HCM</p>
-        <p>Website: www.koishop.com | Facebook: fb.com/koishop</p>
-    </div>
 </body>
 </html>");
 
