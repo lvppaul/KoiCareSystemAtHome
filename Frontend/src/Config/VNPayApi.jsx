@@ -39,15 +39,13 @@ const getVNPayResult = async (returnUrl) => {
 
 const getPDF = async (orderId) => {
     try {
-        const response = await api.get(`PDF`, {
+        const response = await api.post(`PDF`, null, {
             params: {
                 orderId: orderId,
             },
-            responseType: 'blob', // Ensure the response is treated as a blob
-            headers: {
-                Accept: "application/pdf",
-            },
+            responseType: 'arraybuffer'
         });
+        console.log('response:', response);
         return response;
     } catch (error) {
         if (error.response) {
