@@ -145,6 +145,8 @@ namespace Domain.Repositories
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
                 }
+
+                await _userManager.SetLockoutEnabledAsync(user, false);
                 // Generate your own JWT token
                 var token = GenerateJwtToken(claims);
                 string refreshToken = GenerateRefreshToken();
@@ -299,7 +301,10 @@ namespace Domain.Repositories
             {
                 await _roleManager.CreateAsync(new IdentityRole(AppRole.Member));
             }
+           
             await _userManager.AddToRoleAsync(user, AppRole.Member);
+
+            await _userManager.SetLockoutEnabledAsync(user,false);
             // email
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
@@ -366,6 +371,7 @@ namespace Domain.Repositories
                 await _roleManager.CreateAsync(new IdentityRole(AppRole.Shop));
             }
             await _userManager.AddToRoleAsync(user, AppRole.Shop);
+            await _userManager.SetLockoutEnabledAsync(user, false);
             // email
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
@@ -399,6 +405,7 @@ namespace Domain.Repositories
                 await _roleManager.CreateAsync(new IdentityRole(AppRole.Admin));
             }
             await _userManager.AddToRoleAsync(user, AppRole.Admin);
+            await _userManager.SetLockoutEnabledAsync(user, false);
             var createdUser = await _userManager.FindByEmailAsync(user.Email);
             var emailCode = await _userManager.GenerateEmailConfirmationTokenAsync(createdUser!);
             await _userManager.ConfirmEmailAsync(user, emailCode);
