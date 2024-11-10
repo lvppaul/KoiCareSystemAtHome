@@ -116,7 +116,7 @@ export const KoiGrowthChart = ({ userId }) => {
                         labels: labels,
                         datasets: [
                             {
-                                label: "Weight (kg)",
+                                label: "Weight (gram)",
                                 data: weightData,
                                 borderColor: "rgb(75, 192, 192)",
                                 backgroundColor: "rgb(75, 192, 192)",
@@ -178,7 +178,7 @@ export const KoiGrowthChart = ({ userId }) => {
                 },
                 title: {
                     display: true,
-                    text: "Kilogram (kg)",
+                    text: "Gram (g)",
                 },
             },
         },

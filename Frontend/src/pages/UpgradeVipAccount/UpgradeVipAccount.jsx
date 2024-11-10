@@ -71,6 +71,7 @@ const UpgradeVipAccount = () => {
           backgroundColor: '#E47E39',
           top: '10px',
           left: '0px',
+          zIndex: 1050,
           fontSize: '20px',
           fontWeight: 'bold',
           width: '200px',

@@ -20,7 +20,6 @@ const Navigationbar = () => {
   const [showLoginNeeded, setShowLoginNeeded] = useState(false);
   const [koiReminders, setKoiReminders] = useState([]);
   const userId = auth.user ? auth.user.userId : null;
-  const [showKoiRemind, setShowKoiRemind] = useState(false);
 
   const fetchKoiReminders = async () => {
     const checkKoiReminds = await getKoiRemindByUserId(userId); //testing wait for get By userId
@@ -136,9 +135,11 @@ const Navigationbar = () => {
             )}
             {user ?  (
             <>
+            {koiReminders.length > 0 ? 
               <NavLink to={"koiremind"} className="nav-title">
                 Koi Reminder
               </NavLink>
+              : null}
             </>
             ) : null}
           </Nav>
