@@ -24,7 +24,8 @@ const KoiReminderList = () => {
     const fetchKoiReminders = async () => {
         try {
             const checkKoiReminds = await getKoiRemindByUserId(userId);
-            setKoiReminders(checkKoiReminds);
+            const sortedReminds = checkKoiReminds.sort((a, b) => new Date(a.dateRemind) - new Date(b.dateRemind));
+            setKoiReminders(sortedReminds);
         } catch (error) {
             setError(error);
             console.error('Error fetching koi reminders:', error);
