@@ -322,7 +322,7 @@ const Product = () => {
           </Col>
         </Row>
         <Row className="mt-3 mb-3">
-          <h3 className="mb-4 fw-bold">Recommend Products</h3>
+          <h3 className="mb-4 fw-bold">Related Products</h3>
           {loadingRelated ? (
             <div className="d-flex justify-content-center">
               <Spinner animation="border" />
