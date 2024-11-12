@@ -141,7 +141,7 @@ root.render(
               }
             />
 
-            <Route path="*" element={<NotPage />} />
+            {/* <Route path="*" element={<NotPage />} /> */}
           </Route>
 
           {/* Admin Routes */}
