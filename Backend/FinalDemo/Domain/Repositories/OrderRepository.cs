@@ -15,7 +15,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<Order> GetByOrderIdAsync(int id)
         {
-            return await _context.Orders.Include(p => p.OrderDetails).Include(p => p.OrderVipDetails).FirstOrDefaultAsync(p => p.OrderId == id);
+            return await _context.Orders.Include(p => p.OrderDetails).FirstOrDefaultAsync(p => p.OrderId == id);
         }
 
         public async Task<List<Order>> GetVipOrder()
