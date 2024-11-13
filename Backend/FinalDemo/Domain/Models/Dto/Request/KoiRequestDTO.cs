@@ -11,7 +11,7 @@ namespace Domain.Models.Dto.Request
     {
         public string UserId { get; set; }
 
-        public int PondId { get; set; }
+        public int? PondId { get; set; }
 
         public int Age { get; set; }
 

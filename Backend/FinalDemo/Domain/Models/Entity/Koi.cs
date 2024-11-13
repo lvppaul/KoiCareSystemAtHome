@@ -8,7 +8,7 @@ public partial class Koi
 {
     public int KoiId { get; set; }
 
-    public int PondId { get; set; }
+    public int? PondId { get; set; }
     public string UserId { get; set; } = null!;
 
     public int Age { get; set; }

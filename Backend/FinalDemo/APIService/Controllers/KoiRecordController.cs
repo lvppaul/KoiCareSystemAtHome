@@ -86,7 +86,6 @@ namespace APIService.Controllers
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
             }
-            // Cập nhật lại giá trị ShopId cho shopdto từ shopMap
             var koiRecordReturn = _mapper.Map<KoiRecordDTO>(koiRecordMap);
             return CreatedAtAction("GetById", new { id = koiRecordReturn.RecordId }, koiRecordReturn);
         }
@@ -99,27 +98,25 @@ namespace APIService.Controllers
                 return BadRequest();
             }
 
-            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
             var existingKoiRecord = await _unitOfWork.KoiRecordRepository.GetByIdAsync(id);
             if (existingKoiRecord == null)
             {
-                return NotFound(); // Trả về 404 nếu không tìm thấy category
+                return NotFound();
             }
 
-            // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
             _mapper.Map(koiRecorddto, existingKoiRecord);
 
-            // Cập nhật vào cơ sở dữ liệu
+
             var updateResult = await _unitOfWork.KoiRecordRepository.UpdateAsync(existingKoiRecord);
 
             if (updateResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while updating koiRecord");
-                return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
+                return StatusCode(500, ModelState); 
             }
 
 
-            return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
+            return NoContent(); 
         }
 
         [HttpDelete("{id}")]

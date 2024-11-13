@@ -68,6 +68,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     public virtual DbSet<OrderVipDetail> OrderVipDetails { get; set; }
 
+    public virtual DbSet<KoiRecordSample> KoiRecordSamples { get; set; }
+
+    public virtual DbSet<WaterParameterSample> WaterParameterSamples {  get; set; }
+
 
     public static string GetConnectionString(string connectionStringName)
     {
@@ -175,6 +179,39 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
+        modelBuilder.Entity<KoiRecordSample>(entity =>
+        {
+
+            entity.ToTable("KoiRecordSample");
+
+            entity.HasKey(e => e.Age);
+
+            entity.Property(e => e.Age).HasColumnName("Age");
+            entity.Property(e => e.Length).HasColumnName("Length");
+            entity.Property(e => e.Weight).HasColumnName("Weight");
+        });
+
+        modelBuilder.Entity<WaterParameterSample>(entity =>
+        {
+
+            entity.ToTable("WaterParameterSample");
+
+            entity.HasNoKey();
+
+            entity.Property(e => e.Nitrite).HasColumnName("Nitrite");
+            entity.Property(e => e.Oxygen).HasColumnName("Oxygen");
+            entity.Property(e => e.Nitrate).HasColumnName("Nitrate");
+            entity.Property(e => e.Temperature).HasColumnName("Temperature");
+            entity.Property(e => e.Phosphate).HasColumnName("Phosphate");
+            entity.Property(e => e.PH).HasColumnName("PH");
+            entity.Property(e => e.Ammonium).HasColumnName("Ammonium");
+            entity.Property(e => e.Hardness).HasColumnName("Hardness");
+            entity.Property(e => e.CarbonDioxide).HasColumnName("CarbonDioxide");
+            entity.Property(e => e.CarbonHardness).HasColumnName("CarbonHardness");
+            entity.Property(e => e.Salt).HasColumnName("Salt");
+            entity.Property(e => e.TotalChlorines).HasColumnName("TotalChlorines");
+            entity.Property(e => e.OutdoorTemp).HasColumnName("OutdoorTemp");
+        });
 
         modelBuilder.Entity<CartItem>(entity =>
         {
@@ -533,6 +570,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .IsUnicode(false)
                 .HasColumnName("ProductId");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryId");
+            entity.Property(e => e.ExpiredDate).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(255);
             entity.Property(e => e.Status).HasDefaultValue(true);
 

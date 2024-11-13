@@ -11,6 +11,8 @@ public partial class Product
 
     public string? Description { get; set; }
     public string? Thumbnail { get; set; }
+
+    public DateTime? ExpiredDate { get; set; }
     public int Quantity { get; set; }
 
     public bool IsDeleted { get; set; }
