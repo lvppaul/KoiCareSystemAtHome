@@ -120,7 +120,7 @@ VALUES
 (1, 'Pond Bacteria', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_bacteria.png', 'Beneficial bacteria to improve water quality.', 180, 700000, 3),
 (2, 'Koi Fungus Treatment', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fungus_treatment.png', 'Treats fungal infections in koi.', 75, 850000, 3),
 (2, 'Koi First Aid Kit', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_first_aid_kit.png', 'A complete first aid kit for koi emergencies.', 50, 1000000, 3),
-(1, 'Koi Sedative', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/koi_sedative.png', 'Sedative for koi handling and transportation.', 30, 1200000, 'Discontinued', 3);
+(1, 'Koi Sedative', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/koi_sedative.png', 'Sedative for koi handling and transportation.', 30, 1200000, 3);
 
 
 INSERT INTO Product_Image (ProductID, ImageUrl)
