@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Helper;
+using Domain.Models;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
 using Domain.Models.Entity;
@@ -392,6 +393,17 @@ namespace Domain.Services
                                         return (false, "Update Cart failed");
                                     }
                                 }
+                                await CreateOrderShop(order);
+
+                            }
+                            if (order.isBuyNow == true)
+                            {
+                                foreach (var item in order.OrderDetails)
+                                {
+                                    var product = await _unitOfWork.ProductRepository.GetByIdAsync(item.ProductId);
+                                    order.ShopId = product.ShopId;
+                                    await _unitOfWork.OrderRepository.UpdateAsync(order);
+                                }
 
                             }
                             //Cập nhật lại số lượng product
@@ -426,7 +438,7 @@ namespace Domain.Services
                             return (false, "Add Payment failed");
                         }
 
-                        var updateOrderStatusStatus = await UpdateOrderStatus(order, "Successful");
+                        var updateOrderStatusStatus = await UpdateOrderStatus(order, "Out For Delivery");
                         if (updateOrderStatusStatus != 1)
                         {
                             await transaction.RollbackAsync();
@@ -517,7 +529,70 @@ namespace Domain.Services
             return createResultRevenue;
         }
 
+        public async Task CreateOrderShop(Order order)
+        {
+            Dictionary<int, List<Product>> allListProductMap = new Dictionary<int, List<Product>>();
+            foreach (var item in order.OrderDetails)
+            {
+                var product = await _unitOfWork.ProductRepository.GetByIdAsync(item.ProductId);
+                //var shop = _unitOfWork.ShopRepository.GetById(product.ShopId);
+                if (!allListProductMap.ContainsKey(product.ShopId))
+                {
+                    allListProductMap[product.ShopId] = new List<Product>();
+                }
+                allListProductMap[product.ShopId].Add(product);
+            }
 
+            foreach (var shopIdInList in allListProductMap.Keys)
+            {
+                var orderShop = new Order
+                {
+                    ShopId = shopIdInList,
+                    UserId = order.UserId,
+                    Street = order.Street,
+                    District = order.District,
+                    City = order.City,
+                    Country = order.Country,
+                    FullName = order.FullName,
+                    Phone = order.Phone,
+                    CreateDate = order.CreateDate,
+                    Email = order.Email,
+                    isBuyNow = order.isBuyNow,
+                    isVipUpgrade = order.isVipUpgrade,
+                    OrderStatus = order.OrderStatus,
+                    OrderDetails = new List<OrderDetail>()
+                };
+                //  await _unitOfWork.OrderRepository.CreateAsync(orderShop);
+                //List<OrderDetail> orderDetailList = new List<OrderDetail>();
+
+                foreach (var product in allListProductMap[shopIdInList])
+                {
+                    // Tìm OrderDetail gốc từ Order ban đầu dựa trên ProductId
+                    var originalOrderDetail = order.OrderDetails.FirstOrDefault(od => od.ProductId == product.ProductId);
+
+                    if (originalOrderDetail != null)
+                    {
+                        var orderDetail = new OrderDetail
+                        {
+                            OrderId = orderShop.OrderId,
+                            ProductId = product.ProductId,
+                            Quantity = originalOrderDetail.Quantity,
+                            UnitPrice = originalOrderDetail.UnitPrice
+                        };
+
+                        orderShop.OrderDetails.Add(orderDetail);
+                    }
+                }
+
+                //orderShop.OrderDetails = orderDetailList;
+                orderShop.TotalPrice = orderShop.OrderDetails.Sum(od => od.Quantity * od.UnitPrice);
+
+                await _unitOfWork.OrderRepository.CreateAsync(orderShop);
+                //await _unitOfWork.OrderRepository.UpdateAsync(orderShop);
+
+            }
+
+        }
         //public async Task<(bool success, string message)> ProcessVnPayReturnBuyNow(string returnUrl)
         //{
         //    try

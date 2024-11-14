@@ -35,5 +35,9 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         {
             return await _context.Orders.Include(p => p.OrderVipDetails).Where(p => p.isVipUpgrade == false).ToListAsync();
         }
+
+
+
+
     }
 }
