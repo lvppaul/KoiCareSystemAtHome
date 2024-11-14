@@ -306,7 +306,11 @@ namespace KCSAH.APIServer.Controllers
         {
             try
             {
-                await _orderService.SetStatusSuccessfulOrderByShop(orderId);
+                var (updateShop, updateUser) = await _orderService.SetStatusSuccessfulOrderByShop(orderId);
+                if (updateShop == 0)
+                {
+                    return BadRequest(new { Message = "Failed to update order detail status", OrderId = orderId });
+                }
                 return Ok(new { Message = "Order status updated to Successful", OrderId = orderId });
             }
             catch (Exception ex)
@@ -316,6 +320,28 @@ namespace KCSAH.APIServer.Controllers
             }
         }
 
+        [HttpPost("{orderId}/product/{productId}/set-successful")]
+        public async Task<IActionResult> SetOrderDetailStatusSuccessful(int orderId, int productId)
+        {
+            try
+            {
+                var (updateShop, updateUser) = await _orderService.SetStatusSuccessfulOrderDetailByShop(orderId, productId);
+
+                if (updateShop == 0)  // Giả sử result == 1 nghĩa là cập nhật thành công
+                {
+                    return BadRequest(new { Message = "Failed to update order detail status", OrderId = orderId, ProductId = productId });
+                }
+                else
+                {
+                    return Ok(new { Message = "Order detail and status updated successfully", OrderId = orderId, ProductId = productId });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi nếu cần thiết
+                return StatusCode(500, new { Message = "An error occurred while updating order detail status", Details = ex.Message });
+            }
+        }
 
         private async Task<Product> GetProductAsync(int id)
         {
