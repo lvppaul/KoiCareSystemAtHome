@@ -164,9 +164,12 @@ namespace KCSAH.APIServer.Controllers
         public async Task<IActionResult> DeletePond(int id)
         {
             var pond = await _unitOfWork.PondRepository.GetByIdAsync(id);
-            if (pond == null)
+            
+            var isSatisfied = await _unitOfWork.PondRepository.KoiExistInPond(id);
+
+            if (isSatisfied)
             {
-                return NotFound();
+                return BadRequest("Please remove your koi fish to another pond before deleting!");
             }
             await _unitOfWork.PondRepository.RemoveAsync(pond);
 

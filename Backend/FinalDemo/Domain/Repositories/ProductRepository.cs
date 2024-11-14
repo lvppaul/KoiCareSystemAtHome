@@ -20,7 +20,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            var result = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId.Equals(id) && p.IsDeleted == false && p.Status == true);
+            var result = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId.Equals(id) && p.IsDeleted == false && p.Status == "In Stock");
 
             return result;
         }
@@ -41,14 +41,21 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Product>> GetProductOnShop(int ShopId)
         {
-            var result = _context.Products.Include(p => p.Category).Where(p => p.Status == true && p.IsDeleted == false && p.ShopId == ShopId).ToListAsync();
+            var result = _context.Products.Include(p => p.Category).Where(p => p.Status == "In Stock" && p.IsDeleted == false && p.ShopId == ShopId).ToListAsync();
 
             return await result;
         }
 
         public async Task<List<Product>> GetProductOutOfStock(int ShopId)
         {
-            var result = _context.Products.Include(p => p.Category).Where(p => p.ShopId == ShopId && p.Status == false && p.IsDeleted == false).ToListAsync();
+            var result = _context.Products.Include(p => p.Category).Where(p => p.ShopId == ShopId && p.Status == "Out Of Stock" && p.IsDeleted == false).ToListAsync();
+
+            return await result;
+        }
+
+        public async Task<List<Product>> GetProductDiscontinued(int ShopId)
+        {
+            var result = _context.Products.Include(p => p.Category).Where(p => p.ShopId == ShopId && p.Status == "Discontinued" && p.IsDeleted == false).ToListAsync();
 
             return await result;
         }

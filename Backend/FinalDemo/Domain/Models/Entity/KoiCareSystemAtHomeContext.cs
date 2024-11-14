@@ -587,7 +587,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.CategoryId).HasColumnName("CategoryId");
             entity.Property(e => e.ExpiredDate).HasColumnType("datetime").IsRequired(false);
             entity.Property(e => e.Name).HasMaxLength(255);
-            entity.Property(e => e.Status).HasDefaultValue(true);
+            entity.Property(e => e.Status).HasMaxLength(255).HasDefaultValue("In Stock");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)

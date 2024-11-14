@@ -478,7 +478,7 @@ namespace Domain.Services
                     if (product.Quantity <= 0)
                     {
                         product.Quantity = 0;
-                        product.Status = false;
+                        product.Status = "Out Of Stock";
                     }
 
                     var updateProductResult = await _unitOfWork.ProductRepository.UpdateAsync(product);

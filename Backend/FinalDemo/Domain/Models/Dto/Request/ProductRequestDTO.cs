@@ -17,7 +17,7 @@ namespace Domain.Models.Dto.Request
 
         public int Price { get; set; }
 
-        public bool? Status { get; set; }
+        public string Status { get; set; }
 
         public int CategoryId { get; set; }
 

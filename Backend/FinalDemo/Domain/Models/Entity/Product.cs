@@ -19,7 +19,7 @@ public partial class Product
 
     public int Price { get; set; }
 
-    public bool? Status { get; set; }
+    public string Status { get; set; } = null!;
 
     public int CategoryId { get; set; }
 

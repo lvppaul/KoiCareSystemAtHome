@@ -25,5 +25,10 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         {
             return await _context.Ponds.AnyAsync(p => p.UserId.Equals(userId) && p.Name.Equals(name));
         }
+
+        public async Task<bool> KoiExistInPond(int pondId)
+        {
+            return await _context.Kois.AnyAsync(p => p.PondId == pondId);
+        }
     }
 }

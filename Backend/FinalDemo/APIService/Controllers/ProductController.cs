@@ -57,6 +57,30 @@ namespace KCSAH.APIServer.Controllers
             return result;
         }
 
+        [HttpGet("GetProductOutOfStockInShop")]
+        public async Task<ActionResult<List<ProductDTO>>> GetProductOutOfStock(int ShopId)
+        {
+            var product = await _unitOfWork.ProductRepository.GetProductOutOfStock(ShopId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<ProductDTO>>(product);
+            return result;
+        }
+
+        [HttpGet("GetProductDiscontinuedInShop")]
+        public async Task<ActionResult<List<ProductDTO>>> GetProductDiscontinued(int ShopId)
+        {
+            var product = await _unitOfWork.ProductRepository.GetProductDiscontinued(ShopId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<ProductDTO>>(product);
+            return result;
+        }
+
         [HttpGet("GetProductByName/{Name}")]
         public async Task<ActionResult<List<ProductDTO>>> GetProductByName(string Name)
         {

@@ -20,7 +20,7 @@ namespace Domain.Models.Dto.Response
 
         public int Price { get; set; }
 
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
 
         public CategoryDTO category { get; set; }
 
