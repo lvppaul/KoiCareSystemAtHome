@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -11,6 +12,7 @@ namespace Domain.Models.Dto.Request
     {
         public string UserId { get; set; }
 
+        [DefaultValue(null)]
         public int? PondId { get; set; }
 
         public int Age { get; set; }

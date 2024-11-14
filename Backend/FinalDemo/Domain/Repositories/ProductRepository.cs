@@ -114,5 +114,10 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             
             return await result.ToListAsync();
         }
+
+        public async Task<bool> ProductNameExisted(string name, int shopId)
+        {
+            return await _context.Products.AnyAsync(p => p.Name == name && p.ShopId == shopId);
+        }
     }
 }

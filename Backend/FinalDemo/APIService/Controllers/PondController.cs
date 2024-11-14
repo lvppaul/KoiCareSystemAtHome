@@ -104,6 +104,12 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest(ModelState);
             }
 
+            var isPondNameExisted = await _unitOfWork.PondRepository.PondNameExisted(ponddto.UserId, ponddto.Name);
+            if (isPondNameExisted)
+            {
+                return BadRequest("Pond name can not be the same.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -134,18 +140,23 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
 
+            var isPondNameExisted = await _unitOfWork.PondRepository.PondNameExisted(existingPond.UserId, ponddto.Name);
+            if (isPondNameExisted)
+            {
+                return BadRequest("Pond name can not be the same.");
+            }
+
             _mapper.Map(ponddto, existingPond);
 
-            // Cập nhật vào cơ sở dữ liệu
             var updateResult = await _unitOfWork.PondRepository.UpdateAsync(existingPond);
 
             if (updateResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while updating Pond");
-                return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
+                return StatusCode(500, ModelState); 
             }
 
-            return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
+            return NoContent(); 
         }
 
         [HttpDelete("{id}")]

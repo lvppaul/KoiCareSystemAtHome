@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository;
+using SWP391.KCSAH.Repository.KCSAH.Repository;
 using System.Security.Claims;
 //using SWP391.KCSAH.Repository.Models.;
 
@@ -239,6 +240,12 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest(ModelState);
             }
 
+            var isKoiNameExisted = await _unitOfWork.KoiRepository.KoiNameExisted(koi.UserId, koi.Name);
+
+            if (isKoiNameExisted)
+            {
+                return BadRequest("Koi Name can not be the same.");
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -284,6 +291,12 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound(); 
             }
 
+            var isKoiNameExisted = await _unitOfWork.KoiRepository.KoiNameExisted(existingKoi.UserId, koidto.Name);
+            if (isKoiNameExisted)
+            {
+                return BadRequest("Koi Name can not be the same.");
+            }
+
             _mapper.Map(koidto, existingKoi);
 
             var updateResult = await _unitOfWork.KoiRepository.UpdateAsync(existingKoi);
@@ -295,6 +308,31 @@ namespace KCSAH.APIServer.Controllers
             }
 
             return NoContent(); 
+        }
+
+        [HttpPut("{koiId}/transfer-to-pond")]
+        public async Task<IActionResult> TransferKoiToPond(int koiId, [FromBody] int pondId)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetByIdAsync(koiId);
+            if (koi == null)
+            {
+                return NotFound($"Koi with id {koiId} not found.");
+            }
+
+            if (pondId <= 0)
+            {
+                return BadRequest("Invalid pondId.");
+            }
+
+            koi.PondId = pondId; 
+
+            var success = await _unitOfWork.KoiRepository.UpdateAsync(koi);
+            if (success <= 0)
+            {
+                return StatusCode(500, "Error occurred while transferring the koi to pond.");
+            }
+
+            return Ok($"Koi {koiId} has been transferred to pond {pondId}.");
         }
 
         [HttpDelete("{id}")]

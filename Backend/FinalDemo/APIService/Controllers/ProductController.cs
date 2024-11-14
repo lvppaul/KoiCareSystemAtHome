@@ -162,11 +162,11 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            var product = await _unitOfWork.ProductRepository.GetProductByCategoryId(productdto.CategoryId);
+            var isProductExists = await _unitOfWork.ProductRepository.ProductNameExisted(productdto.Name, productdto.ShopId);
 
-            if (product == null)
+            if (isProductExists)
             {
-                return BadRequest("This product does not exist.");
+                return BadRequest("A product with the same name already exists in this shop.");
             }
 
             if (!ModelState.IsValid)
@@ -202,6 +202,13 @@ namespace KCSAH.APIServer.Controllers
             if (existingProduct == null)
             {
                 return NotFound();
+            }
+
+            var isProductExists = await _unitOfWork.ProductRepository.ProductNameExisted(productdto.Name, existingProduct.ShopId);
+
+            if (isProductExists)
+            {
+                return BadRequest("A product with the same name already exists in this shop.");
             }
 
             _mapper.Map(productdto, existingProduct);

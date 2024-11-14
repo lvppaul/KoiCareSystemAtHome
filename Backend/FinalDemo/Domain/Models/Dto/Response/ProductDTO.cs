@@ -14,6 +14,8 @@ namespace Domain.Models.Dto.Response
 
         public string Description { get; set; }
 
+        public DateTime ExpiredDate { get; set; }
+
         public int Quantity { get; set; }
 
         public int Price { get; set; }

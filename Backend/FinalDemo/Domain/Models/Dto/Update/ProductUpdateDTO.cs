@@ -12,6 +12,8 @@ namespace Domain.Models.Dto.Update
 
         public string Description { get; set; }
 
+        public DateTime? ExpiredDate { get; set; }
+
         public int Quantity { get; set; }
 
         public double Price { get; set; }
