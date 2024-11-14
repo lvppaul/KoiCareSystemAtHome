@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Domain.Base;
+using Domain.Models.Dto.Request;
+using Domain.Models.Dto.Response;
+using Domain.Models.Entity;
+using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using SWP391.KCSAH.Repository;
-using KCSAH.APIServer.Dto;
-using Domain.Models.Entity;
-using Domain.Models.Dto.Response;
-using Domain.Models.Dto.Request;
-using Domain.Services;
-using Domain.Base;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -25,7 +23,7 @@ namespace KCSAH.APIServer.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _getService = getService;
-            this.accountRepository = accountRepository; 
+            this.accountRepository = accountRepository;
         }
 
         [HttpGet]
@@ -239,9 +237,9 @@ namespace KCSAH.APIServer.Controllers
             }
 
             var user = await _unitOfWork.VipRecordRepository.GetAccountByUserIdAsync(ordervipdto.UserId);
-            foreach(var item in user.VipRecords)
+            foreach (var item in user.VipRecords)
             {
-                if(item.EndDate> DateTime.Now)
+                if (item.EndDate > DateTime.Now)
                 {
                     return BadRequest("User is already VIP.");
                 }
@@ -253,7 +251,7 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest("Mapping to order entity failed.");
             }
 
-            int total=0;
+            int total = 0;
 
             foreach (var detail in orderVipMap.OrderVipDetails)
             {
@@ -263,7 +261,7 @@ namespace KCSAH.APIServer.Controllers
                     return NotFound($"Vip with ID {detail.VipId} not found.");
                 }
 
-                total = vip.Price;    
+                total = vip.Price;
             }
             if (!ModelState.IsValid)
             {
