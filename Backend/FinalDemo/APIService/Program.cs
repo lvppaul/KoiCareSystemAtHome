@@ -1,5 +1,5 @@
-using DinkToPdf.Contracts;
 using DinkToPdf;
+using DinkToPdf.Contracts;
 using Domain.Base;
 using Domain.Models.Entity;
 using Domain.Repositories;
@@ -82,6 +82,7 @@ builder.Services.AddScoped<PondService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<VnPayService>();
 builder.Services.AddScoped<SaltCalculator>();
+builder.Services.AddScoped<OrderService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddDbContext<KoiCareSystemAtHomeContext>(options =>
@@ -104,7 +105,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
-        ValidateIssuerSigningKey= true,
+        ValidateIssuerSigningKey = true,
 
 
         ValidAudience = builder.Configuration["JWT:ValidAudience"],

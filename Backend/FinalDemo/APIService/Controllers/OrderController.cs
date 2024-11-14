@@ -17,13 +17,15 @@ namespace KCSAH.APIServer.Controllers
         private readonly IAccountRepository accountRepository;
         private readonly IMapper _mapper;
         private UserService _getService;
+        private readonly OrderService _orderService;
 
-        public OrderController(UnitOfWork unitOfWork, IMapper mapper, UserService getService, IAccountRepository accountRepository)
+        public OrderController(UnitOfWork unitOfWork, IMapper mapper, UserService getService, IAccountRepository accountRepository, OrderService orderService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _getService = getService;
             this.accountRepository = accountRepository;
+            _orderService = orderService;
         }
 
         [HttpGet]
@@ -299,6 +301,47 @@ namespace KCSAH.APIServer.Controllers
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
         }
 
+        [HttpPost("{orderId}/set-successful")]
+        public async Task<IActionResult> SetOrderStatusSuccessful(int orderId)
+        {
+            try
+            {
+                var (updateShop, updateUser) = await _orderService.SetStatusSuccessfulOrderByShop(orderId);
+                if (updateShop == 0)
+                {
+                    return BadRequest(new { Message = "Failed to update order detail status", OrderId = orderId });
+                }
+                return Ok(new { Message = "Order status updated to Successful", OrderId = orderId });
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi nếu cần
+                return StatusCode(500, new { Message = "An error occurred while updating order status", Details = ex.Message });
+            }
+        }
+
+        [HttpPost("{orderId}/product/{productId}/set-successful")]
+        public async Task<IActionResult> SetOrderDetailStatusSuccessful(int orderId, int productId)
+        {
+            try
+            {
+                var (updateShop, updateUser) = await _orderService.SetStatusSuccessfulOrderDetailByShop(orderId, productId);
+
+                if (updateShop == 0)  // Giả sử result == 1 nghĩa là cập nhật thành công
+                {
+                    return BadRequest(new { Message = "Failed to update order detail status", OrderId = orderId, ProductId = productId });
+                }
+                else
+                {
+                    return Ok(new { Message = "Order detail and status updated successfully", OrderId = orderId, ProductId = productId });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi nếu cần thiết
+                return StatusCode(500, new { Message = "An error occurred while updating order detail status", Details = ex.Message });
+            }
+        }
 
         private async Task<Product> GetProductAsync(int id)
         {
