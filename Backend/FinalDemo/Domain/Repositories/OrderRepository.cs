@@ -36,7 +36,10 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await _context.Orders.Include(p => p.OrderVipDetails).Where(p => p.isVipUpgrade == false).ToListAsync();
         }
 
-
+        public async Task<Order> GetOrderByUserIdAndCreateDate(string UserId, DateTime CreateDate)
+        {
+            return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.UserId.Equals(UserId) && p.CreateDate == CreateDate).FirstOrDefaultAsync();
+        }
 
 
     }

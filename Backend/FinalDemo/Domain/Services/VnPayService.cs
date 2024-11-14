@@ -577,7 +577,8 @@ namespace Domain.Services
                             OrderId = orderShop.OrderId,
                             ProductId = product.ProductId,
                             Quantity = originalOrderDetail.Quantity,
-                            UnitPrice = originalOrderDetail.UnitPrice
+                            UnitPrice = originalOrderDetail.UnitPrice,
+                            OrderDetailStatus = originalOrderDetail.OrderDetailStatus
                         };
 
                         orderShop.OrderDetails.Add(orderDetail);

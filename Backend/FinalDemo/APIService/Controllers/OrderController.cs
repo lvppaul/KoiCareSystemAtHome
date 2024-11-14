@@ -17,13 +17,15 @@ namespace KCSAH.APIServer.Controllers
         private readonly IAccountRepository accountRepository;
         private readonly IMapper _mapper;
         private UserService _getService;
+        private readonly OrderService _orderService;
 
-        public OrderController(UnitOfWork unitOfWork, IMapper mapper, UserService getService, IAccountRepository accountRepository)
+        public OrderController(UnitOfWork unitOfWork, IMapper mapper, UserService getService, IAccountRepository accountRepository, OrderService orderService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _getService = getService;
             this.accountRepository = accountRepository;
+            _orderService = orderService;
         }
 
         [HttpGet]
@@ -297,6 +299,21 @@ namespace KCSAH.APIServer.Controllers
             var order = _mapper.Map<OrderVipDTO>(orderVipMap);
 
             return CreatedAtAction(nameof(ReturnOrderById), new { id = order.OrderId }, order);
+        }
+
+        [HttpPost("{orderId}/set-successful")]
+        public async Task<IActionResult> SetOrderStatusSuccessful(int orderId)
+        {
+            try
+            {
+                await _orderService.SetStatusSuccessfulOrderByShop(orderId);
+                return Ok(new { Message = "Order status updated to Successful", OrderId = orderId });
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi nếu cần
+                return StatusCode(500, new { Message = "An error occurred while updating order status", Details = ex.Message });
+            }
         }
 
 

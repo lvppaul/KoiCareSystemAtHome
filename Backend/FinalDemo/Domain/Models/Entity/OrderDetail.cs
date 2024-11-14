@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Domain.Models.Entity;
+﻿using Domain.Models.Entity;
 
 namespace Domain.Models;
 
@@ -13,6 +11,8 @@ public partial class OrderDetail
     public int Quantity { get; set; }
 
     public int UnitPrice { get; set; }
+
+    public string OrderDetailStatus { get; set; } = null!;
 
     public virtual Order Order { get; set; } = null!;
 
