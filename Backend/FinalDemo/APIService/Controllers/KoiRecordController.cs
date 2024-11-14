@@ -54,6 +54,17 @@ namespace APIService.Controllers
             return result;
         }
 
+        [HttpGet("GetSampleRecord")]
+        public async Task<ActionResult<KoiRecordSample>> GetSampleRecord(int age)
+        {
+            var koiRecord = await _unitOfWork.KoiRecordRepository.GetKoiRecordByAge(age);
+            if (koiRecord == null)
+            {
+                return NotFound();
+            }
+            return koiRecord;
+        }
+
         [HttpGet("{id}")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<KoiRecordDTO> GetById(int id)
