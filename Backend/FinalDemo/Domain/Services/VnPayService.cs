@@ -434,7 +434,7 @@ namespace Domain.Services
                         }
 
                         await transaction.CommitAsync(); // Commit giao dịch nếu tất cả thành công
-                        return (true, "Payment proccessed successfully");
+                        return (true, "Payment processed successfully");
 
                     }
 
