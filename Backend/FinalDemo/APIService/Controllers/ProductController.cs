@@ -41,8 +41,6 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
             var result = _mapper.Map<ProductDTO>(product);
-            var category = await GetCategoryAsync(product.CategoryId);
-            result.category = category;
             return result;
         }
         [HttpGet("GetProductImageByProductId/{ProductId}")]
@@ -166,6 +164,13 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("Pagination")]
+        public async Task<IActionResult> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000) 
+        { 
+            var listProduct = await _unitOfWork.ProductRepository.GetAllPaginationAsync(pageNumber, pageSize);
+
+            return Ok(_mapper.Map<List<ProductDTO>>(listProduct));
+        }
         [HttpGet("ProductQuantityByCategory/{categoryId}")]
         public async Task<int> GetProductQuantityByCategoryIdAsync(int categoryId)
         {

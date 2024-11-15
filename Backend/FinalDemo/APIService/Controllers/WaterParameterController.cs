@@ -68,6 +68,14 @@ namespace APIService.Controllers
             return result;
         }
 
+        [HttpGet("WaterParameterSample")]
+        public async Task<ActionResult<WaterParameterSample>> GetSample()
+        {
+            var sample = await _unitOfWork.WaterParameterRepository.GetSample();
+
+            return sample;
+        }
+
         [HttpPost]
         public async Task<ActionResult<WaterParameter>> CreateWaterParameter([FromBody] WaterParameterRequestDTO waterparameterDto)
         {
