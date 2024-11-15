@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
-import { getListOrder, getListVipOrder } from "../../Config/OrderApi";
+import {
+  getListOrder,
+  getListVipOrder,
+  getListVipOrderByWeek,
+  getListVipOrderByMonth,
+} from "../../Config/OrderApi";
 import Button from "@mui/material/Button";
 import { getAccountByUserId } from "../../Config/UserApi";
 import { getVipPackagesById } from "../../Config/VipPackageApi";
 import AdminViewOrderDetailDialog from "./AdminViewOrderDetail";
-
+import AdminDropMenuGetOrderByDayWeekMonth from "./AdminDropDownMenuFilterOrder";
 import { Table } from "antd";
 
 const AdminOrderManagement = () => {
@@ -62,10 +67,13 @@ const AdminOrderManagement = () => {
     },
   ];
   const fetchVipOrders = async () => {
+    setLoading(true);
     try {
       const order = await getListVipOrder();
+      const orderByWeek = await getListVipOrderByWeek(1);
+      const orderByMonth = await getListVipOrderByMonth(3);
       const data = await Promise.all(
-        order.map(async (item) => {
+        orderByMonth.map(async (item) => {
           const vipId = item.orderVipDetails[0]?.vipId;
           const vipPackage = await getVipPackagesById(vipId);
 
@@ -131,6 +139,7 @@ const AdminOrderManagement = () => {
       <div className="members-content shadow border-0 p-3 mt-4">
         <div className="member-content-header d-flex ">
           <h3 className="hd">Vip Package</h3>
+          <AdminDropMenuGetOrderByDayWeekMonth />
         </div>
         <Table
           loading={loading}
