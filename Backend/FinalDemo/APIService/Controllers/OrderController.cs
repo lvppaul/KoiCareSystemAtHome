@@ -121,6 +121,19 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        // Lấy orderVip của ngày hôm nay
+        [HttpGet("vip-orders-by-day")]
+        public async Task<IActionResult> GetVipOrdersByDay([FromQuery] int days = 0)
+        {
+            var orders = await _unitOfWork.OrderRepository.GetVipOrdersByDayAsync(days);
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderVipDTO>>(orders);
+            return Ok(show);
+        }
+
         // Lấy orderVip của tuần hiện tại (hoặc x tuần trước)
         [HttpGet("vip-orders-by-week")]
         public async Task<IActionResult> GetVipOrdersByWeek([FromQuery] int weeks = 1)
