@@ -125,6 +125,22 @@ const getListVipOrderByMonth = async (month) => {
     return null;
   }
 };
+// get vip orders by days - https://localhost:7062/api/Order/vip-orders-by-day?days=7
+const getListVipOrderByDays = async (days) => {
+  try {
+    const response = await api.get(`Order/vip-orders-by-day?days=${days}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
 export {
   createOrder,
   getOrderById,
@@ -134,4 +150,5 @@ export {
   getListVipOrder,
   getListVipOrderByWeek,
   getListVipOrderByMonth,
+  getListVipOrderByDays,
 };
