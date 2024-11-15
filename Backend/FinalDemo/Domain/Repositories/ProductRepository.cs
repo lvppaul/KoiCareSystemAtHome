@@ -20,7 +20,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            var result = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId.Equals(id) && p.IsDeleted == false && p.Status == true);
+            var result = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId.Equals(id) && p.IsDeleted == false && p.Status == "In Stock");
 
             return result;
         }
@@ -41,14 +41,21 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Product>> GetProductOnShop(int ShopId)
         {
-            var result = _context.Products.Include(p => p.Category).Where(p => p.Status == true && p.IsDeleted == false && p.ShopId == ShopId).ToListAsync();
+            var result = _context.Products.Include(p => p.Category).Where(p => p.Status == "In Stock" && p.IsDeleted == false && p.ShopId == ShopId).ToListAsync();
 
             return await result;
         }
 
         public async Task<List<Product>> GetProductOutOfStock(int ShopId)
         {
-            var result = _context.Products.Include(p => p.Category).Where(p => p.ShopId == ShopId && p.Status == false && p.IsDeleted == false).ToListAsync();
+            var result = _context.Products.Include(p => p.Category).Where(p => p.ShopId == ShopId && p.Status == "Out Of Stock" && p.IsDeleted == false).ToListAsync();
+
+            return await result;
+        }
+
+        public async Task<List<Product>> GetProductDiscontinued(int ShopId)
+        {
+            var result = _context.Products.Include(p => p.Category).Where(p => p.ShopId == ShopId && p.Status == "Discontinued" && p.IsDeleted == false).ToListAsync();
 
             return await result;
         }
@@ -113,6 +120,19 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             }
             
             return await result.ToListAsync();
+        }
+
+        public async Task<bool> ProductNameExisted(string name, int shopId)
+        {
+            return await _context.Products.AnyAsync(p => p.Name == name && p.ShopId == shopId);
+        }
+
+        public async Task<List<Product>> GetAllPaginationAsync(int pageNumber = 1, int pageSize = 1000)
+        {
+            //Pagination
+            var skipResult = (pageNumber - 1) * pageSize;
+
+            return await _context.Products.Include(p => p.Category).Skip(skipResult).Take(pageSize).ToListAsync();
         }
     }
 }

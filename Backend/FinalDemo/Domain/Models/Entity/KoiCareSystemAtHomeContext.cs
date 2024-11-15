@@ -68,6 +68,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     public virtual DbSet<OrderVipDetail> OrderVipDetails { get; set; }
 
+    public virtual DbSet<KoiRecordSample> KoiRecordSamples { get; set; }
+
+    public virtual DbSet<WaterParameterSample> WaterParameterSamples {  get; set; }
+
 
     public static string GetConnectionString(string connectionStringName)
     {
@@ -175,6 +179,46 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
+        modelBuilder.Entity<KoiRecordSample>(entity =>
+        {
+
+            entity.ToTable("KoiRecordSample");
+
+            entity.HasNoKey();
+
+            entity.Property(e => e.Age).HasColumnName("Age");
+            entity.Property(e => e.Length).HasColumnName("Length");
+            entity.Property(e => e.Weight).HasColumnName("Weight");
+        });
+
+        modelBuilder.Entity<WaterParameterSample>(entity =>
+        {
+
+            entity.ToTable("WaterParameterSample");
+
+            entity.HasNoKey();
+
+            entity.Property(e => e.MinAmmonium).HasColumnName("MinAmmonium").HasColumnType("decimal(3,2)");
+            entity.Property(e => e.MaxAmmonium).HasColumnName("MaxAmmonium").HasColumnType("decimal(3,2)");
+            entity.Property(e => e.MinOxygen).HasColumnName("MinOxygen").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MaxOxygen).HasColumnName("MaxOxygen").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MaxNitrate).HasColumnName("MaxNitrate").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MinTemperature).HasColumnName("MinTemperature").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MaxTemperature).HasColumnName("MaxTemperature").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MaxPhosphate).HasColumnName("MaxPhosphate").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MinPH).HasColumnName("MinPH").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MaxPH).HasColumnName("MaxPH").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MinGH).HasColumnName("MinGH").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MaxGH).HasColumnName("MaxGH").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MinCarbonDioxide).HasColumnName("MinCarbonDioxide").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MaxCarbonDioxide).HasColumnName("MaxCarbonDioxide").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MinKH).HasColumnName("MinKH").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MaxKH).HasColumnName("MaxKH").HasColumnType("decimal(4,2)");
+            entity.Property(e => e.MinSalt).HasColumnName("MinSalt").HasColumnType("decimal(3,2)");
+            entity.Property(e => e.MaxSalt).HasColumnName("MaxSalt").HasColumnType("decimal(3,2)");
+            entity.Property(e => e.TotalChlorines).HasColumnName("TotalChlorines").HasColumnType("decimal(3,3)");
+            entity.Property(e => e.MaxNitrite).HasColumnName("MaxNitrite").HasColumnType("decimal(3,2)");
+        });
 
         modelBuilder.Entity<CartItem>(entity =>
         {
@@ -352,6 +396,14 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.UserId)
                 .HasMaxLength(450)
                 .HasColumnName("UserId");
+            entity.Property(e => e.ShopId)
+                .HasColumnName("ShopId");
+
+            entity.HasOne(d => d.Shop).WithMany(p => p.Orders)
+               .HasForeignKey(d => d.ShopId)
+               .OnDelete(DeleteBehavior.ClientSetNull)
+               .IsRequired(false)
+               .HasConstraintName("FK__Orders__ShopID__628FA481");
 
             entity.HasOne(d => d.ApplicationUser).WithMany(p => p.Orders)
                .HasForeignKey(d => d.UserId)
@@ -533,8 +585,9 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .IsUnicode(false)
                 .HasColumnName("ProductId");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryId");
+            entity.Property(e => e.ExpiredDate).HasColumnType("datetime").IsRequired(false);
             entity.Property(e => e.Name).HasMaxLength(255);
-            entity.Property(e => e.Status).HasDefaultValue(true);
+            entity.Property(e => e.Status).HasMaxLength(255).HasDefaultValue("In Stock");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)

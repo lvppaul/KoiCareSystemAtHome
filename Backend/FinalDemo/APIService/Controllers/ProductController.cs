@@ -41,8 +41,6 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
             var result = _mapper.Map<ProductDTO>(product);
-            var category = await GetCategoryAsync(product.CategoryId);
-            result.category = category;
             return result;
         }
         [HttpGet("GetProductImageByProductId/{ProductId}")]
@@ -54,6 +52,30 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
             var result = _mapper.Map<List<ProductImageDTO>>(image);
+            return result;
+        }
+
+        [HttpGet("GetProductOutOfStockInShop")]
+        public async Task<ActionResult<List<ProductDTO>>> GetProductOutOfStock(int ShopId)
+        {
+            var product = await _unitOfWork.ProductRepository.GetProductOutOfStock(ShopId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<ProductDTO>>(product);
+            return result;
+        }
+
+        [HttpGet("GetProductDiscontinuedInShop")]
+        public async Task<ActionResult<List<ProductDTO>>> GetProductDiscontinued(int ShopId)
+        {
+            var product = await _unitOfWork.ProductRepository.GetProductDiscontinued(ShopId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<List<ProductDTO>>(product);
             return result;
         }
 
@@ -142,6 +164,13 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("Pagination")]
+        public async Task<IActionResult> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000) 
+        { 
+            var listProduct = await _unitOfWork.ProductRepository.GetAllPaginationAsync(pageNumber, pageSize);
+
+            return Ok(_mapper.Map<List<ProductDTO>>(listProduct));
+        }
         [HttpGet("ProductQuantityByCategory/{categoryId}")]
         public async Task<int> GetProductQuantityByCategoryIdAsync(int categoryId)
         {
@@ -162,11 +191,11 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            var product = await _unitOfWork.ProductRepository.GetProductByCategoryId(productdto.CategoryId);
+            var isProductExists = await _unitOfWork.ProductRepository.ProductNameExisted(productdto.Name, productdto.ShopId);
 
-            if (product == null)
+            if (isProductExists)
             {
-                return BadRequest("This product does not exist.");
+                return BadRequest("A product with the same name already exists in this shop.");
             }
 
             if (!ModelState.IsValid)
@@ -202,6 +231,13 @@ namespace KCSAH.APIServer.Controllers
             if (existingProduct == null)
             {
                 return NotFound();
+            }
+
+            var isProductExists = await _unitOfWork.ProductRepository.ProductNameExisted(productdto.Name, existingProduct.ShopId);
+
+            if (isProductExists)
+            {
+                return BadRequest("A product with the same name already exists in this shop.");
             }
 
             _mapper.Map(productdto, existingProduct);

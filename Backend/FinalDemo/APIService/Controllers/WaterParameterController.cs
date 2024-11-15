@@ -68,6 +68,14 @@ namespace APIService.Controllers
             return result;
         }
 
+        [HttpGet("WaterParameterSample")]
+        public async Task<ActionResult<WaterParameterSample>> GetSample()
+        {
+            var sample = await _unitOfWork.WaterParameterRepository.GetSample();
+
+            return sample;
+        }
+
         [HttpPost]
         public async Task<ActionResult<WaterParameter>> CreateWaterParameter([FromBody] WaterParameterRequestDTO waterparameterDto)
         {
@@ -93,89 +101,70 @@ namespace APIService.Controllers
         }
 
         [HttpPost("CheckWaterParameter")]
-        public ActionResult<List<string>> CheckWaterParameter([FromBody] WaterParameterRequestDTO waterparameterDto)
+        public async Task<ActionResult<List<string>>> CheckWaterParameter([FromBody] WaterParameterRequestDTO waterparameterDto)
         {
             var warnings = new List<string>();
 
-            double maxNitrite = 0.25;
-            double minOxygen = 5.0;
-            double maxOxygen = 18;
-            double maxNitrate = 40;
-            double minKH = 5.04;
-            double maxKH = 6.44;
-            double maxChlorine = 0.003;
-            double minGH = 4;
-            double maxGH = 10;
-            double minAmmonium = 0.2;
-            double maxAmmonium = 2;
-            double minSalt = 0.3;
-            double maxSalt = 0.7;
-            double maxPhosphate = 0.035;
-            double minCarbonDioxide = 5;
-            double maxCarbonDioxide = 35;
-            double maxTemperature = 29;
-            double minTemperature = 20;
-            double minPH = 4;
-            double maxPH = 9;
+            var sample = await _unitOfWork.WaterParameterRepository.GetSample();
 
-            if (waterparameterDto.Nitrite > maxNitrite)
+            if (waterparameterDto.Nitrite > sample.MaxNitrite)
             {
-                warnings.Add("Nitrite should be in 0 - 0.25");
+                warnings.Add($"Nitrite should be in 0 - {sample.MaxNitrite}");
             }
 
-            if (waterparameterDto.Oxygen < minOxygen || waterparameterDto.Oxygen > maxOxygen)
+            if (waterparameterDto.Oxygen < sample.MinOxygen || waterparameterDto.Oxygen > sample.MaxOxygen)
             {
-                warnings.Add("Oxygen should be in 5.0 - 18.0");
+                warnings.Add($"Oxygen should be in {sample.MinOxygen} - {sample.MaxOxygen}");
             }
 
-            if (waterparameterDto.Nitrate > maxNitrate)
+            if (waterparameterDto.Nitrate > sample.MaxNitrate)
             {
-                warnings.Add("Nitrate should be less than or equal to 40");
+                warnings.Add($"Nitrate should be less than or equal to {sample.MaxNitrate}");
             }
 
-            if (waterparameterDto.CarbonHardness < minKH || waterparameterDto.CarbonHardness > maxKH)
+            if (waterparameterDto.CarbonHardness < sample.MinKH || waterparameterDto.CarbonHardness > sample.MaxKH)
             {
-                warnings.Add("Carbon Hardness (KH) should be in 5.04 - 6.44");
+                warnings.Add($"Carbon Hardness (KH) should be in {sample.MinKH} - {sample.MaxKH}");
             }
 
-            if (waterparameterDto.TotalChlorines > maxChlorine)
+            if (waterparameterDto.TotalChlorines > sample.TotalChlorines)
             {
-                warnings.Add("Chlorine should be less than or equal to 0.003");
+                warnings.Add($"Chlorine should be less than or equal to {sample.TotalChlorines}");
             }
 
-            if (waterparameterDto.Hardness < minGH || waterparameterDto.Hardness > maxGH)
+            if (waterparameterDto.Hardness < sample.MinGH || waterparameterDto.Hardness > sample.MaxGH)
             {
-                warnings.Add("General Hardness (GH) should be in 4 - 10");
+                warnings.Add($"General Hardness (GH) should be in {sample.MinGH} - {sample.MaxGH}");
             }
 
-            if (waterparameterDto.Ammonium < minAmmonium || waterparameterDto.Ammonium > maxAmmonium)
+            if (waterparameterDto.Ammonium < sample.MinAmmonium || waterparameterDto.Ammonium > sample.MaxAmmonium)
             {
-                warnings.Add("Ammonium should be in 0.2 - 2");
+                warnings.Add($"Ammonium should be in {sample.MinAmmonium} - {sample.MaxAmmonium}");
             }
 
-            if (waterparameterDto.Salt < minSalt || waterparameterDto.Salt > maxSalt)
+            if (waterparameterDto.Salt < sample.MinSalt || waterparameterDto.Salt > sample.MaxSalt)
             {
-                warnings.Add("Salt should be in 0.3 - 0.7");
+                warnings.Add($"Salt should be in {sample.MinSalt} - {sample.MaxSalt}");
             }
 
-            if (waterparameterDto.Phosphate > maxPhosphate)
+            if (waterparameterDto.Phosphate > sample.MaxPhosphate)
             {
-                warnings.Add("Phosphate should be less than or equal to 0.035");
+                warnings.Add($"Phosphate should be less than or equal to {sample.MaxPhosphate}");
             }
 
-            if (waterparameterDto.CarbonDioxide < minCarbonDioxide || waterparameterDto.CarbonDioxide > maxCarbonDioxide)
+            if (waterparameterDto.CarbonDioxide < sample.MinCarbonDioxide || waterparameterDto.CarbonDioxide > sample.MaxCarbonDioxide)
             {
-                warnings.Add("Calcium Carbonate should be in 5 - 35");
+                warnings.Add($"Calcium Carbonate should be in {sample.MinCarbonDioxide} - {sample.MaxCarbonDioxide}");
             }
 
-            if (waterparameterDto.Temperature > maxTemperature || waterparameterDto.Temperature < minTemperature)
+            if (waterparameterDto.Temperature > sample.MaxTemperature || waterparameterDto.Temperature < sample.MinTemperature)
             {
-                warnings.Add("Temperature should be in 20 - 29");
+                warnings.Add($"Temperature should be in {sample.MinTemperature} - {sample.MaxTemperature}");
             }
 
-            if (waterparameterDto.PH < minPH || waterparameterDto.PH > maxPH)
+            if (waterparameterDto.PH < sample.MinPH || waterparameterDto.PH > sample.MaxPH)
             {
-                warnings.Add("pH should be in 4 - 9");
+                warnings.Add($"pH should be in {sample.MinPH} - {sample.MaxPH}");
             }
 
             if (!warnings.Any())
@@ -187,113 +176,94 @@ namespace APIService.Controllers
         }
 
         [HttpPost("WaterParameterAdvice")]
-        public ActionResult<List<string>> WaterParameterAdvice([FromBody] WaterParameterRequestDTO waterparameterDto)
+        public async Task<ActionResult<List<string>>> WaterParameterAdvice([FromBody] WaterParameterRequestDTO waterparameterDto)
         {
             var warnings = new StringBuilder();
 
-            double maxNitrite = 0.25;
-            double minOxygen = 5.0;
-            double maxOxygen = 18;
-            double maxNitrate = 40;
-            double minKH = 5.04;
-            double maxKH = 6.44;
-            double maxChlorine = 0.003;
-            double minGH = 4;
-            double maxGH = 10;
-            double minAmmonium = 0.2;
-            double maxAmmonium = 2;
-            double minSalt = 0.3;
-            double maxSalt = 0.7;
-            double maxPhosphate = 0.035;
-            double minCarbonDioxide = 5;
-            double maxCarbonDioxide = 35;
-            double maxTemperature = 29;
-            double minTemperature = 20;
-            double minPH = 4;
-            double maxPH = 9;
+            var sample = await _unitOfWork.WaterParameterRepository.GetSample();
 
-            if (waterparameterDto.Salt > maxSalt) 
+            if (waterparameterDto.Salt > sample.MaxSalt) 
             {
-                warnings.Append("- Salt: Your salt level is a bit higher than recommended.For the health and vitality of your koi, it's essential to monitor and maintain appropriate salt levels in the pond.");
+                warnings.AppendLine("Salt: Your salt level is a bit higher than recommended.For the health and vitality of your koi, it's essential to monitor and maintain appropriate salt levels in the pond.");
             }
 
-            if (waterparameterDto.PH > maxPH)
+            if (waterparameterDto.PH > sample.MaxPH)
             {
-                warnings.AppendLine("- pH: pH level is exceeded recommended range.In cases of mild infection, your fish may experience stunted growth and become more susceptible to disease.");
+                warnings.AppendLine("pH: pH level is exceeded recommended range.In cases of mild infection, your fish may experience stunted growth and become more susceptible to disease.");
             }
-            if (waterparameterDto.PH < minPH)
+            if (waterparameterDto.PH < sample.MinPH)
             {
-                warnings.AppendLine("- pH: pH level is considered highly acidic.This can directly affect the protective slime coat on the fish’s skin and hinder their respiration. Additionally, hydrogen sulfide (H₂S) compounds produced in this environment can be toxic to your koi fish, posing a serious risk to their health.");
+                warnings.AppendLine("pH: pH level is considered highly acidic.This can directly affect the protective slime coat on the fish’s skin and hinder their respiration. Additionally, hydrogen sulfide (H₂S) compounds produced in this environment can be toxic to your koi fish, posing a serious risk to their health.");
             }
-            if (waterparameterDto.CarbonHardness > maxKH)
+            if (waterparameterDto.CarbonHardness > sample.MaxKH)
             {
-                warnings.AppendLine("- KH(Carbon Hardness): The KH(Carbon Hardness) is too high, the pH will be less likely to change and may cause the water to become alkaline (high pH). This can stress the koi fish, as a high pH can cause discomfort and reduce the fish's overall health.");
+                warnings.AppendLine("KH(Carbon Hardness): The KH(Carbon Hardness) is too high, the pH will be less likely to change and may cause the water to become alkaline (high pH). This can stress the koi fish, as a high pH can cause discomfort and reduce the fish's overall health.");
             }
-            if (waterparameterDto.CarbonHardness < minKH)
+            if (waterparameterDto.CarbonHardness < sample.MinKH)
             {
-                warnings.AppendLine("- KH(Carbon Hardness): The KH(Carbon Hardness) is too low, may cause the pH level changes rapidly. This can stress the koi fish, as a high pH can cause discomfort and reduce the fish's overall health.");
+                warnings.AppendLine("KH(Carbon Hardness): The KH(Carbon Hardness) is too low, may cause the pH level changes rapidly. This can stress the koi fish, as a high pH can cause discomfort and reduce the fish's overall health.");
             }
-            if (waterparameterDto.Hardness > maxGH)
+            if (waterparameterDto.Hardness > sample.MaxGH)
             {
-                warnings.AppendLine("- GH(Hardness): The GH is too high, as it can create a favorable environment for pathogens and bacteria, potentially leading to contamination.Regularly monitoring and adjusting water hardness can help safeguard the health of your koi and the overall balance of the pond ecosystem.");
-            }
-
-            if(waterparameterDto.Oxygen < minOxygen)
-            {
-                warnings.AppendLine("- O₂: The Oxygen level in pond is too low.The fish will swim to the surface continuously.This can lead to death in long period.");
+                warnings.AppendLine("GH(Hardness): The GH is too high, as it can create a favorable environment for pathogens and bacteria, potentially leading to contamination.Regularly monitoring and adjusting water hardness can help safeguard the health of your koi and the overall balance of the pond ecosystem.");
             }
 
-            if (waterparameterDto.Oxygen < maxOxygen)
+            if(waterparameterDto.Oxygen < sample.MinOxygen)
             {
-                warnings.AppendLine("- O₂: The Oxygen level in pond is too high.This will then affect the fish's skin and can cause air bubble disease, which in the long run can cause the fish to die.");
+                warnings.AppendLine("O₂: The Oxygen level in pond is too low.The fish will swim to the surface continuously.This can lead to death in long period.");
             }
 
-            if (waterparameterDto.Hardness < minGH)
+            if (waterparameterDto.Oxygen < sample.MaxOxygen)
             {
-                warnings.AppendLine("- GH(Hardness): The GH is too low, the filtration system may not function effectively. Maintaining an appropriate level of water hardness is essential to support the efficiency of the filtration process, helping to keep the pond environment clean and healthy for your koi.");
+                warnings.AppendLine("O₂: The Oxygen level in pond is too high.This will then affect the fish's skin and can cause air bubble disease, which in the long run can cause the fish to die.");
             }
 
-            if (waterparameterDto.Temperature < minTemperature)
+            if (waterparameterDto.Hardness < sample.MinGH)
             {
-                warnings.AppendLine("- Temperature: The temperature is in the low level. Therefore, the fish will consume less,so feeding should be reduced to avoid leftover food, which can pollute the water.");
+                warnings.AppendLine("GH(Hardness): The GH is too low, the filtration system may not function effectively. Maintaining an appropriate level of water hardness is essential to support the efficiency of the filtration process, helping to keep the pond environment clean and healthy for your koi.");
             }
 
-            if (waterparameterDto.Temperature > maxTemperature)
+            if (waterparameterDto.Temperature < sample.MinTemperature)
             {
-                warnings.AppendLine("- Temperature: The temperature is above the ideal level.This leads to the shortage of Oxygen in pond, the fish will become tired, weak, and rise to the surface to gulp air. Additionally, this can lead to reduced appetite and a lack of vitality.");
+                warnings.AppendLine("Temperature: The temperature is in the low level. Therefore, the fish will consume less,so feeding should be reduced to avoid leftover food, which can pollute the water.");
             }
 
-            if (waterparameterDto.Nitrite > maxNitrite)
+            if (waterparameterDto.Temperature > sample.MaxTemperature)
             {
-                warnings.AppendLine("- Nitrite: Nitrite levels are above the safe range. High nitrite is toxic to fish and can interfere with their ability to transport oxygen, potentially leading to fish fatalities.");
-            }
-            if (waterparameterDto.Nitrate > maxNitrate)
-            {
-                warnings.AppendLine("- Nitrate: Nitrate levels are above the recommended range. Elevated nitrate levels can stress fish, stunt their growth, and encourage algae blooms, which can reduce water quality.");
-            }
-            if (waterparameterDto.Ammonium > maxAmmonium)
-            {
-                warnings.AppendLine("- Ammonium: Ammonium levels are too high. Elevated ammonium can be toxic to fish and can disrupt water quality, particularly in higher pH environments.");
+                warnings.AppendLine("Temperature: The temperature is above the ideal level.This leads to the shortage of Oxygen in pond, the fish will become tired, weak, and rise to the surface to gulp air. Additionally, this can lead to reduced appetite and a lack of vitality.");
             }
 
-            if (waterparameterDto.Ammonium < minAmmonium)
+            if (waterparameterDto.Nitrite > sample.MaxNitrite)
             {
-                warnings.AppendLine("- Ammonium: Ammonium levels are too low. Insufficient ammonium can impair the nitrogen cycle, affecting overall water quality and potentially hindering the growth and health of your koi fish.");
+                warnings.AppendLine("Nitrite: Nitrite levels are above the safe range. High nitrite is toxic to fish and can interfere with their ability to transport oxygen, potentially leading to fish fatalities.");
+            }
+            if (waterparameterDto.Nitrate > sample.MaxNitrate)
+            {
+                warnings.AppendLine("Nitrate: Nitrate levels are above the recommended range. Elevated nitrate levels can stress fish, stunt their growth, and encourage algae blooms, which can reduce water quality.");
+            }
+            if (waterparameterDto.Ammonium > sample.MaxAmmonium)
+            {
+                warnings.AppendLine("Ammonium: Ammonium levels are too high. Elevated ammonium can be toxic to fish and can disrupt water quality, particularly in higher pH environments.");
             }
 
-            if (waterparameterDto.CarbonDioxide > maxCarbonDioxide)
+            if (waterparameterDto.Ammonium < sample.MinAmmonium)
             {
-                warnings.Append("- CO₂: Carbon dioxide levels are too high. Elevated CO2 can cause oxygen depletion in the water and create a stressful environment for your koi fish, leading to respiratory problems and reduced vitality.");
+                warnings.AppendLine("Ammonium: Ammonium levels are too low. Insufficient ammonium can impair the nitrogen cycle, affecting overall water quality and potentially hindering the growth and health of your koi fish.");
             }
 
-            if (waterparameterDto.CarbonDioxide < minCarbonDioxide)
+            if (waterparameterDto.CarbonDioxide > sample.MaxCarbonDioxide)
             {
-                warnings.AppendLine("- CO₂: Carbon dioxide levels are too low. Insufficient CO2 can disrupt the overall balance of the pond’s ecosystem and impact plant growth, affecting the overall health of your koi fish.");
+                warnings.Append("CO₂: Carbon dioxide levels are too high. Elevated CO2 can cause oxygen depletion in the water and create a stressful environment for your koi fish, leading to respiratory problems and reduced vitality.");
             }
 
-            if (waterparameterDto.TotalChlorines > maxChlorine)
+            if (waterparameterDto.CarbonDioxide < sample.MinCarbonDioxide)
             {
-                warnings.AppendLine("- Chlorine: Chlorine levels are too high. High chlorine concentrations can be toxic to your koi, affecting their gills and overall health. It's essential to ensure the water is adequately dechlorinated to prevent harm to your fish.");
+                warnings.AppendLine("CO₂: Carbon dioxide levels are too low. Insufficient CO2 can disrupt the overall balance of the pond’s ecosystem and impact plant growth, affecting the overall health of your koi fish.");
+            }
+
+            if (waterparameterDto.TotalChlorines > sample.TotalChlorines)
+            {
+                warnings.AppendLine("Chlorine: Chlorine levels are too high. High chlorine concentrations can be toxic to your koi, affecting their gills and overall health. It's essential to ensure the water is adequately dechlorinated to prevent harm to your fish.");
             }
 
             return Ok(warnings.ToString());
@@ -315,7 +285,6 @@ namespace APIService.Controllers
 
             _mapper.Map(waterdto, existingWaterParameter);
 
-            // Cập nhật vào cơ sở dữ liệu
             var updateResult = await _unitOfWork.WaterParameterRepository.UpdateAsync(existingWaterParameter);
 
             if (updateResult <= 0)

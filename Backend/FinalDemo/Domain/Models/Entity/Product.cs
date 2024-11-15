@@ -11,13 +11,15 @@ public partial class Product
 
     public string? Description { get; set; }
     public string? Thumbnail { get; set; }
+
+    public DateTime? ExpiredDate { get; set; }
     public int Quantity { get; set; }
 
     public bool IsDeleted { get; set; }
 
     public int Price { get; set; }
 
-    public bool? Status { get; set; }
+    public string Status { get; set; } = null!;
 
     public int CategoryId { get; set; }
 

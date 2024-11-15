@@ -1,4 +1,7 @@
-﻿namespace Domain.Models.Dto.Request
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Models.Dto.Request
 {
     public class ProductRequestDTO
     {
@@ -7,11 +10,14 @@
 
         public string Description { get; set; }
 
+        [DefaultValue(null)]
+        public DateTime? ExpiredDate { get; set; }
+
         public int Quantity { get; set; }
 
         public int Price { get; set; }
 
-        public bool? Status { get; set; }
+        public string Status { get; set; }
 
         public int CategoryId { get; set; }
 

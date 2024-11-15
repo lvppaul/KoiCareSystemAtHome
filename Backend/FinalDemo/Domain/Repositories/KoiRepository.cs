@@ -116,5 +116,10 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
             return result;
         }
+
+        public async Task<bool> KoiNameExisted(string userId, string name)
+        {
+            return await _context.Kois.AnyAsync(k => k.UserId.Equals(userId) && k.Name.Equals(name));
+        }
     }
 }

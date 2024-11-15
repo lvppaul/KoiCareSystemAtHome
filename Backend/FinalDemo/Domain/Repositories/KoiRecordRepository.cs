@@ -31,5 +31,12 @@ namespace Domain.Repositories
 
             return result;
         }
+
+        public async Task<KoiRecordSample> GetKoiRecordByAge(int age)
+        {
+            var result = await _context.KoiRecordSamples.Where(k => k.Age == age).FirstOrDefaultAsync();
+
+            return result;
+        }
     }
 }

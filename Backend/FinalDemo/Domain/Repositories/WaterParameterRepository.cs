@@ -19,5 +19,10 @@ namespace Domain.Repositories
 
             return await result;
         }
+
+        public async Task<WaterParameterSample> GetSample()
+        {
+            return await _context.WaterParameterSamples.FirstOrDefaultAsync();
+        }
     }
 }

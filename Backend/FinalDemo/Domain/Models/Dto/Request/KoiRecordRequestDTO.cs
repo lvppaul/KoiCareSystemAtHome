@@ -16,7 +16,6 @@ namespace Domain.Models.Dto.Request
 
         public float Weight { get; set; }
 
-        [JsonIgnore]
-        public DateTime UpdatedTime { get; set; } = DateTime.Now;
+        public DateTime UpdatedTime { get; set; }
     }
 }

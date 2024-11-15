@@ -7,6 +7,8 @@ public partial class Order
 {
     public int OrderId { get; set; }
     public string UserId { get; set; } = null!;
+
+    public int? ShopId { get; set; }
     public string? FullName { get; set; }
 
     public string? Phone { get; set; }
@@ -38,6 +40,8 @@ public partial class Order
     public virtual ICollection<Revenue> Revenues { get; set; } = new List<Revenue>();
 
     public virtual ApplicationUser ApplicationUser { get; set; } = null!;
+
+    public virtual Shop Shop { get; set; }
 
     public virtual PaymentTransaction PaymentTransaction { get; set; } = null!;
 }

@@ -1,6 +1,6 @@
 ﻿--drop database KoiCareSystemAtHome;
 
-use KoiCareSystemAtHome;
+use KoiCareSystemAtHome1511;
 
 --Disable Foreign Key Constraints
 --EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL';
@@ -53,7 +53,6 @@ VALUES
 --3
 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'1432d10e-64e9-4b0e-b7ff-05253aa0000d', N'511e95c7-ae67-4186-9fd7-8d5da11979b0')
 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'156e10b8-ca91-4925-938f-1d872a357ebe', N'511e95c7-ae67-4186-9fd7-8d5da11979b0')
-INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'7436f8e3-ab97-4429-8184-2a4cf920dba8', N'511e95c7-ae67-4186-9fd7-8d5da11979b0')
 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'979a42a8-ecc7-4d15-ab6f-410755b9e593', N'6f242335-7855-4678-b3f2-0a0c7c525c8a')
 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'02ef888c-9467-48bf-b56f-c0aa9033c5a3', N'90204048-b8cd-4d16-bfe7-5991e5360e06')
 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'373236e8-0df7-44bf-9990-ce22fa1ff829', N'90204048-b8cd-4d16-bfe7-5991e5360e06')
@@ -93,35 +92,35 @@ VALUES
 ('979a42a8-ecc7-4d15-ab6f-410755b9e593', 2, 4, GETDATE());  -- Admin user rating Shop 2
 
 
-INSERT INTO Product (ShopId, Name, Thumbnail, Description, Quantity, Price, Status, CategoryID)
+INSERT INTO Product (ShopId, Name, ExpiredDate, Thumbnail, Description, Quantity, Price, CategoryID)
 VALUES
-(2, 'Premium Koi Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/premium_koi_food.png', 'High-quality koi food for vibrant colors and growth.', 100, 600000, 1, 1),
-(1, 'Growth Formula', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/growth_formula.png', 'A special formula to promote faster growth in koi.', 150, 750000, 1, 1),
-(2, 'Wheat Germ Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/wheat_germ_food.png', 'Koi food designed for colder weather to support digestion.', 200, 550000, 1, 1),
-(1, 'Color Enhancing Food', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/color_enhancing_food.png', 'Enhances the colors of koi fish naturally.', 120, 800000, 1, 1),
-(2, 'Koi Fry Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fry_food.png', 'Specially formulated for young koi fry.', 180, 450000, 1, 1),
-(1, 'Spirulina Pellets', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/spirulina_pellets.png', 'Rich in spirulina for healthy koi growth.', 100, 650000, 1, 1),
-(2, 'High Protein Food', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/high_protein_food.png', 'High-protein food to boost koi muscle development.', 130, 720000, 1, 1),
-(1, 'All Season Koi Food', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/all_season_koi_food.png', 'Koi food suitable for all seasons.', 160, 520000, 1, 1),
-(2, 'Floating Pellets', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/floating_pellets.png', 'Floating pellets that koi love to feed on.', 140, 600000, 1, 1),
-(1, 'Pond Pump', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_pump.png', 'High-capacity pump for maintaining water flow in ponds.', 50, 5000000, 1, 2),
-(2, 'Pond Skimmer', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_skimmer.png', 'Essential skimmer for removing debris from the pond surface.', 70, 2500000, 1, 2),
-(1, 'UV Clarifier', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/uv_clarifier.png', 'UV clarifier to keep pond water clear and algae-free.', 60, 4000000, 1, 2),
-(2, 'Pond Heater', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_heater.png', 'Heater for maintaining optimal water temperature during cold seasons.', 40, 4500000, 1, 2),
-(1, 'Filter System', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/filter_system.png', 'Advanced filtration system for large ponds.', 45, 7000000, 1, 2),
-(2, 'Aeration Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/aeration_kit.png', 'Complete aeration kit to boost oxygen levels in the pond.', 80, 2100000, 1, 2),
-(1, 'Pond Net', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_net.png', 'Pond net to catch debris and fish.', 100, 750000, 1, 2),
-(2, 'Waterfall Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/waterfall_kit.png', 'Waterfall kit to create a stunning feature in the pond.', 20, 8000000, 1, 2),
-(1, 'Pond Liner', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_liner.png', 'Durable pond liner to prevent leaks.', 90, 2000000, 1, 2),
-(2, 'Koi Health Boost', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_health_boost.png', 'A vitamin and mineral supplement for healthier koi.', 120, 500000, 1, 3),
-(1, 'Anti-Bacterial Treatment', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/anti_bacterial_treatment.png', 'Treatment for bacterial infections in koi.', 100, 850000, 1, 3),
-(2, 'Anti-Parasite Treatment', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/anti_parasite_treatment.png', 'Effective treatment for koi parasite issues.', 110, 950000, 1, 3),
-(1, 'Water Conditioner', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/water_conditioner.png', 'Conditioner to ensure safe water quality for koi.', 150, 650000, 1, 3),
-(2, 'Koi Salt', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_salt.png', 'Koi salt to help maintain water salinity and fish health.', 200, 300000, 1, 3),
-(1, 'Pond Bacteria', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_bacteria.png', 'Beneficial bacteria to improve water quality.', 180, 700000, 1, 3),
-(2, 'Koi Fungus Treatment', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fungus_treatment.png', 'Treats fungal infections in koi.', 75, 850000, 1, 3),
-(2, 'Koi First Aid Kit', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_first_aid_kit.png', 'A complete first aid kit for koi emergencies.', 50, 1000000, 1, 3),
-(1, 'Koi Sedative', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/koi_sedative.png', 'Sedative for koi handling and transportation.', 30, 1200000, 1, 3);
+(2, 'Premium Koi Food', '2026-01-15', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/premium_koi_food.png', 'High-quality koi food for vibrant colors and growth.', 100, 600000, 1),
+(1, 'Growth Formula', '2026-02-20', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/growth_formula.png', 'A special formula to promote faster growth in koi.', 150, 750000, 1),
+(2, 'Wheat Germ Food', '2026-03-10', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/wheat_germ_food.png', 'Koi food designed for colder weather to support digestion.', 200, 550000, 1),
+(1, 'Color Enhancing Food', '2026-01-30', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/color_enhancing_food.png', 'Enhances the colors of koi fish naturally.', 120, 800000, 1),
+(2, 'Koi Fry Food', '2025-12-25', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fry_food.png', 'Specially formulated for young koi fry.', 180, 450000, 1),
+(1, 'Spirulina Pellets', '2026-02-15', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/spirulina_pellets.png', 'Rich in spirulina for healthy koi growth.', 100, 650000, 1),
+(2, 'High Protein Food', '2026-03-20', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/high_protein_food.png', 'High-protein food to boost koi muscle development.', 130, 720000, 1),
+(1, 'All Season Koi Food', '2026-01-25', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/all_season_koi_food.png', 'Koi food suitable for all seasons.', 160, 520000, 1),
+(2, 'Floating Pellets', '2026-02-28', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/floating_pellets.png', 'Floating pellets that koi love to feed on.', 140, 600000, 1),
+(1, 'Pond Pump', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_pump.png', 'High-capacity pump for maintaining water flow in ponds.', 50, 5000000, 2),
+(2, 'Pond Skimmer', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_skimmer.png', 'Essential skimmer for removing debris from the pond surface.', 70, 2500000, 2),
+(1, 'UV Clarifier', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/uv_clarifier.png', 'UV clarifier to keep pond water clear and algae-free.', 60, 4000000, 2),
+(2, 'Pond Heater', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_heater.png', 'Heater for maintaining optimal water temperature during cold seasons.', 40, 4500000, 2),
+(1, 'Filter System', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/filter_system.png', 'Advanced filtration system for large ponds.', 45, 7000000, 2),
+(2, 'Aeration Kit', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/aeration_kit.png', 'Complete aeration kit to boost oxygen levels in the pond.', 80, 2100000, 2),
+(1, 'Pond Net', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_net.png', 'Pond net to catch debris and fish.', 100, 750000, 2),
+(2, 'Waterfall Kit', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/waterfall_kit.png', 'Waterfall kit to create a stunning feature in the pond.', 20, 8000000, 2),
+(1, 'Pond Liner', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_liner.png', 'Durable pond liner to prevent leaks.', 90, 2000000, 2),
+(2, 'Koi Health Boost', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_health_boost.png', 'A vitamin and mineral supplement for healthier koi.', 120, 500000, 3),
+(1, 'Anti-Bacterial Treatment', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/anti_bacterial_treatment.png', 'Treatment for bacterial infections in koi.', 100, 850000, 3),
+(2, 'Anti-Parasite Treatment', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/anti_parasite_treatment.png', 'Effective treatment for koi parasite issues.', 110, 950000, 3),
+(1, 'Water Conditioner', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/water_conditioner.png', 'Conditioner to ensure safe water quality for koi.', 150, 650000, 3),
+(2, 'Koi Salt', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_salt.png', 'Koi salt to help maintain water salinity and fish health.', 200, 300000, 3),
+(1, 'Pond Bacteria', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_bacteria.png', 'Beneficial bacteria to improve water quality.', 180, 700000, 3),
+(2, 'Koi Fungus Treatment', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fungus_treatment.png', 'Treats fungal infections in koi.', 75, 850000, 3),
+(2, 'Koi First Aid Kit', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_first_aid_kit.png', 'A complete first aid kit for koi emergencies.', 50, 1000000, 3),
+(1, 'Koi Sedative', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/koi_sedative.png', 'Sedative for koi handling and transportation.', 30, 1200000, 3);
 
 
 INSERT INTO Product_Image (ProductID, ImageUrl)
@@ -413,45 +412,45 @@ INSERT [dbo].[Orders] ([OrderId], [UserId], [FullName], [Phone], [CreateDate], [
 SET IDENTITY_INSERT [dbo].[Orders] OFF
 
 -- N-N Table
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (1, 1, 2, 600000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (1, 2, 1, 700000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (2, 3, 1, 550000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (3, 10, 1, 5000000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (3, 11, 2, 2400000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (4, 18, 1, 1800000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (7, 1, 1, 600000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (9, 24, 1, 700000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (10, 14, 1, 7000000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (12, 6, 2, 650000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (12, 7, 1, 720000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (12, 21, 1, 950000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (13, 18, 1, 2000000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (14, 9, 3, 600000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (14, 11, 1, 2500000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (15, 8, 2, 520000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (15, 23, 2, 300000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (16, 21, 1, 950000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (16, 22, 1, 650000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (17, 7, 1, 720000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (18, 9, 2, 600000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (18, 10, 1, 5000000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (18, 20, 1, 850000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (20, 1, 1, 600000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (20, 4, 2, 800000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (20, 6, 1, 650000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (21, 7, 3, 720000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (21, 15, 1, 2100000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (21, 27, 1, 1200000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (22, 14, 1, 7000000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (22, 24, 3, 700000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (23, 2, 2, 750000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (23, 12, 1, 4000000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (23, 22, 1, 650000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (24, 8, 2, 520000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (26, 1, 1, 600000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (27, 16, 1, 750000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (28, 3, 1, 550000)
-INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice]) VALUES (28, 6, 2, 650000)
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (1, 1, 2, 600000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (1, 2, 1, 700000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (2, 3, 1, 550000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (3, 10, 1, 5000000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (3, 11, 2, 2400000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (4, 18, 1, 1800000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (7, 1, 1, 600000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (9, 24, 1, 700000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (10, 14, 1, 7000000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (12, 6, 2, 650000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (12, 7, 1, 720000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (12, 21, 1, 950000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (13, 18, 1, 2000000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (14, 9, 3, 600000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (14, 11, 1, 2500000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (15, 8, 2, 520000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (15, 23, 2, 300000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (16, 21, 1, 950000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (16, 22, 1, 650000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (17, 7, 1, 720000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (18, 9, 2, 600000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (18, 10, 1, 5000000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (18, 20, 1, 850000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (20, 1, 1, 600000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (20, 4, 2, 800000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (20, 6, 1, 650000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (21, 7, 3, 720000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (21, 15, 1, 2100000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (21, 27, 1, 1200000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (22, 14, 1, 7000000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (22, 24, 3, 700000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (23, 2, 2, 750000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (23, 12, 1, 4000000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (23, 22, 1, 650000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (24, 8, 2, 520000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (26, 1, 1, 600000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (27, 16, 1, 750000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (28, 3, 1, 550000,'Pending')
+INSERT [dbo].[OrderDetail] ([OrderId], [ProductId], [Quantity], [UnitPrice],[OrderDetailStatus]) VALUES (28, 6, 2, 650000,'Pending')
 
 
 INSERT [dbo].[OrderVipDetail] ([OrderId], [VipId]) VALUES (11, 1)
@@ -517,3 +516,26 @@ INSERT [dbo].[PaymentTransaction] ([Id], [userId], [VnpTxnRef], [VnpAmount], [Vn
 INSERT [dbo].[PaymentTransaction] ([Id], [userId], [VnpTxnRef], [VnpAmount], [VnpBankCode], [VnpBankTranNo], [VnpCardType], [VnpOrderInfo], [VnpPayDate], [VnpResponseCode], [VnpTransactionNo], [VnpTransactionStatus], [VnpSecureHash], [VnpTmnCode], [PaymentStatus]) VALUES (23, N'd2944665-9d7a-43ea-b41e-fa363ebd5625', N'638667880663596001', N'75000000', N'NCB', N'VNP14661671', N'ATM', 27, N'20241109222758', N'00', N'14661671', N'00', N'b0ed5504bd3a61c589e61f1c3287eb6533f99df656feab565bcf7b4668bac270b2fde536b4f8f1d29a570c4ae8ffbadab7985e516f21c2f9d14eea40f3071519', N'LTB2UNVG', 1)
 INSERT [dbo].[PaymentTransaction] ([Id], [userId], [VnpTxnRef], [VnpAmount], [VnpBankCode], [VnpBankTranNo], [VnpCardType], [VnpOrderInfo], [VnpPayDate], [VnpResponseCode], [VnpTransactionNo], [VnpTransactionStatus], [VnpSecureHash], [VnpTmnCode], [PaymentStatus]) VALUES (24, N'd2944665-9d7a-43ea-b41e-fa363ebd5625', N'638667881374906973', N'185000000', N'NCB', N'VNP14661676', N'ATM', 28, N'20241109222909', N'00', N'14661676', N'00', N'80edd68adb4e1916d56d9dc4242b72ff90d660963f142d2d96bc3a2a7fa33c288b7757c4b09d5da4f86ba6c8deb7ff176130cc410aef888b6baedcb02b11673f', N'LTB2UNVG', 1)
 SET IDENTITY_INSERT [dbo].[PaymentTransaction] OFF
+
+--Koi Record Sample
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (1, 24, 214);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (2, 40, 1044);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (3, 51, 2232);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (4, 60, 3522);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (5, 65, 4666);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (6, 69, 5593);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (7, 72, 6364);
+
+--Water Parameter Sample
+INSERT INTO WaterParameterSample
+(
+    MaxNitrite, MinOxygen, MaxOxygen, MaxNitrate, MinKH, MaxKH, TotalChlorines, 
+    MinGH, MaxGH, MinAmmonium, MaxAmmonium, MinSalt, MaxSalt, MaxPhosphate, 
+    MinCarbonDioxide, MaxCarbonDioxide, MaxTemperature, MinTemperature, MinPH, MaxPH
+)
+VALUES
+(
+    0.25, 5.0, 18.0, 40.0, 5.04, 6.44, 0.003, 
+    4.0, 10.0, 0.2, 2.0, 0.3, 0.7, 0.035, 
+    5.0, 35.0, 29.0, 20.0, 4.0, 9.0
+);
