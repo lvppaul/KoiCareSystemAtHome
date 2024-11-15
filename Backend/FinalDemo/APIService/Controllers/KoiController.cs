@@ -335,6 +335,26 @@ namespace KCSAH.APIServer.Controllers
             return Ok($"Koi {koiId} has been transferred to pond {pondId}.");
         }
 
+        [HttpPost("RemoveKoiFromPond")]
+        public async Task<ActionResult<Koi>> RemoveKoi(int koiId)
+        {
+            var koi = await _unitOfWork.KoiRepository.GetByIdAsync(koiId);
+
+            if (koi.PondId == null)
+            {
+                return BadRequest("Koi is not currently assigned to any pond.");
+            }
+
+            koi.PondId = null;
+
+            var success = await _unitOfWork.KoiRepository.UpdateAsync(koi);
+            if (success <= 0)
+            {
+                return StatusCode(500, "Error occurred while removing the koi from the pond.");
+            }
+
+            return Ok($"Koi {koiId} has been successfully removed from the pond.");
+        }
         [HttpDelete("{id}")]
         //[Authorize(Roles = $"{AppRole.Vip},{AppRole.Member}")]
         public async Task<IActionResult> DeleteKoi(int id)
