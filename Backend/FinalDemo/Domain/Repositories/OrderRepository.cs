@@ -41,6 +41,40 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.UserId.Equals(UserId) && p.CreateDate == CreateDate).FirstOrDefaultAsync();
         }
 
+        // Lấy orderVip theo ngày hôm nay
+        public async Task<List<Order>> GetVipOrdersTodayAsync()
+        {
+            var endDate = DateTime.Today;
+            var startDate = endDate;
+            return await GetVipOrdersByDateRangeAsync(startDate, endDate);
+        }
+
+        // Lấy orderVip trong tuần hiện tại
+        public async Task<List<Order>> GetVipOrdersByWeekAsync(int weeks)
+        {
+            var days = 7 * weeks;
+            var endDate = DateTime.Today;
+            // var startDate = endDate.AddDays(-(int)endDate.DayOfWeek + 1); // Bắt đầu từ thứ Hai của tuần này
+            var startDate = endDate.AddDays(-days);
+            return await GetVipOrdersByDateRangeAsync(startDate, endDate);
+        }
+
+        // Lấy orderVip trong tháng hiện tại
+        public async Task<List<Order>> GetVipOrdersByMonthAsync(int month)
+        {
+            var endDate = DateTime.Today;
+            //var startDate = new DateTime(endDate.Year, endDate.Month, 1); // Bắt đầu từ ngày 1 của tháng
+            var startDate = endDate.AddMonths(-month);
+            return await GetVipOrdersByDateRangeAsync(startDate, endDate);
+        }
+
+        // Hàm dùng chung để lấy danh sách orderVip theo khoảng thời gian
+        private async Task<List<Order>> GetVipOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _context.Orders.Include(o => o.OrderVipDetails)
+                .Where(o => o.isVipUpgrade && o.CreateDate >= startDate && o.CreateDate <= endDate)
+                .ToListAsync();
+        }
 
     }
 }

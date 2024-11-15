@@ -108,6 +108,45 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        // Lấy orderVip của ngày hôm nay
+        [HttpGet("vip-orders-today")]
+        public async Task<IActionResult> GetVipOrdersToday()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetVipOrdersTodayAsync();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderVipDTO>>(orders);
+            return Ok(show);
+        }
+
+        // Lấy orderVip của tuần hiện tại (hoặc x tuần trước)
+        [HttpGet("vip-orders-by-week")]
+        public async Task<IActionResult> GetVipOrdersByWeek([FromQuery] int weeks = 1)
+        {
+            var orders = await _unitOfWork.OrderRepository.GetVipOrdersByWeekAsync(weeks);
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderVipDTO>>(orders);
+            return Ok(show);
+        }
+
+        // Lấy orderVip của tháng hiện tại (hoặc x tháng trước)
+        [HttpGet("vip-orders-by-month")]
+        public async Task<IActionResult> GetVipOrdersByMonth([FromQuery] int month = 1)
+        {
+            var orders = await _unitOfWork.OrderRepository.GetVipOrdersByMonthAsync(month);
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderVipDTO>>(orders);
+            return Ok(show);
+        }
+
         [HttpPost]
         public async Task<ActionResult<OrderDTO>> CreateOrder([FromBody] OrderRequestDTO orderdto)
         {
