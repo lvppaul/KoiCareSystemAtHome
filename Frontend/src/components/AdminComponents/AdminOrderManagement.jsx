@@ -5,6 +5,7 @@ import {
   getListVipOrderByWeek,
   getListVipOrderByMonth,
   getListVipOrderByDays,
+  getListOrderByDays,
 } from "../../Config/OrderApi";
 import Button from "@mui/material/Button";
 import { getAccountByUserId } from "../../Config/UserApi";
@@ -17,14 +18,16 @@ const AdminOrderManagement = () => {
   const [loading, setLoading] = useState(true);
   const [vipOrders, setVipOrders] = useState([]);
   const [orders, setOrders] = useState([]);
-  const [day, setDay] = useState(365);
-  const fetchOrders = async () => {
+  const [dayCommission, setDayCommission] = useState(365);
+  const [dayVip, setDayVip] = useState(365);
+  const fetchOrders = async (day) => {
     setLoading(true);
     try {
       const res = await getListOrder();
+      const orderByDate = await getListOrderByDays(day);
       console.log("res:", res);
       const data = await Promise.all(
-        res.map((item) => {
+        orderByDate.map((item) => {
           return {
             orderId: item.orderId,
             fullName: item.fullName,
@@ -67,10 +70,13 @@ const AdminOrderManagement = () => {
       ),
     },
   ];
-  const handleDayOption = (day) => {
-    setDay(day);
+  const handleDayCommissionOption = (day) => {
+    setDayCommission(day);
   };
-  const fetchVipOrders = async () => {
+  const handleDayVipOption = (day) => {
+    setDayVip(day);
+  };
+  const fetchVipOrders = async (day) => {
     setLoading(true);
     try {
       const order = await getListVipOrder();
@@ -118,9 +124,11 @@ const AdminOrderManagement = () => {
     { title: "Status", dataIndex: "orderStatus" },
   ];
   useEffect(() => {
-    fetchOrders();
-    fetchVipOrders();
-  }, [day]);
+    fetchOrders(dayCommission);
+  }, [dayCommission]);
+  useEffect(() => {
+    fetchVipOrders(dayVip);
+  }, [dayVip]);
 
   console.log("order:", orders);
 
@@ -131,7 +139,7 @@ const AdminOrderManagement = () => {
       <div className="members-content shadow border-0 p-3 mt-4">
         <div className="member-content-header d-flex ">
           <h3 className="hd">Commission Order</h3>
-          <AdminDropMenuGetOrderByDays option={handleDayOption} />
+          <AdminDropMenuGetOrderByDays option={handleDayCommissionOption} />
         </div>
 
         <Table
@@ -143,7 +151,7 @@ const AdminOrderManagement = () => {
       <div className="members-content shadow border-0 p-3 mt-4">
         <div className="member-content-header d-flex ">
           <h3 className="hd">Vip Package</h3>
-          <AdminDropMenuGetOrderByDays option={handleDayOption} />
+          <AdminDropMenuGetOrderByDays option={handleDayVipOption} />
         </div>
         <Table
           loading={loading}

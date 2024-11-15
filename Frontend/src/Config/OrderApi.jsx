@@ -60,11 +60,27 @@ const getVipOrderByUserId = async (userId) => {
     return null;
   }
 };
-
+/* ------------------------Commission Order---------------------  */
 // get list commission fee order
 const getListOrder = async () => {
   try {
     const response = await api.get(`Order`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
+// get Commission order by days - https://localhost:7062/api/Order/orders-by-day?days=30
+const getListOrderByDays = async (day) => {
+  try {
+    const response = await api.get(`Order/orders-by-day?days=${day}`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -151,4 +167,5 @@ export {
   getListVipOrderByWeek,
   getListVipOrderByMonth,
   getListVipOrderByDays,
+  getListOrderByDays,
 };
