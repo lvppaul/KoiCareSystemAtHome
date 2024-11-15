@@ -7,7 +7,7 @@ import { lockUser, unLockUser, getAccountByUserId } from "../../Config/UserApi";
 const AdminShops = () => {
   const [shops, setShops] = useState([]);
   const [accounts, setAccounts] = useState({}); // State để lưu trữ account của mỗi userId
-
+  const [loading, setLoading] = useState(true);
   const fetchUserinfo = async () => {
     try {
       const response = await getShop();
@@ -54,7 +54,8 @@ const AdminShops = () => {
   useEffect(() => {
     fetchUserinfo();
   }, []);
-
+  console.log("shop", shops);
+  console.log("account", accounts);
   return (
     <div className="right-content">
       <div className="members-content shadow border-0 p-3 mt-4">

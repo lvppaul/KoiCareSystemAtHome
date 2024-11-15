@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@canvasjs/react-charts": "^1.0.2",
     "@ckeditor/ckeditor5-build-classic": "^43.2.0",
     "@ckeditor/ckeditor5-react": "^9.3.1",
     "@emotion/react": "^11.13.3",
@@ -11,6 +12,7 @@
     "@mui/material": "^6.1.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
+    "antd": "^5.22.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
