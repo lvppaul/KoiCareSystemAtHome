@@ -52,7 +52,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         // Lấy orderVip theo ngày hôm nay
         public async Task<List<Order>> GetVipOrdersByDayAsync(int days)
         {
-            var endDate = DateTime.Today;
+            var endDate = DateTime.Now;
             var startDate = endDate.AddDays(-days);
             return await GetVipOrdersByDateRangeAsync(startDate, endDate);
         }
