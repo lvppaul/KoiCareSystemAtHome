@@ -115,14 +115,14 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         private async Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            return await _context.Orders.Include(o => o.OrderVipDetails)
+            return await _context.Orders.Include(o => o.OrderDetails)
                 .Where(o => !o.isVipUpgrade && o.CreateDate >= startDate && o.CreateDate <= endDate)
                 .ToListAsync();
         }
 
         private async Task<List<Order>> GetOrdersByMonthRangeAsync(int month, int year)
         {
-            return await _context.Orders.Include(o => o.OrderVipDetails)
+            return await _context.Orders.Include(o => o.OrderDetails)
                 .Where(o => !o.isVipUpgrade && o.CreateDate.Month == month && o.CreateDate.Year == year)
                 .ToListAsync();
         }
