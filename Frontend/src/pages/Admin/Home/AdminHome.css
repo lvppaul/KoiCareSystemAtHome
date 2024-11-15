@@ -198,6 +198,9 @@ button .icon svg {
   justify-content: space-between;
   margin-bottom: 20px;
 }
+.tableManagement {
+  margin-top: 20px;
+}
 
 /*------------------- Revenue Dashboard ----------- */
 .dashboardChart {
