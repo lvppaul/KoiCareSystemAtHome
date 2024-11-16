@@ -178,95 +178,95 @@ namespace APIService.Controllers
         [HttpPost("WaterParameterAdvice")]
         public async Task<ActionResult<List<string>>> WaterParameterAdvice([FromBody] WaterParameterRequestDTO waterparameterDto)
         {
-            var warnings = new StringBuilder();
+            var warnings = new List<string>();
 
             var sample = await _unitOfWork.WaterParameterRepository.GetSample();
 
             if (waterparameterDto.Salt > sample.MaxSalt) 
             {
-                warnings.AppendLine("Salt: Your salt level is a bit higher than recommended.For the health and vitality of your koi, it's essential to monitor and maintain appropriate salt levels in the pond.");
+                warnings.Add("Salt: Your salt level is a bit higher than recommended.For the health and vitality of your koi, it's essential to monitor and maintain appropriate salt levels in the pond.");
             }
 
             if (waterparameterDto.PH > sample.MaxPH)
             {
-                warnings.AppendLine("pH: pH level is exceeded recommended range.In cases of mild infection, your fish may experience stunted growth and become more susceptible to disease.");
+                warnings.Add("pH: pH level is exceeded recommended range.In cases of mild infection, your fish may experience stunted growth and become more susceptible to disease.");
             }
             if (waterparameterDto.PH < sample.MinPH)
             {
-                warnings.AppendLine("pH: pH level is considered highly acidic.This can directly affect the protective slime coat on the fish’s skin and hinder their respiration. Additionally, hydrogen sulfide (H₂S) compounds produced in this environment can be toxic to your koi fish, posing a serious risk to their health.");
+                warnings.Add("pH: pH level is considered highly acidic.This can directly affect the protective slime coat on the fish’s skin and hinder their respiration. Additionally, hydrogen sulfide (H₂S) compounds produced in this environment can be toxic to your koi fish, posing a serious risk to their health.");
             }
             if (waterparameterDto.CarbonHardness > sample.MaxKH)
             {
-                warnings.AppendLine("KH(Carbon Hardness): The KH(Carbon Hardness) is too high, the pH will be less likely to change and may cause the water to become alkaline (high pH). This can stress the koi fish, as a high pH can cause discomfort and reduce the fish's overall health.");
+                warnings.Add("KH(Carbon Hardness): The KH(Carbon Hardness) is too high, the pH will be less likely to change and may cause the water to become alkaline (high pH). This can stress the koi fish, as a high pH can cause discomfort and reduce the fish's overall health.");
             }
             if (waterparameterDto.CarbonHardness < sample.MinKH)
             {
-                warnings.AppendLine("KH(Carbon Hardness): The KH(Carbon Hardness) is too low, may cause the pH level changes rapidly. This can stress the koi fish, as a high pH can cause discomfort and reduce the fish's overall health.");
+                warnings.Add("KH(Carbon Hardness): The KH(Carbon Hardness) is too low, may cause the pH level changes rapidly. This can stress the koi fish, as a high pH can cause discomfort and reduce the fish's overall health.");
             }
             if (waterparameterDto.Hardness > sample.MaxGH)
             {
-                warnings.AppendLine("GH(Hardness): The GH is too high, as it can create a favorable environment for pathogens and bacteria, potentially leading to contamination.Regularly monitoring and adjusting water hardness can help safeguard the health of your koi and the overall balance of the pond ecosystem.");
+                warnings.Add("GH(Hardness): The GH is too high, as it can create a favorable environment for pathogens and bacteria, potentially leading to contamination.Regularly monitoring and adjusting water hardness can help safeguard the health of your koi and the overall balance of the pond ecosystem.");
             }
 
             if(waterparameterDto.Oxygen < sample.MinOxygen)
             {
-                warnings.AppendLine("O₂: The Oxygen level in pond is too low.The fish will swim to the surface continuously.This can lead to death in long period.");
+                warnings.Add("O₂: The Oxygen level in pond is too low.The fish will swim to the surface continuously.This can lead to death in long period.");
             }
 
             if (waterparameterDto.Oxygen < sample.MaxOxygen)
             {
-                warnings.AppendLine("O₂: The Oxygen level in pond is too high.This will then affect the fish's skin and can cause air bubble disease, which in the long run can cause the fish to die.");
+                warnings.Add("O₂: The Oxygen level in pond is too high.This will then affect the fish's skin and can cause air bubble disease, which in the long run can cause the fish to die.");
             }
 
             if (waterparameterDto.Hardness < sample.MinGH)
             {
-                warnings.AppendLine("GH(Hardness): The GH is too low, the filtration system may not function effectively. Maintaining an appropriate level of water hardness is essential to support the efficiency of the filtration process, helping to keep the pond environment clean and healthy for your koi.");
+                warnings.Add("GH(Hardness): The GH is too low, the filtration system may not function effectively. Maintaining an appropriate level of water hardness is essential to support the efficiency of the filtration process, helping to keep the pond environment clean and healthy for your koi.");
             }
 
             if (waterparameterDto.Temperature < sample.MinTemperature)
             {
-                warnings.AppendLine("Temperature: The temperature is in the low level. Therefore, the fish will consume less,so feeding should be reduced to avoid leftover food, which can pollute the water.");
+                warnings.Add("Temperature: The temperature is in the low level. Therefore, the fish will consume less,so feeding should be reduced to avoid leftover food, which can pollute the water.");
             }
 
             if (waterparameterDto.Temperature > sample.MaxTemperature)
             {
-                warnings.AppendLine("Temperature: The temperature is above the ideal level.This leads to the shortage of Oxygen in pond, the fish will become tired, weak, and rise to the surface to gulp air. Additionally, this can lead to reduced appetite and a lack of vitality.");
+                warnings.Add("Temperature: The temperature is above the ideal level.This leads to the shortage of Oxygen in pond, the fish will become tired, weak, and rise to the surface to gulp air. Additionally, this can lead to reduced appetite and a lack of vitality.");
             }
 
             if (waterparameterDto.Nitrite > sample.MaxNitrite)
             {
-                warnings.AppendLine("Nitrite: Nitrite levels are above the safe range. High nitrite is toxic to fish and can interfere with their ability to transport oxygen, potentially leading to fish fatalities.");
+                warnings.Add("Nitrite: Nitrite levels are above the safe range. High nitrite is toxic to fish and can interfere with their ability to transport oxygen, potentially leading to fish fatalities.");
             }
             if (waterparameterDto.Nitrate > sample.MaxNitrate)
             {
-                warnings.AppendLine("Nitrate: Nitrate levels are above the recommended range. Elevated nitrate levels can stress fish, stunt their growth, and encourage algae blooms, which can reduce water quality.");
+                warnings.Add("Nitrate: Nitrate levels are above the recommended range. Elevated nitrate levels can stress fish, stunt their growth, and encourage algae blooms, which can reduce water quality.");
             }
             if (waterparameterDto.Ammonium > sample.MaxAmmonium)
             {
-                warnings.AppendLine("Ammonium: Ammonium levels are too high. Elevated ammonium can be toxic to fish and can disrupt water quality, particularly in higher pH environments.");
+                warnings.Add("Ammonium: Ammonium levels are too high. Elevated ammonium can be toxic to fish and can disrupt water quality, particularly in higher pH environments.");
             }
 
             if (waterparameterDto.Ammonium < sample.MinAmmonium)
             {
-                warnings.AppendLine("Ammonium: Ammonium levels are too low. Insufficient ammonium can impair the nitrogen cycle, affecting overall water quality and potentially hindering the growth and health of your koi fish.");
+                warnings.Add("Ammonium: Ammonium levels are too low. Insufficient ammonium can impair the nitrogen cycle, affecting overall water quality and potentially hindering the growth and health of your koi fish.");
             }
 
             if (waterparameterDto.CarbonDioxide > sample.MaxCarbonDioxide)
             {
-                warnings.Append("CO₂: Carbon dioxide levels are too high. Elevated CO2 can cause oxygen depletion in the water and create a stressful environment for your koi fish, leading to respiratory problems and reduced vitality.");
+                warnings.Add("CO₂: Carbon dioxide levels are too high. Elevated CO2 can cause oxygen depletion in the water and create a stressful environment for your koi fish, leading to respiratory problems and reduced vitality.");
             }
 
             if (waterparameterDto.CarbonDioxide < sample.MinCarbonDioxide)
             {
-                warnings.AppendLine("CO₂: Carbon dioxide levels are too low. Insufficient CO2 can disrupt the overall balance of the pond’s ecosystem and impact plant growth, affecting the overall health of your koi fish.");
+                warnings.Add("CO₂: Carbon dioxide levels are too low. Insufficient CO2 can disrupt the overall balance of the pond’s ecosystem and impact plant growth, affecting the overall health of your koi fish.");
             }
 
             if (waterparameterDto.TotalChlorines > sample.TotalChlorines)
             {
-                warnings.AppendLine("Chlorine: Chlorine levels are too high. High chlorine concentrations can be toxic to your koi, affecting their gills and overall health. It's essential to ensure the water is adequately dechlorinated to prevent harm to your fish.");
+                warnings.Add("Chlorine: Chlorine levels are too high. High chlorine concentrations can be toxic to your koi, affecting their gills and overall health. It's essential to ensure the water is adequately dechlorinated to prevent harm to your fish.");
             }
 
-            return Ok(warnings.ToString());
+            return Ok(warnings);
         }
 
         [HttpPut("{id}")]
