@@ -10,7 +10,7 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
   const initProduct = {
     name: "",
     description: "",
-    expiredDate: null,
+    expiredDate: null || "",
     quantity: 0,
     price: 0,
     status: true,

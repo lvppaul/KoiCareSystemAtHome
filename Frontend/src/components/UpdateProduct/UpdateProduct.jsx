@@ -140,6 +140,18 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
               required
             />
           </Form.Group>
+          {newProduct.category.categoryId == 1 ?
+          (<Form.Group controlId="formProductExpiredDate" className="mb-3">
+            <Form.Label>Expiration Date</Form.Label>
+            <Form.Control
+              type="date"
+              name="expiredDate"
+              value={newProduct.expiredDate}
+              onChange={handleChange}
+              min={new Date().toISOString().split('T')[0]}
+              required
+            />
+          </Form.Group>) : null}
           <Form.Group controlId="formProductDescription" className="mb-3">
             <Form.Label>Product Description</Form.Label>
             <Form.Control
