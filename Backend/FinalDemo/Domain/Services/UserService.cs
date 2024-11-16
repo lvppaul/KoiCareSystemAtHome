@@ -29,6 +29,20 @@ namespace Domain.Services
             return orderDetailList;
         }
 
+        public async Task<List<Order>> GetOrderInHistoryByUserIdAsync(string id)
+        {
+            List<Order> orderList = await _context.Orders.Where(p => p.UserId.Equals(id) && p.ShopId != null).Include(p => p.OrderDetails).ToListAsync();
+            List<Order> orderDetailList = new List<Order>();
+            foreach (var item in orderList)
+            {
+                if (!item.isVipUpgrade)
+                {
+                    orderDetailList.Add(item);
+                }
+            }
+            return orderDetailList;
+        }
+
         public async Task<List<Order>> GetOrderByShopIdAsync(int id)
         {
             List<Order> orderList = await _context.Orders.Where(p => p.ShopId.Equals(id)).Include(p => p.OrderDetails).ToListAsync();
