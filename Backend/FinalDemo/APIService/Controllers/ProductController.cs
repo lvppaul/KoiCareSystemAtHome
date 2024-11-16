@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SWP391.KCSAH.Repository;
-using AutoMapper;
-using Domain.Models.Entity;
-using Domain.Models.Dto.Response;
+﻿using AutoMapper;
 using Domain.Models.Dto.Request;
-using Firebase.Auth;
-using Firebase.Storage;
+using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Update;
+using Domain.Models.Entity;
+using Microsoft.AspNetCore.Mvc;
+using SWP391.KCSAH.Repository;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -47,7 +44,7 @@ namespace KCSAH.APIServer.Controllers
         public async Task<ActionResult<List<ProductImageDTO>>> GetProductImage(int ProductId)
         {
             var image = await _unitOfWork.ProductImageRepository.GetImageByProductId(ProductId);
-            if(image == null)
+            if (image == null)
             {
                 return NotFound();
             }
@@ -143,7 +140,7 @@ namespace KCSAH.APIServer.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<ProductDTO> GetById(int id)
         {
-            var product =  _unitOfWork.ProductRepository.GetById(id);
+            var product = _unitOfWork.ProductRepository.GetById(id);
             if (product == null)
             {
                 return NotFound();
@@ -165,8 +162,8 @@ namespace KCSAH.APIServer.Controllers
         }
 
         [HttpGet("Pagination")]
-        public async Task<IActionResult> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000) 
-        { 
+        public async Task<IActionResult> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
+        {
             var listProduct = await _unitOfWork.ProductRepository.GetAllPaginationAsync(pageNumber, pageSize);
 
             return Ok(_mapper.Map<List<ProductDTO>>(listProduct));
@@ -205,7 +202,7 @@ namespace KCSAH.APIServer.Controllers
 
             var productMap = _mapper.Map<Product>(productdto);
             productMap.CategoryId = productdto.CategoryId;
-
+            productMap.Category = await _unitOfWork.CategoryRepository.GetByIdAsync(productdto.CategoryId);
             var createResult = await _unitOfWork.ProductRepository.CreateAsync(productMap);
 
             if (createResult <= 0)
@@ -250,10 +247,10 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return NoContent(); 
+            return NoContent();
         }
 
-        [HttpGet("Search")] 
+        [HttpGet("Search")]
         public async Task<ActionResult<List<ProductDTO>>> SearchProducts(
             string? name = null,
             int? categoryId = null,

@@ -1,15 +1,10 @@
 ﻿using Domain.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SWP391.KCSAH.Repository.KCSAH.Repository
 {
-    public class ProductRepository: GenericRepository<Product>
+    public class ProductRepository : GenericRepository<Product>
     {
         public ProductRepository(KoiCareSystemAtHomeContext context) => _context = context;
 
@@ -61,17 +56,17 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         }
 
         public async Task<List<Product>> GetProductByName(string name)
-        { 
+        {
             return await _context.Products.Include(p => p.Category).Where(p => p.Name.Contains(name) && p.IsDeleted == false).ToListAsync(); ;
         }
 
         public async Task<List<Product>> GetProductsByShopID(int id)
         {
-            var products = await _context.Products.Include(c =>c.Category)
+            var products = await _context.Products.Include(c => c.Category)
                 .Where(u => u.ShopId.Equals(id) && u.IsDeleted == false)
                 .ToListAsync();
 
-            return products ?? new List<Product> ();
+            return products ?? new List<Product>();
         }
         public async Task<Product> GetProductsByProductID(int id)
         {
@@ -118,7 +113,7 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             {
                 result = result.Where(p => p.ShopId == shopId);
             }
-            
+
             return await result.ToListAsync();
         }
 
