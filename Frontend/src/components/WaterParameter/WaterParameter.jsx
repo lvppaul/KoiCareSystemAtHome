@@ -33,7 +33,7 @@ const WaterParameter = ({ show, setShow, pondId }) => {
         getWaterParameter(pondId)
           .then((data) => {
             setWaterParameter(data);
-            const sortedData = data.sort((a, b) => new Date(b.createAt) - new Date(a.createAt));
+            const sortedData = data.sort((b, a) => new Date(a.createdAt) - new Date(b.createdAt));
             setLastestWaterParameter(sortedData.length > 0 ? sortedData[0] : null);
           })
           .catch((error) => console.error("Error fetching water parameter:", error));
@@ -126,7 +126,6 @@ const WaterParameter = ({ show, setShow, pondId }) => {
       const response = await getWaterParameterAdvice(waterData);
       if (response) {
         setAdvice(response);
-        console.log("advice", response);
       }
     } catch (error) {
       console.log("error", error);
@@ -246,7 +245,6 @@ const WaterParameter = ({ show, setShow, pondId }) => {
           </Row>
         </>
       ) : null}
-      {console.log("advice", advice)}
       {lastestWaterParameter ? (
         <Card
           as={Button}
@@ -264,7 +262,7 @@ const WaterParameter = ({ show, setShow, pondId }) => {
           <Card.Header
             style={{ display: "flex", backgroundColor: "#ff4800", width: "100%", color: "white", fontWeight: "bold" }}
           >
-            {formatDate(Date(lastestWaterParameter.createAt))}
+          {formatDate(lastestWaterParameter.createdAt)}
           </Card.Header>
           <Card.Body>
             <Row>
@@ -333,7 +331,7 @@ const WaterParameter = ({ show, setShow, pondId }) => {
           <h3>No Water Parameter yet!</h3>
         </Card>
       )}
-      <Modal show={show} onHide={setShow} backdrop="static" size="xl">
+      <Modal show={show} onHide={setShow} backdrop="static" size="xl" style={{backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
         <Modal.Header closeButton>
           <Modal.Title>Water Parameter</Modal.Title>
         </Modal.Header>
@@ -352,7 +350,7 @@ const WaterParameter = ({ show, setShow, pondId }) => {
               ? waterParameter.map((parameter) => (
                   <Card key={parameter.measureId} style={{ marginBottom: "10px" }}>
                     <Card.Header>
-                      {formatDate(Date(parameter.createAt))}
+                      {formatDate(parameter.createdAt)}
                       <DeleteWaterParameter
                         waterData={parameter.measureId}
                         updateDeleteWaterData={handleDeleteWaterData}

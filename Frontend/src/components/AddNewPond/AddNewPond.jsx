@@ -86,7 +86,9 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
                                         </label>
                                     </Row>
                                     <Row className='img-preview'>
-                                        {previewImage ? <img src={previewImage} alt="Preview" /> : <span style={{ color: '#eeeeee' }}>Preview image</span>}
+                                        {previewImage ? <img src={previewImage} alt="Preview" 
+                                        style={{height:'50vh', width:'80vw', paddingTop:'10px', borderRadius:'35px'}} /> 
+                                        : <span style={{ color: '#eeeeee' }}>Preview image</span>}
                                     </Row>
                                 </div>
                             </Col>
@@ -99,7 +101,7 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
                                 </Row>
                                 <Row>
                                     <Form.Group as={Col} controlId="formGridVolume">
-                                        <Form.Label>Volume (liter):</Form.Label>
+                                        <Form.Label>Volume (liters):</Form.Label>
                                         <Form.Control type="number" placeholder="Enter pond volume (liter)" name='volume' value={ponddetail.volume} onChange={handleInputChange} />
                                     </Form.Group>
                                 </Row>
@@ -111,7 +113,7 @@ const AddNewPond = ({ show, setShow, onPondAdded }) => {
                                 </Row>
                                 <Row>
                                     <Form.Group as={Col} controlId="formGridDepth">
-                                        <Form.Label>Depth (meter):</Form.Label>
+                                        <Form.Label>Depth (meters):</Form.Label>
                                         <Form.Control type="number" placeholder="Depth (meter)" name='depth' value={ponddetail.depth} onChange={handleInputChange} />
                                     </Form.Group>
                                 </Row>

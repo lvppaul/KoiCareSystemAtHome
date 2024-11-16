@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Button, Modal, Form, Row, Col, Spinner } from "react-bootstrap/";
 import { BiImport } from "react-icons/bi";
 import FishIcon from "../../assets/Addfish.svg";
@@ -7,10 +7,10 @@ import { storage } from "../../Config/firebase";
 import { ref, uploadBytes } from "firebase/storage";
 import { useAuth } from "../../pages/Login/AuthProvider";
 import { postKoi } from "../../Config/KoiApi";
-import { useParams } from "react-router-dom";
 import { ToastContext } from "../../App";
+import { getPondByUserId } from "../../Config/PondApi";
 
-const AddNewFish = ({ show, setShow, onKoiAdded }) => {
+const AddNewFish = ({ show, setShow, pondId ,onKoiAdded }) => {
   const { setToastMessage } = useContext(ToastContext);
   const newKoi = {
     name: "",
@@ -25,7 +25,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
     color: "",
     status: true,
     thumbnail: "",
-    pondId: "",
+    pondId: pondId || "",
   };
   const [loading, setLoading] = useState(false);
   const handleClose = () => setShow(false);
@@ -38,8 +38,9 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
   const [file, setFile] = useState(null);
   const [storageRef, setStorageRef] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
-  const pondId = useParams().pondId;
-
+  const [pondList, setPondList] = useState([]);
+  const [error, setError] = useState();
+  
   // upload image
   const handleUploadImg = (event) => {
     const file = event.target.files[0];
@@ -58,6 +59,18 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
     }
   };
 
+  useEffect(() => {
+    const handlePondList = async () => {
+      try {
+        const pondlistByUserId = await getPondByUserId(userId);
+        setPondList(pondlistByUserId);
+      } catch (error) {
+        console.error("Error fetching pond list:", error);
+      }
+    };
+    handlePondList();
+  }, [userId]);
+
   const handleSubmitFish = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -65,7 +78,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
       if (file) {
         await uploadBytes(storageRef, file);
       }
-      await postKoi({ ...koidetail, pondId: pondId, userId: userId });
+      await postKoi({ ...koidetail, userId: userId });
       onKoiAdded(newKoi);
       setKoiDetail(newKoi);
       setPreviewImage(null);
@@ -73,6 +86,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
       setToastMessage("Fish added successful!");
     } catch (error) {
       console.error("Error adding pond:", error);
+      setError(error || "An error occurred");
       setToastMessage("Fish added failed!");
     } finally {
       setLoading(false);
@@ -81,12 +95,12 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
 
   return (
     <>
-      <Row className="fish-item" style={{ justifyContent: "flex-end", margin: "20px 0" }}>
+      {/* <Row className="fish-item" style={{ justifyContent: "flex-end", margin: "20px 0" }}> */}
         <Button
           onClick={setShow}
           style={{
-            width: "180px",
-            height: "70px",
+            width: "200px",
+            height: "60px",
             fontWeight: "bold",
             fontSize: "18px",
             borderRadius: "15px",
@@ -97,18 +111,17 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
           onMouseLeave={(e) => (e.target.style.backgroundColor = "#FF8433")}
         >
           <img src={FishIcon} alt="add fish icon" />
-          <MdAdd size={20} style={{ marginBottom: "30px" }} />
-          Add Fish
+          Add new Koi
         </Button>
-      </Row>
-      <Modal show={show} onHide={setShow} size="xl" className="modal-addblog">
+      {/* </Row> */}
+      <Modal show={show} onHide={setShow} size="xl" style={{ position: 'fixed', left: '50%', transform: 'translate(-50%, 0)', maxHeight: '95vh', overflowY: 'auto' }}>
         <Modal.Header closeButton>
           <Modal.Title>
             {" "}
             <h1>Adding Fish</h1>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body >
           {loading ? (
             <div className="d-flex justify-content-center">
               <Spinner animation="border" role="status">
@@ -131,7 +144,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                     </Row>
                     <Row className="img-preview">
                       {previewImage ? (
-                        <img src={previewImage} alt={previewImage} />
+                        <img src={previewImage} alt={previewImage} style={{height:'80vh', width:'50vw', borderRadius:'50px', paddingTop:'10px'}}/>
                       ) : (
                         <span style={{ color: "#eeeeee" }}>Preview image</span>
                       )}
@@ -139,6 +152,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                   </div>
                 </Col>
                 <Col>
+                {error && <p style={{ color: "red" }}>{error}</p>}
                   <Row>
                     <Form.Group as={Col} controlId="formGridName">
                       <Form.Label>Name:</Form.Label>
@@ -151,6 +165,25 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
                       />
                     </Form.Group>
                   </Row>
+                  <Row>
+                    <Form.Group controlId="formChoosePond">
+                        <Form.Label>Choose Pond</Form.Label>
+                        <Form.Control
+                            as="select"
+                            name="pondId"
+                            value={koidetail.pondId}
+                            onChange={handleInputChange}
+                            required
+                        >
+                            <option value="">Choose Pond</option>
+                            {pondList.map((pond) => (
+                                <option key={pond.pondId} value={pond.pondId}>
+                                    {pond.name}
+                                </option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
+                </Row>
                   <Row>
                     <Form.Group as={Col} controlId="formGridAge">
                       <Form.Label>Age (years):</Form.Label>

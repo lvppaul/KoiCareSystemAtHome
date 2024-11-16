@@ -5,7 +5,8 @@ import { storage } from './firebase';
 // Function to get kois
 const getKoiByUserId = async (userId) => {
     try {
-        const response = await api.get('Koi', {
+        const response = await api.get('Koi/GetAllKoiByUserId', {
+            params: { userId },
             headers: {
                 'accept': 'text/plain'
 
@@ -116,7 +117,7 @@ const postKoi = async (koi) => {
         return response.data;
     } catch (error) {
         console.error('Error posting koi:', error);
-        throw error;
+        throw error.response.data;
     }
 };
 
@@ -124,7 +125,8 @@ const postKoi = async (koi) => {
 const updateKoi = async (koi) => {
     try {
         const response = await api.put(`Koi/${koi.koiId}`, koi);
-        return response.data;
+        console.log('response', response.status)
+        return response;
     } catch (error) {
         console.error('Error updating koi:', error);
         throw error;
@@ -148,6 +150,16 @@ const getKoiRecord = async (recordId) => {
         return response.data;
     } catch (error) {
         console.error('Error fetching growth history:', error);
+        throw error;
+    }
+}
+
+const getSampleKoiRecord = async (age) => {
+    try {
+        const response = await api.get(`KoiRecord/GetSampleRecord/${age}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching sample growth history:', error);
         throw error;
     }
 }
@@ -182,6 +194,21 @@ const updateKoiRecord = async (record) => {
         return response.data;
     } catch (error) {
         console.error('Error updating growth history:', error);
+        throw error;
+    }
+}
+// Function to change pond of Koi
+// Function to change pond of Koi
+const changePondKoi = async (koiId, pondId) => {
+    try {
+        const response = await api.put(`Koi/${koiId}/transfer-to-pond`, pondId, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error changing pond:', error);
         throw error;
     }
 }
@@ -355,7 +382,29 @@ const getKoiMaleDeadInPond = async (pondId, userId) => {
     }
 }
 
+const removeKoiFromPond = async (koiId) => {
+    try {
+        const response = await api.post(`Koi/RemoveKoiFromPond`, '', {
+            params: { koiId: koiId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error removing koi from pond:', error.response?.data?.message || error.message);
+        throw error;
+    }
+}
+
+const GetKoiRecordByKoiId = async (koiId) => {
+    try {
+        const response = await api.get(`KoiRecord/GetKoiRecordByKoiId/${koiId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching koi record:', error);
+        throw error;
+    }
+}
+
 
 export { getKoiByUserId, getKoiById, postKoi, deleteKoi, updateKoi, getKoiListByUserId
-    , addRecord, deleteRecord, updateKoiRecord, getKoiRecord, getKoiMaleInAllPond, getKoiFemaleInAllPond, getAllKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleDeadInAllPond, getKoiFemaleDeadInAllPond, getKoiMaleAliveInAllPond, getKoiFemaleAliveInAllPond, getKoiFemaleAliveInPond, getKoiMaleAliveInPond, getKoiFemaleDeadInPond, getKoiMaleDeadInPond, getKoiWithThumbnail, getKoiName
+    , addRecord, deleteRecord, updateKoiRecord, getKoiRecord, getKoiMaleInAllPond, getKoiFemaleInAllPond, getAllKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleDeadInAllPond, getKoiFemaleDeadInAllPond, getKoiMaleAliveInAllPond, getKoiFemaleAliveInAllPond, getKoiFemaleAliveInPond, getKoiMaleAliveInPond, getKoiFemaleDeadInPond, getKoiMaleDeadInPond, getKoiWithThumbnail, getKoiName, changePondKoi,removeKoiFromPond, getSampleKoiRecord, GetKoiRecordByKoiId
  };

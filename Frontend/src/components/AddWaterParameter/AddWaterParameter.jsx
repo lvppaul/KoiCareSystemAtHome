@@ -78,7 +78,7 @@ const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
                 <BiDroplet size={20} /> Add Water Parameter
             </Button>
 
-            <Modal show={show} onHide={setShow} size="lg" style={{backgroundColor:'#89CFF0'}}>
+            <Modal show={show} onHide={setShow} size="lg" >
                 <Modal.Header closeButton>
                     <Modal.Title>Add Water Parameter</Modal.Title>
                 </Modal.Header>

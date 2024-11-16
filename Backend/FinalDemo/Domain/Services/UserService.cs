@@ -1,11 +1,6 @@
 ﻿using Domain.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Services
 {
@@ -23,8 +18,22 @@ namespace Domain.Services
         public async Task<List<Order>> GetOrderByUserIdAsync(string id)
         {
             List<Order> orderList = await _context.Orders.Where(p => p.UserId.Equals(id)).Include(p => p.OrderDetails).ToListAsync();
-            List<Order> orderDetailList = new List<Order>(); 
-            foreach(var item in orderList)
+            List<Order> orderDetailList = new List<Order>();
+            foreach (var item in orderList)
+            {
+                if (!item.isVipUpgrade)
+                {
+                    orderDetailList.Add(item);
+                }
+            }
+            return orderDetailList;
+        }
+
+        public async Task<List<Order>> GetOrderByShopIdAsync(int id)
+        {
+            List<Order> orderList = await _context.Orders.Where(p => p.ShopId.Equals(id)).Include(p => p.OrderDetails).ToListAsync();
+            List<Order> orderDetailList = new List<Order>();
+            foreach (var item in orderList)
             {
                 if (!item.isVipUpgrade)
                 {

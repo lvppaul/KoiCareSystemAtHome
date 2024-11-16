@@ -7,6 +7,7 @@ import DeleteKoi from '../../components/DeleteKoi/DeleteKoi'
 import { getKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleInAllPond, getKoiFemaleInAllPond,getKoiWithThumbnail } from '../../Config/KoiApi'
 import { set } from 'date-fns'
 import CreateNewReminded from '../../components/KoiReminder/CreateNewReminded'
+import AddNewFish from '../../components/AddNewFish/AddNewFish'
 
 const KoiList = () => {
   const userId = useAuth().user.userId;
@@ -14,38 +15,41 @@ const KoiList = () => {
     const [sortCriteria, setSortCriteria] = useState('all');
     const [loading, setLoading] = useState(true);
     const [showCreateKoiReminder, setShowCreateKoiReminder] = useState(false);
+    const [showAddNewFish, setShowAddNewFish] = useState(false);
     const { user } = useAuth();
-    useEffect(() => {
-        const fetchKoiList = async () => {
-            setLoading(true);
-            try {
-                let kois;
-                switch (sortCriteria) {
-                    case 'male':
-                        kois = await getKoiMaleInAllPond(userId);
-                        break;
-                    case 'female':
-                        kois = await getKoiFemaleInAllPond(userId);
-                        break;
-                    case 'alive':
-                        kois = await getKoiAliveInAllPond(userId);
-                        break;
-                    case 'dead':
-                        kois = await getKoiDeadInAllPond(userId);
-                        break;
-                    default:
-                        kois = await getKoiByUserId(userId);
-                        break;
-                }
-                const koiListWithThumbnail = await getKoiWithThumbnail(kois);
-                setKoiList(koiListWithThumbnail);
-            } catch (error) {
-                console.error('Error fetching koi list:', error);
-            } finally {
-                setLoading(false);
+    
+    const fetchKoiList = async () => {
+        setLoading(true);
+        try {
+            let kois;
+            switch (sortCriteria) {
+                case 'male':
+                    kois = await getKoiMaleInAllPond(userId);
+                    break;
+                case 'female':
+                    kois = await getKoiFemaleInAllPond(userId);
+                    break;
+                case 'alive':
+                    kois = await getKoiAliveInAllPond(userId);
+                    break;
+                case 'dead':
+                    kois = await getKoiDeadInAllPond(userId);
+                    break;
+                default:
+                    kois = await getKoiByUserId(userId);
+                    break;
             }
-        };
+            const koiListWithThumbnail = await getKoiWithThumbnail(kois);
+            setKoiList(koiListWithThumbnail);
+            console.log('Koi list:', kois);
+        } catch (error) {
+            console.error('Error fetching koi list:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchKoiList();
     }, [sortCriteria, userId]);
 
@@ -56,6 +60,11 @@ const KoiList = () => {
   const handleOnFishDeleted = (koiId) => {
     const updatedKoiList = koiList.filter(koi => koi.koiId !== koiId);
     setKoiList(updatedKoiList);
+  }
+
+  const handleOnFishAdded = (newKoi) => {
+    setKoiList([...koiList, newKoi]);
+    fetchKoiList();
   }
 
   return (
@@ -81,8 +90,13 @@ const KoiList = () => {
                 setShow={setShowCreateKoiReminder}
                 koiList={koiList}
             />
+            <AddNewFish
+                show={showAddNewFish}
+                setShow={setShowAddNewFish}
+                onKoiAdded={handleOnFishAdded}
+            />
             
-            <select style={{textAlign:'center', fontSize:'20px', fontWeight:'bold' ,width:'100%' , maxWidth:'200px', minWidth:'200px', height:"60px",borderRadius: '15px'}} onChange={handleSortChange} value={sortCriteria}>
+            <select style={{textAlign:'center', fontSize:'20px', fontWeight:'bold' ,width:'100%' , maxWidth:'200px', minWidth:'200px', height:"60px",borderRadius: '15px', marginLeft:'15px'}} onChange={handleSortChange} value={sortCriteria}>
                 <option value="all">All</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
