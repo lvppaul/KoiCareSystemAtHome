@@ -525,6 +525,24 @@ INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (4, 60, 3522);
 INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (5, 65, 4666);
 INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (6, 69, 5593);
 INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (7, 72, 6364);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (8, 74, 6798);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (9, 76, 7364);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (10, 78, 7961);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (11, 80, 8589);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (12, 82, 9249);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (13, 84, 9443);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (14, 85, 9602);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (15, 87, 9864);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (16, 88, 10044);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (17, 89, 10184);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (18, 90, 10302);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (19, 91, 10410);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (20, 92, 10512);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (21, 93, 10600);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (22, 94, 10680);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (23, 95, 10750);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (24, 96, 10820);
+INSERT INTO KoiRecordSample (Age, Length, Weight) VALUES (25, 97, 10880);
 
 --Water Parameter Sample
 INSERT INTO WaterParameterSample

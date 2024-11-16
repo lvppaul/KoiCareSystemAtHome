@@ -41,6 +41,11 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.UserId.Equals(UserId) && p.CreateDate == CreateDate).FirstOrDefaultAsync();
         }
 
+        public async Task<List<Order>> GetShopListOrder(Order orderUser)
+        {
+            return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.UserId.Equals(orderUser.UserId) && p.CreateDate == orderUser.CreateDate).ToListAsync();
+        }
+
         // Lấy order theo ngày
         public async Task<List<Order>> GetOrdersByDayAsync(int days)
         {
@@ -48,6 +53,14 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             var startDate = endDate.AddDays(-days);
             return await GetOrdersByDateRangeAsync(startDate, endDate);
         }
+
+        public async Task<List<Order>> GetOrdersForShopByDayAsync(int days, int shopId)
+        {
+            var endDate = DateTime.Now;
+            var startDate = endDate.AddDays(-days);
+            return await GetOrdersForShopByDateRangeAsync(startDate, endDate, shopId);
+        }
+
 
         // Lấy orderVip theo ngày hôm nay
         public async Task<List<Order>> GetVipOrdersTodayAsync()
@@ -117,6 +130,13 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         {
             return await _context.Orders.Include(o => o.OrderDetails)
                 .Where(o => !o.isVipUpgrade && o.CreateDate >= startDate && o.CreateDate <= endDate)
+                .ToListAsync();
+        }
+
+        private async Task<List<Order>> GetOrdersForShopByDateRangeAsync(DateTime startDate, DateTime endDate, int shopId)
+        {
+            return await _context.Orders.Include(o => o.OrderDetails)
+                .Where(o => !o.isVipUpgrade && o.CreateDate >= startDate && o.CreateDate <= endDate && o.ShopId == shopId)
                 .ToListAsync();
         }
 

@@ -46,6 +46,21 @@ const getOrderByUserId = async (userId) => {
   }
 };
 
+const getOrderByShopId = async (shopId) => {
+  try {
+    const response = await api.get(`Order/ShopId/${shopId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
 const getVipOrderByUserId = async (userId) => {
   try {
     const response = await api.get(`Order/VipOrderByUserId/${userId}`, {
@@ -92,6 +107,21 @@ const getListOrderByDays = async (day) => {
     return null;
   }
 };
+
+const getListShopOrderByDays = async (shopId, day) => {
+  try {
+    const response = await api.get(`Order/orders-for-shop-by-day?shopId=${shopId}&days=${day}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+}
 
 /*------------------- Vip Order --------------- */
 // get list Vip package order
@@ -157,10 +187,26 @@ const getListVipOrderByDays = async (days) => {
   }
 };
 
+const setOrderSuccess = async (orderId) => {
+  try {
+    const response = await api.post(`Order/${orderId}/set-successful`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error setting order success:", error);
+    return null;
+  }
+}
+
 export {
   createOrder,
   getOrderById,
   getOrderByUserId,
+  getOrderByShopId,
   getVipOrderByUserId,
   getListOrder,
   getListVipOrder,
@@ -168,4 +214,6 @@ export {
   getListVipOrderByMonth,
   getListVipOrderByDays,
   getListOrderByDays,
+  getListShopOrderByDays,
+  setOrderSuccess,
 };
