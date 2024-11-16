@@ -15,7 +15,7 @@ const GrowHistory = ({show, setShow, koiData}) => {
   })[0] : null;
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    const options = { year: 'numeric', month: 'long', day: 'numeric'};
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
@@ -78,7 +78,7 @@ const GrowHistory = ({show, setShow, koiData}) => {
             <p>No growth history data</p>
             </Card>
           )}
-          <Modal show={show} onHide={() => setShow(false)} size='lg' backdrop="static" style={{backgroundColor:'rgba(0, 0, 0, 0.9)'}}>
+          <Modal show={show} onHide={() => setShow(false)} size='lg' backdrop="static" style={{backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
             <Modal.Header closeButton>
               <Modal.Title>Growth history</Modal.Title>
             </Modal.Header>

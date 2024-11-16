@@ -5,7 +5,8 @@ import { storage } from './firebase';
 // Function to get kois
 const getKoiByUserId = async (userId) => {
     try {
-        const response = await api.get('Koi', {
+        const response = await api.get('Koi/GetAllKoiByUserId', {
+            params: { userId },
             headers: {
                 'accept': 'text/plain'
 
@@ -116,7 +117,7 @@ const postKoi = async (koi) => {
         return response.data;
     } catch (error) {
         console.error('Error posting koi:', error);
-        throw error;
+        throw error.response.data;
     }
 };
 
@@ -182,6 +183,21 @@ const updateKoiRecord = async (record) => {
         return response.data;
     } catch (error) {
         console.error('Error updating growth history:', error);
+        throw error;
+    }
+}
+// Function to change pond of Koi
+// Function to change pond of Koi
+const changePondKoi = async (koiId, pondId) => {
+    try {
+        const response = await api.put(`Koi/${koiId}/transfer-to-pond`, pondId, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error changing pond:', error);
         throw error;
     }
 }
@@ -357,5 +373,5 @@ const getKoiMaleDeadInPond = async (pondId, userId) => {
 
 
 export { getKoiByUserId, getKoiById, postKoi, deleteKoi, updateKoi, getKoiListByUserId
-    , addRecord, deleteRecord, updateKoiRecord, getKoiRecord, getKoiMaleInAllPond, getKoiFemaleInAllPond, getAllKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleDeadInAllPond, getKoiFemaleDeadInAllPond, getKoiMaleAliveInAllPond, getKoiFemaleAliveInAllPond, getKoiFemaleAliveInPond, getKoiMaleAliveInPond, getKoiFemaleDeadInPond, getKoiMaleDeadInPond, getKoiWithThumbnail, getKoiName
+    , addRecord, deleteRecord, updateKoiRecord, getKoiRecord, getKoiMaleInAllPond, getKoiFemaleInAllPond, getAllKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleDeadInAllPond, getKoiFemaleDeadInAllPond, getKoiMaleAliveInAllPond, getKoiFemaleAliveInAllPond, getKoiFemaleAliveInPond, getKoiMaleAliveInPond, getKoiFemaleDeadInPond, getKoiMaleDeadInPond, getKoiWithThumbnail, getKoiName, changePondKoi
  };

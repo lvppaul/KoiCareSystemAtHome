@@ -146,10 +146,12 @@ const PondDetail = () => {
       <hr style={{ width: '50%', borderTop: '5px solid #000', margin: '100px auto' }} />
       <Row>
         <h1>Koi list in the pond</h1>
+        <Row style={{display:'flex', justifyContent:'flex-end', marginInlineEnd:"20px", marginBlockEnd:'20px'}}>
         <AddNewFish
           show={showModalAddFish}
           setShow={setShowModalAddFish} 
           onKoiAdded={handleOnFishAdded}/>
+        </Row>
         <Row>
           {loadingKoi ? (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
