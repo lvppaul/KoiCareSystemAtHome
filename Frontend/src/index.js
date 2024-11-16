@@ -40,6 +40,8 @@ import UpgradeVipAccount from "./pages/UpgradeVipAccount/UpgradeVipAccount";
 import Cart from "./pages/Cart/Cart";
 import Order from "./pages/Order/Order";
 import PaymentResult from "./pages/PaymentPage/PaymentResult";
+import ShopOrder from "./pages/ManageShop/ShopOrder";
+import ShopRevenue from "./pages/ManageShop/ShopRevenue";
 
 import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage";
 import OrderHistory from "./pages/Order/OrderHistory";
@@ -111,6 +113,22 @@ root.render(
               element={
                 <ProtectedRoute requiredRole="shop">
                   <ManageShop />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="shopOrder"
+              element={
+                <ProtectedRoute requiredRole="shop">
+                  <ShopOrder />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="shopRevenue"
+              element={
+                <ProtectedRoute requiredRole="shop">
+                  <ShopRevenue />
                 </ProtectedRoute>
               }
             />
