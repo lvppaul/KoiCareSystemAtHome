@@ -1,6 +1,6 @@
 ﻿--drop database KoiCareSystemAtHome;
 
-use KoiCareSystemAtHome1411;
+use KoiCareSystemAtHome1511;
 
 --Disable Foreign Key Constraints
 --EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL';
@@ -92,7 +92,7 @@ VALUES
 ('979a42a8-ecc7-4d15-ab6f-410755b9e593', 2, 4, GETDATE());  -- Admin user rating Shop 2
 
 
-INSERT INTO Product (ShopId, Name, ExpiredDate, Thumbnail, Description, Quantity, Price, Status, CategoryID)
+INSERT INTO Product (ShopId, Name, ExpiredDate, Thumbnail, Description, Quantity, Price, CategoryID)
 VALUES
 (2, 'Premium Koi Food', '2026-01-15', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/premium_koi_food.png', 'High-quality koi food for vibrant colors and growth.', 100, 600000, 1),
 (1, 'Growth Formula', '2026-02-20', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/growth_formula.png', 'A special formula to promote faster growth in koi.', 150, 750000, 1),

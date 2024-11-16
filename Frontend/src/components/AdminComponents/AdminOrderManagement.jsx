@@ -1,29 +1,88 @@
 import { useState, useEffect } from "react";
-import { getListOrder, getListVipOrder } from "../../Config/OrderApi";
+import {
+  getListOrder,
+  getListVipOrder,
+  getListVipOrderByWeek,
+  getListVipOrderByMonth,
+  getListVipOrderByDays,
+  getListOrderByDays,
+} from "../../Config/OrderApi";
 import Button from "@mui/material/Button";
 import { getAccountByUserId } from "../../Config/UserApi";
 import { getVipPackagesById } from "../../Config/VipPackageApi";
 import AdminViewOrderDetailDialog from "./AdminViewOrderDetail";
+import AdminDropMenuGetOrderByDays from "./AdminDropDownMenuFilterOrder";
+import { Table } from "antd";
+
 const AdminOrderManagement = () => {
-  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [vipOrders, setVipOrders] = useState([]);
-  const fetchOrders = async () => {
+  const [orders, setOrders] = useState([]);
+  const [dayCommission, setDayCommission] = useState(365);
+  const [dayVip, setDayVip] = useState(365);
+  const fetchOrders = async (day) => {
+    setLoading(true);
     try {
-      const order = await getListOrder();
-      setOrders(order);
+      const res = await getListOrder();
+      const orderByDate = await getListOrderByDays(day);
+      console.log("res:", res);
+      const data = await Promise.all(
+        orderByDate.map((item) => {
+          return {
+            orderId: item.orderId,
+            fullName: item.fullName,
+            phone: item.phone,
+            email: item.email,
+            createDate: new Date(item.createDate).toLocaleDateString("vi-VN", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            }),
+            totalPrice: item.totalPrice.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }),
+            orderStatus: item.orderStatus,
+            orderDetail: item.orderDetails,
+          };
+        })
+      );
+      console.log("data", data);
+      setOrders(data);
     } catch (error) {
       console.log(error.message);
     } finally {
       setLoading(false);
     }
   };
-
-  const fetchVipOrders = async () => {
+  const columnOrder = [
+    { title: "Order ID", dataIndex: "orderId" },
+    { title: "User Name", dataIndex: "fullName" },
+    { title: "Email", dataIndex: "email" },
+    { title: "Phone", dataIndex: "phone" },
+    { title: "Create At", dataIndex: "createDate" },
+    { title: "Total Price", dataIndex: "totalPrice" },
+    { title: "Status", dataIndex: "orderStatus" },
+    {
+      title: "View",
+      render: (record) => (
+        <AdminViewOrderDetailDialog orderDetail={record.orderDetail} />
+      ),
+    },
+  ];
+  const handleDayCommissionOption = (day) => {
+    setDayCommission(day);
+  };
+  const handleDayVipOption = (day) => {
+    setDayVip(day);
+  };
+  const fetchVipOrders = async (day) => {
+    setLoading(true);
     try {
       const order = await getListVipOrder();
+      const orderByDays = await getListVipOrderByDays(day);
       const data = await Promise.all(
-        order.map(async (item) => {
+        orderByDays.map(async (item) => {
           const vipId = item.orderVipDetails[0]?.vipId;
           const vipPackage = await getVipPackagesById(vipId);
 
@@ -33,13 +92,20 @@ const AdminOrderManagement = () => {
             fullName: item.fullName,
             phone: item.phone,
             email: item.email,
-            createDate: item.createDate,
-            totalPrice: item.totalPrice,
+            createDate: new Date(item.createDate).toLocaleDateString("vi-VN", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            }),
+            totalPrice: item.totalPrice.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }),
             orderStatus: item.orderStatus,
           };
         })
       );
-      console.log("data: " + data);
+
       setVipOrders(data);
     } catch (error) {
       console.log(error.message);
@@ -47,138 +113,51 @@ const AdminOrderManagement = () => {
       setLoading(false);
     }
   };
-  console.log("vipOrder" + vipOrders);
-  // const fetchVipOrders = async () => {
-  //   try {
-  //     const order = await getListVipOrder();
-
-  //     const data = await Promise.all(
-  //       order.map(async (item) => {
-  //         const user = await getAccountByUserId(item.userId);
-  //         return {
-  //           orderId: item.orderId,
-  //           fullName: user.fullName,
-  //           email: user.email,
-  //           phone: user.phoneNumber,
-  //         };
-  //       })
-  //     );
-
-  //     setVipOrders(data);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
+  const columnVip = [
+    { title: "Order ID", dataIndex: "orderId" },
+    { title: "Vip Package Name", dataIndex: "vipName" },
+    { title: "User Name", dataIndex: "fullName" },
+    { title: "Email", dataIndex: "email" },
+    { title: "Phone", dataIndex: "phone" },
+    { title: "Create At", dataIndex: "createDate" },
+    { title: "Total Price", dataIndex: "totalPrice" },
+    { title: "Status", dataIndex: "orderStatus" },
+  ];
   useEffect(() => {
-    fetchOrders();
-    fetchVipOrders();
-  }, []);
+    fetchOrders(dayCommission);
+  }, [dayCommission]);
+  useEffect(() => {
+    fetchVipOrders(dayVip);
+  }, [dayVip]);
+
+  console.log("order:", orders);
 
   if (loading) return <div>Loading...</div>;
+
   return (
     <div className="right-content">
       <div className="members-content shadow border-0 p-3 mt-4">
         <div className="member-content-header d-flex ">
           <h3 className="hd">Commission Order</h3>
+          <AdminDropMenuGetOrderByDays option={handleDayCommissionOption} />
         </div>
-        <div className="table-response">
-          <table className="table table-sm">
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>User Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Create At</th>
-                <th>Total Price</th>
-                <th>Status</th>
-                <th>View</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order) => (
-                <tr key={order.orderId}>
-                  <td>{order.orderId}</td>
-                  <td>{order.fullName}</td>
-                  <td>{order.email}</td>
-                  <td>{order.phone}</td>
-                  <td>
-                    {new Date(order.createDate).toLocaleDateString("vi-VN", {
-                      year: "numeric",
-                      month: "2-digit",
-                      day: "2-digit",
-                    })}
-                  </td>
-                  <td>
-                    {" "}
-                    {order.totalPrice.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                  </td>
-                  <td>{order.orderStatus}</td>
-                  <td>
-                    <AdminViewOrderDetailDialog
-                      orderDetail={order.orderDetails}
-                      isVip={order.isVipUpgrade}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+
+        <Table
+          loading={loading}
+          columns={columnOrder}
+          dataSource={orders}
+        ></Table>
       </div>
       <div className="members-content shadow border-0 p-3 mt-4">
         <div className="member-content-header d-flex ">
           <h3 className="hd">Vip Package</h3>
+          <AdminDropMenuGetOrderByDays option={handleDayVipOption} />
         </div>
-        <div className="table-response">
-          <table className="table table-sm">
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>Vip Package Name</th>
-                <th>User Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Create At</th>
-                <th>Total Price</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {vipOrders.map((vipOrder) => (
-                <tr key={vipOrder.orderId}>
-                  <td>{vipOrder.orderId}</td>
-                  {/* <td>{vipOrder.fullName}</td> */}
-                  <td>{vipOrder.vipName}</td>
-                  <td>{vipOrder.fullName}</td>
-                  <td>{vipOrder.phone}</td>
-                  <td>{vipOrder.email}</td>
-                  <td>
-                    {new Date(vipOrder.createDate).toLocaleDateString("vi-VN", {
-                      year: "numeric",
-                      month: "2-digit",
-                      day: "2-digit",
-                    })}
-                  </td>
-                  <td>
-                    {" "}
-                    {vipOrder.totalPrice.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                  </td>
-                  <td>{vipOrder.orderStatus}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table
+          loading={loading}
+          columns={columnVip}
+          dataSource={vipOrders}
+        ></Table>
       </div>
     </div>
   );

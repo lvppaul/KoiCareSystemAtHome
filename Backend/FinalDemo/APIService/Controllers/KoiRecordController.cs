@@ -54,7 +54,7 @@ namespace APIService.Controllers
             return result;
         }
 
-        [HttpGet("GetSampleRecord")]
+        [HttpGet("GetSampleRecord/{age}")]
         public async Task<ActionResult<KoiRecordSample>> GetSampleRecord(int age)
         {
             var koiRecord = await _unitOfWork.KoiRecordRepository.GetKoiRecordByAge(age);

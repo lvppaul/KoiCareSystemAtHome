@@ -393,19 +393,20 @@ namespace Domain.Services
                                         return (false, "Update Cart failed");
                                     }
                                 }
-                                await CreateOrderShop(order);
+
 
                             }
-                            if (order.isBuyNow == true)
-                            {
-                                foreach (var item in order.OrderDetails)
-                                {
-                                    var product = await _unitOfWork.ProductRepository.GetByIdAsync(item.ProductId);
-                                    order.ShopId = product.ShopId;
-                                    await _unitOfWork.OrderRepository.UpdateAsync(order);
-                                }
+                            //if (order.isBuyNow == true)
+                            //{
+                            //    foreach (var item in order.OrderDetails)
+                            //    {
+                            //        var product = await _unitOfWork.ProductRepository.GetByIdAsync(item.ProductId);
+                            //        order.ShopId = product.ShopId;
+                            //        await _unitOfWork.OrderRepository.UpdateAsync(order);
+                            //    }
 
-                            }
+                            //}
+                            await CreateOrderShop(order);
                             //Cập nhật lại số lượng product
                             var UpdateProductStatus = await UpdateProductQuantity(order);
                             if (UpdateProductStatus != 1)

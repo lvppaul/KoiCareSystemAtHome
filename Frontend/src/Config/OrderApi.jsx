@@ -60,7 +60,7 @@ const getVipOrderByUserId = async (userId) => {
     return null;
   }
 };
-
+/* ------------------------Commission Order---------------------  */
 // get list commission fee order
 const getListOrder = async () => {
   try {
@@ -77,6 +77,23 @@ const getListOrder = async () => {
   }
 };
 
+// get Commission order by days - https://localhost:7062/api/Order/orders-by-day?days=30
+const getListOrderByDays = async (day) => {
+  try {
+    const response = await api.get(`Order/orders-by-day?days=${day}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
+/*------------------- Vip Order --------------- */
 // get list Vip package order
 const getListVipOrder = async () => {
   try {
@@ -92,6 +109,54 @@ const getListVipOrder = async () => {
     return null;
   }
 };
+// get list Vip Order package Order By Week - https://localhost:7062/api/Order/vip-orders-by-week?weeks=1
+
+const getListVipOrderByWeek = async (week) => {
+  try {
+    const response = await api.get(`Order/vip-orders-by-week?weeks=${week}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
+// get vip orders by month https://localhost:7062/api/Order/vip-orders-by-month?month=3
+const getListVipOrderByMonth = async (month) => {
+  try {
+    const response = await api.get(`Order/vip-orders-by-month?month=${month}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+// get vip orders by days - https://localhost:7062/api/Order/vip-orders-by-day?days=7
+const getListVipOrderByDays = async (days) => {
+  try {
+    const response = await api.get(`Order/vip-orders-by-day?days=${days}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
 export {
   createOrder,
   getOrderById,
@@ -99,4 +164,8 @@ export {
   getVipOrderByUserId,
   getListOrder,
   getListVipOrder,
+  getListVipOrderByWeek,
+  getListVipOrderByMonth,
+  getListVipOrderByDays,
+  getListOrderByDays,
 };

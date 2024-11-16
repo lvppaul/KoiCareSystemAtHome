@@ -126,5 +126,13 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         {
             return await _context.Products.AnyAsync(p => p.Name == name && p.ShopId == shopId);
         }
+
+        public async Task<List<Product>> GetAllPaginationAsync(int pageNumber = 1, int pageSize = 1000)
+        {
+            //Pagination
+            var skipResult = (pageNumber - 1) * pageSize;
+
+            return await _context.Products.Include(p => p.Category).Skip(skipResult).Take(pageSize).ToListAsync();
+        }
     }
 }

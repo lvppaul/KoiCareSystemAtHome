@@ -253,6 +253,8 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
             entity.ToTable("Koi");
 
+            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
+
             entity.Property(e => e.KoiId)
                 .ValueGeneratedOnAdd()
                 .IsUnicode(false)
@@ -484,7 +486,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
                 .HasMaxLength(255);
 
             entity.Property(e => e.VnpPayDate)
-                .HasMaxLength(14); // VNPay typically sends date in "yyyyMMddHHmmss" format
+                .HasMaxLength(14);
 
             entity.Property(e => e.VnpResponseCode)
                 .HasMaxLength(5);
@@ -514,6 +516,8 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.HasKey(e => e.PondId).HasName("PK__Pond__D18BF854E0A136F2");
 
             entity.ToTable("Pond");
+
+            entity.Property(e => e.IsDeleted).HasDefaultValue(false);
 
             entity.Property(e => e.PondId)
                 .ValueGeneratedOnAdd()

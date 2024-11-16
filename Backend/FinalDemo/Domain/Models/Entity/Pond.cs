@@ -21,6 +21,8 @@ public partial class Pond
 
     public int Skimmer { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public string? Note { get; set; }
 
     public virtual ICollection<Koi> Kois { get; set; } = new List<Koi>();

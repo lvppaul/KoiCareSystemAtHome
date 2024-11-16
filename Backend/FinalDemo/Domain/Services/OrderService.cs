@@ -73,7 +73,6 @@ namespace Domain.Services
                 if (orderDetail.OrderDetailStatus != "Successful")
                 {
                     orderDetailAllSuccess = 0;
-                    break;
                 }
 
             }
