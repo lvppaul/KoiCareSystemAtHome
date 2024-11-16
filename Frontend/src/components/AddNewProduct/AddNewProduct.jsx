@@ -10,6 +10,7 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
   const initProduct = {
     name: "",
     description: "",
+    expiredDate: null,
     quantity: 0,
     price: 0,
     status: true,
@@ -115,6 +116,17 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
               name="name"
               value={newProduct.name}
               onChange={handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="formProductExpiredDate" className="mb-3">
+            <Form.Label>Expiration Date</Form.Label>
+            <Form.Control
+              type="date"
+              name="expiredDate"
+              value={newProduct.expiredDate}
+              onChange={handleChange}
+              min={new Date().toISOString().split('T')[0]}
               required
             />
           </Form.Group>
