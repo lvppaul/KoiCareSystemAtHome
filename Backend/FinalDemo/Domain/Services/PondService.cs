@@ -29,7 +29,7 @@ namespace KCSAH.APIServer.Services
 
         public async Task<List<Pond>> GetPondByUserIdAsync(string id)
         {
-            return await _context.Ponds.Where(p => p.UserId.Equals(id)).ToListAsync();
+            return await _context.Ponds.Where(p => p.UserId.Equals(id) && p.IsDeleted == false).ToListAsync();
         }
 
         public async Task<List<Koi>> GetKoiInPond(int id)
@@ -37,7 +37,7 @@ namespace KCSAH.APIServer.Services
             return await _context.Kois.Include(k => k.KoiImages)
                 .Include(k => k.KoiReminds)
                 .Include(k => k.KoiRecords)
-                .Where(k => k.PondId.Equals(id)).ToListAsync();
+                .Where(k => k.PondId.Equals(id) && k.IsDeleted == false).ToListAsync();
         }
 
         public async Task<List<WaterParameter>> GetPondWaterParameter(int id)

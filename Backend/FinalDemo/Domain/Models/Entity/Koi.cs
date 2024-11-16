@@ -26,6 +26,8 @@ public partial class Koi
 
     public string Color { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public DateTime CreateAt { get; set; }
     public string Sex { get; set; }
 

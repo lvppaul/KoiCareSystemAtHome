@@ -176,7 +176,8 @@ namespace KCSAH.APIServer.Controllers
                 }
             }
 
-            await _unitOfWork.PondRepository.RemoveAsync(pond);
+            pond.IsDeleted = true;
+            await _unitOfWork.PondRepository.UpdateAsync(pond);
 
             return NoContent();
         }

@@ -364,7 +364,10 @@ namespace KCSAH.APIServer.Controllers
             {
                 return NotFound();
             }
-            await _unitOfWork.KoiRepository.RemoveAsync(koi);
+
+            koi.IsDeleted = true;
+
+            await _unitOfWork.KoiRepository.UpdateAsync(koi);
 
             return NoContent();
         }

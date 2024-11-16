@@ -28,62 +28,62 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Koi>> GetAllKoiByUserIdAsync(string id)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id)).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
 
         public async Task<List<Koi>> GetKoiByUserIdAsync(string id)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
 
         public async Task<List<Koi>> GetKoiDeadAsync(string id)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
         public async Task<List<Koi>> GetKoiFemaleAsync(string id)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Sex.ToUpper().Equals("FEMALE")).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Sex.ToUpper().Equals("FEMALE") && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
 
         public async Task<List<Koi>> GetKoiMaleAsync(string id)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Sex.ToUpper().Equals("MALE")).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Sex.ToUpper().Equals("MALE") && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
 
         public async Task<List<Koi>> GetKoiFemaleAliveAsync(string id)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("FEMALE")).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("FEMALE") && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
 
         public async Task<List<Koi>> GetKoiFemaleDeadAsync(string id)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("FEMALE")).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("FEMALE") && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
 
         public async Task<List<Koi>> GetKoiMaleAliveAsync(string id)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("MALE")).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("MALE") && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
 
         public async Task<List<Koi>> GetKoiMaleDeadAsync(string id)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("MALE")).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("MALE") && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
@@ -91,35 +91,35 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
 
         public async Task<List<Koi>> GetKoiMaleAliveInPondAsync(string id, int pondId)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("MALE") && k.PondId == pondId).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("MALE") && k.PondId == pondId && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
 
         public async Task<List<Koi>> GetKoiFemaleAliveInPondAsync(string id, int pondId)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("FEMALE") && k.PondId == pondId).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == true && k.Sex.ToUpper().Equals("FEMALE") && k.PondId == pondId && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
 
         public async Task<List<Koi>> GetKoiMaleDeadInPondAsync(string id, int pondId)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("MALE") && k.PondId == pondId).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("MALE") && k.PondId == pondId && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
 
         public async Task<List<Koi>> GetKoiFemaleDeadInPondAsync(string id, int pondId)
         {
-            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("FEMALE") && k.PondId == pondId).ToListAsync();
+            var result = await _context.Kois.Include(p => p.ApplicationUser).Include(p => p.Pond).Include(p => p.KoiImages).Include(p => p.KoiRecords).Include(p => p.KoiReminds).Where(k => k.UserId.Equals(id) && k.Status == false && k.Sex.ToUpper().Equals("FEMALE") && k.PondId == pondId && k.IsDeleted == false).ToListAsync();
 
             return result;
         }
 
         public async Task<bool> KoiNameExisted(string userId, string name)
         {
-            return await _context.Kois.AnyAsync(k => k.UserId.Equals(userId) && k.Name.Equals(name));
+            return await _context.Kois.AnyAsync(k => k.UserId.Equals(userId) && k.Name.Equals(name) && k.IsDeleted == false);
         }
     }
 }
