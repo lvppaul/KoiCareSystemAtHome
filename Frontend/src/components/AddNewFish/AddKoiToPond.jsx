@@ -1,25 +1,23 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Button, Modal, Form, Row, Spinner } from 'react-bootstrap';
-import { ToastContext } from '../../App';
-import { useAuth } from '../../pages/Login/AuthProvider';
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, Form, Spinner, Alert } from 'react-bootstrap';
 import { getAllKoiByUserId, getKoiById, updateKoi } from '../../Config/KoiApi';
-import { useParams } from 'react-router-dom';
-import FishIcon from "../../assets/Addfish.svg";
+import { useAuth } from '../../pages/Login/AuthProvider';
+import { useContext } from 'react';
+import { ToastContext } from '../../App';
 
-const AddKoiToPond = ({ show, setShow, onAddFish }) => {
+const AddKoiToPond = ({show, setShow, pondId, onAddFish }) => {
     const { setToastMessage } = useContext(ToastContext);
-    const [loading, setLoading] = useState(false);
-    const [selectedFish, setSelectedFish] = useState('');
     const [koiList, setKoiList] = useState([]);
+    const [selectedFish, setSelectedFish] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const userId = useAuth().user.userId;
-    const {pondId} = useParams();
-    const [error, setError] = useState('');
-    const handleClose = () => setShow(false);
-
+    
     const handleKoiList = async () => {
         const response = await getAllKoiByUserId(userId);
         setKoiList(response);
     };
+    const handleClose = () => setShow(false);
 
     useEffect(() => {
         handleKoiList();
@@ -28,21 +26,24 @@ const AddKoiToPond = ({ show, setShow, onAddFish }) => {
     const handleSelectFish = (event) => {
         setSelectedFish(event.target.value);
     };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
         try {
+            console.log("Adding fish to pond:", selectedFish);
             const response = await getKoiById(selectedFish);
-            const updatedKoi = { ...response, pondId: pondId };
-            const addtoPond = await updateKoi(updatedKoi);
-            onAddFish(updatedKoi);
-            console.log(addtoPond);
+            const updatedKoi = { ...response, pondId: Number(pondId) };
+            console.log("Updated koi:", updatedKoi);
+            await updateKoi(updatedKoi);
+            // onAddFish(updatedKoi);
             setLoading(false);
             handleClose();
             setToastMessage("Fish added to pond successfully!");
+            console.log("Fish added to pond successfully!");
         } catch (error) {
-            console.error("Error adding fish to pond:", error.response.data);
-            setError(error.response.data || "Failed to add fish to pond!");
+            console.error("Error adding fish to pond:", error);
+            setError(error.message || "Failed to add koi to pond!");
             setLoading(false);
             setToastMessage("Failed to add fish to pond!");
         }
@@ -50,60 +51,32 @@ const AddKoiToPond = ({ show, setShow, onAddFish }) => {
 
     return (
         <>
-            <Button variant="primary" onClick={() => setShow(true)}
-                 style={{
-                    width: "180px",
-                    height: "60px",
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                    borderRadius: "15px",
-                    backgroundColor: "#FF8433",
-                    transition: "background-color 0.3s ease",
-                  }}
-                  onMouseEnter={(e) => (e.target.style.backgroundColor = "#FF6204")}
-                  onMouseLeave={(e) => (e.target.style.backgroundColor = "#FF8433")}>
-                <img src={FishIcon} alt="add fish icon" /> Add Koi
+            <Button variant="primary" onClick={() => setShow(true)} style={{ width: "180px" }}>
+                Add Koi to Pond
             </Button>
-            <Modal show={show} onHide={handleClose} size="lg">
+
+            <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Koi</Modal.Title>
+                    <Modal.Title>Add Koi to Pond</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {loading ? (
-                        <div className="d-flex justify-content-center">
-                            <Spinner animation="border" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </Spinner>
-                        </div>
-                    ) : (
-                        <Form onSubmit={handleSubmit}>
-                            <Row className="mb-3">
-                                {error && <p style={{ color: "red" }}>{error}</p>}
-                                <Form.Group controlId="formSelectFish">
-                                    <Form.Label>Select Fish</Form.Label>
-                                    <Form.Control
-                                        as="select"
-                                        value={selectedFish}
-                                        onChange={handleSelectFish}
-                                        required
-                                    >
-                                        <option value="">Select Fish</option>
-                                        {koiList.map((koi) => (
-                                            <option key={koi.koiId} value={koi.koiId}>
-                                                {koi.name}
-                                            </option>
-                                        ))}
-                                    </Form.Control>
-                                </Form.Group>
-                            </Row>
-                            <Button variant="secondary" onClick={handleClose}>
-                                Cancel
-                            </Button>
-                            <Button variant="primary" type="submit" style={{ backgroundColor: "#00C92C" }}>
-                                {loading ? <Spinner animation="border" size="sm" /> : "Save"}
-                            </Button>
-                        </Form>
-                    )}
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group controlId="formFishSelect">
+                            <Form.Label>Select Fish</Form.Label>
+                            <Form.Control as="select" value={selectedFish} onChange={handleSelectFish}>
+                                <option value="">Select a fish</option>
+                                {koiList.map((koi) => (
+                                    <option key={koi.koiId} value={koi.koiId}>
+                                        {koi.name}
+                                    </option>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
+                        <Button variant="primary" type="submit" disabled={loading}>
+                            {loading ? <Spinner animation="border" size="sm" /> : "Add Fish"}
+                        </Button>
+                    </Form>
                 </Modal.Body>
             </Modal>
         </>

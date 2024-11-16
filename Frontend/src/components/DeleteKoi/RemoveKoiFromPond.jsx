@@ -14,7 +14,7 @@ const RemoveKoiFromPond = ({ koiData, handleKoiDelete }) => {
     const notFound = 'others/NotFound.jpg';
     const koiThumbnail = koiData.thumbnail;
     const handleDelete = async () => {
-        const confirm = await showConfirmAlert('Delete Koi', 'Are you sure you want to remove this Koi out of Pond?')
+        const confirm = await showConfirmAlert('Remove Koi', 'Are you sure you want to remove this Koi out of Pond?')
         // Call the onDelete function passed as a prop
         if (confirm) {
         try {

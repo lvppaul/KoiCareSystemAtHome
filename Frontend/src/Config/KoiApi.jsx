@@ -125,7 +125,8 @@ const postKoi = async (koi) => {
 const updateKoi = async (koi) => {
     try {
         const response = await api.put(`Koi/${koi.koiId}`, koi);
-        return response.data;
+        console.log('response', response.status)
+        return response;
     } catch (error) {
         console.error('Error updating koi:', error);
         throw error;
