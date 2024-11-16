@@ -206,7 +206,7 @@ const changePondKoi = async (koiId, pondId) => {
                 'Content-Type': 'application/json'
             }
         });
-        return response.data;
+        return response;
     } catch (error) {
         console.error('Error changing pond:', error);
         throw error;

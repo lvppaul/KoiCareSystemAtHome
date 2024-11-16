@@ -61,8 +61,7 @@ const OrderHistory = () => {
   }
   
   const formatDate = (date) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(date).toLocaleDateString(undefined, options);
+    return new Date(date).toLocaleDateString("en-GB");
   };
 
   const formatPrice = (price) => {
@@ -152,6 +151,7 @@ const OrderHistory = () => {
                       <th style={{ width: "250px" }}>Product</th>
                       <th style={{ width: "150px" }}>Quantity</th>
                       <th style={{ width: "150px" }}>Price</th>
+                      <th style={{ width: "150px" }}>Status</th>
                     </tr>
                   </thead>
                   {order.orderDetails.map((orderDetail, index) => (
@@ -160,6 +160,7 @@ const OrderHistory = () => {
                         <td>{<ProductNameComponent productId={orderDetail.productId} />}</td>
                         <td>{orderDetail.quantity}</td>
                         <td>{formatPrice(orderDetail.unitPrice)}</td>
+                        <td>{orderDetail.orderDetailStatus}</td>
                       </tr>
                     </tbody>
                   ))}

@@ -25,7 +25,7 @@ const AddNewFish = ({ show, setShow, pondId ,onKoiAdded }) => {
     color: "",
     status: true,
     thumbnail: "",
-    pondId: pondId || "",
+    pondId: pondId || null,
   };
   const [loading, setLoading] = useState(false);
   const handleClose = () => setShow(false);
@@ -78,11 +78,12 @@ const AddNewFish = ({ show, setShow, pondId ,onKoiAdded }) => {
       if (file) {
         await uploadBytes(storageRef, file);
       }
-      await postKoi({ ...koidetail, userId: userId });
+      const newKoi = await postKoi({ ...koidetail, userId: userId });
       onKoiAdded(newKoi);
       setKoiDetail(newKoi);
       setPreviewImage(null);
       setShow(false);
+      setError(null);
       setToastMessage("Fish added successful!");
     } catch (error) {
       console.error("Error adding pond:", error);
@@ -106,6 +107,7 @@ const AddNewFish = ({ show, setShow, pondId ,onKoiAdded }) => {
             borderRadius: "15px",
             backgroundColor: "#FF8433",
             transition: "background-color 0.3s ease",
+            marginInlineEnd: "10px",
           }}
           onMouseEnter={(e) => (e.target.style.backgroundColor = "#FF6204")}
           onMouseLeave={(e) => (e.target.style.backgroundColor = "#FF8433")}
@@ -173,7 +175,7 @@ const AddNewFish = ({ show, setShow, pondId ,onKoiAdded }) => {
                             name="pondId"
                             value={koidetail.pondId}
                             onChange={handleInputChange}
-                            required
+                            
                         >
                             <option value="">Choose Pond</option>
                             {pondList.map((pond) => (

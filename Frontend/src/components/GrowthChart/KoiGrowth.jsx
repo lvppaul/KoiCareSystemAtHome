@@ -10,7 +10,7 @@ import {
     Legend
 } from 'chart.js';
 import { Col, Row } from "react-bootstrap";
-import { getKoiById, getKoiRecord, GetKoiRecordByKoiId } from "../../Config/KoiApi";
+import { getKoiById, getKoiRecord, GetKoiRecordByKoiId, getSampleKoiRecord } from "../../Config/KoiApi";
 import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -74,15 +74,38 @@ const KoiGrowthChart = ({ koiDetail }) => {
                     let data = await response;
                     data.sort((a, b) => new Date(a.updatedTime) - new Date(b.updatedTime));
                     data = filterDataByTime(data);
-
+    
                     const formatDate = (dateString) => {
                         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
                         return new Date(dateString).toLocaleDateString('en-GB', options);
                     };
+    
                     const labels = data.map(record => formatDate(record.updatedTime));
                     const weightData = data.map(record => record.weight);
                     const lengthData = data.map(record => record.length);
+    
+                    // Lấy dữ liệu mẫu (Sample Data)
+                    const sampleStart = await getSampleKoiRecord(koiDetail.age - 1);
+                    const sampleEnd = await getSampleKoiRecord(koiDetail.age);
+    
+                    const interpolate = (startValue, endValue, numSteps) => {
+                        const step = (endValue - startValue) / (numSteps - 1);
+                        return Array.from({ length: numSteps }, (_, i) => startValue + i * step);
+                    };
 
+                    const sampleWeightData = interpolate(
+                        sampleStart.weight,
+                        sampleEnd.weight,
+                        labels.length
+                    );
+    
+                    const sampleLengthData = interpolate(
+                        sampleStart.length,
+                        sampleEnd.length,
+                        labels.length
+                    );
+    
+                    // Kết hợp dữ liệu
                     setChartData({
                         labels: labels,
                         datasets: [
@@ -90,13 +113,37 @@ const KoiGrowthChart = ({ koiDetail }) => {
                                 label: "Weight (gram)",
                                 data: weightData,
                                 borderColor: "rgb(75, 192, 192)",
+                                borderWidth:3,
+                                tension:0.4,
+                                fill: true,
                             },
                             {
                                 label: "Length (cm)",
                                 data: lengthData,
                                 borderColor: "rgb(153, 102, 255)",
-                            }
-                        ]
+                                borderWidth:3,
+                                tension:0.4,
+                                fill: true,
+                            },
+                            {
+                                label: "Sample Weight (gram)",
+                                data: sampleWeightData,
+                                borderColor: "rgba(255, 99, 132, 0.7)",
+                                borderDash: [5, 5],
+                                borderWidth:3,
+                                tension:0.4,
+                                fill: true,
+                            },
+                            {
+                                label: "Sample Length (cm)",
+                                data: sampleLengthData,
+                                borderColor: "rgba(54, 162, 235, 0.7)",
+                                borderDash: [5, 5],
+                                borderWidth:3,
+                                tension:0.4,
+                                fill: true,
+                            },
+                        ],
                     });
                 } catch (error) {
                     console.error(error);
@@ -105,13 +152,14 @@ const KoiGrowthChart = ({ koiDetail }) => {
                 }
             }
         };
-
+    
         fetchData();
     }, [koiDetail, timeFilter, startDate, endDate, filterDataByTime]);
-
-    const handleFilterChange = (event) => {
-        setTimeFilter(event.target.value);
-    };
+    
+    
+    
+    
+        
 
     if (!koiDetail) {
         return <div>No koi detail available</div>;
@@ -207,6 +255,7 @@ const KoiGrowthChart = ({ koiDetail }) => {
                         borderRadius: '10px',
                         padding: '10px',
                         backgroundColor: '#fff',
+                        
                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
                     }}>
                         <Line options={options} data={chartData} />

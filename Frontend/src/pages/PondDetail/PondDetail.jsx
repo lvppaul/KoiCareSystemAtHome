@@ -160,7 +160,7 @@ const PondDetail = () => {
           show={showModalAddFish}
           setShow={setShowModalAddFish}
           pondId={pondId}
-          onKoiAdded={handleOnFishAdded}
+          onAddFish={handleOnFishAdded}
         />
         </Row>
 

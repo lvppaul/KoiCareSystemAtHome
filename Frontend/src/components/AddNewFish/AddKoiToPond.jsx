@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form, Spinner, Alert } from 'react-bootstrap';
-import { getAllKoiByUserId, getKoiById, updateKoi } from '../../Config/KoiApi';
+import { getAllKoiByUserId, getKoiById, changePondKoi } from '../../Config/KoiApi';
 import { useAuth } from '../../pages/Login/AuthProvider';
 import { useContext } from 'react';
 import { ToastContext } from '../../App';
+import FishIcon from "../../assets/Addfish.svg";
 
 const AddKoiToPond = ({show, setShow, pondId, onAddFish }) => {
     const { setToastMessage } = useContext(ToastContext);
@@ -31,16 +32,16 @@ const AddKoiToPond = ({show, setShow, pondId, onAddFish }) => {
         event.preventDefault();
         setLoading(true);
         try {
-            console.log("Adding fish to pond:", selectedFish);
-            const response = await getKoiById(selectedFish);
-            const updatedKoi = { ...response, pondId: Number(pondId) };
-            console.log("Updated koi:", updatedKoi);
-            await updateKoi(updatedKoi);
-            // onAddFish(updatedKoi);
-            setLoading(false);
-            handleClose();
-            setToastMessage("Fish added to pond successfully!");
-            console.log("Fish added to pond successfully!");
+            const koi = await changePondKoi(selectedFish, pondId);
+            console.log("Fish added to pond:", koi.status);
+            if (koi.status === 200) {
+                const addFish = await getKoiById(selectedFish);
+                setError(null);
+                setLoading(false);
+                setToastMessage("Fish added to pond successfully!");
+                onAddFish(addFish);
+                setShow(false);
+            }
         } catch (error) {
             console.error("Error adding fish to pond:", error);
             setError(error.message || "Failed to add koi to pond!");
@@ -51,9 +52,23 @@ const AddKoiToPond = ({show, setShow, pondId, onAddFish }) => {
 
     return (
         <>
-            <Button variant="primary" onClick={() => setShow(true)} style={{ width: "180px" }}>
-                Add Koi to Pond
-            </Button>
+            <Button
+            onClick={setShow}
+            style={{
+            width: "150px",
+            height: "60px",
+            fontWeight: "bold",
+            fontSize: "18px",
+            borderRadius: "15px",
+            backgroundColor: "#FF8433",
+            transition: "background-color 0.3s ease",
+          }}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = "#FF6204")}
+          onMouseLeave={(e) => (e.target.style.backgroundColor = "#FF8433")}
+        >
+          <img src={FishIcon} alt="add fish icon" />
+          Add Koi
+        </Button>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>

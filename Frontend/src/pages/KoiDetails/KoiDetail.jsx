@@ -184,8 +184,7 @@ const KoiDetail = () => {
             <img
               src={koidetail.thumbnail}
               alt={koidetail.thumbnail}
-              style={{ objectFit:'fill',width: '650px', height: '1000px', maxHeight:'1000px', maxWidth:'650px', 
-              minHeight:'200px', minWidth:'250'}}
+              style={{ objectFit:'fill', width:'50vw', height:'90vh', borderRadius:'50px'}}
               />
           </Row>
           {/* Koi Reminders */}

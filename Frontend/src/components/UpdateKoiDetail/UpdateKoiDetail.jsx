@@ -26,14 +26,14 @@ const UpdateKoiDetail = ({ show, setShow, koidetail, setKoiDetail }) => {
   // handle preview image
   const handleUploadImg = (event) => {
     const file = event.target.files[0];
-    if (file && file.type.startsWith("image/")) {
+    if (file) {
       // Check if the file is an image
       setPreviewImage(URL.createObjectURL(file));
-      const storageRef = ref(storage, `/pond/pondThumbnails/${userId}/${file.name + Date.now()}`);
+      const storageRef = ref(storage, `/koi/koiThumbnails/${userId}/${file.name + Date.now()}`);
       try {
         setFile(file);
         setStorageRef(storageRef);
-        setKoi({ ...koi, thumbnail: storageRef.fullPath });
+        setKoi({ ...koi, newThumbnail: storageRef.fullPath }); // Use a different key for the new thumbnail
       } catch (error) {
         console.error("Error setting image:", error);
       }
@@ -48,31 +48,34 @@ const UpdateKoiDetail = ({ show, setShow, koidetail, setKoiDetail }) => {
     setLoading(true);
     try {
       if (file) {
+        if (previousThumbnail && previousThumbnail !== 'NotFound.jpg') {
+          const previousRef = ref(storage, previousThumbnail);
+          await deleteObject(previousRef);
+          console.log("Deleted previous thumbnail", previousRef.fullPath);
+        } else if (koi.thumbnail === null) {
+          console.log("No previous thumbnail found");
+        }
         await uploadBytes(storageRef, file);
         const newThumbnail = await getDownloadURL(storageRef);
-        await updateKoi(koidetail);
-        setKoiDetail({ ...koi, thumbnail: newThumbnail });
-
-        if (previousThumbnail) {
-          const imageRef = ref(storage, previousThumbnail);
-          await deleteObject(imageRef);
-          console.log("Image deleted successfully");
-        }
+        console.log("Uploaded file:", newThumbnail);
+        const updatedKoi = { ...koi, thumbnail: storageRef.fullPath }; // Update the koi object with the new thumbnail path
+        setKoi(updatedKoi);
+        await updateKoi(updatedKoi); // Ensure the updated koi object is passed to updateKoi
+        setKoiDetail({ ...updatedKoi, thumbnail: newThumbnail });
       } else {
-        await updateKoi(koi);
-        setKoiDetail({ ...koi, thumbnail: previousThumbnail });
+        await updateKoi(koi); // Proceed with updating the koi details in the database if no new file is uploaded
       }
+      setToastMessage("Koi updated successfully!");
+      setShow(false);
       setFile(null);
       setPreviewImage(null);
       setLoading(false);
-      handleClose();
-      setToastMessage("Koi updated successful!");
     } catch (error) {
-      console.error("Error updating pond:", error);
+      console.error("Error updating Koi:", error);
       setLoading(false);
-      setToastMessage("Koi updated failed!");
     }
   };
+
   return (
     <>
       <Button
@@ -122,7 +125,7 @@ const UpdateKoiDetail = ({ show, setShow, koidetail, setKoiDetail }) => {
                     </Row>
                     <Row className="img-preview">
                       {previewImage ? (
-                        <img src={previewImage} alt={previewImage} />
+                        <img src={previewImage} alt={previewImage} style={{height:'80vh', width:'50vw', borderRadius:'50px', paddingTop:'10px'}}/>
                       ) : (
                         <span style={{ color: "#eeeeee" }}>Preview image</span>
                       )}
