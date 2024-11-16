@@ -1,4 +1,5 @@
-﻿using Domain.Models.Entity;
+﻿using Domain.Models;
+using Domain.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository.Base;
 using System;
@@ -29,6 +30,11 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         public async Task<bool> KoiExistInPond(int pondId)
         {
             return await _context.Kois.AnyAsync(p => p.PondId == pondId);
+        }
+
+        public async Task<List<Koi>> GetKoisByPondId(int pondId)
+        {
+            return await _context.Kois.Where(k => k.PondId == pondId).ToListAsync();
         }
     }
 }
