@@ -1,4 +1,4 @@
-import { Card, Button, Modal, Row, Col, Container, Spinner, Carousel, Image } from "react-bootstrap";
+import { Card, Button, Modal, Row, Col, Container, Spinner, Carousel, Image, ListGroup } from "react-bootstrap";
 import AddWaterParameter from "../AddWaterParameter/AddWaterParameter";
 import { useEffect, useState, useCallback } from "react";
 import { getWaterParameter, checkWaterParameter, getWaterParameterAdvice } from "../../Config/WaterParameterApi.jsx";
@@ -425,10 +425,12 @@ const WaterParameter = ({ show, setShow, pondId }) => {
         </Modal.Header>
         <Modal.Body>
           {advice ? (
-            <div>
-              <ul>{advice.split(".").map((item, index) => item.trim() && <li key={index}>{item.trim()}.</li>)}</ul>
-            </div>
-          ) : (
+            advice.map((adv, index) => (
+              <ListGroup variant="flush" key={index}>
+                <ListGroup.Item style={{fontSize:'18px'}} >{adv}</ListGroup.Item>
+              </ListGroup>
+            )))
+            : (
             <h4>No Advice yet!</h4>
           )}
         </Modal.Body>

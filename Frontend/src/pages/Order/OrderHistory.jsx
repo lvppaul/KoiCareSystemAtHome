@@ -131,6 +131,7 @@ const OrderHistory = () => {
       <thead>
         <tr>
           <th>Order ID</th>
+          <th>Shop</th>
           <th>Order Detail</th>
           <th>Date</th>
           <th>Total</th>
@@ -143,6 +144,7 @@ const OrderHistory = () => {
         {orders.map((order) => (
           <tr key={order.orderId}>
             <td>{order.orderId}</td>
+            <td>{order.shopId}</td>
             <td>
               {!order.orderVipDetails ? (
                 <Table striped bordered hover responsive>
@@ -173,7 +175,7 @@ const OrderHistory = () => {
             <td>{formatPrice(order.totalPrice)}</td>
             <td>{order.orderStatus}</td>
             <td>
-            {order.orderStatus === "Successful" ? 
+            {order.orderStatus === "Successful" || order.orderStatus ==="Out For Delivery" ? 
               (!order.orderVipDetails ?
               <Button onClick={() => handleExportPDF(order.orderId)}>Export PDF</Button>
                 : null)

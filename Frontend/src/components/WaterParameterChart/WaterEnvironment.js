@@ -92,6 +92,9 @@ export const WaterChart = ({ timeFilter, startDate, endDate, selectedPondId }) =
                             data: pH,
                             borderColor: "orange",
                             backgroundColor: "orange",
+                            borderWidth:3,
+                        tension:0.4,
+                        fill: true,
                             yAxisID: "y-left",
                         },
                         {
@@ -99,6 +102,9 @@ export const WaterChart = ({ timeFilter, startDate, endDate, selectedPondId }) =
                             data: GH,
                             borderColor: "green",
                             backgroundColor: "green",
+                            borderWidth:3,
+                        tension:0.4,
+                        fill: true,
                             yAxisID: "y-right",
                         },
                         {
@@ -106,6 +112,9 @@ export const WaterChart = ({ timeFilter, startDate, endDate, selectedPondId }) =
                             data: KH,
                             borderColor: "brown",
                             backgroundColor: "brown",
+                            borderWidth:3,
+                            tension:0.4,
+                            fill: true,
                             yAxisID: "y-right",
                         },
                     ],
@@ -179,11 +188,7 @@ export const WaterChart = ({ timeFilter, startDate, endDate, selectedPondId }) =
                         maxWidth: '1920px',
                         border: '2px solid #ccc',
                         borderRadius: '10px',
-
                         backgroundColor: '#fff',
-                        borderWidth:3,
-                        tension:0.4,
-                        fill: true,
                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                     }}>
                         <Line options={options} data={chartData} />

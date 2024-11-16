@@ -91,6 +91,9 @@ export const TemperatureChart = ({ timeFilter, startDate, endDate, selectedPondI
                             data: temperature,
                             borderColor: "orange",
                             backgroundColor: "orange",
+                            borderWidth:3,
+                        tension:0.4,
+                        fill: true,
                             yAxisID: "y-left",
                         },
                         {
@@ -98,6 +101,9 @@ export const TemperatureChart = ({ timeFilter, startDate, endDate, selectedPondI
                             data: outdoorTemp,
                             borderColor: "blue",
                             backgroundColor: "blue",
+                            borderWidth:3,
+                            tension:0.4,
+                            fill: true,
                             yAxisID: "y-left",
                         }
                     ],
@@ -163,9 +169,7 @@ export const TemperatureChart = ({ timeFilter, startDate, endDate, selectedPondI
                         borderRadius: '10px',
 
                         backgroundColor: '#fff',
-                        borderWidth:3,
-                        tension:0.4,
-                        fill: true,
+                        
                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                     }}>
                         <Line options={options} data={chartData} />
