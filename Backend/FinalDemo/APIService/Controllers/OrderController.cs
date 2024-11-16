@@ -96,6 +96,18 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("UserId-Order-History/{id}")]
+        public async Task<IActionResult> GetOrderInOrderHistoryByUserIdAsync(string id)
+        {
+            var result = await _getService.GetOrderInHistoryByUserIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(result);
+            return Ok(show);
+        }
+
         [HttpGet("ShopId/{id}")]
         public async Task<IActionResult> GetOrderByShopIdAsync(int id)
         {

@@ -2,11 +2,6 @@
 using Domain.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SWP391.KCSAH.Repository.KCSAH.Repository
 {
@@ -35,6 +30,11 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         public async Task<List<Koi>> GetKoisByPondId(int pondId)
         {
             return await _context.Kois.Where(k => k.PondId == pondId && k.IsDeleted == false).ToListAsync();
+        }
+
+        public async Task<bool> PondNameUpdatedExisted(string userId, string name, int pondId)
+        {
+            return await _context.Ponds.AnyAsync(p => p.UserId.Equals(userId) && p.Name.Equals(name) && p.IsDeleted == false && p.PondId != pondId);
         }
     }
 }

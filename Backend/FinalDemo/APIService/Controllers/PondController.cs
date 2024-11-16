@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SWP391.KCSAH.Repository;
-using AutoMapper;
-using KCSAH.APIServer.Services;
-using Domain.Models.Entity;
-using Domain.Models.Dto.Response;
+﻿using AutoMapper;
 using Domain.Models.Dto.Request;
+using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Update;
-using Domain.Helper;
-using Microsoft.AspNetCore.Authorization;
+using Domain.Models.Entity;
+using KCSAH.APIServer.Services;
+using Microsoft.AspNetCore.Mvc;
+using SWP391.KCSAH.Repository;
 
 namespace KCSAH.APIServer.Controllers
 {
@@ -42,7 +39,7 @@ namespace KCSAH.APIServer.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<PondDTO> GetById(int id)
         {
-            var pond =  _unitOfWork.PondRepository.GetById(id);
+            var pond = _unitOfWork.PondRepository.GetById(id);
             if (pond == null)
             {
                 return NotFound();
@@ -122,7 +119,7 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
             var pondShow = _mapper.Map<PondDTO>(pondMap);
-            return CreatedAtAction("GetById",new {id = pondShow.PondId}, pondShow);
+            return CreatedAtAction("GetById", new { id = pondShow.PondId }, pondShow);
         }
 
         [HttpPut("{id}")]
@@ -140,7 +137,7 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
 
-            var isPondNameExisted = await _unitOfWork.PondRepository.PondNameExisted(existingPond.UserId, ponddto.Name);
+            var isPondNameExisted = await _unitOfWork.PondRepository.PondNameUpdatedExisted(existingPond.UserId, ponddto.Name, existingPond.PondId);
             if (isPondNameExisted)
             {
                 return BadRequest("Pond name can not be the same.");
@@ -153,10 +150,10 @@ namespace KCSAH.APIServer.Controllers
             if (updateResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while updating Pond");
-                return StatusCode(500, ModelState); 
+                return StatusCode(500, ModelState);
             }
 
-            return NoContent(); 
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
