@@ -41,6 +41,11 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.UserId.Equals(UserId) && p.CreateDate == CreateDate).FirstOrDefaultAsync();
         }
 
+        public async Task<List<Order>> GetShopListOrder(Order orderUser)
+        {
+            return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.UserId.Equals(orderUser.UserId) && p.CreateDate == orderUser.CreateDate).ToListAsync();
+        }
+
         // Lấy order theo ngày
         public async Task<List<Order>> GetOrdersByDayAsync(int days)
         {

@@ -421,6 +421,13 @@ namespace Domain.Services
                                 await transaction.RollbackAsync();
                                 return (false, "Update Revenue failed");
                             }
+
+                            var updateShopRevenueStatus = await UpdateRevenueShop(order);
+                            if (updateRevenueStatus != 1)
+                            {
+                                await transaction.RollbackAsync();
+                                return (false, "Update Shop Revenue failed");
+                            }
                         }
                         else
                         {
@@ -514,6 +521,32 @@ namespace Domain.Services
 
             var createResultRevenue = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
             return createResultRevenue;
+        }
+
+        private async Task<int> UpdateRevenueShop(Order orderUser)
+        {
+            var orderList = await _unitOfWork.OrderRepository.GetShopListOrder(orderUser);
+            var flag = 1;
+            foreach (var order in orderList)
+            {
+                var totalRevenue = 0;
+                foreach (var item in order.OrderDetails)
+                {
+                    totalRevenue += (item.UnitPrice * item.Quantity * 92 / 100);
+                }
+                var revenueDto = new RevenueRequestDTO
+                {
+                    OrderId = order.OrderId,
+                    Income = totalRevenue
+                };
+                var revenue = _mapper.Map<Revenue>(revenueDto);
+                var result = await _unitOfWork.RevenueRepository.CreateAsync(revenue);
+                if (result == 0)
+                {
+                    flag = 0;
+                }
+            }
+            return flag;
         }
 
         private async Task<int> UpdateVipRevenue(Order order)
