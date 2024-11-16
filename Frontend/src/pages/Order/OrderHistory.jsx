@@ -8,6 +8,7 @@ import ProductNameComponent from "./ProductNameComponent";
 import VipPackageName from "./VipPackageName";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { getPDF, sendPayment } from "../../Config/VNPayApi";
+import { getShopNameByShopId } from "../../Config/ShopApi";
 
 const OrderHistory = () => {
   const [vipOrders, setVipOrders] = useState([]);
@@ -97,6 +98,10 @@ const OrderHistory = () => {
     }
   };
 
+  const getShopName = (shopId) => {
+    getShopNameByShopId(shopId);
+  };
+
   const payment = async (order) => {
     console.log("Order found:", order);
     if(order.orderVipDetails) { 
@@ -144,7 +149,7 @@ const OrderHistory = () => {
         {orders.map((order) => (
           <tr key={order.orderId}>
             <td>{order.orderId}</td>
-            <td>{order.shopId}</td>
+            <td>{getShopName(order.shopId)}</td>
             <td>
               {!order.orderVipDetails ? (
                 <Table striped bordered hover responsive>
