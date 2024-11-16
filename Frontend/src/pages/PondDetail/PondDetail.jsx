@@ -11,6 +11,8 @@ import DeleteKoi from '../../components/DeleteKoi/DeleteKoi';
 import WaterParameter from '../../components/WaterParameter/WaterParameter';
 import { useAuth } from '../Login/AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import RemoveKoiFromPond from '../../components/DeleteKoi/RemoveKoiFromPond';
+import AddKoiToPond from '../../components/AddNewFish/AddKoiToPond';
 
 // Use pondId to fetch or display pond details
 const PondDetail = () => {
@@ -20,6 +22,7 @@ const PondDetail = () => {
   const [koiList, setKoiList] = useState([]);
   const [showModalAddPond, setShowModalAddPond] = useState(false);
   const [showModalAddFish, setShowModalAddFish] = useState(false);
+  const [showModalAddNewFish, setShowModalAddNewFish] = useState(false);
   const [showModalWaterParameter, setShowModalWaterParameter] = useState(false);
   const [loadingKoi, setLoadingKoi] = useState(true);
   const userRole = useAuth().user.role;
@@ -99,15 +102,15 @@ const PondDetail = () => {
             <tbody>
               <tr>
                 <td>Volume</td>
-                <td>{pond.volume}</td>
+                <td>{pond.volume} liters</td>
               </tr>
               <tr>
                 <td>Depth</td>
-                <td>{pond.depth}</td>
+                <td>{pond.depth} meters</td>
               </tr>
               <tr>
                 <td>Pumping Capacity</td>
-                <td>{pond.pumpingCapacity}</td>
+                <td>{pond.pumpingCapacity} (liters/h)</td>
               </tr>
               <tr>
                 <td>Drain</td>
@@ -146,10 +149,21 @@ const PondDetail = () => {
       <hr style={{ width: '50%', borderTop: '5px solid #000', margin: '100px auto' }} />
       <Row>
         <h1>Koi list in the pond</h1>
+        <Row style={{display:'flex', justifyContent:'flex-end', marginInlineEnd:"20px", marginBlockEnd:'20px'}}>
         <AddNewFish
+          show={showModalAddNewFish}
+          setShow={setShowModalAddNewFish} 
+          pondId={pondId}
+          onKoiAdded={handleOnFishAdded}
+          />
+        <AddKoiToPond
           show={showModalAddFish}
-          setShow={setShowModalAddFish} 
-          onKoiAdded={handleOnFishAdded}/>
+          setShow={setShowModalAddFish}
+          pondId={pondId}
+          onKoiAdded={handleOnFishAdded}
+        />
+        </Row>
+
         <Row>
           {loadingKoi ? (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -173,16 +187,17 @@ const PondDetail = () => {
                     <p style={{ fontSize: '18px'}}>
                       <strong>Age:</strong> {koi.age} <br/>
                       <strong>Variety:</strong> {koi.variety}<br/>
-                      <strong>Length:</strong> {koi.length}<br/>
-                      <strong>Weight:</strong> {koi.weight}<br/>
+                      <strong>Length:</strong> {koi.length} cm<br/>
+                      <strong>Weight:</strong> {koi.weight} gram<br/>
                     </p>                     
                   </Card.Body>
                 </div>
                 </Link>
                 <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
-                  <DeleteKoi
+                  <RemoveKoiFromPond
                     koiData={koi}
-                    handleKoiDelete={handleOnFishDeleted}/> 
+                    handleKoiDelete={handleOnFishDeleted}
+                  />
                 </div>
               </Card>
               

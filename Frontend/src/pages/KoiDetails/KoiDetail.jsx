@@ -13,7 +13,8 @@ import KoiNameFromId from '../../components/KoiReminder/KoiNameFromId';
 import DeleteKoiRemind from '../../components/KoiReminder/DeleteKoiRemind';
 import { Pagination } from 'react-bootstrap';
 import UpdateKoiReminder from '../../components/KoiReminder/UpdateKoiReminder';
-
+import ChangePondKoi from '../../components/UpdateKoiDetail/ChangePondKoi';
+import { getPondName } from '../../Config/PondApi';
 
 
 const KoiDetail = () => {
@@ -25,17 +26,24 @@ const KoiDetail = () => {
   const [showRemind, setShowRemind] = useState(false);
   const [showModalAddRemind, setShowModalAddRemind] = useState(false);
   const [showModalUpdateRemind, setShowModalUpdateRemind] = useState(false);
+  const [showModalChangePond, setShowModalChangePond] = useState(false);
   const [currentReminder, setCurrentReminder] = useState(null);
   const userId = useAuth().user.userId;
   const [remindList, setRemindList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const { user } = useAuth();
+  const [pondName, setPondName] = useState('');
 
   const fetchKoiDetail = async (koiId) => {
     setLoading(true);
     try {
       const data = await getKoiById(koiId);
       console.log('koi detail', data);
+      if (data.pondId)
+      {
+        const name = await getPondName(data.pondId);
+        setPondName(name);
+      }
       setKoiDetail(data);
       const sortedReminds = data.reminds.sort((a, b) => new Date(b.dateRemind) - new Date(a.dateRemind));
       setRemindList(sortedReminds);
@@ -45,6 +53,8 @@ const KoiDetail = () => {
       setLoading(false);
     }
   };
+
+
 
   useEffect(() => {
     fetchKoiDetail(koiId);
@@ -118,6 +128,30 @@ const KoiDetail = () => {
           <BiBell size={30}/> New Remind
         </Button>
         : null}
+        <Button
+        onClick={() => {
+          setShowModalChangePond(true);
+          console.log('koiId:', koiId);}}
+        style={{
+          width: "180px",
+          height: "70px",
+          fontWeight: "bold",
+          fontSize: "18px",
+          borderRadius: "15px",
+          backgroundColor: "#FF8433",
+          transition: "background-color 0.3s ease",
+          marginInlineEnd: "10px",
+        }}
+        onMouseEnter={(e) => (e.target.style.backgroundColor = "#FF6204")}
+        onMouseLeave={(e) => (e.target.style.backgroundColor = "#FF8433")}>
+          Change Pond
+        </Button>
+        <ChangePondKoi
+        show={showModalChangePond}
+        setShow={setShowModalChangePond}
+        koidetail={koidetail}
+        setKoiDetail={setKoiDetail}
+        />
 
         <UpdateKoiDetail
         show={showModalUpdateKoi}
@@ -259,9 +293,21 @@ const KoiDetail = () => {
                 <td><strong>Name</strong></td>
                 <td>{koidetail.name}</td>
               </tr>
+              {koidetail.pondId ? (
+              <>
+              <tr>
+                <td><strong>Pond</strong></td>
+                <td>{pondName}</td>
+              </tr>
+              </>)
+              : 
+              <tr>
+              <td><strong>Pond</strong></td>
+              <td>Not in any pond recently</td>
+              </tr>}
               <tr>
                 <td><strong>Age</strong></td>
-                <td>{koidetail.age}</td>
+                <td>{koidetail.age} years old</td>
               </tr>
               <tr>
                 <td><strong>Sex</strong></td>
@@ -269,11 +315,11 @@ const KoiDetail = () => {
               </tr>
               <tr>
                 <td><strong>Length</strong></td>
-                <td>{koidetail.length}</td>
+                <td>{koidetail.length} cm</td>
               </tr>
               <tr>
                 <td><strong>Weight</strong></td>
-                <td>{koidetail.weight}</td>
+                <td>{koidetail.weight} gram</td>
               </tr>
               <tr>
                 <td><strong>Color</strong></td>
@@ -311,7 +357,7 @@ const KoiDetail = () => {
 
           <h1>Growth chart</h1>
           <KoiGrowthChart
-          userId={userId} />
+          koiDetail={koidetail} />
 
         </Col>
       </Row>

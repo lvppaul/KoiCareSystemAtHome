@@ -6,7 +6,7 @@ import { addRecord } from '../../Config/KoiApi'
 
 const AddNewGrowthHistory = ({ show, setShow, koiData, updateAddedGrowth }) => {
     const userId = useAuth().user.userId;
-    const initialRecord = { length: '', weight: '', koiId: koiData.koiId, userId: userId };
+    const initialRecord = { length: '', weight: '', koiId: koiData.koiId, userId: userId, updatedTime:'' };
     const [record, setRecord] = useState(initialRecord);
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -48,12 +48,20 @@ const AddNewGrowthHistory = ({ show, setShow, koiData, updateAddedGrowth }) => {
                 </Button>
             </Row>
 
-        <Modal show={show} onHide={() => setShow(false)} size='xs' style={{backgroundColor:'#89CFF0'}} >
+        <Modal show={show} onHide={() => setShow(false)} size='xs' >
             <Modal.Header closeButton>
                 <Modal.Title>Add New Growth History</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmitAddNewGrowth}>
+                    <Form.Group controlId="formDate">
+                        <Form.Label>Date</Form.Label>
+                        <Form.Control
+                        name='updatedTime'
+                        value={record.updatedTime}
+                        type="date"
+                        onChange={handleChange}/>
+                    </Form.Group>
                     <Form.Group controlId="formLength">
                         <Form.Label>Length (cm)</Form.Label>
                         <Form.Control 
@@ -62,6 +70,7 @@ const AddNewGrowthHistory = ({ show, setShow, koiData, updateAddedGrowth }) => {
                         type="number" 
                         onChange={handleChange}/>
                     </Form.Group>
+
                     <Form.Group controlId="formWeight">
                         <Form.Label>Weight (g)</Form.Label>
                         <Form.Control 

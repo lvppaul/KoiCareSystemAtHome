@@ -147,6 +147,16 @@ const getWaterParameter = async (pondId) => {
     }
 }
 
+const getPondName = async (pondId) => {
+    try {
+        const response = await api.get(`Pond/async/${pondId}`);
+        return response.data.name;
+    } catch (error) {
+        console.log('Pond not found');
+        return null;
+    }
+}
+
 export { getPonds, getPondByUserId , getPondsById, postPond, updatePond, deletePond, getKoiInPond
-    , getWaterParameter
+    , getWaterParameter, getPondName
 };
