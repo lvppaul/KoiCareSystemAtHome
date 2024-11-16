@@ -46,6 +46,21 @@ const getOrderByUserId = async (userId) => {
   }
 };
 
+const getOrderHistoryByUserId = async (userId) => {
+  try {
+    const response = await api.get(`Order/UserId-Order-History/${userId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
 const getOrderByShopId = async (shopId) => {
   try {
     const response = await api.get(`Order/ShopId/${shopId}`, {
@@ -216,4 +231,5 @@ export {
   getListOrderByDays,
   getListShopOrderByDays,
   setOrderSuccess,
+  getOrderHistoryByUserId
 };

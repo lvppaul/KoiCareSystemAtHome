@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Table, Spinner, Alert, Tabs, Tab, Container, Button } from "react-bootstrap";
 import { useAuth } from "../Login/AuthProvider";
-import { getOrderByUserId } from "../../Config/OrderApi";
 import { getVipPackagesById } from "../../Config/VipPackageApi";
-import { getVipOrderByUserId } from "../../Config/OrderApi";
+import { getVipOrderByUserId,getOrderHistoryByUserId } from "../../Config/OrderApi";
 import ProductNameComponent from "./ProductNameComponent";
 import VipPackageName from "./VipPackageName";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { getPDF, sendPayment } from "../../Config/VNPayApi";
-import { getShopNameByShopId } from "../../Config/ShopApi";
+import ShopNameComponent from "./ShopNameComponent";
 
 const OrderHistory = () => {
   const [vipOrders, setVipOrders] = useState([]);
@@ -20,7 +19,7 @@ const OrderHistory = () => {
   
   const fetchOrderByUserId = async () => {
     try {
-      const response = await getOrderByUserId(userId);
+      const response = await getOrderHistoryByUserId(userId);
       if (response) {
         setRegularOrders(response);
       } else {
@@ -98,9 +97,6 @@ const OrderHistory = () => {
     }
   };
 
-  const getShopName = (shopId) => {
-    getShopNameByShopId(shopId);
-  };
 
   const payment = async (order) => {
     console.log("Order found:", order);
@@ -136,7 +132,7 @@ const OrderHistory = () => {
       <thead>
         <tr>
           <th>Order ID</th>
-          <th>Shop</th>
+          <th>Shop Name</th>
           <th>Order Detail</th>
           <th>Date</th>
           <th>Total</th>
@@ -149,7 +145,11 @@ const OrderHistory = () => {
         {orders.map((order) => (
           <tr key={order.orderId}>
             <td>{order.orderId}</td>
-            <td>{getShopName(order.shopId)}</td>
+            <td>{
+            order.shopId ? 
+            <ShopNameComponent
+            shopId={order.shopId}/> 
+            : null}</td>
             <td>
               {!order.orderVipDetails ? (
                 <Table striped bordered hover responsive>
