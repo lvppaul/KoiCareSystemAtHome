@@ -9,7 +9,8 @@ import { useAuth } from "../../pages/Login/AuthProvider";
 import { postKoi } from "../../Config/KoiApi";
 import { ToastContext } from "../../App";
 import { getPondByUserId } from "../../Config/PondApi";
-const AddNewFish = ({ show, setShow, onKoiAdded }) => {
+
+const AddNewFish = ({ show, setShow, pondId ,onKoiAdded }) => {
   const { setToastMessage } = useContext(ToastContext);
   const newKoi = {
     name: "",
@@ -24,7 +25,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
     color: "",
     status: true,
     thumbnail: "",
-    pondId: "",
+    pondId: pondId || "",
   };
   const [loading, setLoading] = useState(false);
   const handleClose = () => setShow(false);
@@ -98,7 +99,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
         <Button
           onClick={setShow}
           style={{
-            width: "180px",
+            width: "200px",
             height: "60px",
             fontWeight: "bold",
             fontSize: "18px",
@@ -110,8 +111,7 @@ const AddNewFish = ({ show, setShow, onKoiAdded }) => {
           onMouseLeave={(e) => (e.target.style.backgroundColor = "#FF8433")}
         >
           <img src={FishIcon} alt="add fish icon" />
-          <MdAdd size={20} style={{ marginBottom: "30px" }} />
-          Add Fish
+          Add new Koi
         </Button>
       {/* </Row> */}
       <Modal show={show} onHide={setShow} size="xl" style={{ position: 'fixed', left: '50%', transform: 'translate(-50%, 0)', maxHeight: '95vh', overflowY: 'auto' }}>

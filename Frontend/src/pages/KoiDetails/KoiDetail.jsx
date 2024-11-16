@@ -300,10 +300,14 @@ const KoiDetail = () => {
                 <td>{pondName}</td>
               </tr>
               </>)
-              : null}
+              : 
+              <tr>
+              <td><strong>Pond</strong></td>
+              <td>Not in any pond recently</td>
+              </tr>}
               <tr>
                 <td><strong>Age</strong></td>
-                <td>{koidetail.age}</td>
+                <td>{koidetail.age} years old</td>
               </tr>
               <tr>
                 <td><strong>Sex</strong></td>
@@ -311,11 +315,11 @@ const KoiDetail = () => {
               </tr>
               <tr>
                 <td><strong>Length</strong></td>
-                <td>{koidetail.length}</td>
+                <td>{koidetail.length} cm</td>
               </tr>
               <tr>
                 <td><strong>Weight</strong></td>
-                <td>{koidetail.weight}</td>
+                <td>{koidetail.weight} gram</td>
               </tr>
               <tr>
                 <td><strong>Color</strong></td>
@@ -353,7 +357,7 @@ const KoiDetail = () => {
 
           <h1>Growth chart</h1>
           <KoiGrowthChart
-          userId={userId} />
+          koiDetail={koidetail} />
 
         </Col>
       </Row>

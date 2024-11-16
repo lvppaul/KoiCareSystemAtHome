@@ -153,6 +153,16 @@ const getKoiRecord = async (recordId) => {
     }
 }
 
+const getSampleKoiRecord = async (age) => {
+    try {
+        const response = await api.get(`KoiRecord/GetSampleRecord/${age}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching sample growth history:', error);
+        throw error;
+    }
+}
+
 // Function to add Koi Record
 const addRecord = async (record) => {
     try {
@@ -371,7 +381,29 @@ const getKoiMaleDeadInPond = async (pondId, userId) => {
     }
 }
 
+const removeKoiFromPond = async (koiId) => {
+    try {
+        const response = await api.post(`Koi/RemoveKoiFromPond`, '', {
+            params: { koiId: koiId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error removing koi from pond:', error.response?.data?.message || error.message);
+        throw error;
+    }
+}
+
+const GetKoiRecordByKoiId = async (koiId) => {
+    try {
+        const response = await api.get(`KoiRecord/GetKoiRecordByKoiId/${koiId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching koi record:', error);
+        throw error;
+    }
+}
+
 
 export { getKoiByUserId, getKoiById, postKoi, deleteKoi, updateKoi, getKoiListByUserId
-    , addRecord, deleteRecord, updateKoiRecord, getKoiRecord, getKoiMaleInAllPond, getKoiFemaleInAllPond, getAllKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleDeadInAllPond, getKoiFemaleDeadInAllPond, getKoiMaleAliveInAllPond, getKoiFemaleAliveInAllPond, getKoiFemaleAliveInPond, getKoiMaleAliveInPond, getKoiFemaleDeadInPond, getKoiMaleDeadInPond, getKoiWithThumbnail, getKoiName, changePondKoi
+    , addRecord, deleteRecord, updateKoiRecord, getKoiRecord, getKoiMaleInAllPond, getKoiFemaleInAllPond, getAllKoiByUserId, getKoiAliveInAllPond, getKoiDeadInAllPond, getKoiMaleDeadInAllPond, getKoiFemaleDeadInAllPond, getKoiMaleAliveInAllPond, getKoiFemaleAliveInAllPond, getKoiFemaleAliveInPond, getKoiMaleAliveInPond, getKoiFemaleDeadInPond, getKoiMaleDeadInPond, getKoiWithThumbnail, getKoiName, changePondKoi,removeKoiFromPond, getSampleKoiRecord, GetKoiRecordByKoiId
  };

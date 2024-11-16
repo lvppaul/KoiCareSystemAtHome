@@ -1,24 +1,31 @@
 import { BiTrash } from 'react-icons/bi';
-import { Button } from 'react-bootstrap';
+import { Button, Toast } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { deleteKoi } from '../../Config/KoiApi';
 import { deleteObject, ref } from 'firebase/storage';
 import { storage } from '../../Config/firebase';
 import { showConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
+import { removeKoiFromPond } from '../../Config/KoiApi';
+import { ToastContext } from '../../App';
+import { useContext } from 'react';
 
 const RemoveKoiFromPond = ({ koiData, handleKoiDelete }) => {
+    const { setToastMessage } = useContext(ToastContext);
     const koiId = koiData.koiId;
     const notFound = 'others/NotFound.jpg';
     const koiThumbnail = koiData.thumbnail;
     const handleDelete = async () => {
-        const confirm = await showConfirmAlert('Delete Koi', 'Are you sure you want to delete this koi fish?')
+        const confirm = await showConfirmAlert('Delete Koi', 'Are you sure you want to remove this Koi out of Pond?')
         // Call the onDelete function passed as a prop
         if (confirm) {
         try {
-            updateKoi(koiId);
-            handleKoiDelete(koiId);
+            const response = await removeKoiFromPond(koiId);
+            if(response){
+                handleKoiDelete(koiId);
+            }
+            await setToastMessage('Koi removed from Pond successful! Check Koi list to see this Koi.');
         } catch (error) {
-                    console.error('Error deleting thumbnail:', error);
+            console.error('Koi remove error', error);
+            await setToastMessage('Koi remove from Pond failed!');
         }
             }
     }
@@ -28,8 +35,8 @@ const RemoveKoiFromPond = ({ koiData, handleKoiDelete }) => {
             <Button
                 onClick={handleDelete}
                 style={{
-                    width: '120px',
-                    height: '50px',
+                    width: '100px',
+                    height: '100px',
                     fontWeight: 'bold',
                     fontSize: '18px',
                     borderRadius: '15px',
@@ -39,7 +46,7 @@ const RemoveKoiFromPond = ({ koiData, handleKoiDelete }) => {
                 onMouseEnter={(e) => e.target.style.backgroundColor = '#FF8433'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = '#F94050'}
             >
-                <BiTrash size={20} /> Delete
+                Remove from Pond
             </Button>
         </>
     )
