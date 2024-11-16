@@ -327,6 +327,18 @@ const ManageShop = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.ceil(products.length / productsPerPage)));
   const prevPage = () => setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
 
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(date).toLocaleDateString(undefined, options);
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("vn-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
+  };
+
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center mt-5" style={{ height: "100%" }}>
@@ -418,6 +430,7 @@ const ManageShop = () => {
                   <th>Name</th>
                   <th>Category</th>
                   <th>Description</th>
+                  <th>Expired Date</th>
                   <th>Quantity</th>
                   <th>Price</th>
                   <th>Status</th>
@@ -467,8 +480,13 @@ const ManageShop = () => {
                     <td>{product.name}</td>
                     <td>{product.category ? product.category.name : errorCategory.name}</td>
                     <td>{product.description}</td>
+                    {product.category && (product.categoryId !== 1 || errorCategory.categoryId !== 1) ? (
+                      <td>None</td>
+                    ) : (
+                      <td>{formatDate(product.expiredDate)}</td>
+                    )}
                     <td>{product.quantity}</td>
-                    <td>{product.price}</td>
+                    <td>{formatPrice(product.price)}</td>
                     <td>{product.status ? "Available" : "Unavailable"}</td>
                     <td>
                       <div className="d-flex">
