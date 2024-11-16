@@ -12,6 +12,7 @@ import {
   Image,
   Spinner,
   Pagination,
+  Nav,
 } from "react-bootstrap";
 import { getShopByUserId } from "../../Config/ShopApi";
 import { getCategoryById } from "../../Config/CategoryApi";
@@ -336,181 +337,198 @@ const ManageShop = () => {
 
   return (
     <Container className="p-3">
-      <Card className="mb-4 shadow-sm">
-        <Row>
-          <Col md={4}>
-            <Card.Img
-              style={{ objectFit: "cover", width: "300px" }}
-              variant="top"
-              src={shop.thumbnail}
-              alt="Shop Thumbnail"
-              className="h-100"
-            />
-          </Col>
-          <Col md={8}>
-            <Card.Body>
-              <Card.Title className="text-center">{shop.shopName}</Card.Title>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <strong>Description: </strong> {shop.description}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Phone: </strong> {shop.phone}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Email: </strong> {shop.email}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>Rating: </strong> {shop.rating}
-                </ListGroup.Item>
-              </ListGroup>
-              <div className="d-flex justify-content-center">
-                <Button variant="primary" onClick={() => setShowShopModal(true)}>
-                  Edit Shop Details
-                </Button>
-              </div>
-            </Card.Body>
+      <Nav className="nav-tabs-login" variant="tabs" defaultActiveKey="/manageShop">
+        <Nav.Item>
+          <Nav.Link href="/manageShop">Manage Shop</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="shopOrder" href="/shopOrder">
+            Orders
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="shopRevenue" href="/shopRevenue">
+            Revenue
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <Container style={{ borderTop: "1px solid gray" }}>
+        <Container className="mb-4 shadow-sm p-3 mt-3" style={{ background: "white" }}>
+          <Row>
+            <Col md={4}>
+              <Card.Img
+                style={{ objectFit: "cover", width: "300px" }}
+                variant="top"
+                src={shop.thumbnail}
+                alt="Shop Thumbnail"
+                className="h-100"
+              />
+            </Col>
+            <Col md={8}>
+              <Card.Body>
+                <Card.Title className="text-center">{shop.shopName}</Card.Title>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>
+                    <strong>Description: </strong> {shop.description}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Phone: </strong> {shop.phone}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Email: </strong> {shop.email}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <strong>Rating: </strong> {shop.rating}
+                  </ListGroup.Item>
+                </ListGroup>
+                <div className="d-flex justify-content-center">
+                  <Button variant="primary" onClick={() => setShowShopModal(true)}>
+                    Edit Shop Details
+                  </Button>
+                </div>
+              </Card.Body>
+            </Col>
+          </Row>
+        </Container>
+        <UpdateShopDetails
+          shop={shop}
+          setShop={setShop}
+          show={showShopModal}
+          handleClose={() => setShowShopModal(false)}
+        />
+        <h2>Shop Products</h2>
+        <Row className="mb-3">
+          <Col className="d-flex justify-content-end">
+            <Button variant="success" onClick={() => setShowAddProductModal(true)}>
+              Add New Product
+            </Button>
           </Col>
         </Row>
-      </Card>
-      <UpdateShopDetails
-        shop={shop}
-        setShop={setShop}
-        show={showShopModal}
-        handleClose={() => setShowShopModal(false)}
-      />
-      <h2>Shop Products</h2>
-      <Row className="mb-3">
-        <Col className="d-flex justify-content-end">
-          <Button variant="success" onClick={() => setShowAddProductModal(true)}>
-            Add New Product
-          </Button>
-        </Col>
-      </Row>
-      {productLoading ? (
-        <div className="d-flex justify-content-center align-items-center mt-5 mb-5" style={{ height: "100%" }}>
-          <Spinner animation="border" size="xl" role="status" />
-        </div>
-      ) : (
-        <>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th style={{ width: "100px" }}>Thumbnail</th>
-                <th style={{ width: "150px" }}>Product Images</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Description</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th style={{ width: "150px" }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentProducts.map((product) => (
-                <tr key={product.productId}>
-                  <td className="d-flex justify-content-center align-items-center">
-                    <CardImg
-                      src={product.thumbnail}
-                      alt="Product Thumbnail"
-                      style={{ objectFit: "cover", width: "75px", height: "75px" }}
-                    />
-                  </td>
-                  <td>
-                    {carouselLoading ? (
-                      <div className="d-flex justify-content-center align-items-center" style={{ height: "100%" }}>
-                        <Spinner animation="border" size="xl" role="status" />
-                      </div>
-                    ) : (
-                      <Carousel variant="dark" indicators={false}>
-                        {[
-                          ...new Set(
-                            productImages
-                              .filter((image) => image.productId === product.productId)
-                              .map((image) => image.imageId)
-                          ),
-                        ].map((imageId) => {
-                          const productImage = productImages.find((image) => image.imageId === imageId);
-                          if (!productImage) return null;
-                          return (
-                            <Carousel.Item key={productImage.imageId} style={{ textAlign: "center" }}>
-                              <Image
-                                src={productImage.imageUrl}
-                                alt={`${product.name} image ${productImage.imageId}`}
-                                style={{ objectFit: "cover", width: "75px", height: "75px" }}
-                                fluid
-                              />
-                            </Carousel.Item>
-                          );
-                        })}
-                      </Carousel>
-                    )}
-                  </td>
-                  <td>{product.name}</td>
-                  <td>{product.category ? product.category.name : errorCategory.name}</td>
-                  <td>{product.description}</td>
-                  <td>{product.quantity}</td>
-                  <td>{product.price}</td>
-                  <td>{product.status ? "Available" : "Unavailable"}</td>
-                  <td>
-                    <div className="d-flex">
-                      <Button
-                        variant="warning"
-                        className="me-2"
-                        onClick={() => {
-                          setSelectedProduct(product);
-                          setShowUpdateProductModal(true);
-                        }}
-                      >
-                        Update
-                      </Button>
-                      <Button variant="danger" onClick={() => handleDeleteProduct(product.productId)}>
-                        Delete
-                      </Button>
-                    </div>
-                  </td>
+        {productLoading ? (
+          <div className="d-flex justify-content-center align-items-center mt-5 mb-5" style={{ height: "100%" }}>
+            <Spinner animation="border" size="xl" role="status" />
+          </div>
+        ) : (
+          <>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th style={{ width: "100px" }}>Thumbnail</th>
+                  <th style={{ width: "150px" }}>Product Images</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th style={{ width: "150px" }}>Actions</th>
                 </tr>
+              </thead>
+              <tbody>
+                {currentProducts.map((product) => (
+                  <tr key={product.productId}>
+                    <td className="d-flex justify-content-center align-items-center">
+                      <CardImg
+                        src={product.thumbnail}
+                        alt="Product Thumbnail"
+                        style={{ objectFit: "cover", width: "75px", height: "75px" }}
+                      />
+                    </td>
+                    <td>
+                      {carouselLoading ? (
+                        <div className="d-flex justify-content-center align-items-center" style={{ height: "100%" }}>
+                          <Spinner animation="border" size="xl" role="status" />
+                        </div>
+                      ) : (
+                        <Carousel variant="dark" indicators={false}>
+                          {[
+                            ...new Set(
+                              productImages
+                                .filter((image) => image.productId === product.productId)
+                                .map((image) => image.imageId)
+                            ),
+                          ].map((imageId) => {
+                            const productImage = productImages.find((image) => image.imageId === imageId);
+                            if (!productImage) return null;
+                            return (
+                              <Carousel.Item key={productImage.imageId} style={{ textAlign: "center" }}>
+                                <Image
+                                  src={productImage.imageUrl}
+                                  alt={`${product.name} image ${productImage.imageId}`}
+                                  style={{ objectFit: "cover", width: "75px", height: "75px" }}
+                                  fluid
+                                />
+                              </Carousel.Item>
+                            );
+                          })}
+                        </Carousel>
+                      )}
+                    </td>
+                    <td>{product.name}</td>
+                    <td>{product.category ? product.category.name : errorCategory.name}</td>
+                    <td>{product.description}</td>
+                    <td>{product.quantity}</td>
+                    <td>{product.price}</td>
+                    <td>{product.status ? "Available" : "Unavailable"}</td>
+                    <td>
+                      <div className="d-flex">
+                        <Button
+                          variant="warning"
+                          className="me-2"
+                          onClick={() => {
+                            setSelectedProduct(product);
+                            setShowUpdateProductModal(true);
+                          }}
+                        >
+                          Update
+                        </Button>
+                        <Button variant="danger" onClick={() => handleDeleteProduct(product.productId)}>
+                          Delete
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <Pagination className="d-flex justify-content-center">
+              <Pagination.Prev onClick={prevPage} disabled={currentPage === 1} />
+              {Array.from({ length: Math.ceil(products.length / productsPerPage) }, (_, index) => (
+                <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
+                  {index + 1}
+                </Pagination.Item>
               ))}
-            </tbody>
-          </Table>
-          <Pagination className="d-flex justify-content-center">
-            <Pagination.Prev onClick={prevPage} disabled={currentPage === 1} />
-            {Array.from({ length: Math.ceil(products.length / productsPerPage) }, (_, index) => (
-              <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => paginate(index + 1)}>
-                {index + 1}
-              </Pagination.Item>
-            ))}
-            <Pagination.Next
-              onClick={nextPage}
-              disabled={currentPage === Math.ceil(products.length / productsPerPage)}
-            />
-          </Pagination>
-        </>
-      )}
-      {selectedProduct && (
-        <UpdateProduct
-          product={selectedProduct}
-          show={showUpdateProductModal}
-          handleClose={() => {
-            setShowUpdateProductModal(false);
-            setSelectedProduct(null);
-          }}
-          handleUpdateProduct={handleUpdateProduct}
+              <Pagination.Next
+                onClick={nextPage}
+                disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+              />
+            </Pagination>
+          </>
+        )}
+        {selectedProduct && (
+          <UpdateProduct
+            product={selectedProduct}
+            show={showUpdateProductModal}
+            handleClose={() => {
+              setShowUpdateProductModal(false);
+              setSelectedProduct(null);
+            }}
+            handleUpdateProduct={handleUpdateProduct}
+          />
+        )}
+        <AddNewProduct
+          show={showAddProductModal}
+          handleClose={() => setShowAddProductModal(false)}
+          handleAddProduct={handleAddProduct}
+          shopId={shop.shopId}
         />
-      )}
-      <AddNewProduct
-        show={showAddProductModal}
-        handleClose={() => setShowAddProductModal(false)}
-        handleAddProduct={handleAddProduct}
-        shopId={shop.shopId}
-      />
-      <ConfirmModal
-        show={showConfirmModal}
-        handleClose={() => setShowConfirmModal(false)}
-        handleConfirm={confirmDeleteProduct}
-        message="Are you sure you want to delete this product?"
-      />
+        <ConfirmModal
+          show={showConfirmModal}
+          handleClose={() => setShowConfirmModal(false)}
+          handleConfirm={confirmDeleteProduct}
+          message="Are you sure you want to delete this product?"
+        />
+      </Container>
     </Container>
   );
 };
