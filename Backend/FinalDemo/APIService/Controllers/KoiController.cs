@@ -1,16 +1,11 @@
 ﻿using AutoMapper;
-using Domain.Helper;
 using Domain.Models;
 using Domain.Models.Dto.Request;
 using Domain.Models.Dto.Response;
 using Domain.Models.Dto.Update;
 using Domain.Models.Entity;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository;
-using SWP391.KCSAH.Repository.KCSAH.Repository;
-using System.Security.Claims;
 //using SWP391.KCSAH.Repository.Models.;
 
 namespace KCSAH.APIServer.Controllers
@@ -29,7 +24,7 @@ namespace KCSAH.APIServer.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<KoiDTO>>> GetAllAsync()
-        { 
+        {
             var kois = await _unitOfWork.KoiRepository.GetAllAsync();
             var koiDTOs = _mapper.Map<List<KoiDTO>>(kois);
             return Ok(koiDTOs);
@@ -222,7 +217,7 @@ namespace KCSAH.APIServer.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult<KoiDTO> GetById(int id)
         {
-            var koi =  _unitOfWork.KoiRepository.GetById(id);
+            var koi = _unitOfWork.KoiRepository.GetById(id);
             if (koi == null)
             {
                 return NotFound();
@@ -250,7 +245,7 @@ namespace KCSAH.APIServer.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             var koiMap = _mapper.Map<Koi>(koi);
             var createResult = await _unitOfWork.KoiRepository.CreateAsync(koiMap);
             if (createResult <= 0)
@@ -273,7 +268,7 @@ namespace KCSAH.APIServer.Controllers
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtAction("GetById",new {id = koiShow.KoiId },koiShow);
+            return CreatedAtAction("GetById", new { id = koiShow.KoiId }, koiShow);
         }
 
         [HttpPut("{id}")]
@@ -288,10 +283,10 @@ namespace KCSAH.APIServer.Controllers
             var existingKoi = await _unitOfWork.KoiRepository.GetByIdAsync(id);
             if (existingKoi == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
-            var isKoiNameExisted = await _unitOfWork.KoiRepository.KoiNameExisted(existingKoi.UserId, koidto.Name);
+            var isKoiNameExisted = await _unitOfWork.KoiRepository.KoiNameUpdateExisted(existingKoi.UserId, koidto.Name, existingKoi.KoiId);
             if (isKoiNameExisted)
             {
                 return BadRequest("Koi Name can not be the same.");
@@ -307,7 +302,7 @@ namespace KCSAH.APIServer.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return NoContent(); 
+            return NoContent();
         }
 
         [HttpPut("{koiId}/transfer-to-pond")]
@@ -324,7 +319,7 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest("Invalid pondId.");
             }
 
-            koi.PondId = pondId; 
+            koi.PondId = pondId;
 
             var success = await _unitOfWork.KoiRepository.UpdateAsync(koi);
             if (success <= 0)
