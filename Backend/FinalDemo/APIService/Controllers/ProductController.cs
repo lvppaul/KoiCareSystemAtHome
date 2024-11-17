@@ -25,7 +25,24 @@ namespace KCSAH.APIServer.Controllers
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllSync()
         {
             var products = await _unitOfWork.ProductRepository.GetAllAsync();
-            var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+
+            bool hasUpdates = false;
+            foreach (var product in products)
+            {
+                if (product.ExpiredDate.HasValue && product.ExpiredDate.Value.Date <= DateTime.UtcNow.Date)
+                {
+                    product.Status = "Discontinued";
+                    hasUpdates = true;
+                }
+            }
+
+            if (hasUpdates)
+            {
+                await _unitOfWork.ProductRepository.UpdateRangeAsync(products);
+            }
+
+            var result = await _unitOfWork.ProductRepository.GetAllAsync();
+            var productDTOs = _mapper.Map<List<ProductDTO>>(result);
             return Ok(productDTOs);
         }
 
@@ -153,10 +170,27 @@ namespace KCSAH.APIServer.Controllers
         public async Task<IActionResult> GetProductByShopIdAsync(int id)
         {
             var result = await _unitOfWork.ProductRepository.GetProductsByShopID(id);
-            if (result == null)
+
+            if (result == null || !result.Any())
             {
                 return NotFound();
             }
+
+            bool hasUpdates = false;
+            foreach (var product in result)
+            {
+                if (product.ExpiredDate.HasValue && product.ExpiredDate.Value.Date <= DateTime.UtcNow.Date)
+                {
+                    product.Status = "Discontinued";
+                    hasUpdates = true;
+                }
+            }
+
+            if (hasUpdates)
+            {
+                await _unitOfWork.ProductRepository.UpdateRangeAsync(result);
+            }
+
             var show = _mapper.Map<List<ProductDTO>>(result);
             return Ok(show);
         }
