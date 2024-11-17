@@ -12,11 +12,13 @@ namespace APIService.Controllers
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly UserService _userService;
 
         public RevenueController(UnitOfWork unitOfWork, IMapper mapper, UserService getService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userService = getService;
         }
 
         [HttpGet]
@@ -108,6 +110,27 @@ namespace APIService.Controllers
 
             var result = _mapper.Map<List<RevenueDTO>>(revenue);
             return Ok(result);
+        }
+
+        [HttpGet("GetTotalRevenueByShopFromOrders/{shopId}")]
+        public async Task<IActionResult> GetTotalRevenueByShopFromOrdersAsync(int shopId)
+        {
+            var total = await _unitOfWork.RevenueRepository.GetTotalRevenueByShopFromOrders(shopId);
+            return Ok(total);
+        }
+
+        [HttpGet("GetTotalRevenueNoCommissionByShopFromOrders/{shopId}")]
+        public async Task<IActionResult> GetTotalRevenueNoCommissionByShopFromOrdersAsync(int shopId)
+        {
+            var total = await _unitOfWork.RevenueRepository.GetTotalRevenueNoCommissionFee(shopId);
+            return Ok(total);
+        }
+
+        [HttpGet("GetCommissionFeeByShopFromOrders/{shopId}")]
+        public async Task<IActionResult> GetCommissionFeeByShopFromOrdersAsync(int shopId)
+        {
+            var total = await _unitOfWork.RevenueRepository.GetCommissionFee(shopId);
+            return Ok(total);
         }
 
     }

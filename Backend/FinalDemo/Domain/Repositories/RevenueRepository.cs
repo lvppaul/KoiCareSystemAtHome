@@ -67,11 +67,38 @@ namespace Domain.Repositories
         {
             var result = await (from revenue in _context.Revenues
                                 join order in _context.Orders on revenue.OrderId equals order.OrderId
-                                where revenue.isShopRevenue == true && order.ShopId == shopId
+                                where revenue.isShopRevenue == true && order.ShopId == shopId && revenue.isVip == false
                                 select revenue)
                         .ToListAsync();
 
             return result;
+        }
+
+        public async Task<int> GetTotalRevenueByShopFromOrders(int shopId)
+        {
+            var total = await (from revenue in _context.Revenues
+                               join order in _context.Orders on revenue.OrderId equals order.OrderId
+                               where revenue.isShopRevenue == true && order.ShopId == shopId && revenue.isVip == false
+                               select revenue.Income)
+                              .SumAsync();
+
+            return total;
+        }
+
+        public async Task<int> GetTotalRevenueNoCommissionFee(int shopId)
+        {
+            var total = await (_context.Orders
+                .Where(order => order.ShopId == shopId && !order.isVipUpgrade)
+                .SumAsync(order => order.TotalPrice));
+
+            return total;
+        }
+
+        public async Task<int> GetCommissionFee(int shopId)
+        {
+            var total = await GetTotalRevenueNoCommissionFee(shopId);
+            var income = await GetTotalRevenueByShopFromOrders(shopId);
+            return total - income;
         }
     }
 }
