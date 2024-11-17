@@ -19,7 +19,7 @@ const getDataRevenue = async () => {
 // get the amount of money in current year
 const getAmountRevenueCurrentYear = async () => {
   try {
-    const response = await api.get(`Revenue/TotalRevenue`, {
+    const response = await api.get(`Revenue/TotalAdminRevenue`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",

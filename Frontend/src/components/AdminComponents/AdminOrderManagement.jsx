@@ -18,8 +18,8 @@ const AdminOrderManagement = () => {
   const [loading, setLoading] = useState(true);
   const [vipOrders, setVipOrders] = useState([]);
   const [orders, setOrders] = useState([]);
-  const [dayCommission, setDayCommission] = useState(365);
-  const [dayVip, setDayVip] = useState(365);
+  const [dayCommission, setDayCommission] = useState(36500);
+  const [dayVip, setDayVip] = useState(36500);
   const fetchOrders = async (day) => {
     setLoading(true);
     try {

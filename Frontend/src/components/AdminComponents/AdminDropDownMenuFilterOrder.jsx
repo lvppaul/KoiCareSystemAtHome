@@ -17,7 +17,7 @@ const AdminDropMenuGetOrderByDays = ({ option }) => {
     },
     {
       key: "4",
-      label: <a onClick={() => option(365)}>All</a>,
+      label: <a onClick={() => option(36500)}>All</a>,
     },
   ];
 
