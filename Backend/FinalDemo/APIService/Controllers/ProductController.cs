@@ -249,7 +249,6 @@ namespace KCSAH.APIServer.Controllers
         }
 
 
-
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductUpdateDTO productdto)
         {
@@ -262,6 +261,11 @@ namespace KCSAH.APIServer.Controllers
             if (existingProduct == null)
             {
                 return NotFound();
+            }
+
+            if (productdto.ExpiredDate == default || productdto.ExpiredDate < new DateTime(1753, 1, 1))
+            {
+                productdto.ExpiredDate = null;
             }
 
             _mapper.Map(productdto, existingProduct);
