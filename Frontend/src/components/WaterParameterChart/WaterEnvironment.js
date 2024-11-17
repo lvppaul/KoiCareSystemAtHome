@@ -75,7 +75,7 @@ export const WaterChart = ({ timeFilter, startDate, endDate, selectedPondId }) =
                 data = filterDataByTime(data);
 
                 const formatDate = (dateString) => {
-                    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                    const options = { year: 'numeric', month: 'long', day: 'numeric'};
                     return new Date(dateString).toLocaleDateString(undefined, options);
                 };
 

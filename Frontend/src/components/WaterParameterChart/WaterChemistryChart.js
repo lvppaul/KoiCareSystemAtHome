@@ -78,7 +78,7 @@ export const WaterChemistryChart = ({ timeFilter, startDate, endDate, selectedPo
                 data = filterDataByTime(data);
 
                 const formatDate = (dateString) => {
-                    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                    const options = { year: 'numeric', month: 'long', day: 'numeric'};
                     return new Date(dateString).toLocaleDateString(undefined, options);
                 };
 
