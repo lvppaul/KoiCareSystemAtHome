@@ -482,11 +482,11 @@ INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenu
 INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (17, 22, 728000, 0, 1,CAST(N'2023-04-09 22:19:10.060' AS DateTime))
 INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (18, 23, 492000, 0, 1,CAST(N'2023-08-29 22:20:41.600' AS DateTime))
 INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (19, 24, 83200, 0, 1,CAST(N'2023-11-14 22:21:25.897' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (20, 25, 500000, 1, 1,CAST(N'2024-11-09 22:25:08.433' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (20, 25, 500000, 1, 0,CAST(N'2024-11-09 22:25:08.433' AS DateTime))
 INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (21, 26, 48000, 0, 0,CAST(N'2024-01-22 22:26:51.967' AS DateTime))
 INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (22, 27, 60000, 0, 0,CAST(N'2024-04-09 22:27:43.720' AS DateTime))
 INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (23, 28, 148000, 0, 0,CAST(N'2024-06-09 22:28:55.140' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (24, 5, 500000, 1, 1,CAST(N'2024-08-23 09:47:07.270' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (24, 5, 500000, 1, 0,CAST(N'2024-08-23 09:47:07.270' AS DateTime))
 SET IDENTITY_INSERT [dbo].[Revenue] OFF
 
 SET IDENTITY_INSERT [dbo].[PaymentTransaction] ON 
