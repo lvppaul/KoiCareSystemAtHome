@@ -185,7 +185,7 @@ const KoiGrowthChart = ({ koiDetail }) => {
             },
             title: {
                 display: true,
-                text: 'Koi Growth Over Time',
+                text: 'Koi Growth Chart (Weight & Length)',
             },
         },
         scales: {
@@ -254,6 +254,7 @@ const KoiGrowthChart = ({ koiDetail }) => {
                     </Col>
                 </Row>
             </div>
+
             <div style={{ display: 'flex' }}>
                 {chartData ? (
                     <div style={{
