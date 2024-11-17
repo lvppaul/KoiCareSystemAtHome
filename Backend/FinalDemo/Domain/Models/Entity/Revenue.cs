@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Domain.Models.Entity;
+﻿namespace Domain.Models.Entity;
 
 public partial class Revenue
 {
@@ -13,6 +10,7 @@ public partial class Revenue
 
     public bool isVip { get; set; }
 
+    public bool isShopRevenue { get; set; }
     public DateTime CreateAt { get; set; }
 
     public virtual Order Order { get; set; } = null!;

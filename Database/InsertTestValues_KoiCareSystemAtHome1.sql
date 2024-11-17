@@ -1,6 +1,6 @@
 ﻿--drop database KoiCareSystemAtHome;
 
-use KoiCareSystemAtHome1511;
+use KoiCareSystemAtHome1711;
 
 --Disable Foreign Key Constraints
 --EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL';
@@ -463,30 +463,30 @@ INSERT [dbo].[OrderVipDetail] ([OrderId], [VipId]) VALUES (19, 3)
 -- Inserting Revenue based on Commission Fees (8% of Total Prices for each product)
 SET IDENTITY_INSERT [dbo].[Revenue] ON 
 
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (1, 1, 152000, 0, CAST(N'2023-01-09 09:47:07.270' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (2, 3, 784000, 0, CAST(N'2023-09-22 09:47:07.270' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (3, 4, 144000, 0, CAST(N'2023-06-20 09:47:07.270' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (4, 7, 48000, 0, CAST(N'2023-10-09 10:58:14.447' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (5, 8, 500000, 1, CAST(N'2024-02-09 11:03:19.833' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (6, 10, 560000, 0, CAST(N'2024-10-30 20:47:49.343' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (7, 11, 100000, 1, CAST(N'2023-05-28 20:51:37.250' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (8, 12, 237600, 0, CAST(N'2023-07-18 21:32:43.350' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (9, 13, 160000, 0, CAST(N'2023-12-20 21:37:29.070' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (10, 14, 344000, 0, CAST(N'2024-03-08 21:45:45.003' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (11, 15, 131200, 0, CAST(N'2024-08-14 21:58:25.630' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (12, 16, 128000, 0, CAST(N'2024-09-09 21:59:13.320' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (13, 18, 564000, 0, CAST(N'2024-07-21 22:08:03.600' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (14, 19, 1000000, 1, CAST(N'2024-07-26 22:10:16.783' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (15, 20, 228000, 0, CAST(N'2024-09-22 22:14:23.483' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (16, 21, 436800, 0, CAST(N'2024-10-11 22:15:55.593' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (17, 22, 728000, 0, CAST(N'2023-04-09 22:19:10.060' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (18, 23, 492000, 0, CAST(N'2023-08-29 22:20:41.600' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (19, 24, 83200, 0, CAST(N'2023-11-14 22:21:25.897' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (20, 25, 500000, 1, CAST(N'2024-11-09 22:25:08.433' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (21, 26, 48000, 0, CAST(N'2024-01-22 22:26:51.967' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (22, 27, 60000, 0, CAST(N'2024-04-09 22:27:43.720' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (23, 28, 148000, 0, CAST(N'2024-06-09 22:28:55.140' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (24, 5, 500000, 1, CAST(N'2024-08-23 09:47:07.270' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (1, 1, 152000, 0,0,CAST(N'2023-01-09 09:47:07.270' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (2, 3, 784000, 0,1, CAST(N'2023-09-22 09:47:07.270' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (3, 4, 144000, 0,0, CAST(N'2023-06-20 09:47:07.270' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (4, 7, 48000, 0,0, CAST(N'2023-10-09 10:58:14.447' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (5, 8, 500000, 1,1, CAST(N'2024-02-09 11:03:19.833' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (6, 10, 560000, 0, 1,CAST(N'2024-10-30 20:47:49.343' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (7, 11, 100000, 1, 0,CAST(N'2023-05-28 20:51:37.250' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (8, 12, 237600, 0, 1,CAST(N'2023-07-18 21:32:43.350' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (9, 13, 160000, 0, 0,CAST(N'2023-12-20 21:37:29.070' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (10, 14, 344000, 0, 1,CAST(N'2024-03-08 21:45:45.003' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (11, 15, 131200, 0, 0,CAST(N'2024-08-14 21:58:25.630' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (12, 16, 128000, 0, 0,CAST(N'2024-09-09 21:59:13.320' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (13, 18, 564000, 0, 1,CAST(N'2024-07-21 22:08:03.600' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (14, 19, 1000000, 1, 1,CAST(N'2024-07-26 22:10:16.783' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (15, 20, 228000, 0, 1,CAST(N'2024-09-22 22:14:23.483' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (16, 21, 436800, 0, 1,CAST(N'2024-10-11 22:15:55.593' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (17, 22, 728000, 0, 1,CAST(N'2023-04-09 22:19:10.060' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (18, 23, 492000, 0, 1,CAST(N'2023-08-29 22:20:41.600' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (19, 24, 83200, 0, 1,CAST(N'2023-11-14 22:21:25.897' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (20, 25, 500000, 1, 0,CAST(N'2024-11-09 22:25:08.433' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (21, 26, 48000, 0, 0,CAST(N'2024-01-22 22:26:51.967' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (22, 27, 60000, 0, 0,CAST(N'2024-04-09 22:27:43.720' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (23, 28, 148000, 0, 0,CAST(N'2024-06-09 22:28:55.140' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (24, 5, 500000, 1, 0,CAST(N'2024-08-23 09:47:07.270' AS DateTime))
 SET IDENTITY_INSERT [dbo].[Revenue] OFF
 
 SET IDENTITY_INSERT [dbo].[PaymentTransaction] ON 

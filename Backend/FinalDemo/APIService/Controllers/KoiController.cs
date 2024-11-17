@@ -286,12 +286,6 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
 
-            var isKoiNameExisted = await _unitOfWork.KoiRepository.KoiNameUpdateExisted(existingKoi.UserId, koidto.Name, existingKoi.KoiId);
-            if (isKoiNameExisted)
-            {
-                return BadRequest("Koi Name can not be the same.");
-            }
-
             _mapper.Map(koidto, existingKoi);
 
             var updateResult = await _unitOfWork.KoiRepository.UpdateAsync(existingKoi);
