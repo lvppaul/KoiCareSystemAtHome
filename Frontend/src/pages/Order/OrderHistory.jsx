@@ -180,7 +180,7 @@ const OrderHistory = () => {
             <td>{formatPrice(order.totalPrice)}</td>
             <td>{order.orderStatus}</td>
             <td>
-            {order.orderStatus === "Successful" || order.orderStatus ==="Out For Delivery" ? 
+            {order.orderStatus === "Successful" || order.orderStatus ==="Out For Delivery" || order.orderStatus === "Pending" ?
               (!order.orderVipDetails ?
               <Button onClick={() => handleExportPDF(order.orderId)}>Export PDF</Button>
                 : null)

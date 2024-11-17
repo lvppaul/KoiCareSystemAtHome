@@ -7,10 +7,11 @@ import { addWaterParameter } from "../../Config/WaterParameterApi";
 import { ToastContext } from '../../App';
 
 const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
-    const {setToastMessage} = useContext(ToastContext);
+    const { setToastMessage } = useContext(ToastContext);
     const userId = useAuth().user.userId;
     const [waterData, setWaterData] = useState({
         pondId: pondId,
+        createdAt: '' || Date.now(),
         userId: userId,
         nitrite: 0,
         oxygen: 0,
@@ -37,30 +38,31 @@ const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
         e.preventDefault();
         // Handle form submission logic here
         addWaterParameter(waterData)
-        .then((response)=> {
-            addNewWaterParameter(waterData);
-            setWaterData({  //reset form
-                pondId: pondId,
-                userId: userId,
-                nitrite: 0,
-                oxygen: 0,
-                nitrate: 0,
-                temperature: 0,
-                phosphate: 0,
-                ph: 0,
-                ammonium: 0,
-                hardness: 0,
-                carbonDioxide: 0,
-                carbonHardness: 0,
-                salt: 0,
-                totalChlorines: 0,
-                outdoorTemp: 0,
-                amountFed: 0
-            });
-            console.log(response);
+            .then((response) => {
+                addNewWaterParameter(waterData);
+                setWaterData({  //reset form
+                    pondId: pondId,
+                    userId: userId,
+                    createdAt: '' || Date.now(),
+                    nitrite: 0,
+                    oxygen: 0,
+                    nitrate: 0,
+                    temperature: 0,
+                    phosphate: 0,
+                    ph: 0,
+                    ammonium: 0,
+                    hardness: 0,
+                    carbonDioxide: 0,
+                    carbonHardness: 0,
+                    salt: 0,
+                    totalChlorines: 0,
+                    outdoorTemp: 0,
+                    amountFed: 0
+                });
+                console.log(response);
 
-        })
-        console.log('submit',waterData);
+            })
+        console.log('submit', waterData);
         setToastMessage('Add water parameter successfully');
         setShow(false);
     };
@@ -84,6 +86,16 @@ const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
+                        <Row>
+                            <Form.Group controlId="formDate">
+                                <Form.Label>Date</Form.Label>
+                                <Form.Control
+                                name='createdAt'
+                                value={waterData.createdAt}
+                                type="date"
+                                onChange={handleChange} />
+                            </Form.Group>
+                        </Row>
                         <Row>
                             <Col>
                                 <Form.Group controlId="formNitrite">
@@ -217,12 +229,14 @@ const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
                             </Col>
                         </Row>
                         {/* Add other form fields here */}
+                        <div style={{display:'flex', flexDirection:'row-reverse', marginBlockStart:'10px'}}>
                         <Button variant="secondary" onClick={() => setShow(false)}>
                             Close
                         </Button>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" style={{marginInlineEnd:'10px'}}>
                             Save Changes
                         </Button>
+                        </div>
                     </Form>
                 </Modal.Body>
             </Modal>
