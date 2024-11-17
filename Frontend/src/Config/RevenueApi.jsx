@@ -70,9 +70,25 @@ const getAmountCommissionCurrentYear = async () => {
   }
 };
 
+const getShopAmountRevenueCurrentYear = async (shopId) => {
+  try {
+    const response = await api.get(`Revenue/GetRevenueByShop/${shopId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching commission:", error.response || error.message);
+    return null;
+  }
+};
+
 export {
   getDataRevenue,
   getAmountRevenueCurrentYear,
   getAmountVipPackageCurrentYear,
   getAmountCommissionCurrentYear,
+  getShopAmountRevenueCurrentYear,
 };

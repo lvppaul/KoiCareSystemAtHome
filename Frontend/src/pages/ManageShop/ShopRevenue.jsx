@@ -3,7 +3,9 @@ import { MdAttachMoney } from "react-icons/md";
 import { IoBagCheckOutline } from "react-icons/io5";
 import DashboardBox from "../../components/AdminComponents/DashboardBox";
 import RevenueChart from "../../components/AdminComponents/RevenueChart";
-import { getAmountCommissionCurrentYear, getAmountRevenueCurrentYear } from "../../Config/RevenueApi";
+import { getAmountCommissionCurrentYear, getShopAmountRevenueCurrentYear } from "../../Config/RevenueApi";
+import { useAuth } from "../Login/AuthProvider";
+import { getShopByUserId } from "../../Config/ShopApi";
 import { Container, Nav } from "react-bootstrap";
 
 const ShopRevenue = () => {
@@ -11,10 +13,15 @@ const ShopRevenue = () => {
 
   const [amountCommission, setAmountCommission] = useState([0]);
 
+  const { user } = useAuth();
+  const userId = user?.userId;
+
   const fetchAmountRevenue = async () => {
     try {
-      const total = await getAmountRevenueCurrentYear();
-      setAmountRevenue(total);
+      const shop = await getShopByUserId(userId);
+      const total = await getShopAmountRevenueCurrentYear(shop.shopId);
+      console.log("total", total);
+      setAmountRevenue(total.income);
     } catch (error) {
       console.error("Error fetching amount Revenue:", error);
       throw error;
@@ -61,10 +68,10 @@ const ShopRevenue = () => {
                   color={["#1E90FF", "#87CEFA"]}
                   icon={<MdAttachMoney />}
                   object={"Revenue"}
-                  number={amountRevenue.toLocaleString("vi-VN", {
+                  number={amountRevenue ? amountRevenue.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  })}
+                  }) : 0 }
                 />
 
                 <DashboardBox

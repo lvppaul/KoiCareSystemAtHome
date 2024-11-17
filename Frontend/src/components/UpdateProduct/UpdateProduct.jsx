@@ -34,9 +34,8 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? checked : value;
-    setNewProduct({ ...newProduct, [name]: newValue });
+    const { name, value } = e.target;
+    setNewProduct({ ...newProduct, [name]: value });
   };
 
   const handleThumbnailChange = async (e) => {
@@ -80,8 +79,15 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
             const imageRef = ref(storage, productImage.imageUrl);
             console.log("Deleting image:", productImage.imageId);
             await deleteProductImage(productImage.imageId);
+            const notFound = await getDownloadURL(ref(storage, "others/NotFound.jpg"));
             try {
-              await deleteObject(imageRef);
+              if (
+                productImage.imageUrl &&
+                productImage.imageUrl !== "others/NotFound.jpg" &&
+                productImage.imageUrl !== notFound
+              ) {
+                await deleteObject(imageRef);
+              }
             } catch (error) {
               console.error("Error deleting product image:", error);
             }
@@ -140,18 +146,18 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
               required
             />
           </Form.Group>
-          {newProduct.category.categoryId == 1 ?
-          (<Form.Group controlId="formProductExpiredDate" className="mb-3">
-            <Form.Label>Expiration Date</Form.Label>
-            <Form.Control
-              type="date"
-              name="expiredDate"
-              value={newProduct.expiredDate}
-              onChange={handleChange}
-              min={new Date().toISOString().split('T')[0]}
-              required
-            />
-          </Form.Group>) : null}
+          {newProduct.category.categoryId !== 2 ? (
+            <Form.Group controlId="formProductExpiredDate" className="mb-3">
+              <Form.Label>Expiration Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="expiredDate"
+                value={newProduct.expiredDate}
+                onChange={handleChange}
+                min={new Date().toISOString().split("T")[0]}
+              />
+            </Form.Group>
+          ) : null}
           <Form.Group controlId="formProductDescription" className="mb-3">
             <Form.Label>Product Description</Form.Label>
             <Form.Control
@@ -183,15 +189,6 @@ const UpdateProduct = ({ product, show, handleClose, handleUpdateProduct }) => {
               value={newProduct.price}
               onChange={handleChange}
               required
-            />
-          </Form.Group>
-          <Form.Group controlId="formProductStatus" className="mb-3">
-            <Form.Check
-              type="checkbox"
-              label="Product Status"
-              name="status"
-              checked={newProduct.status}
-              onChange={handleChange}
             />
           </Form.Group>
           <Form.Group controlId="formProductCategoryId" className="position-relative mb-3">
