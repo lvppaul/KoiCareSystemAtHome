@@ -79,12 +79,14 @@ const AddNewGrowthHistory = ({ show, setShow, koiData, updateAddedGrowth }) => {
                         type="number" 
                         onChange={handleChange}/>
                     </Form.Group>
+                    <div style={{display:'flex', flexDirection:'row-reverse', marginBlockStart:'10px'}}>
                 <Button variant="secondary" onClick={() => setShow(false)}>
                     Close
                 </Button>
-                <Button variant="primary" type='submit'>
+                <Button variant="primary" type='submit' style={{marginInlineEnd:'10px'}}>
                     Save
                 </Button>
+                    </div>
                 </Form>
             </Modal.Body>
             

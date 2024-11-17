@@ -426,8 +426,8 @@ const WaterParameter = ({ show, setShow, pondId }) => {
         <Modal.Body>
           {advice ? (
             advice.map((adv, index) => (
-              <ListGroup variant="flush" key={index}>
-                <ListGroup.Item style={{fontSize:'18px'}} >{adv}</ListGroup.Item>
+              <ListGroup as="ul"  key={index}>
+                <ListGroup.Item as="li" style={{fontSize:'18px', marginBlockEnd:'5px'}} >{adv}</ListGroup.Item>
               </ListGroup>
             )))
             : (
