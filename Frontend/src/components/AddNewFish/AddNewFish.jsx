@@ -27,6 +27,7 @@ const AddNewFish = ({ show, setShow, pondId ,onKoiAdded }) => {
     thumbnail: "",
     pondId: pondId || null,
   };
+
   const [loading, setLoading] = useState(false);
   const handleClose = () => setShow(false);
   const [koidetail, setKoiDetail] = useState(newKoi);
@@ -306,12 +307,14 @@ const AddNewFish = ({ show, setShow, pondId ,onKoiAdded }) => {
                   </Row>
                 </Col>
               </Row>
+              <div style={{display:'flex', flexDirection:'row-reverse', marginBlockStart:'10px'}}>
               <Button variant="secondary" onClick={handleClose}>
                 Cancel
               </Button>
-              <Button variant="primary" type="submit" style={{ backgroundColor: "#00C92C" }}>
+              <Button variant="primary" type="submit" style={{ backgroundColor: "#00C92C", marginInlineEnd:'10px' }}>
                 Save
               </Button>
+              </div>
             </Form>
           )}
         </Modal.Body>
