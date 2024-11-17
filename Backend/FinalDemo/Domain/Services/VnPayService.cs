@@ -371,7 +371,7 @@ namespace Domain.Services
                             userId = userId
                         };
 
-                        // Save transaction and update order
+
                         var result = _mapper.Map<PaymentTransaction>(paymentResponse);
 
                         //Nếu không phải đơn hàng vip
@@ -389,7 +389,7 @@ namespace Domain.Services
                                     var cartUpdateStatus = await _unitOfWork.CartRepository.UpdateAsync(cart);
                                     if (cartUpdateStatus != 1)
                                     {
-                                        await transaction.RollbackAsync(); // Rollback giao dịch nếu lỗi
+                                        await transaction.RollbackAsync();
                                         return (false, "Update Cart failed");
                                     }
                                 }
@@ -428,6 +428,13 @@ namespace Domain.Services
                                 await transaction.RollbackAsync();
                                 return (false, "Update Shop Revenue failed");
                             }
+
+                            var updateOrderStatusStatus = await UpdateOrderStatus(order, "Out For Delivery");
+                            if (updateOrderStatusStatus != 1)
+                            {
+                                await transaction.RollbackAsync();
+                                return (false, "Update Order Status Failed");
+                            }
                         }
                         else
                         {
@@ -438,6 +445,12 @@ namespace Domain.Services
                                 return (false, "Update Vip Revenue failed");
 
                             }
+                            var updateVipOrderStatusStatus = await UpdateOrderStatus(order, "Successful");
+                            if (updateVipOrderStatusStatus != 1)
+                            {
+                                await transaction.RollbackAsync();
+                                return (false, "Update Order Vip Status Failed");
+                            }
                         }
                         var addPaymentInfoStatus = await _unitOfWork.PaymentTransactionRepository.CreateAsync(result);
                         if (addPaymentInfoStatus != 1)
@@ -446,14 +459,9 @@ namespace Domain.Services
                             return (false, "Add Payment failed");
                         }
 
-                        var updateOrderStatusStatus = await UpdateOrderStatus(order, "Out For Delivery");
-                        if (updateOrderStatusStatus != 1)
-                        {
-                            await transaction.RollbackAsync();
-                            return (false, "Update Order Status Failed");
-                        }
 
-                        await transaction.CommitAsync(); // Commit giao dịch nếu tất cả thành công
+
+                        await transaction.CommitAsync();
                         return (true, "Payment processed successfully");
 
                     }
