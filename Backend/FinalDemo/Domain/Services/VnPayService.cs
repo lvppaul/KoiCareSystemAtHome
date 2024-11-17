@@ -537,6 +537,7 @@ namespace Domain.Services
                 var revenueDto = new RevenueRequestDTO
                 {
                     OrderId = order.OrderId,
+                    isShopRevenue = true,
                     Income = totalRevenue
                 };
                 var revenue = _mapper.Map<Revenue>(revenueDto);
