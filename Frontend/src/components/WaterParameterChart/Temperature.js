@@ -25,7 +25,10 @@ export const TemperatureChart = ({ timeFilter, startDate, endDate, selectedPondI
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric'};
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
     const filterDataByTime = useCallback((data) => {
         const now = new Date();
         const start = new Date(startDate);
@@ -76,7 +79,7 @@ export const TemperatureChart = ({ timeFilter, startDate, endDate, selectedPondI
                     data = filterDataByTime(data);
 
                     const formatDate = (dateString) => {
-                        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                        const options = { year: 'numeric', month: 'long', day: 'numeric'};
                         return new Date(dateString).toLocaleDateString(undefined, options);
                     };
 

@@ -45,16 +45,10 @@ namespace Domain.Services
 
         public async Task<List<Order>> GetOrderByShopIdAsync(int id)
         {
-            List<Order> orderList = await _context.Orders.Where(p => p.ShopId.Equals(id)).Include(p => p.OrderDetails).ToListAsync();
-            List<Order> orderDetailList = new List<Order>();
-            foreach (var item in orderList)
-            {
-                if (!item.isVipUpgrade)
-                {
-                    orderDetailList.Add(item);
-                }
-            }
-            return orderDetailList;
+            return await _context.Orders
+        .Where(p => p.ShopId == id && !p.isVipUpgrade)
+        .Include(p => p.OrderDetails)
+        .ToListAsync();
         }
 
         public async Task<List<Order>> GetVipOrderByUserIdAsync(string id)

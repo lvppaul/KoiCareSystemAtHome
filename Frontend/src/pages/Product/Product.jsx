@@ -102,6 +102,7 @@ const Product = () => {
       setToastMessage("Item added to cart successfully");
     } catch (error) {
       console.error("Error adding item to cart:", error);
+      setToastMessage(error.response.data);
     }
   };
 
@@ -258,7 +259,7 @@ const Product = () => {
                 {formatPrice(product.price)}
               </p>
               <p className="product-status" style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                Status: {product.status ? "In Stock" : "Out of Stock"}
+                Status: {product.status}
               </p>
             </div>
             <hr />

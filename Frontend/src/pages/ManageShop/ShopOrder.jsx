@@ -10,7 +10,7 @@ import { Container, Nav } from "react-bootstrap";
 const ShopOrder = () => {
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
-  const [dayCommission, setDayCommission] = useState(365);
+  const [dayCommission, setDayCommission] = useState(36500);
 
   const { user } = useAuth();
   const userId = user?.userId;

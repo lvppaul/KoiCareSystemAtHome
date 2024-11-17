@@ -10,10 +10,10 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
   const initProduct = {
     name: "",
     description: "",
-    expiredDate: null || "",
+    expiredDate: null,
     quantity: 0,
     price: 0,
-    status: true,
+    status: "In Stock",
     categoryId: "",
     shopId: shopId,
     thumbnail: "others/NotFound.jpg",
@@ -25,6 +25,7 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
   const [previewImages, setPreviewImages] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState(null);
 
   const { user } = useAuth();
   const userId = user?.userId;
@@ -42,9 +43,8 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? checked : value;
-    setNewProduct({ ...newProduct, [name]: newValue });
+    const { name, value } = e.target;
+    setNewProduct({ ...newProduct, [name]: value });
   };
 
   const handleThumbnailChange = (e) => {
@@ -76,7 +76,15 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
+    setError(null);
+
+    if(newProduct.categoryId !== "2" && (!newProduct.expiredDate || newProduct.expiredDate < new Date().toISOString().split("T")[0])) {
+      setError("Expired date must be greater than today");
+      return;
+
+    }
+
+    try { 
       if (thumbnailFile) {
         await uploadBytes(thumbnailRef, thumbnailFile);
       }
@@ -126,10 +134,10 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
               name="expiredDate"
               value={newProduct.expiredDate}
               onChange={handleChange}
-              min={new Date().toISOString().split('T')[0]}
-              required
+              min={new Date().toISOString().split("T")[0]}
             />
           </Form.Group>
+          {error && <p style={{ color: "red" }}>{error}</p>}
           <Form.Group controlId="formProductDescription" className="mb-3">
             <Form.Label>Product Description</Form.Label>
             <Form.Control
@@ -161,15 +169,6 @@ const AddNewProduct = ({ shopId, show, handleClose, handleAddProduct }) => {
               value={newProduct.price}
               onChange={handleChange}
               required
-            />
-          </Form.Group>
-          <Form.Group controlId="formProductStatus" className="mb-3">
-            <Form.Check
-              type="checkbox"
-              label="Product Status"
-              name="status"
-              checked={newProduct.status}
-              onChange={handleChange}
             />
           </Form.Group>
           <Form.Group controlId="formProductCategoryId" className="position-relative mb-3">

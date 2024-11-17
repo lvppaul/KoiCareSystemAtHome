@@ -33,7 +33,7 @@ const UpdateGrowthHistory = ({ show, setShow, growthRecord, updateGrowthRecord }
     };
 
     return (
-        <Modal show={show} onHide={() => setShow(false)} size='xs' style={{ backgroundColor: '#89CFF0' }}>
+        <Modal show={show} onHide={() => setShow(false)} size='xs'>
             <Modal.Header >
                 <Modal.Title>Update Growth History</Modal.Title>
             </Modal.Header>

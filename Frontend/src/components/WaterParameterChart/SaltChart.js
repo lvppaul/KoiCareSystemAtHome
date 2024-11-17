@@ -25,7 +25,10 @@ export const SaltChart = ({ timeFilter, startDate, endDate, selectedPondId, setS
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric'};
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
     // Hàm lọc dữ liệu dựa trên thời gian
     const filterDataByTime = useCallback((data) => {
         const now = new Date();
@@ -76,7 +79,7 @@ export const SaltChart = ({ timeFilter, startDate, endDate, selectedPondId, setS
                     
                     const labels = data.map(record => {
                         const date = new Date(record.createdAt);
-                        return date.toLocaleString(); // Hoặc sử dụng định dạng khác nếu cần
+                        return formatDate(date); // Hoặc sử dụng định dạng khác nếu cần
                     });
                     const salt = data.map(record => record.salt);
 
