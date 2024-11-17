@@ -18,7 +18,7 @@ namespace Domain.Models.Dto.Update
 
         public double Price { get; set; }
 
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
 
         public int CategoryId { get; set; }
 
