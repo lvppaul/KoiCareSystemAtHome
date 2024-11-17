@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -70,7 +67,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
 
     public virtual DbSet<KoiRecordSample> KoiRecordSamples { get; set; }
 
-    public virtual DbSet<WaterParameterSample> WaterParameterSamples {  get; set; }
+    public virtual DbSet<WaterParameterSample> WaterParameterSamples { get; set; }
 
 
     public static string GetConnectionString(string connectionStringName)
@@ -94,7 +91,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
     {
 
         base.OnModelCreating(modelBuilder);
-       //1:1
+        //1:1
         modelBuilder.Entity<ApplicationUser>()
        .HasOne(a => a.Shop)
        .WithOne(s => s.User)
@@ -562,7 +559,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
         {
             entity.HasKey(e => e.VipId).HasName("PK__VipP__B40CC6ED16BED2A9");
 
-            entity.ToTable("VipPackage", t => t.HasCheckConstraint("CK_Options_AllowedValues", "[Options] IN (1, 6, 12)")) ;
+            entity.ToTable("VipPackage", t => t.HasCheckConstraint("CK_Options_AllowedValues", "[Options] IN (1, 6, 12)"));
 
             entity.Property(e => e.Description).HasColumnName("Description");
             entity.Property(e => e.Name).HasColumnName("Name");
@@ -571,7 +568,7 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
         .HasColumnName("Options")
         .HasConversion<int>()
         .HasDefaultValue(1);
-           
+
 
 
         });
@@ -631,8 +628,10 @@ public partial class KoiCareSystemAtHomeContext : IdentityDbContext<ApplicationU
             entity.Property(e => e.OrderId).HasColumnName("OrderId");
 
             entity.Property(e => e.CreateAt).HasColumnType("datetime");
-            
+
             entity.Property(e => e.isVip).HasDefaultValue(false);
+
+            entity.Property(e => e.isShopRevenue).HasDefaultValue(false);
 
             entity.HasOne(d => d.Order).WithMany(p => p.Revenues)
                 .HasForeignKey(d => d.OrderId)

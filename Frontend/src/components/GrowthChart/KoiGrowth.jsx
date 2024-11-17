@@ -112,36 +112,44 @@ const KoiGrowthChart = ({ koiDetail }) => {
                             {
                                 label: "Weight (gram)",
                                 data: weightData,
-                                borderColor: "rgb(75, 192, 192)",
+                                borderColor: "rgb(25, 205, 25)",
                                 borderWidth:3,
                                 tension:0.4,
                                 fill: true,
+                                yAxisID: "y-left", // Gán vào trục y-left
+
                             },
                             {
                                 label: "Length (cm)",
                                 data: lengthData,
-                                borderColor: "rgb(153, 102, 255)",
+                                borderColor: "rgb(160, 160, 255)",
                                 borderWidth:3,
                                 tension:0.4,
                                 fill: true,
+                                yAxisID: "y-right", // Gán vào trục y-right
+
                             },
                             {
-                                label: "Sample Weight (gram)",
+                                label: "Expected Weight (gram)",
                                 data: sampleWeightData,
-                                borderColor: "rgba(255, 99, 132, 0.7)",
+                                borderColor: "rgba(25, 105, 25, 0.7)",
                                 borderDash: [5, 5],
                                 borderWidth:3,
                                 tension:0.4,
                                 fill: true,
+                                yAxisID: "y-left", // Gán vào trục y-left
+
                             },
                             {
-                                label: "Sample Length (cm)",
+                                label: "Expected Length (cm)",
                                 data: sampleLengthData,
-                                borderColor: "rgba(54, 162, 235, 0.7)",
+                                borderColor: "rgba(25, 25, 100, 0.7)",
                                 borderDash: [5, 5],
                                 borderWidth:3,
                                 tension:0.4,
                                 fill: true,
+                                yAxisID: "y-right", // Gán vào trục y-right
+
                             },
                         ],
                     });
@@ -177,7 +185,7 @@ const KoiGrowthChart = ({ koiDetail }) => {
             },
             title: {
                 display: true,
-                text: 'Koi Growth Over Time',
+                text: 'Koi Growth Chart (Weight & Length)',
             },
         },
         scales: {
@@ -189,11 +197,11 @@ const KoiGrowthChart = ({ koiDetail }) => {
                     drawOnChartArea: false,
                 },
                 ticks: {
-                    stepSize: 2,
+                    stepSize: 100,
                 },
                 title: {
                     display: true,
-                    text: "Length (cm)",
+                    text: "Gram (g)",
                 },
             },
             "y-right": {
@@ -201,11 +209,11 @@ const KoiGrowthChart = ({ koiDetail }) => {
                 display: true,
                 position: "right",
                 ticks: {
-                    stepSize: 0.1,
+                    stepSize: 2,
                 },
                 title: {
                     display: true,
-                    text: "Gram (g)",
+                    text: "Length (cm)",
                 },
             },
         },
@@ -246,6 +254,7 @@ const KoiGrowthChart = ({ koiDetail }) => {
                     </Col>
                 </Row>
             </div>
+
             <div style={{ display: 'flex' }}>
                 {chartData ? (
                     <div style={{

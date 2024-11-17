@@ -87,7 +87,6 @@ namespace APIService.Controllers
                 ModelState.AddModelError("", "Something went wrong while saving.");
                 return StatusCode(500, ModelState);
             }
-            // Cập nhật lại giá trị ShopId cho shopdto từ shopMap
             var blogReturn = _mapper.Map<BlogDTO>(blogMap);
             return CreatedAtAction("GetById", new { id = blogReturn.BlogId }, blogReturn);
         }
@@ -104,22 +103,21 @@ namespace APIService.Controllers
             var existingBlog = await _unitOfWork.BlogRepository.GetByIdAsync(id);
             if (existingBlog == null)
             {
-                return NotFound(); // Trả về 404 nếu không tìm thấy category
+                return NotFound();
             }
 
             _mapper.Map(blogdto, existingBlog);
 
-            // Cập nhật vào cơ sở dữ liệu
             var updateResult = await _unitOfWork.BlogRepository.UpdateAsync(existingBlog);
 
             if (updateResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while updating blog");
-                return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
+                return StatusCode(500, ModelState);
             }
 
 
-            return NoContent(); // Trả về 204 No Content nếu cập nhật thành công
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
