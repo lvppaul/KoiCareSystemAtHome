@@ -264,13 +264,6 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
 
-            var isProductExists = await _unitOfWork.ProductRepository.ProductNameExisted(productdto.Name, existingProduct.ShopId);
-
-            if (isProductExists)
-            {
-                return BadRequest("A product with the same name already exists in this shop.");
-            }
-
             _mapper.Map(productdto, existingProduct);
 
             var updateResult = await _unitOfWork.ProductRepository.UpdateAsync(existingProduct);

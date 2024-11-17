@@ -137,12 +137,6 @@ namespace KCSAH.APIServer.Controllers
                 return NotFound();
             }
 
-            var isPondNameExisted = await _unitOfWork.PondRepository.PondNameUpdatedExisted(existingPond.UserId, ponddto.Name, existingPond.PondId);
-            if (isPondNameExisted)
-            {
-                return BadRequest("Pond name can not be the same.");
-            }
-
             _mapper.Map(ponddto, existingPond);
 
             var updateResult = await _unitOfWork.PondRepository.UpdateAsync(existingPond);
