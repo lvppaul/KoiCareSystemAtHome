@@ -215,12 +215,13 @@ const ManageShop = () => {
   const confirmDeleteProduct = async () => {
     setShowConfirmModal(false);
     const productId = productIdToDelete;
+    const notFound = await getDownloadURL(ref(storage, "others/NotFound.jpg"));
 
     try {
       const allImages = await getProductImagesByProductId(productId);
       await Promise.all(
         allImages.map(async (image) => {
-          if (image.imageUrl && image.imageUrl !== "others/NotFound.jpg") {
+          if (image.imageUrl && image.imageUrl !== notFound && image.imageUrl !== "others/NotFound.jpg") {
             try {
               const storageRef = ref(storage, image.imageUrl);
               await deleteObject(storageRef);
@@ -232,7 +233,7 @@ const ManageShop = () => {
       );
 
       const product = await getProductById(productId);
-      if (product && product.thumbnail !== "others/NotFound.jpg") {
+      if (product.thumbnail && product.thumbnail !== notFound && product.thumbnail !== "others/NotFound.jpg") {
         try {
           const storageRef = ref(storage, product.thumbnail);
           await deleteObject(storageRef);
@@ -480,14 +481,14 @@ const ManageShop = () => {
                     <td>{product.name}</td>
                     <td>{product.category ? product.category.name : errorCategory.name}</td>
                     <td>{product.description}</td>
-                    {product.category && (product.categoryId !== 1 || errorCategory.categoryId !== 1) ? (
+                    {product.category.name === "Pond Equipment" ? (
                       <td>None</td>
                     ) : (
                       <td>{formatDate(product.expiredDate)}</td>
                     )}
                     <td>{product.quantity}</td>
                     <td>{formatPrice(product.price)}</td>
-                    <td>{product.status ? "Available" : "Unavailable"}</td>
+                    <td>{product.status}</td>
                     <td>
                       <div className="d-flex">
                         <Button
