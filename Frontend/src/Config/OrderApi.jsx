@@ -125,18 +125,21 @@ const getListOrderByDays = async (day) => {
 
 const getListShopOrderByDays = async (shopId, day) => {
   try {
-    const response = await api.get(`Order/orders-for-shop-by-day?shopId=${shopId}&days=${day}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
+    const response = await api.get(
+      `Order/orders-for-shop-by-day?shopId=${shopId}&days=${day}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching order:", error);
     return null;
   }
-}
+};
 
 /*------------------- Vip Order --------------- */
 // get list Vip package order
@@ -201,6 +204,21 @@ const getListVipOrderByDays = async (days) => {
     return null;
   }
 };
+/* get customer orders by days https://localhost:7062/api/Order/orders-by-day-member?days=365 */
+const getLisCustomerOrderByDays = async (days) => {
+  try {
+    const response = await api.get(`Order/orders-by-day-member?days=${days}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
 
 const setOrderSuccess = async (orderId) => {
   try {
@@ -215,7 +233,7 @@ const setOrderSuccess = async (orderId) => {
     console.error("Error setting order success:", error);
     return null;
   }
-}
+};
 
 export {
   createOrder,
@@ -231,5 +249,6 @@ export {
   getListOrderByDays,
   getListShopOrderByDays,
   setOrderSuccess,
-  getOrderHistoryByUserId
+  getOrderHistoryByUserId,
+  getLisCustomerOrderByDays,
 };

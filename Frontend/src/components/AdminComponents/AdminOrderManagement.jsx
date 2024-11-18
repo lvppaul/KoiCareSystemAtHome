@@ -6,6 +6,7 @@ import {
   getListVipOrderByMonth,
   getListVipOrderByDays,
   getListOrderByDays,
+  getLisCustomerOrderByDays,
 } from "../../Config/OrderApi";
 import Button from "@mui/material/Button";
 import { getAccountByUserId } from "../../Config/UserApi";
@@ -24,7 +25,7 @@ const AdminOrderManagement = () => {
     setLoading(true);
     try {
       const res = await getListOrder();
-      const orderByDate = await getListOrderByDays(day);
+      const orderByDate = await getLisCustomerOrderByDays(day);
       console.log("res:", res);
       const data = await Promise.all(
         orderByDate.map((item) => {
