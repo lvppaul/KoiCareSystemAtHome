@@ -11,7 +11,7 @@ const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
     const userId = useAuth().user.userId;
     const [waterData, setWaterData] = useState({
         pondId: pondId,
-        createdAt: '' || Date.now(),
+        createdAt: Date.now() || '',
         userId: userId,
         nitrite: 0,
         oxygen: 0,
@@ -92,8 +92,8 @@ const AddWaterParameter = ({ show, setShow, pondId, addNewWaterParameter }) => {
                                 <Form.Control
                                 name='createdAt'
                                 value={waterData.createdAt}
-                                type="date"
-                                onChange={handleChange} />
+                                type="datetime-local"
+                                onChange={handleChange}/>
                             </Form.Group>
                         </Row>
                         <Row>
