@@ -262,6 +262,10 @@ const Product = () => {
                 Status: {product.status}
               </p>
             </div>
+            <div className="d-flex justify-content-end align-items-center">
+              <p style={{ fontSize: "1rem", fontWeight: "bold", margin: 0, marginRight: "0.5rem" }}>Storage:</p>
+              <p style={{ fontSize: "1rem", fontWeight: "bold", margin: 0 }}>{product.quantity}</p>
+            </div>
             <hr />
             <p className="mb-2" style={{ fontWeight: "bolder" }}>
               Supplier: {shopDetails.shopName}

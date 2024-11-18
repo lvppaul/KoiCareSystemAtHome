@@ -9,6 +9,7 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 import { useNavigate } from "react-router-dom";
 import { ToastContext } from "../../App";
+import { getProductById } from "../../Config/ProductApi";
 
 const Cart = () => {
   const { user } = useAuth();
@@ -63,6 +64,12 @@ const Cart = () => {
     const newQuantity = parseInt(e.target.value) || 1;
     if (newQuantity < 1) return;
 
+    const product = await getProductById(productId);
+    if (newQuantity > product.quantity) {
+      setToastMessage("The quantity you selected is not available");
+      return;
+    }
+
     const currentItem = cartItems.find((item) => item.productId === productId);
     const oldQuantity = currentItem.quantity;
 
@@ -111,7 +118,7 @@ const Cart = () => {
   };
 
   const handleCreateOrder = async () => {
-    if(checkoutValid === false) {
+    if (checkoutValid === false) {
       setErrorMessages("Please select a valid quantity for each item in the cart");
       return;
     }
