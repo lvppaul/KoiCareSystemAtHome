@@ -429,7 +429,7 @@ namespace Domain.Services
                                 return (false, "Update Shop Revenue failed");
                             }
 
-                            var updateOrderStatusStatus = await UpdateOrderStatus(order, "Out For Delivery");
+                            var updateOrderStatusStatus = await UpdateOrderStatus(order, "Pending");
                             if (updateOrderStatusStatus != 1)
                             {
                                 await transaction.RollbackAsync();
