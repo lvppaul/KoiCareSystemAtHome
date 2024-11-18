@@ -7,11 +7,9 @@ import { MdAttachMoney } from "react-icons/md";
 import { MdOutlineCardMembership } from "react-icons/md";
 import { IoBagCheckOutline } from "react-icons/io5";
 import RevenueChart from "./RevenueChart";
-import {
-  getTotalMembers,
-  getTotalVips,
-  getTotalShops,
-} from "../../Config/UserApi";
+import CommissionFeeChart from "./CommissionFeeChart";
+import RegistionChart from "./RegistionChart";
+import { getTotalMembers, getTotalVips, getTotalShops } from "../../Config/UserApi";
 import {
   getAmountRevenueCurrentYear,
   getAmountVipPackageCurrentYear,
@@ -99,24 +97,14 @@ const AdminDashboard = () => {
         <div className="row">
           <div className="col-12">
             <div className="dashboardBoxWrapper d-flex shadow border-0">
-              <DashboardBox
-                color={["#1da256", "#48d483"]}
-                icon={<FaUser />}
-                object={"Members"}
-                number={totalMembers}
-              />
+              <DashboardBox color={["#1da256", "#48d483"]} icon={<FaUser />} object={"Members"} number={totalMembers} />
               <DashboardBox
                 color={["#B8860B", "#FFFACD"]}
                 icon={<RiVipLine />}
                 object={"Vip Members"}
                 number={totalVips}
               />
-              <DashboardBox
-                color={["#00c2c2", "#98f5f5"]}
-                icon={<FaShop />}
-                object={"Shop"}
-                number={totalShops}
-              />
+              <DashboardBox color={["#00c2c2", "#98f5f5"]} icon={<FaShop />} object={"Shop"} number={totalShops} />
               <DashboardBox
                 color={["#1E90FF", "#87CEFA"]}
                 icon={<MdAttachMoney />}
@@ -149,10 +137,17 @@ const AdminDashboard = () => {
               <div className="mainRevenueChart">
                 <div className="chartContainer">
                   <RevenueChart />
-                  <p className="chartTitle">
-                    {" "}
-                    The Revenue from Vip Package and Commission fee
-                  </p>
+                  <p className="chartTitle"> The Revenue from Vip Package and Commission fee</p>
+                </div>
+                <hr />
+                <div className="chartContainer mt-3">
+                  <RegistionChart />
+                  <p className="chartTitle"> The Revenue from Commission fee</p>
+                </div>
+                <hr />
+                <div className="chartContainer mt-3">
+                  <CommissionFeeChart />
+                  <p className="chartTitle"> The Revenue from Vip Package</p>
                 </div>
               </div>
             </div>
