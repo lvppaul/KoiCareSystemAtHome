@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { Container, Row, Col, Button, Image, ListGroup, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Login/AuthProvider";
@@ -8,11 +8,14 @@ import { getAccountByUserId } from "../../Config/UserApi"; // Add this import
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../Config/firebase";
 import { useNavigate } from "react-router-dom";
+import { ToastContext } from "../../App";
 
 const Cart = () => {
   const { user } = useAuth();
   const userId = user?.userId;
 
+  const [checkoutValid, setCheckoutValid] = useState(true);
+  const { setToastMessage } = useContext(ToastContext);
   const [cartItems, setCartItems] = useState([]);
   const [errorMessages, setErrorMessages] = useState([]);
   const navigate = useNavigate();
@@ -57,7 +60,9 @@ const Cart = () => {
   }, [fetchCart]);
 
   const handleQuantityChange = async (productId, e) => {
-    const newQuantity = parseInt(e.target.value);
+    const newQuantity = parseInt(e.target.value) || 1;
+    if (newQuantity < 1) return;
+
     const currentItem = cartItems.find((item) => item.productId === productId);
     const oldQuantity = currentItem.quantity;
 
@@ -70,18 +75,25 @@ const Cart = () => {
     });
     setCartItems(updatedCartItems);
 
-    if (newQuantity > oldQuantity) {
-      await addItemToCart(userId, {
-        productId,
-        quantity: newQuantity - oldQuantity,
-      });
-      console.log("Item added from cart:", cartItems);
-    } else if (newQuantity < oldQuantity) {
-      await removeItemFromCart(userId, {
-        productId,
-        quantity: oldQuantity - newQuantity,
-      });
-      console.log("Item removed from cart:", cartItems);
+    try {
+      if (newQuantity > oldQuantity) {
+        await addItemToCart(userId, {
+          productId,
+          quantity: newQuantity - oldQuantity,
+        });
+        console.log("Item added from cart:", cartItems);
+      } else if (newQuantity < oldQuantity) {
+        await removeItemFromCart(userId, {
+          productId,
+          quantity: oldQuantity - newQuantity,
+        });
+        console.log("Item removed from cart:", cartItems);
+      }
+      setCheckoutValid(true);
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+      setCheckoutValid(false);
+      setToastMessage(error.response.data);
     }
   };
 
@@ -99,6 +111,10 @@ const Cart = () => {
   };
 
   const handleCreateOrder = async () => {
+    if(checkoutValid === false) {
+      setErrorMessages("Please select a valid quantity for each item in the cart");
+      return;
+    }
     try {
       const userDetails = await getAccountByUserId(userId);
       const orderData = {
@@ -197,18 +213,13 @@ const Cart = () => {
                           <Col md={2}>
                             <Form.Label style={{ fontWeight: "bold" }}>Quantity:</Form.Label>
                             <Form.Control
-                              as="select"
+                              type="number"
                               value={cartItem.quantity}
                               onChange={(e) => handleQuantityChange(cartItem.productId, e)}
                               className="text-center"
-                              style={{ width: "60px" }}
-                            >
-                              {[...Array(12).keys()].map((x) => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              ))}
-                            </Form.Control>
+                              style={{ width: "80px" }}
+                              min="1"
+                            />
                           </Col>
 
                           <Col md={4} className="d-flex flex-column justify-content-end align-items-end">

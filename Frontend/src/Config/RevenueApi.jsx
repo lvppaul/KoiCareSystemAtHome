@@ -19,7 +19,7 @@ const getDataRevenue = async () => {
 // get the amount of money in current year
 const getAmountRevenueCurrentYear = async () => {
   try {
-    const response = await api.get(`Revenue/TotalRevenue`, {
+    const response = await api.get(`Revenue/TotalAdminRevenue`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -124,6 +124,36 @@ const getCommissionFeeByShopFromOrders = async (shopId) => {
   }
 };
 
+const getProductAdminRevenue = async () => {
+  try {
+    const response = await api.get(`Revenue/GetProductAdminRevenue`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching commission:", error.response || error.message);
+    return null;
+  }
+};
+
+const getVipUpgradeRevenue = async () => {
+  try {
+    const response = await api.get(`Revenue/GetVipUpgradeRevenue`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching commission:", error.response || error.message);
+    return null;
+  }
+};
+
 export {
   getDataRevenue,
   getAmountRevenueCurrentYear,
@@ -133,4 +163,6 @@ export {
   getTotalRevenueByShopFromOrders,
   getTotalRevenueNoCommissionByShopFromOrders,
   getCommissionFeeByShopFromOrders,
+  getProductAdminRevenue,
+  getVipUpgradeRevenue,
 };
