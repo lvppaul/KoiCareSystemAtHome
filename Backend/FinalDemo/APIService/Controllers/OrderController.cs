@@ -120,6 +120,18 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("Order-all-member")]
+        public async Task<IActionResult> GetAllOrderMemberAsync()
+        {
+            var result = await _getService.GetAllOrderForMemberAsync();
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(result);
+            return Ok(show);
+        }
+
         [HttpGet("VipOrderByUserId/{id}")]
         public async Task<IActionResult> GetVipOrderByUserIdAsync(string id)
         {
@@ -150,6 +162,19 @@ namespace KCSAH.APIServer.Controllers
         public async Task<IActionResult> GetOrdersByDay([FromQuery] int days = 0)
         {
             var orders = await _unitOfWork.OrderRepository.GetOrdersByDayAsync(days);
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(orders);
+            return Ok(show);
+        }
+
+        // Lấy order của ngày 
+        [HttpGet("orders-by-day-member")]
+        public async Task<IActionResult> GetOrdersByDayForMember([FromQuery] int days = 0)
+        {
+            var orders = await _unitOfWork.OrderRepository.GetOrdersMemberByDayAsync(days);
             if (orders == null)
             {
                 return NotFound();

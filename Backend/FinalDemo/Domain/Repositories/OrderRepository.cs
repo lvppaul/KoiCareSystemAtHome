@@ -54,6 +54,14 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await GetOrdersByDateRangeAsync(startDate, endDate);
         }
 
+        //member và vip
+        public async Task<List<Order>> GetOrdersMemberByDayAsync(int days)
+        {
+            var endDate = DateTime.Now;
+            var startDate = endDate.AddDays(-days);
+            return await GetOrdersByDateMemberRangeAsync(startDate, endDate);
+        }
+
         public async Task<List<Order>> GetOrdersForShopByDayAsync(int days, int shopId)
         {
             var endDate = DateTime.Now;
@@ -130,6 +138,13 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         {
             return await _context.Orders.Include(o => o.OrderDetails)
                 .Where(o => !o.isVipUpgrade && o.CreateDate >= startDate && o.CreateDate <= endDate)
+                .ToListAsync();
+        }
+
+        private async Task<List<Order>> GetOrdersByDateMemberRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _context.Orders.Include(o => o.OrderDetails)
+                .Where(o => !o.isVipUpgrade && o.CreateDate >= startDate && o.CreateDate <= endDate && o.ShopId == null)
                 .ToListAsync();
         }
 
