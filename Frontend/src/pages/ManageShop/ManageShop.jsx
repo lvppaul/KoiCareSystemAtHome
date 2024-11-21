@@ -483,9 +483,9 @@ const ManageShop = () => {
                   <ListGroup.Item>
                     <strong>Email: </strong> {shop.email}
                   </ListGroup.Item>
-                  <ListGroup.Item>
+                  {/* <ListGroup.Item>
                     <strong>Rating: </strong> {shop.rating}
-                  </ListGroup.Item>
+                  </ListGroup.Item> */}
                 </ListGroup>
                 <div className="d-flex justify-content-center">
                   <Button variant="primary" onClick={() => setShowShopModal(true)}>
