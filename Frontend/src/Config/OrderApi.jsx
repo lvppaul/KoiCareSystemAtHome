@@ -174,6 +174,22 @@ const getListFailOrder = async () => {
   }
 };
 
+/* get Commission Pending Order - https://localhost:7062/api/Order/all-user-orders-pending */
+const getListPendingOrder = async () => {
+  try {
+    const response = await api.get(`Order/all-user-orders-pending`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
 const getListShopOrderByDays = async (shopId, day) => {
   try {
     const response = await api.get(
@@ -351,7 +367,7 @@ const getAllAdminOrder = async () => {
   } catch (error) {
     return null;
   }
-}
+};
 
 export {
   createOrder,
@@ -376,4 +392,5 @@ export {
   getListVipOrderSuccess,
   getListVipOrderFail,
   getAllAdminOrder,
+  getListPendingOrder,
 };

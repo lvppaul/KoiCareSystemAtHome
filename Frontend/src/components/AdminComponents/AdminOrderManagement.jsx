@@ -12,6 +12,7 @@ import {
   getListFailOrder,
   getListSuccessOrder,
   getAllAdminOrder,
+  getListPendingOrder,
 } from "../../Config/OrderApi";
 import Button from "@mui/material/Button";
 import { getAccountByUserId } from "../../Config/UserApi";
@@ -52,6 +53,8 @@ const AdminOrderManagement = () => {
         statusCommission === "Success" ? await getListSuccessOrder() : [];
       const failOrder =
         statusCommission === "Fail" ? await getListFailOrder() : [];
+      const pendingOrder =
+        statusCommission === "Pending" ? await getListPendingOrder() : [];
       // Chọn danh sách phù hợp dựa vào dayCommission hoặc monthCommission
       let list;
       if (day !== 0) {
@@ -62,11 +65,12 @@ const AdminOrderManagement = () => {
         list = successOrder;
       } else if (statusCommission === "Fail") {
         list = failOrder;
+      } else if (statusCommission === "Pending") {
+        list = failOrder;
       } else {
         list = res;
       }
-      console.log("check here", orderAtMonth);
-      console.log("res:", res);
+
       const data = await Promise.all(
         list.map((item) => {
           return {
@@ -88,7 +92,7 @@ const AdminOrderManagement = () => {
           };
         })
       );
-      console.log("data", data);
+
       setOrders(data);
     } catch (error) {
       console.log(error.message);
