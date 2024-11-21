@@ -75,6 +75,17 @@ namespace SWP391.KCSAH.Repository.Base
             return await _context.SaveChangesAsync();
         }
 
+        public async Task<int> UpdateRangeAsync(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+            {
+                var tracker = _context.Attach(entity);
+                tracker.State = EntityState.Modified;
+            }
+
+            return await _context.SaveChangesAsync();
+        }
+
         public async Task<bool> RemoveAsync(T entity)
         {
             _context.Remove(entity);

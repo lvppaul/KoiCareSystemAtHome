@@ -84,10 +84,7 @@ namespace APIService.Controllers
             {
                 return BadRequest("This vip record input date is invalid.");
             }
-            
-
-            
-
+                       
             var vipRecordMap = _mapper.Map<VipRecord>(viprecorddto);
 
             var createResult = await _unitOfWork.VipRecordRepository.CreateAsync(vipRecordMap);

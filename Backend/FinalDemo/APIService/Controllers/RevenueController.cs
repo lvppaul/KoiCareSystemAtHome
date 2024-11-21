@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Models.Dto.Response;
-using Microsoft.AspNetCore.Http;
+using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using SWP391.KCSAH.Repository;
 
@@ -12,11 +12,13 @@ namespace APIService.Controllers
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly UserService _userService;
 
-        public RevenueController(UnitOfWork unitOfWork, IMapper mapper)
+        public RevenueController(UnitOfWork unitOfWork, IMapper mapper, UserService getService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userService = getService;
         }
 
         [HttpGet]
@@ -39,10 +41,10 @@ namespace APIService.Controllers
             return result;
         }
 
-        [HttpGet("TotalRevenue")]
+        [HttpGet("TotalAdminRevenue")]
         public async Task<IActionResult> GetTotalRevenue()
         {
-            var result = await _unitOfWork.RevenueRepository.GetTotalRevenue();
+            var result = await _unitOfWork.RevenueRepository.GetTotalAdminRevenue();
 
             return Ok(result);
         }
@@ -57,10 +59,10 @@ namespace APIService.Controllers
             return result;
         }
 
-        [HttpGet("GetProductRevenue")]
+        [HttpGet("GetProductAdminRevenue")]
         public async Task<ActionResult<List<RevenueDTO>>> GetProductRevenue()
         {
-            var revenue = await _unitOfWork.RevenueRepository.GetProductRevenue();
+            var revenue = await _unitOfWork.RevenueRepository.GetProductAdminRevenue();
 
             var result = _mapper.Map<List<RevenueDTO>>(revenue);
 
@@ -74,17 +76,17 @@ namespace APIService.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetProductOrderNumber")]
+        [HttpGet("GetProductOrderNumberByAdmin")]
         public async Task<IActionResult> GetProductOrderNumber()
         {
-            var result = await _unitOfWork.RevenueRepository.GetNumberofProductOrder();
+            var result = await _unitOfWork.RevenueRepository.GetNumberofProductOrderByAdmin();
             return Ok(result);
         }
 
         [HttpGet("GetTotalProductRevenue")]
         public async Task<IActionResult> GetTotalProductRevenue()
         {
-            var result = await _unitOfWork.RevenueRepository.GetTotalProductRevenue();
+            var result = await _unitOfWork.RevenueRepository.GetTotalProductAdminRevenue();
 
             return Ok(result);
         }
@@ -95,6 +97,40 @@ namespace APIService.Controllers
             var result = await _unitOfWork.RevenueRepository.GetTotalVipUpgradeRevenue();
 
             return Ok(result);
+        }
+
+        [HttpGet("GetRevenueByShop/{shopId}")]
+        public async Task<IActionResult> GetRevenueByShopAsync(int shopId)
+        {
+            var revenue = await _unitOfWork.RevenueRepository.GetRevenueByShop(shopId);
+            if (revenue == null || !revenue.Any())
+            {
+                return NotFound($"No revenue found for shop with ID {shopId}.");
+            }
+
+            var result = _mapper.Map<List<RevenueDTO>>(revenue);
+            return Ok(result);
+        }
+
+        [HttpGet("GetTotalRevenueByShopFromOrders/{shopId}")]
+        public async Task<IActionResult> GetTotalRevenueByShopFromOrdersAsync(int shopId)
+        {
+            var total = await _unitOfWork.RevenueRepository.GetTotalRevenueByShopFromOrders(shopId);
+            return Ok(total);
+        }
+
+        [HttpGet("GetTotalRevenueNoCommissionByShopFromOrders/{shopId}")]
+        public async Task<IActionResult> GetTotalRevenueNoCommissionByShopFromOrdersAsync(int shopId)
+        {
+            var total = await _unitOfWork.RevenueRepository.GetTotalRevenueNoCommissionFee(shopId);
+            return Ok(total);
+        }
+
+        [HttpGet("GetCommissionFeeByShopFromOrders/{shopId}")]
+        public async Task<IActionResult> GetCommissionFeeByShopFromOrdersAsync(int shopId)
+        {
+            var total = await _unitOfWork.RevenueRepository.GetCommissionFee(shopId);
+            return Ok(total);
         }
 
     }

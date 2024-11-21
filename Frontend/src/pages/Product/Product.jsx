@@ -85,7 +85,7 @@ const Product = () => {
   };
 
   const handleQuantityChange = (e) => {
-    const value = parseInt(e.target.value);
+    const value = parseInt(e.target.value) || 1;
     setQuantity(value > 0 ? value : 1);
   };
 
@@ -102,6 +102,7 @@ const Product = () => {
       setToastMessage("Item added to cart successfully");
     } catch (error) {
       console.error("Error adding item to cart:", error);
+      setToastMessage(error.response.data);
     }
   };
 
@@ -258,7 +259,7 @@ const Product = () => {
                 {formatPrice(product.price)}
               </p>
               <p className="product-status" style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                Status: {product.status ? "In Stock" : "Out of Stock"}
+                Status: {product.status}
               </p>
             </div>
             <hr />
@@ -273,18 +274,13 @@ const Product = () => {
                 Quantity:
               </Form.Label>
               <Form.Control
-                as="select"
+                type="number"
                 value={quantity}
                 onChange={handleQuantityChange}
                 className="text-center"
-                style={{ width: "60px" }}
-              >
-                {[...Array(12).keys()].map((x) => (
-                  <option key={x + 1} value={x + 1}>
-                    {x + 1}
-                  </option>
-                ))}
-              </Form.Control>
+                style={{ width: "80px" }}
+                min="1"
+              />
             </div>
             <div className="d-flex justify-content-between align-items-center">
               <p className="mb-3" style={{ fontWeight: "bold" }}>

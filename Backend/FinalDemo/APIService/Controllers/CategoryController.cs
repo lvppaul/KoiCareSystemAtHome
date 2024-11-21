@@ -99,23 +99,20 @@ namespace KCSAH.APIServer.Controllers
                 return BadRequest();
             }
 
-            // Lấy thực thể category hiện tại từ cơ sở dữ liệu
             var existingCategory = await _unitOfWork.CategoryRepository.GetByIdAsync(id);
             if (existingCategory == null)
             {
-                return NotFound(); // Trả về 404 nếu không tìm thấy category
+                return NotFound();
             }
 
-            // Cập nhật các thuộc tính của existingCategory bằng cách ánh xạ từ categoryDto
             _mapper.Map(categoryDto, existingCategory);
 
-            // Cập nhật vào cơ sở dữ liệu
             var updateResult = await _unitOfWork.CategoryRepository.UpdateAsync(existingCategory);
 
             if (updateResult <= 0)
             {
                 ModelState.AddModelError("", "Something went wrong while updating category");
-                return StatusCode(500, ModelState); // Trả về 500 nếu có lỗi khi cập nhật
+                return StatusCode(500, ModelState); 
             }
 
             return NoContent(); 

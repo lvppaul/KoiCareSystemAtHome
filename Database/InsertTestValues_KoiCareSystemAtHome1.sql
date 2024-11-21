@@ -1,6 +1,6 @@
 ﻿--drop database KoiCareSystemAtHome;
 
-use KoiCareSystemAtHome1511;
+use KoiCareSystemAtHome;
 
 --Disable Foreign Key Constraints
 --EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL';
@@ -103,24 +103,24 @@ VALUES
 (2, 'High Protein Food', '2026-03-20', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/high_protein_food.png', 'High-protein food to boost koi muscle development.', 130, 720000, 1),
 (1, 'All Season Koi Food', '2026-01-25', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/all_season_koi_food.png', 'Koi food suitable for all seasons.', 160, 520000, 1),
 (2, 'Floating Pellets', '2026-02-28', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/floating_pellets.png', 'Floating pellets that koi love to feed on.', 140, 600000, 1),
-(1, 'Pond Pump', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_pump.png', 'High-capacity pump for maintaining water flow in ponds.', 50, 5000000, 2),
-(2, 'Pond Skimmer', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_skimmer.png', 'Essential skimmer for removing debris from the pond surface.', 70, 2500000, 2),
-(1, 'UV Clarifier', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/uv_clarifier.png', 'UV clarifier to keep pond water clear and algae-free.', 60, 4000000, 2),
-(2, 'Pond Heater', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_heater.png', 'Heater for maintaining optimal water temperature during cold seasons.', 40, 4500000, 2),
-(1, 'Filter System', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/filter_system.png', 'Advanced filtration system for large ponds.', 45, 7000000, 2),
-(2, 'Aeration Kit', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/aeration_kit.png', 'Complete aeration kit to boost oxygen levels in the pond.', 80, 2100000, 2),
-(1, 'Pond Net', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_net.png', 'Pond net to catch debris and fish.', 100, 750000, 2),
-(2, 'Waterfall Kit', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/waterfall_kit.png', 'Waterfall kit to create a stunning feature in the pond.', 20, 8000000, 2),
-(1, 'Pond Liner', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_liner.png', 'Durable pond liner to prevent leaks.', 90, 2000000, 2),
-(2, 'Koi Health Boost', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_health_boost.png', 'A vitamin and mineral supplement for healthier koi.', 120, 500000, 3),
-(1, 'Anti-Bacterial Treatment', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/anti_bacterial_treatment.png', 'Treatment for bacterial infections in koi.', 100, 850000, 3),
-(2, 'Anti-Parasite Treatment', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/anti_parasite_treatment.png', 'Effective treatment for koi parasite issues.', 110, 950000, 3),
-(1, 'Water Conditioner', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/water_conditioner.png', 'Conditioner to ensure safe water quality for koi.', 150, 650000, 3),
-(2, 'Koi Salt', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_salt.png', 'Koi salt to help maintain water salinity and fish health.', 200, 300000, 3),
-(1, 'Pond Bacteria', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_bacteria.png', 'Beneficial bacteria to improve water quality.', 180, 700000, 3),
-(2, 'Koi Fungus Treatment', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fungus_treatment.png', 'Treats fungal infections in koi.', 75, 850000, 3),
-(2, 'Koi First Aid Kit', null,'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_first_aid_kit.png', 'A complete first aid kit for koi emergencies.', 50, 1000000, 3),
-(1, 'Koi Sedative', null,'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/koi_sedative.png', 'Sedative for koi handling and transportation.', 30, 1200000, 3);
+(1, 'Pond Pump', NULL, 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_pump.png', 'High-capacity pump for maintaining water flow in ponds.', 50, 5000000, 2),
+(2, 'Pond Skimmer', NULL, 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_skimmer.png', 'Essential skimmer for removing debris from the pond surface.', 70, 2500000, 2),
+(1, 'UV Clarifier', NULL, 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/uv_clarifier.png', 'UV clarifier to keep pond water clear and algae-free.', 60, 4000000, 2),
+(2, 'Pond Heater', NULL, 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/pond_heater.png', 'Heater for maintaining optimal water temperature during cold seasons.', 40, 4500000, 2),
+(1, 'Filter System', NULL, 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/filter_system.png', 'Advanced filtration system for large ponds.', 45, 7000000, 2),
+(2, 'Aeration Kit', NULL, 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/aeration_kit.png', 'Complete aeration kit to boost oxygen levels in the pond.', 80, 2100000, 2),
+(1, 'Pond Net', NULL, 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_net.png', 'Pond net to catch debris and fish.', 100, 750000, 2),
+(2, 'Waterfall Kit', NULL, 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/waterfall_kit.png', 'Waterfall kit to create a stunning feature in the pond.', 20, 8000000, 2),
+(1, 'Pond Liner', NULL, 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_liner.png', 'Durable pond liner to prevent leaks.', 90, 2000000, 2),
+(2, 'Koi Health Boost', '2026-06-30', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_health_boost.png', 'A vitamin and mineral supplement for healthier koi.', 120, 500000, 3),
+(1, 'Anti-Bacterial Treatment', '2026-06-30', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/anti_bacterial_treatment.png', 'Treatment for bacterial infections in koi.', 100, 850000, 3),
+(2, 'Anti-Parasite Treatment', '2026-06-30', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/anti_parasite_treatment.png', 'Effective treatment for koi parasite issues.', 110, 950000, 3),
+(1, 'Water Conditioner', '2026-06-30', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/water_conditioner.png', 'Conditioner to ensure safe water quality for koi.', 150, 650000, 3),
+(2, 'Koi Salt', '2026-06-30', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_salt.png', 'Koi salt to help maintain water salinity and fish health.', 200, 300000, 3),
+(1, 'Pond Bacteria', '2026-06-30', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/pond_bacteria.png', 'Beneficial bacteria to improve water quality.', 180, 700000, 3),
+(2, 'Koi Fungus Treatment', '2026-06-30', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_fungus_treatment.png', 'Treats fungal infections in koi.', 75, 850000, 3),
+(2, 'Koi First Aid Kit', '2026-06-30', 'product/productThumbnails/b02dfef5-997d-49cd-89f5-1c44499ecdef/koi_first_aid_kit.png', 'A complete first aid kit for koi emergencies.', 50, 1000000, 3),
+(1, 'Koi Sedative', '2026-06-30', 'product/productThumbnails/a5827eaf-5c36-414d-8e9c-d1de148d6911/koi_sedative.png', 'Sedative for koi handling and transportation.', 30, 1200000, 3);
 
 
 INSERT INTO Product_Image (ProductID, ImageUrl)
@@ -463,30 +463,30 @@ INSERT [dbo].[OrderVipDetail] ([OrderId], [VipId]) VALUES (19, 3)
 -- Inserting Revenue based on Commission Fees (8% of Total Prices for each product)
 SET IDENTITY_INSERT [dbo].[Revenue] ON 
 
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (1, 1, 152000, 0, CAST(N'2023-01-09 09:47:07.270' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (2, 3, 784000, 0, CAST(N'2023-09-22 09:47:07.270' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (3, 4, 144000, 0, CAST(N'2023-06-20 09:47:07.270' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (4, 7, 48000, 0, CAST(N'2023-10-09 10:58:14.447' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (5, 8, 500000, 1, CAST(N'2024-02-09 11:03:19.833' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (6, 10, 560000, 0, CAST(N'2024-10-30 20:47:49.343' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (7, 11, 100000, 1, CAST(N'2023-05-28 20:51:37.250' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (8, 12, 237600, 0, CAST(N'2023-07-18 21:32:43.350' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (9, 13, 160000, 0, CAST(N'2023-12-20 21:37:29.070' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (10, 14, 344000, 0, CAST(N'2024-03-08 21:45:45.003' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (11, 15, 131200, 0, CAST(N'2024-08-14 21:58:25.630' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (12, 16, 128000, 0, CAST(N'2024-09-09 21:59:13.320' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (13, 18, 564000, 0, CAST(N'2024-07-21 22:08:03.600' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (14, 19, 1000000, 1, CAST(N'2024-07-26 22:10:16.783' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (15, 20, 228000, 0, CAST(N'2024-09-22 22:14:23.483' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (16, 21, 436800, 0, CAST(N'2024-10-11 22:15:55.593' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (17, 22, 728000, 0, CAST(N'2023-04-09 22:19:10.060' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (18, 23, 492000, 0, CAST(N'2023-08-29 22:20:41.600' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (19, 24, 83200, 0, CAST(N'2023-11-14 22:21:25.897' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (20, 25, 500000, 1, CAST(N'2024-11-09 22:25:08.433' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (21, 26, 48000, 0, CAST(N'2024-01-22 22:26:51.967' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (22, 27, 60000, 0, CAST(N'2024-04-09 22:27:43.720' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (23, 28, 148000, 0, CAST(N'2024-06-09 22:28:55.140' AS DateTime))
-INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [CreateAt]) VALUES (24, 5, 500000, 1, CAST(N'2024-08-23 09:47:07.270' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (1, 1, 152000, 0,0,CAST(N'2023-01-09 09:47:07.270' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (2, 3, 784000, 0,1, CAST(N'2023-09-22 09:47:07.270' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (3, 4, 144000, 0,0, CAST(N'2023-06-20 09:47:07.270' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (4, 7, 48000, 0,0, CAST(N'2023-10-09 10:58:14.447' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (5, 8, 500000, 1,1, CAST(N'2024-02-09 11:03:19.833' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (6, 10, 560000, 0, 1,CAST(N'2024-10-30 20:47:49.343' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (7, 11, 100000, 1, 0,CAST(N'2023-05-28 20:51:37.250' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (8, 12, 237600, 0, 1,CAST(N'2023-07-18 21:32:43.350' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (9, 13, 160000, 0, 0,CAST(N'2023-12-20 21:37:29.070' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (10, 14, 344000, 0, 1,CAST(N'2024-03-08 21:45:45.003' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (11, 15, 131200, 0, 0,CAST(N'2024-08-14 21:58:25.630' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (12, 16, 128000, 0, 0,CAST(N'2024-09-09 21:59:13.320' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (13, 18, 564000, 0, 1,CAST(N'2024-07-21 22:08:03.600' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (14, 19, 1000000, 1, 1,CAST(N'2024-07-26 22:10:16.783' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (15, 20, 228000, 0, 1,CAST(N'2024-09-22 22:14:23.483' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (16, 21, 436800, 0, 1,CAST(N'2024-10-11 22:15:55.593' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (17, 22, 728000, 0, 1,CAST(N'2023-04-09 22:19:10.060' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (18, 23, 492000, 0, 1,CAST(N'2023-08-29 22:20:41.600' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (19, 24, 83200, 0, 1,CAST(N'2023-11-14 22:21:25.897' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (20, 25, 500000, 1, 0,CAST(N'2024-11-09 22:25:08.433' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (21, 26, 48000, 0, 0,CAST(N'2024-01-22 22:26:51.967' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (22, 27, 60000, 0, 0,CAST(N'2024-04-09 22:27:43.720' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (23, 28, 148000, 0, 0,CAST(N'2024-06-09 22:28:55.140' AS DateTime))
+INSERT [dbo].[Revenue] ([RevenueId], [OrderId], [Income], [isVip], [isShopRevenue],[CreateAt]) VALUES (24, 5, 500000, 1, 0,CAST(N'2024-08-23 09:47:07.270' AS DateTime))
 SET IDENTITY_INSERT [dbo].[Revenue] OFF
 
 SET IDENTITY_INSERT [dbo].[PaymentTransaction] ON 

@@ -13,9 +13,10 @@ import {
   Spinner,
   Pagination,
   Nav,
+  Form,
 } from "react-bootstrap";
 import { getShopByUserId } from "../../Config/ShopApi";
-import { getCategoryById } from "../../Config/CategoryApi";
+import { getCategoryById, getCategories } from "../../Config/CategoryApi";
 import {
   getProductsByShopId,
   getProductImagesByProductId,
@@ -33,6 +34,7 @@ import { storage } from "../../Config/firebase";
 import { useAuth } from "../Login/AuthProvider";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
 import { ToastContext } from "../../App";
+import { getProductDiscontinued, getProductInStock, getProdcutOutOfStock, getProductsByShopIdAndCategoryId } from "../../Config/ProductApi";
 
 const ManageShop = () => {
   const { setToastMessage } = useContext(ToastContext);
@@ -54,6 +56,9 @@ const ManageShop = () => {
   const [productIdToDelete, setProductIdToDelete] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 7;
+  const [filterType, setFilterType] = useState("all");
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const fetchProductImages = useCallback(async (productId) => {
     try {
@@ -143,6 +148,18 @@ const ManageShop = () => {
     fetchShopDetails();
   }, [fetchShopDetails]);
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categoriesData = await getCategories();
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
   const handleUpdateProduct = async (newProduct, imageFiles) => {
     await updateProduct(newProduct);
     const category = await getCategoryById(newProduct.categoryId);
@@ -215,12 +232,13 @@ const ManageShop = () => {
   const confirmDeleteProduct = async () => {
     setShowConfirmModal(false);
     const productId = productIdToDelete;
+    const notFound = await getDownloadURL(ref(storage, "others/NotFound.jpg"));
 
     try {
       const allImages = await getProductImagesByProductId(productId);
       await Promise.all(
         allImages.map(async (image) => {
-          if (image.imageUrl && image.imageUrl !== "others/NotFound.jpg") {
+          if (image.imageUrl && image.imageUrl !== notFound && image.imageUrl !== "others/NotFound.jpg") {
             try {
               const storageRef = ref(storage, image.imageUrl);
               await deleteObject(storageRef);
@@ -232,7 +250,7 @@ const ManageShop = () => {
       );
 
       const product = await getProductById(productId);
-      if (product && product.thumbnail !== "others/NotFound.jpg") {
+      if (product.thumbnail && product.thumbnail !== notFound && product.thumbnail !== "others/NotFound.jpg") {
         try {
           const storageRef = ref(storage, product.thumbnail);
           await deleteObject(storageRef);
@@ -315,6 +333,82 @@ const ManageShop = () => {
     } catch (error) {
       console.error("Error adding product:", error);
       setToastMessage("Error adding product");
+    }
+  };
+
+  const handleFilterChange = async (type) => {
+    setFilterType(type);
+    setCurrentPage(1);
+    
+    if (!shop) return;
+
+    try {
+      let filteredProducts;
+      switch (type) {
+        case "outOfStock":
+          filteredProducts = await getProdcutOutOfStock(shop.shopId);
+          break;
+        case "discontinued":
+          filteredProducts = await getProductDiscontinued(shop.shopId);
+          break;
+        case "inStock":
+          filteredProducts = await getProductInStock(shop.shopId);
+          break;
+        default:
+          filteredProducts = await getProductsByShopId(shop.shopId);
+      }
+
+      const updatedProducts = await Promise.all(
+        filteredProducts.map(async (product) => {
+          if (product.thumbnail) {
+            try {
+              const storageRef = ref(storage, product.thumbnail);
+              product.thumbnail = await getDownloadURL(storageRef);
+            } catch (error) {
+              const storageRef = ref(storage, "others/NotFound.jpg");
+              product.thumbnail = await getDownloadURL(storageRef);
+            }
+          }
+          return product;
+        })
+      );
+      setProducts(updatedProducts);
+    } catch (error) {
+      console.error("Error filtering products:", error);
+    }
+  };
+
+  const handleCategoryChange = async (categoryId) => {
+    setSelectedCategory(categoryId);
+    setCurrentPage(1);
+    
+    if (!shop) return;
+
+    try {
+      let filteredProducts;
+      if (categoryId === "all") {
+        filteredProducts = await getProductsByShopId(shop.shopId);
+      } else {
+        filteredProducts = await getProductsByShopIdAndCategoryId(shop.shopId, categoryId);
+      }
+
+      const updatedProducts = await Promise.all(
+        filteredProducts.map(async (product) => {
+          if (product.thumbnail) {
+            try {
+              const storageRef = ref(storage, product.thumbnail);
+              product.thumbnail = await getDownloadURL(storageRef);
+            } catch (error) {
+              const storageRef = ref(storage, "others/NotFound.jpg");
+              product.thumbnail = await getDownloadURL(storageRef);
+            }
+          }
+          return product;
+        })
+      );
+      setProducts(updatedProducts);
+    } catch (error) {
+      console.error("Error filtering products by category:", error);
     }
   };
 
@@ -409,10 +503,30 @@ const ManageShop = () => {
           handleClose={() => setShowShopModal(false)}
         />
         <h2>Shop Products</h2>
-        <Row className="mb-3">
-          <Col className="d-flex justify-content-end">
-            <Button variant="success" onClick={() => setShowAddProductModal(true)}>
-              Add New Product
+        <Row className="mb-3 mt-3">
+          <Col md={3}>
+          <Form.Label>Filter by status:</Form.Label>
+            <Form.Select value={filterType} onChange={(e) => handleFilterChange(e.target.value)}>
+              <option value="all">All Products</option>
+              <option value="inStock">In Stock</option>
+              <option value="outOfStock">Out of Stock</option>
+              <option value="discontinued">Discontinued</option>
+            </Form.Select>
+          </Col>
+          <Col md={3}>
+            <Form.Label>Filter by category:</Form.Label>
+            <Form.Select value={selectedCategory} onChange={(e) => handleCategoryChange(e.target.value)}>
+              <option value="all">All Categories</option>
+              {categories.map((category) => (
+                <option key={category.categoryId} value={category.categoryId}>
+                  {category.name}
+                </option>
+              ))}
+            </Form.Select>
+          </Col>
+          <Col md={6} className="d-flex justify-content-end">
+            <Button style={{fontSize: '36px', width: '65px'}} variant="success" onClick={() => setShowAddProductModal(true)}>
+              +
             </Button>
           </Col>
         </Row>
@@ -480,14 +594,14 @@ const ManageShop = () => {
                     <td>{product.name}</td>
                     <td>{product.category ? product.category.name : errorCategory.name}</td>
                     <td>{product.description}</td>
-                    {product.category && (product.categoryId !== 1 || errorCategory.categoryId !== 1) ? (
+                    {product.category.name === "Pond Equipment" ? (
                       <td>None</td>
                     ) : (
                       <td>{formatDate(product.expiredDate)}</td>
                     )}
                     <td>{product.quantity}</td>
                     <td>{formatPrice(product.price)}</td>
-                    <td>{product.status ? "Available" : "Unavailable"}</td>
+                    <td>{product.status}</td>
                     <td>
                       <div className="d-flex">
                         <Button
