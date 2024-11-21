@@ -107,4 +107,4 @@ View order list.
 
 View order details.
 
-ALL Account will have only password: Abc@123
+PASSWORD: Abc@123
