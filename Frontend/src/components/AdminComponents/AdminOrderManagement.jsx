@@ -6,7 +6,9 @@ import {
   getListVipOrderByMonth,
   getListVipOrderByDays,
   getListOrderByDays,
+  getListOrderAtMonth,
   getLisCustomerOrderByDays,
+  getListVipOrderAtMonth,
 } from "../../Config/OrderApi";
 import Button from "@mui/material/Button";
 import { getAccountByUserId } from "../../Config/UserApi";
@@ -14,21 +16,44 @@ import { getVipPackagesById } from "../../Config/VipPackageApi";
 import AdminViewOrderDetailDialog from "./AdminViewOrderDetail";
 import AdminDropMenuGetOrderByDays from "./AdminDropDownMenuFilterOrder";
 import { Table } from "antd";
-
+import AdminDropMenuGetOrderAtMonth from "./AdminDropMenuMonth";
+import ButtonGroup from "@mui/material/ButtonGroup";
 const AdminOrderManagement = () => {
   const [loading, setLoading] = useState(true);
   const [vipOrders, setVipOrders] = useState([]);
   const [orders, setOrders] = useState([]);
-  const [dayCommission, setDayCommission] = useState(36500);
-  const [dayVip, setDayVip] = useState(36500);
-  const fetchOrders = async (day) => {
+  const [dayCommission, setDayCommission] = useState(0);
+  const [monthCommission, setMonthCommission] = useState(0);
+
+  const [dayVip, setDayVip] = useState(0);
+  const [monthVip, setMonthVip] = useState(0);
+
+  const [selectedLabel, setSelectedLabel] = useState("Choose Days");
+  const [selectedMonth, setSelectedMonth] = useState("Choose Month");
+
+  const [selectedLabelVip, setSelectedLabelVip] = useState("Choose Days");
+  const [selectedMonthVip, setSelectedMonthVip] = useState("Choose Month");
+
+  const fetchOrders = async (day, month) => {
     setLoading(true);
     try {
-      const res = await getListOrder();
-      const orderByDate = await getLisCustomerOrderByDays(day);
+      const res = await getListOrder(); // Lấy tất cả đơn hàng
+      const orderByDate = day !== 0 ? await getLisCustomerOrderByDays(day) : [];
+      const orderAtMonth = month !== 0 ? await getListOrderAtMonth(month) : [];
+
+      // Chọn danh sách phù hợp dựa vào dayCommission hoặc monthCommission
+      let list;
+      if (day !== 0) {
+        list = orderByDate;
+      } else if (month !== 0) {
+        list = orderAtMonth;
+      } else {
+        list = res;
+      }
+      console.log("check here", orderAtMonth);
       console.log("res:", res);
       const data = await Promise.all(
-        orderByDate.map((item) => {
+        list.map((item) => {
           return {
             orderId: item.orderId,
             fullName: item.fullName,
@@ -71,19 +96,67 @@ const AdminOrderManagement = () => {
       ),
     },
   ];
-  const handleDayCommissionOption = (day) => {
+  const handleDayCommissionOptionDay = (day, contentDay) => {
     setDayCommission(day);
+    setSelectedLabel(contentDay);
+
+    setMonthCommission(0);
+    setSelectedMonth("Choose Month");
   };
-  const handleDayVipOption = (day) => {
+
+  const handleDayCommissionOptionMonth = (month, contentMonth) => {
+    setMonthCommission(month);
+    setSelectedMonth(contentMonth);
+    setDayCommission(0);
+    setSelectedLabel("Choose Days");
+  };
+
+  const handleAll = () => {
+    setDayCommission(0);
+    setSelectedLabel("Choose Days");
+    setMonthCommission(0);
+    setSelectedMonth("Choose Month");
+  };
+
+  const handleDayVipOption = (day, contentDay) => {
     setDayVip(day);
+    setSelectedLabelVip(contentDay);
+    setMonthVip(0);
+    setSelectedMonthVip("Choose Month");
   };
-  const fetchVipOrders = async (day) => {
+
+  const handleMonthVipOption = (month, contentMonth) => {
+    setMonthVip(month);
+    setSelectedMonthVip(contentMonth);
+    setDayVip(0);
+    setSelectedLabelVip("Choose Day");
+  };
+
+  const handleAllVip = () => {
+    setDayVip(0);
+    setSelectedLabelVip("Choose Day");
+    setMonthVip(0);
+    setSelectedMonthVip("Choose Month");
+  };
+  const fetchVipOrders = async (day, month) => {
     setLoading(true);
     try {
       const order = await getListVipOrder();
-      const orderByDays = await getListVipOrderByDays(day);
+      const orderByDays = day !== 0 ? await getListVipOrderByDays(day) : [];
+      const orderAtMonth =
+        month !== 0 ? await getListVipOrderAtMonth(month) : [];
+
+      let list;
+      if (day !== 0) {
+        list = orderByDays;
+      } else if (month !== 0) {
+        list = orderAtMonth;
+      } else {
+        list = order;
+      }
+
       const data = await Promise.all(
-        orderByDays.map(async (item) => {
+        list.map(async (item) => {
           const vipId = item.orderVipDetails[0]?.vipId;
           const vipPackage = await getVipPackagesById(vipId);
 
@@ -125,11 +198,12 @@ const AdminOrderManagement = () => {
     { title: "Status", dataIndex: "orderStatus" },
   ];
   useEffect(() => {
-    fetchOrders(dayCommission);
-  }, [dayCommission]);
+    fetchOrders(dayCommission, monthCommission);
+  }, [dayCommission, monthCommission]);
+
   useEffect(() => {
-    fetchVipOrders(dayVip);
-  }, [dayVip]);
+    fetchVipOrders(dayVip, monthVip);
+  }, [dayVip, monthVip]);
 
   console.log("order:", orders);
 
@@ -140,7 +214,25 @@ const AdminOrderManagement = () => {
       <div className="members-content shadow border-0 p-3 mt-4">
         <div className="member-content-header d-flex ">
           <h3 className="hd">Commission Order</h3>
-          <AdminDropMenuGetOrderByDays option={handleDayCommissionOption} />
+
+          <ButtonGroup aria-label="Basic button group">
+            <AdminDropMenuGetOrderByDays
+              option={handleDayCommissionOptionDay}
+              contextOption={selectedLabel}
+            />
+            <AdminDropMenuGetOrderAtMonth
+              option={handleDayCommissionOptionMonth}
+              contextOption={selectedMonth}
+            />
+          </ButtonGroup>
+          <Button
+            size="small"
+            variant="outlined"
+            color="#ccc"
+            onClick={handleAll}
+          >
+            View All
+          </Button>
         </div>
 
         <Table
@@ -152,7 +244,24 @@ const AdminOrderManagement = () => {
       <div className="members-content shadow border-0 p-3 mt-4">
         <div className="member-content-header d-flex ">
           <h3 className="hd">Vip Package</h3>
-          <AdminDropMenuGetOrderByDays option={handleDayVipOption} />
+          <ButtonGroup aria-label="Basic button group">
+            <AdminDropMenuGetOrderByDays
+              option={handleDayVipOption}
+              contextOption={selectedLabelVip}
+            />
+            <AdminDropMenuGetOrderAtMonth
+              option={handleMonthVipOption}
+              contextOption={selectedMonthVip}
+            />
+          </ButtonGroup>
+          <Button
+            size="small"
+            variant="outlined"
+            color="#ccc"
+            onClick={handleAllVip}
+          >
+            View All
+          </Button>
         </div>
         <Table
           loading={loading}
