@@ -16,6 +16,21 @@ const createOrder = async (orderData) => {
   }
 };
 
+const createOrderBuyNow = async (orderData) => {
+  try {
+    const response = await api.post("Order/CreateOrderBuyNow", orderData, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating order:", error);
+    return error.response;
+  }
+};
+
 const getOrderById = async (orderId) => {
   try {
     const response = await api.get(`Order/OrderId/${orderId}`, {
@@ -445,4 +460,5 @@ export {
   getListShopOrderPending,
   getListShopOrderSuccess,
   getListShopOrderFail,
+  createOrderBuyNow,
 };

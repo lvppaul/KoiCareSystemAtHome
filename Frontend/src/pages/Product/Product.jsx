@@ -9,7 +9,7 @@ import { addItemToCart } from "../../Config/CartApi";
 import { useAuth } from "../Login/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { getAccountByUserId } from "../../Config/UserApi";
-import { createOrder } from "../../Config/OrderApi";
+import { createOrderBuyNow } from "../../Config/OrderApi";
 import LoginNeeded from "../../components/LoginNeeded/LoginNeeded";
 import { ToastContext } from "../../App";
 import { getShopByShopId } from "../../Config/ShopApi";
@@ -177,18 +177,22 @@ const Product = () => {
         ],
       };
 
-      const response = await createOrder(orderData);
+      const response = await createOrderBuyNow(orderData);
       console.log(response);
       if (response.orderId) {
         navigate(`/order/${response.orderId}`);
-      } else {
+      } else if (response.data.title === "One or more validation errors occurred.") {
         console.error("Error creating order:", response);
         setErrorMessages("Please fill your information in the profile page before proceeding to checkout");
+      } else {
+        console.error("Error creating order:", response);
+        setToastMessage(response.data);
       }
     } catch (error) {
       console.error("Error creating order:", error);
       if (error.response) {
         console.error("Server response:", error.response.data);
+        setToastMessage(error.response.data);
       }
     }
   };
