@@ -256,7 +256,7 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
-        [HttpGet("all-shop-orders-successful/{id}")]
+        [HttpGet("all-shop-orders-successful/{shopId}")]
         public async Task<IActionResult> GetAllShopOrdersSuccessful(int shopId)
         {
             var orders = await _unitOfWork.OrderRepository.GetAllShopOrdersSuccessfulAsync(shopId);
@@ -280,7 +280,7 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
-        [HttpGet("all-shop-orders-pending/{id}")]
+        [HttpGet("all-shop-orders-pending/{shopId}")]
         public async Task<IActionResult> GetAllShopOrdersPending(int shopId)
         {
             var orders = await _unitOfWork.OrderRepository.GetAllShopOrdersPendingAsync(shopId);
@@ -304,7 +304,7 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
-        [HttpGet("all-shop-orders-failed/{id}")]
+        [HttpGet("all-shop-orders-failed/{shopId}")]
         public async Task<IActionResult> GetAllShopOrdersFailed(int shopId)
         {
             var orders = await _unitOfWork.OrderRepository.GetAllShopOrdersFailedAsync(shopId);
