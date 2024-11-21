@@ -6,6 +6,7 @@ import { getShopRevenue } from "../../Config/RevenueApi";
 import dayjs from "dayjs";
 import { useAuth } from "../Login/AuthProvider";
 import { getShopByUserId } from "../../Config/ShopApi";
+import { Spinner } from "react-bootstrap";
 
 const ShopRevenueChart = () => {
   const [dataType, setDataType] = useState("monthly"); // Default to monthly data
@@ -86,7 +87,13 @@ const ShopRevenueChart = () => {
     fetchRevenue();
   }, [dataType]); // refetch data when dataType changes
 
-  if (loading) return <p>Loading ...</p>;
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center mt-5" style={{ height: "100%" }}>
+        <Spinner animation="border" size="xl" role="status" />
+      </div>
+    );
+  }
   if (error != null) return <p>Error: {error}</p>;
 
   return (

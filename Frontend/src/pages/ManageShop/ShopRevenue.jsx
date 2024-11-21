@@ -4,9 +4,9 @@ import { IoBagCheckOutline } from "react-icons/io5";
 import DashboardBox from "../../components/AdminComponents/DashboardBox";
 import ShopRevenueChart from "./ShopRevenueChart";
 import {
-  getCommissionFeeByShopFromOrders,
-  getTotalRevenueByShopFromOrders,
-  getTotalRevenueNoCommissionByShopFromOrders,
+  getCommissionFeeByShopFromOrdersThisMonth,
+  getTotalRevenueByShopFromOrdersThisMonth,
+  getTotalRevenueNoCommissionByShopFromOrdersThisMonth,
 } from "../../Config/RevenueApi";
 import { useAuth } from "../Login/AuthProvider";
 import { getShopByUserId } from "../../Config/ShopApi";
@@ -23,9 +23,9 @@ const ShopRevenue = () => {
   const fetchAmountRevenue = async () => {
     try {
       const shop = await getShopByUserId(userId);
-      const revenue = await getTotalRevenueByShopFromOrders(shop.shopId);
-      const fee = await getCommissionFeeByShopFromOrders(shop.shopId);
-      const total = await getTotalRevenueNoCommissionByShopFromOrders(shop.shopId);
+      const revenue = await getTotalRevenueByShopFromOrdersThisMonth(shop.shopId);
+      const fee = await getCommissionFeeByShopFromOrdersThisMonth(shop.shopId);
+      const total = await getTotalRevenueNoCommissionByShopFromOrdersThisMonth(shop.shopId);
       setRevenue(revenue);
       setCommissionFee(fee);
       setTotalSale(total);
