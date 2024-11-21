@@ -74,6 +74,11 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Successful") && p.ShopId == null).ToListAsync();
         }
 
+        public async Task<List<Order>> GetAllUserOrdersPendingAsync()
+        {
+            return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Pending") && p.ShopId == null).ToListAsync();
+        }
+
         public async Task<List<Order>> GetAllUserOrdersFailedAsync()
         {
             return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Failed") && p.ShopId == null).ToListAsync();
@@ -82,6 +87,19 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         public async Task<List<Order>> GetAllVipOrdersSuccessfulAsync()
         {
             var orderList = await _context.Orders.Include(p => p.OrderVipDetails).Where(p => p.isVipUpgrade == true && p.OrderStatus.Equals("Successful")).ToListAsync();
+            foreach (Order order in orderList)
+            {
+                var user = await _context.Users.FindAsync(order.UserId);
+                order.Email = user.Email;
+                order.Phone = user.PhoneNumber;
+                order.FullName = user.FirstName + " " + user.LastName;
+            }
+            return orderList;
+        }
+
+        public async Task<List<Order>> GetAllVipOrdersPendingAsync()
+        {
+            var orderList = await _context.Orders.Include(p => p.OrderVipDetails).Where(p => p.isVipUpgrade == true && p.OrderStatus.Equals("Pending")).ToListAsync();
             foreach (Order order in orderList)
             {
                 var user = await _context.Users.FindAsync(order.UserId);
