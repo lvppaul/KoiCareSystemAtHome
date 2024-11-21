@@ -142,6 +142,38 @@ const getListOrderAtMonth = async (month) => {
   }
 };
 
+/* get Commission Success order -https://localhost:7062/api/Order/all-user-orders-successful */
+const getListSuccessOrder = async () => {
+  try {
+    const response = await api.get(`Order/all-user-orders-successful`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
+/* get Commission Fail order - https://localhost:7062/api/Order/all-user-orders-failed */
+const getListFailOrder = async () => {
+  try {
+    const response = await api.get(`Order/all-user-orders-failed`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
 const getListShopOrderByDays = async (shopId, day) => {
   try {
     const response = await api.get(
@@ -241,6 +273,41 @@ const getListVipOrderAtMonth = async (month) => {
     return null;
   }
 };
+
+/* get List Vip Order Success - https://localhost:7062/api/Order/all-vip-orders-successful  */
+
+const getListVipOrderSuccess = async () => {
+  try {
+    const response = await api.get(`Order/all-vip-orders-successful`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
+/* get List Vip Order Fail - https://localhost:7062/api/Order/all-vip-orders-failed  */
+
+const getListVipOrderFail = async () => {
+  try {
+    const response = await api.get(`Order/all-vip-orders-failed`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
 /* get customer orders by days https://localhost:7062/api/Order/orders-by-day-member?days=365 */
 const getLisCustomerOrderByDays = async (days) => {
   try {
@@ -290,4 +357,8 @@ export {
   getLisCustomerOrderByDays,
   getListOrderAtMonth,
   getListVipOrderAtMonth,
+  getListFailOrder,
+  getListSuccessOrder,
+  getListVipOrderSuccess,
+  getListVipOrderFail,
 };
