@@ -178,5 +178,23 @@ namespace APIService.Controllers
             return Ok(total);
         }
 
+        [HttpGet("top-5-shops")]
+        public async Task<IActionResult> GetTop5ShopsByRevenue()
+        {
+            var topShops = await _unitOfWork.RevenueRepository.GetTop5ShopsByRevenue();
+
+            if (topShops == null || !topShops.Any())
+            {
+                return NotFound(new { Message = "No shops found with revenue data." });
+            }
+
+            return Ok(topShops.Select(shop => new
+            {
+                ShopId = shop.ShopId,
+                ShopName = shop.shopName,
+                TotalRevenue = shop.TotalRevenue
+            }));
+        }
+
     }
 }
