@@ -69,6 +69,16 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await GetOrdersForShopByDateRangeAsync(startDate, endDate, shopId);
         }
 
+        public async Task<List<Order>> GetAllUserOrdersSuccessfulAsync()
+        {
+            return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Successful") && p.ShopId == null).ToListAsync();
+        }
+
+        public async Task<List<Order>> GetAllUserOrdersFailedAsync()
+        {
+            return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Failed") && p.ShopId == null).ToListAsync();
+        }
+
         public async Task<List<Order>> GetAllVipOrdersSuccessfulAsync()
         {
             var orderList = await _context.Orders.Include(p => p.OrderVipDetails).Where(p => p.isVipUpgrade == true && p.OrderStatus.Equals("Successful")).ToListAsync();

@@ -196,6 +196,54 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("all-vip-orders-successful")]
+        public async Task<IActionResult> GetAllVipOrdersSuccessful()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllVipOrdersSuccessfulAsync();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderVipDTO>>(orders);
+            return Ok(show);
+        }
+
+        [HttpGet("all-vip-orders-failed")]
+        public async Task<IActionResult> GetAllVipOrdersFailed()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllVipOrdersFailedAsync();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderVipDTO>>(orders);
+            return Ok(show);
+        }
+
+        [HttpGet("all-user-orders-successful")]
+        public async Task<IActionResult> GetAllUserOrdersSuccessful()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllUserOrdersSuccessfulAsync();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(orders);
+            return Ok(show);
+        }
+
+        [HttpGet("all-user-orders-failed")]
+        public async Task<IActionResult> GetAllUserOrdersFailed()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllUserOrdersFailedAsync();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(orders);
+            return Ok(show);
+        }
+
         // Lấy orderVip của ngày 
         [HttpGet("vip-orders-by-day")]
         public async Task<IActionResult> GetVipOrdersByDay([FromQuery] int days = 0)
