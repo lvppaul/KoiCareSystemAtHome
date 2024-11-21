@@ -256,6 +256,18 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("all-shop-orders-successful/{id}")]
+        public async Task<IActionResult> GetAllShopOrdersSuccessful(int shopId)
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllShopOrdersSuccessfulAsync(shopId);
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(orders);
+            return Ok(show);
+        }
+
         [HttpGet("all-user-orders-pending")]
         public async Task<IActionResult> GetAllUserOrdersPending()
         {
@@ -268,10 +280,34 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("all-shop-orders-pending/{id}")]
+        public async Task<IActionResult> GetAllShopOrdersPending(int shopId)
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllShopOrdersPendingAsync(shopId);
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(orders);
+            return Ok(show);
+        }
+
         [HttpGet("all-user-orders-failed")]
         public async Task<IActionResult> GetAllUserOrdersFailed()
         {
             var orders = await _unitOfWork.OrderRepository.GetAllUserOrdersFailedAsync();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(orders);
+            return Ok(show);
+        }
+
+        [HttpGet("all-shop-orders-failed/{id}")]
+        public async Task<IActionResult> GetAllShopOrdersFailed(int shopId)
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllShopOrdersFailedAsync(shopId);
             if (orders == null)
             {
                 return NotFound();
@@ -337,6 +373,18 @@ namespace KCSAH.APIServer.Controllers
         public async Task<IActionResult> GetOrdersByInputMonth([FromQuery] int month = 1)
         {
             var orders = await _unitOfWork.OrderRepository.GetOrdersByInputMonthAsync(month);
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(orders);
+            return Ok(show);
+        }
+
+        [HttpGet("orders-for-shop-by-input-month")]
+        public async Task<IActionResult> GetOrdersByInputMonthForShop([FromQuery] int shopId, int month = 1)
+        {
+            var orders = await _unitOfWork.OrderRepository.GetOrdersByInputMonthForShopAsync(month, shopId);
             if (orders == null)
             {
                 return NotFound();
