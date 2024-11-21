@@ -233,7 +233,7 @@ const getListShopOrderPending = async (shopId) => {
 
 const getListShopOrderSuccess = async (shopId) => {
   try {
-    const response = await api.get(`Order/all-shop-orders-success/${shopId}`, {
+    const response = await api.get(`Order/all-shop-orders-successful/${shopId}`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
