@@ -8,13 +8,16 @@ FR-01: Can Register an Account
 
 Guests can create a new account.
 
-FR-02: Can Log In/Log Out
+FR-02: Can Log In/Log Out:
+
 Guests can log in or log out of the system.
 
-FR-03: View News
+FR-03: View News:
+
 Guests can search and read news.
 
-FR-04: View Blogs
+FR-04: View Blogs:
+
 Guests can search and read blogs.
 
 + Registered User (Member, Shop, Admin)
