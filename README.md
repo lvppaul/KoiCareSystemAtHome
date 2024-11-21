@@ -106,3 +106,5 @@ FR-18: Must Manage Order List:
 View order list.
 
 View order details.
+
+ALL Account will have only password: Abc@123
