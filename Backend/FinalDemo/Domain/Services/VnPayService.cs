@@ -465,13 +465,19 @@ namespace Domain.Services
                         return (true, "Payment processed successfully");
 
                     }
+                    else
+                    {
+                        // Handle unsuccessful transaction
+                        var updateOrderStatusResult = await UpdateOrderStatus(order, "Failed");
+                        if (updateOrderStatusResult != 1)
+                        {
+                            await transaction.RollbackAsync();
+                            return (false, "Failed to update order status for unsuccessful transaction");
+                        }
 
-                    await UpdateOrderStatus(order, "Failed");
-                    return (false, "Error processing payment");
-                    //}
-
-                    //await UpdateOrderStatus(order, "Giao dịch thất bại");
-                    //return (false, "Error processing payment due to Invalid Amount");
+                        await transaction.CommitAsync();
+                        return (false, "Transaction was not successful");
+                    }
                 }
                 catch (Exception ex)
                 {
