@@ -70,7 +70,7 @@ const AdminShops = () => {
                 <th>Shop Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Rating</th>
+                {/* <th>Rating</th> */}
                 <th>Status</th>
               </tr>
             </thead>
@@ -81,7 +81,7 @@ const AdminShops = () => {
                   <td>{shop.shopName}</td>
                   <td>{shop.email}</td>
                   <td>{shop.phone}</td>
-                  <td>{shop.rating}</td>
+                  {/* <td>{shop.rating}</td> */}
                   <td>
                     <Button
                       onClick={() =>
