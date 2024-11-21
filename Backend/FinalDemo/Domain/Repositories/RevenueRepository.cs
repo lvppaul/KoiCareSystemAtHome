@@ -195,5 +195,6 @@ namespace Domain.Repositories
             // Chuyển đổi kết quả sang dạng List<(int, string, int)>
             return topShops.Select(x => (x.ShopId, x.ShopName, x.TotalRevenue)).ToList();
         }
+
     }
 }

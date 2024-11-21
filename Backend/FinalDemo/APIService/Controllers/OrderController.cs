@@ -496,6 +496,10 @@ namespace KCSAH.APIServer.Controllers
                 {
                     return NotFound($"Product with ID {detail.ProductId} not found.");
                 }
+                if (detail.Quantity > product.Quantity)
+                {
+                    return BadRequest($"Only {product.Quantity} units of {product.Name} are available in stock.");
+                }
 
                 detail.UnitPrice = product.Price;
                 total += detail.UnitPrice * detail.Quantity;
