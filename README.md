@@ -2,6 +2,7 @@
 - Description: The system provides functionalities such as pond and fish management, calculating food and salt requirements for ponds, and monitoring their growth and changes. Additionally, it includes features for buying and selling products, posting news and articles, managing invoices, revenue, and user accounts. 
 - Functional Requirements
 Guest
+
 FR-01: Can Register an Account
 Guests can create a new account.
 
@@ -15,6 +16,7 @@ FR-04: View Blogs
 Guests can search and read blogs.
 
 Registered User (Member, Shop, Admin)
+
 FR-05: Must Manage Personal Account
 Users can update their personal information.
 Users can log out of the system.
@@ -23,6 +25,7 @@ FR-06: Can Log In to System
 Registered users can log in to their account.
 
 Member
+
 FR-07: Must Manage Koi
 Create, read, update, and delete (CRUD) fish information.
 View fish growth chart.
@@ -50,6 +53,7 @@ FR-12: Must Manage Personal Orders
 View order history.
 
 Shop
+
 FR-13: Must Manage Product List
 Create, read, update, and delete (CRUD) products.
 
@@ -60,6 +64,7 @@ FR-15: Must Manage Revenue
 View revenue charts.
 
 Admin
+
 FR-16: Must Manage Account List
 Create, read, update, and delete (CRUD) accounts (Member, VIP, Shop).
 
