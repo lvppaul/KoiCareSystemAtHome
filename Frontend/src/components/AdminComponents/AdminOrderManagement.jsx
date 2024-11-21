@@ -11,6 +11,7 @@ import {
   getListVipOrderAtMonth,
   getListFailOrder,
   getListSuccessOrder,
+  getAllAdminOrder,
 } from "../../Config/OrderApi";
 import Button from "@mui/material/Button";
 import { getAccountByUserId } from "../../Config/UserApi";
@@ -44,7 +45,7 @@ const AdminOrderManagement = () => {
   const fetchOrders = async (day, month) => {
     setLoading(true);
     try {
-      const res = await getListOrder(); // Lấy tất cả đơn hàng
+      const res = await getAllAdminOrder(); // Lấy tất cả đơn hàng
       const orderByDate = day !== 0 ? await getLisCustomerOrderByDays(day) : [];
       const orderAtMonth = month !== 0 ? await getListOrderAtMonth(month) : [];
       const successOrder =
