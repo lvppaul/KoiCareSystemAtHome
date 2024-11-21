@@ -9,11 +9,18 @@ import { IoBagCheckOutline } from "react-icons/io5";
 import RevenueChart from "./RevenueChart";
 import CommissionFeeChart from "./CommissionFeeChart";
 import RegistionChart from "./RegistionChart";
-import { getTotalMembers, getTotalVips, getTotalShops } from "../../Config/UserApi";
+import {
+  getTotalMembers,
+  getTotalVips,
+  getTotalShops,
+} from "../../Config/UserApi";
 import {
   getAmountRevenueCurrentYear,
   getAmountVipPackageCurrentYear,
   getAmountCommissionCurrentYear,
+  getAdminRevenueCurrentMonth,
+  getAdminVipPackageRevenueCurrentMonth,
+  getAdminCommissionRevenueCurrentMonth,
 } from "../../Config/RevenueApi";
 
 const AdminDashboard = () => {
@@ -55,7 +62,7 @@ const AdminDashboard = () => {
 
   const fetchAmountRevenue = async () => {
     try {
-      const total = await getAmountRevenueCurrentYear();
+      const total = await getAdminRevenueCurrentMonth();
       setAmountRevenue(total);
     } catch (error) {
       console.error("Error fetching amount Revenue:", error);
@@ -65,7 +72,7 @@ const AdminDashboard = () => {
 
   const fetchAmountVipPackage = async () => {
     try {
-      const total = await getAmountVipPackageCurrentYear();
+      const total = await getAdminVipPackageRevenueCurrentMonth();
       setAmountVipPackage(total);
     } catch (error) {
       console.error("Error fetching amount Vip Package:", error);
@@ -75,7 +82,7 @@ const AdminDashboard = () => {
 
   const fetchAmountCommission = async () => {
     try {
-      const total = await getAmountCommissionCurrentYear();
+      const total = await getAdminCommissionRevenueCurrentMonth();
       setAmountCommission(total);
     } catch (error) {
       console.error("Error fetching amount Commission fee:", error);
@@ -97,14 +104,24 @@ const AdminDashboard = () => {
         <div className="row">
           <div className="col-12">
             <div className="dashboardBoxWrapper d-flex shadow border-0">
-              <DashboardBox color={["#1da256", "#48d483"]} icon={<FaUser />} object={"Members"} number={totalMembers} />
+              <DashboardBox
+                color={["#1da256", "#48d483"]}
+                icon={<FaUser />}
+                object={"Members"}
+                number={totalMembers}
+              />
               <DashboardBox
                 color={["#B8860B", "#FFFACD"]}
                 icon={<RiVipLine />}
                 object={"Vip Members"}
                 number={totalVips}
               />
-              <DashboardBox color={["#00c2c2", "#98f5f5"]} icon={<FaShop />} object={"Shop"} number={totalShops} />
+              <DashboardBox
+                color={["#00c2c2", "#98f5f5"]}
+                icon={<FaShop />}
+                object={"Shop"}
+                number={totalShops}
+              />
               <DashboardBox
                 color={["#1E90FF", "#87CEFA"]}
                 icon={<MdAttachMoney />}
@@ -137,17 +154,20 @@ const AdminDashboard = () => {
               <div className="mainRevenueChart">
                 <div className="chartContainer">
                   <RevenueChart />
-                  <p className="chartTitle"> The Revenue from Vip Package and Commission fee</p>
+                  <p className="chartTitle">
+                    {" "}
+                    The Revenue from Vip Package and Commission fee
+                  </p>
                 </div>
                 <hr />
                 <div className="chartContainer mt-3">
                   <RegistionChart />
-                  <p className="chartTitle"> The Revenue from Commission fee</p>
+                  <p className="chartTitle"> The Revenue from Vip Package</p>
                 </div>
                 <hr />
                 <div className="chartContainer mt-3">
                   <CommissionFeeChart />
-                  <p className="chartTitle"> The Revenue from Vip Package</p>
+                  <p className="chartTitle"> The Revenue from Commission fee</p>
                 </div>
               </div>
             </div>

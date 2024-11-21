@@ -19,6 +19,18 @@ const AdminDropMenuGetOrderStatus = ({ option, contextOption }) => {
         </a>
       ),
     },
+    {
+      key: "2",
+      label: (
+        <a
+          onClick={() => {
+            option("Pending");
+          }}
+        >
+          Pending
+        </a>
+      ),
+    },
   ];
 
   return (
