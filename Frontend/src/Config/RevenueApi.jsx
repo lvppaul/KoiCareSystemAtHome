@@ -43,10 +43,7 @@ const getAmountVipPackageCurrentYear = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error(
-      "Error fetching amount vip package:",
-      error.response || error.message
-    );
+    console.error("Error fetching amount vip package:", error.response || error.message);
     return null;
   }
 };
@@ -62,10 +59,7 @@ const getAmountCommissionCurrentYear = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error(
-      "Error fetching commission:",
-      error.response || error.message
-    );
+    console.error("Error fetching commission:", error.response || error.message);
     return null;
   }
 };
@@ -80,73 +74,52 @@ const getShopRevenue = async (shopId) => {
     });
     return response.data;
   } catch (error) {
-    console.error(
-      "Error fetching commission:",
-      error.response || error.message
-    );
+    console.error("Error fetching commission:", error.response || error.message);
     return null;
   }
 };
 
 const getTotalRevenueByShopFromOrders = async (shopId) => {
   try {
-    const response = await api.get(
-      `Revenue/GetTotalRevenueByShopFromOrders/${shopId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
+    const response = await api.get(`Revenue/GetTotalRevenueByShopFromOrders/${shopId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error(
-      "Error fetching commission:",
-      error.response || error.message
-    );
+    console.error("Error fetching commission:", error.response || error.message);
     return null;
   }
 };
 
 const getTotalRevenueNoCommissionByShopFromOrders = async (shopId) => {
   try {
-    const response = await api.get(
-      `Revenue/GetTotalRevenueNoCommissionByShopFromOrders/${shopId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
+    const response = await api.get(`Revenue/GetTotalRevenueNoCommissionByShopFromOrders/${shopId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error(
-      "Error fetching commission:",
-      error.response || error.message
-    );
+    console.error("Error fetching commission:", error.response || error.message);
     return null;
   }
 };
 
 const getCommissionFeeByShopFromOrders = async (shopId) => {
   try {
-    const response = await api.get(
-      `Revenue/GetCommissionFeeByShopFromOrders/${shopId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
+    const response = await api.get(`Revenue/GetCommissionFeeByShopFromOrders/${shopId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error(
-      "Error fetching commission:",
-      error.response || error.message
-    );
+    console.error("Error fetching commission:", error.response || error.message);
     return null;
   }
 };
@@ -161,10 +134,7 @@ const getProductAdminRevenue = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error(
-      "Error fetching commission:",
-      error.response || error.message
-    );
+    console.error("Error fetching commission:", error.response || error.message);
     return null;
   }
 };
@@ -179,10 +149,7 @@ const getVipUpgradeRevenue = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error(
-      "Error fetching commission:",
-      error.response || error.message
-    );
+    console.error("Error fetching commission:", error.response || error.message);
     return null;
   }
 };
@@ -199,10 +166,7 @@ const getAdminRevenueCurrentMonth = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error(
-      "Error fetching commission:",
-      error.response || error.message
-    );
+    console.error("Error fetching commission:", error.response || error.message);
     return null;
   }
 };
@@ -211,21 +175,15 @@ const getAdminRevenueCurrentMonth = async () => {
 
 const getAdminVipPackageRevenueCurrentMonth = async () => {
   try {
-    const response = await api.get(
-      `Revenue/GetTotalVipUpgradeRevenueThisMonth`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
+    const response = await api.get(`Revenue/GetTotalVipUpgradeRevenueThisMonth`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error(
-      "Error fetching commission:",
-      error.response || error.message
-    );
+    console.error("Error fetching commission:", error.response || error.message);
     return null;
   }
 };
@@ -242,10 +200,52 @@ const getAdminCommissionRevenueCurrentMonth = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error(
-      "Error fetching commission:",
-      error.response || error.message
-    );
+    console.error("Error fetching commission:", error.response || error.message);
+    return null;
+  }
+};
+
+const getTotalRevenueByShopFromOrdersThisMonth = async (shopId) => {
+  try {
+    const response = await api.get(`Revenue/GetTotalRevenueByShopFromOrdersThisMonth/${shopId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching commission:", error.response || error.message);
+    return null;
+  }
+};
+
+const getTotalRevenueNoCommissionByShopFromOrdersThisMonth = async (shopId) => {
+  try {
+    const response = await api.get(`Revenue/GetTotalRevenueNoCommissionByShopFromOrdersThisMonth/${shopId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching commission:", error.response || error.message);
+    return null;
+  }
+};
+
+const getCommissionFeeByShopFromOrdersThisMonth = async (shopId) => {
+  try {
+    const response = await api.get(`Revenue/GetCommissionFeeByShopFromOrdersThisMonth/${shopId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching commission:", error.response || error.message);
     return null;
   }
 };
@@ -264,4 +264,7 @@ export {
   getAdminRevenueCurrentMonth,
   getAdminVipPackageRevenueCurrentMonth,
   getAdminCommissionRevenueCurrentMonth,
+  getTotalRevenueByShopFromOrdersThisMonth,
+  getTotalRevenueNoCommissionByShopFromOrdersThisMonth,
+  getCommissionFeeByShopFromOrdersThisMonth,
 };
