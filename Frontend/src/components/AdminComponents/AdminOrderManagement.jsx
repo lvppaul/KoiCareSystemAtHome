@@ -9,6 +9,8 @@ import {
   getListOrderAtMonth,
   getLisCustomerOrderByDays,
   getListVipOrderAtMonth,
+  getListFailOrder,
+  getListSuccessOrder,
 } from "../../Config/OrderApi";
 import Button from "@mui/material/Button";
 import { getAccountByUserId } from "../../Config/UserApi";
@@ -18,15 +20,20 @@ import AdminDropMenuGetOrderByDays from "./AdminDropDownMenuFilterOrder";
 import { Table } from "antd";
 import AdminDropMenuGetOrderAtMonth from "./AdminDropMenuMonth";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import AdminDropMenuGetOrderStatus from "./AdminDropMenuStatusOrder";
+
 const AdminOrderManagement = () => {
   const [loading, setLoading] = useState(true);
   const [vipOrders, setVipOrders] = useState([]);
   const [orders, setOrders] = useState([]);
+
   const [dayCommission, setDayCommission] = useState(0);
   const [monthCommission, setMonthCommission] = useState(0);
+  const [statusCommission, setStatusCommission] = useState("Choose Status");
 
   const [dayVip, setDayVip] = useState(0);
   const [monthVip, setMonthVip] = useState(0);
+  const [statusVip, setStatusVip] = useState("Choose Status");
 
   const [selectedLabel, setSelectedLabel] = useState("Choose Days");
   const [selectedMonth, setSelectedMonth] = useState("Choose Month");
@@ -40,13 +47,20 @@ const AdminOrderManagement = () => {
       const res = await getListOrder(); // Lấy tất cả đơn hàng
       const orderByDate = day !== 0 ? await getLisCustomerOrderByDays(day) : [];
       const orderAtMonth = month !== 0 ? await getListOrderAtMonth(month) : [];
-
+      const successOrder =
+        statusCommission === "Success" ? await getListSuccessOrder() : [];
+      const failOrder =
+        statusCommission === "Fail" ? await getListFailOrder() : [];
       // Chọn danh sách phù hợp dựa vào dayCommission hoặc monthCommission
       let list;
       if (day !== 0) {
         list = orderByDate;
       } else if (month !== 0) {
         list = orderAtMonth;
+      } else if (statusCommission === "Success") {
+        list = successOrder;
+      } else if (statusCommission === "Fail") {
+        list = failOrder;
       } else {
         list = res;
       }
@@ -102,13 +116,25 @@ const AdminOrderManagement = () => {
 
     setMonthCommission(0);
     setSelectedMonth("Choose Month");
+
+    setStatusCommission("Choose Status");
   };
 
   const handleDayCommissionOptionMonth = (month, contentMonth) => {
     setMonthCommission(month);
     setSelectedMonth(contentMonth);
+
     setDayCommission(0);
     setSelectedLabel("Choose Days");
+    setStatusCommission("Choose Status");
+  };
+
+  const handleStatusCommissionOrder = (status) => {
+    setStatusCommission(status);
+    setDayCommission(0);
+    setSelectedLabel("Choose Days");
+    setMonthCommission(0);
+    setSelectedMonth("Choose Month");
   };
 
   const handleAll = () => {
@@ -116,6 +142,7 @@ const AdminOrderManagement = () => {
     setSelectedLabel("Choose Days");
     setMonthCommission(0);
     setSelectedMonth("Choose Month");
+    setStatusCommission("Choose Status");
   };
 
   const handleDayVipOption = (day, contentDay) => {
@@ -199,7 +226,7 @@ const AdminOrderManagement = () => {
   ];
   useEffect(() => {
     fetchOrders(dayCommission, monthCommission);
-  }, [dayCommission, monthCommission]);
+  }, [dayCommission, monthCommission, statusCommission]);
 
   useEffect(() => {
     fetchVipOrders(dayVip, monthVip);
@@ -223,6 +250,10 @@ const AdminOrderManagement = () => {
             <AdminDropMenuGetOrderAtMonth
               option={handleDayCommissionOptionMonth}
               contextOption={selectedMonth}
+            />
+            <AdminDropMenuGetOrderStatus
+              option={handleStatusCommissionOrder}
+              contextOption={statusCommission}
             />
           </ButtonGroup>
           <Button
