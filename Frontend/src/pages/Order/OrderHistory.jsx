@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Spinner, Alert, Tabs, Tab, Container, Button } from "react-bootstrap";
 import { useAuth } from "../Login/AuthProvider";
 import { getVipPackagesById } from "../../Config/VipPackageApi";
-import { getVipOrderByUserId,getOrderHistoryByUserId } from "../../Config/OrderApi";
+import { getVipOrderByUserId, getOrderHistoryByUserId } from "../../Config/OrderApi";
 import ProductNameComponent from "./ProductNameComponent";
 import VipPackageName from "./VipPackageName";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,7 +16,6 @@ const OrderHistory = () => {
   const [error, setError] = useState(null);
   const userId = useAuth().user.userId;
 
-  
   const fetchOrderByUserId = async () => {
     try {
       const response = await getOrderHistoryByUserId(userId);
@@ -31,7 +30,7 @@ const OrderHistory = () => {
       setLoading(false);
     }
   };
-  
+
   const fetchVipOrderByUserId = async () => {
     try {
       const response = await getVipOrderByUserId(userId);
@@ -46,79 +45,77 @@ const OrderHistory = () => {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchOrderByUserId();
     fetchVipOrderByUserId();
   }, [userId]);
-  
+
   if (loading) {
     return <Spinner animation="border" />;
   }
-  
+
   if (error) {
     return <Alert variant="danger">{error}</Alert>;
   }
-  
+
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("en-GB");
   };
-
+  
   const formatPrice = (price) => {
-    return new Intl.NumberFormat("vn-VN", {
+    return price.toLocaleString("vi-VN", {
       style: "currency",
       currency: "VND",
-    }).format(price);
+    });
   };
 
   const handleExportPDF = async (orderId) => {
-    console.log('Exporting PDF');
+    console.log("Exporting PDF");
     if (orderId) {
       try {
         const response = await getPDF(orderId);
         if (response) {
           const pdfData = await response.data;
-          console.log('pdfData:', typeof pdfData);
-          const blob = new Blob([pdfData], { type: 'application/pdf' });
+          console.log("pdfData:", typeof pdfData);
+          const blob = new Blob([pdfData], { type: "application/pdf" });
           const blobUrl = URL.createObjectURL(blob);
-          const link = document.createElement('a');
+          const link = document.createElement("a");
           link.href = blobUrl;
           link.download = `Invoice_${orderId}.pdf`;
           link.click();
-          console.log('PDF exported successfully:');
+          console.log("PDF exported successfully:");
         } else {
-          console.error('No data in response:', response);
+          console.error("No data in response:", response);
         }
       } catch (error) {
-        console.error('Error exporting PDF:', error);
+        console.error("Error exporting PDF:", error);
       }
     } else {
-      console.error('Order ID not found in URL');
+      console.error("Order ID not found in URL");
     }
   };
 
-
   const payment = async (order) => {
     console.log("Order found:", order);
-    if(order.orderVipDetails) { 
+    if (order.orderVipDetails) {
       const data = {
         orderId: order.orderId,
-        fullName: 'Vip Upgrade',
-        description: 'Vip Upgrade'
+        fullName: "Vip Upgrade",
+        description: "Vip Upgrade",
+      };
+      const response = await sendPayment(data);
+      if (response) {
+        window.location.href = response;
+      } else {
+        console.error("Error: No URL returned from API");
       }
-        const response = await sendPayment(data);
-        if (response) {
-          window.location.href = response;
-        }
-        else {
-          console.error("Error: No URL returned from API");
-        }
     }
-      const data = {
+    const data = {
       orderId: order.orderId,
       fullName: order.fullName,
       description: order.phone,
-      }
+    };
     const response = await sendPayment(data);
     if (response) {
       window.location.href = response;
@@ -145,11 +142,7 @@ const OrderHistory = () => {
         {orders.map((order) => (
           <tr key={order.orderId}>
             <td>{order.orderId}</td>
-            <td>{
-            order.shopId ? 
-            <ShopNameComponent
-            shopId={order.shopId}/> 
-            : null}</td>
+            <td>{order.shopId ? <ShopNameComponent shopId={order.shopId} /> : null}</td>
             <td>
               {!order.orderVipDetails ? (
                 <Table striped bordered hover responsive>
@@ -180,14 +173,17 @@ const OrderHistory = () => {
             <td>{formatPrice(order.totalPrice)}</td>
             <td>{order.orderStatus}</td>
             <td>
-            {order.orderStatus === "Successful" || order.orderStatus ==="Out For Delivery" || order.orderStatus === "Pending" ?
-              (!order.orderVipDetails ?
-              <Button onClick={() => handleExportPDF(order.orderId)}>Export PDF</Button>
-                : null)
-            :
-              <Button style={{backgroundColor:'transparent', color:'black'}} 
-              onClick={() => payment(order)}>Check out</Button>
-            }
+              {order.orderStatus === "Successful" ||
+              order.orderStatus === "Out For Delivery" ||
+              order.orderStatus === "Pending" ? (
+                !order.orderVipDetails ? (
+                  <Button onClick={() => handleExportPDF(order.orderId)}>Export PDF</Button>
+                ) : null
+              ) : (
+                <Button style={{ backgroundColor: "transparent", color: "black" }} onClick={() => payment(order)}>
+                  Check out
+                </Button>
+              )}
             </td>
             {/* Add more order details as needed */}
           </tr>
@@ -198,10 +194,7 @@ const OrderHistory = () => {
 
   return (
     <Container>
-      <h1
-        className="m-5"
-        style={{ textAlign: "center", fontSize: "50px", fontWeight: "600" }}
-      >
+      <h1 className="m-5" style={{ textAlign: "center", fontSize: "50px", fontWeight: "600" }}>
         Order History
       </h1>
       <Container>

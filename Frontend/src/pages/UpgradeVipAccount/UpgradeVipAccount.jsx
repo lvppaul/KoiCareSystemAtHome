@@ -36,10 +36,10 @@ const UpgradeVipAccount = () => {
   };
 
   const formatPrice = (price) => {
-    if (price === undefined || price === null) {
-      return 'N/A';
-    }
-    return price.toLocaleString();
+    return price.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
   };
 
   useEffect(() => {

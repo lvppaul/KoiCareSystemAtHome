@@ -67,7 +67,6 @@ const Profile = () => {
       setVipRecord(null);
     }
   };
-    
 
   const handleEditClick = async (field) => {
     if (editingField === field) {
@@ -145,7 +144,7 @@ const Profile = () => {
   const formatDate = (date) => {
     const dateObj = new Date(date);
     return dateObj.toLocaleDateString();
-  }
+  };
 
   return (
     <Container className="p-3">
@@ -203,18 +202,20 @@ const Profile = () => {
                   Change Avatar
                 </Button>
                 {!vipRecord ? (
-                  <>
-                    <Button onClick={() => navigate("/updateaccount")} variant="primary" className="mt-5">
-                      Upgrade to VIP Account
-                    </Button>
-                  </>
+                  user?.role === "shop" ? null : (
+                    <>
+                      <Button onClick={() => navigate("/updateaccount")} variant="primary" className="mt-5">
+                        Upgrade to VIP Account
+                      </Button>
+                    </>
+                  )
                 ) : (
                   <>
-                  <div style={{color:'black'}}>
-                    <h3>VIP Duration</h3>
-                    <p>Start date: {formatDate(vipRecord.startDate)}</p>
-                    <p>End date: {formatDate(vipRecord.endDate)}</p>
-                  </div>
+                    <div style={{ color: "black" }}>
+                      <h3>VIP Duration</h3>
+                      <p>Start date: {formatDate(vipRecord.startDate)}</p>
+                      <p>End date: {formatDate(vipRecord.endDate)}</p>
+                    </div>
                   </>
                 )}
                 <Button onClick={() => setShowResetPassword(true)} variant="secondary" className="mt-3">

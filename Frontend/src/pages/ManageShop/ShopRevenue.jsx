@@ -64,6 +64,7 @@ const ShopRevenue = () => {
                   color={["#1E90FF", "#87CEFA"]}
                   icon={<MdAttachMoney />}
                   object={"Revenue"}
+                  content={"Current Month"}
                   number={
                     revenue
                       ? revenue.toLocaleString("vi-VN", {
@@ -78,6 +79,7 @@ const ShopRevenue = () => {
                   color={["#606060", "#E8E8E8"]}
                   icon={<IoBagCheckOutline />}
                   object={"Commission fee"}
+                  content={"Current Month"}
                   number={
                     commissionFee
                       ? commissionFee.toLocaleString("vi-VN", {
@@ -92,6 +94,7 @@ const ShopRevenue = () => {
                   color={["#D2691E", "#FFDEAD"]}
                   icon={<MdOutlineCardMembership />}
                   object={"Total Sale"}
+                  content={"Current Month"}
                   number={
                     totalSale
                       ? totalSale.toLocaleString("vi-VN", {
