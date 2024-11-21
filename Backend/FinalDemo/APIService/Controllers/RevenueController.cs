@@ -143,6 +143,13 @@ namespace APIService.Controllers
             return Ok(total);
         }
 
+        [HttpGet("GetTotalRevenueByShopFromOrdersThisMonth/{shopId}")]
+        public async Task<IActionResult> GetTotalRevenueByShopFromOrdersThisMonthAsync(int shopId)
+        {
+            var total = await _unitOfWork.RevenueRepository.GetTotalRevenueByShopFromOrdersThisMonth(shopId);
+            return Ok(total);
+        }
+
         [HttpGet("GetTotalRevenueNoCommissionByShopFromOrders/{shopId}")]
         public async Task<IActionResult> GetTotalRevenueNoCommissionByShopFromOrdersAsync(int shopId)
         {
@@ -150,10 +157,24 @@ namespace APIService.Controllers
             return Ok(total);
         }
 
+        [HttpGet("GetTotalRevenueNoCommissionByShopFromOrdersThisMonth/{shopId}")]
+        public async Task<IActionResult> GetTotalRevenueNoCommissionByShopFromOrdersThisMonthAsync(int shopId)
+        {
+            var total = await _unitOfWork.RevenueRepository.GetTotalRevenueNoCommissionFeeThisMonth(shopId);
+            return Ok(total);
+        }
+
         [HttpGet("GetCommissionFeeByShopFromOrders/{shopId}")]
         public async Task<IActionResult> GetCommissionFeeByShopFromOrdersAsync(int shopId)
         {
             var total = await _unitOfWork.RevenueRepository.GetCommissionFee(shopId);
+            return Ok(total);
+        }
+
+        [HttpGet("GetCommissionFeeByShopFromOrdersThisMonth/{shopId}")]
+        public async Task<IActionResult> GetCommissionFeeByShopFromOrdersThisMonthAsync(int shopId)
+        {
+            var total = await _unitOfWork.RevenueRepository.GetCommissionFeeThisMonth(shopId);
             return Ok(total);
         }
 

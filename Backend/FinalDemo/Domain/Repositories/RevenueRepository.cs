@@ -124,6 +124,21 @@ namespace Domain.Repositories
             return total;
         }
 
+        public async Task<int> GetTotalRevenueByShopFromOrdersThisMonth(int shopId)
+        {
+            var now = DateTime.UtcNow; // Use UTC for consistency
+            var firstDayOfCurrentMonth = new DateTime(now.Year, now.Month, 1);
+            var today = now.Date.AddDays(1).AddTicks(-1);
+
+            var total = await (from revenue in _context.Revenues
+                               join order in _context.Orders on revenue.OrderId equals order.OrderId
+                               where revenue.isShopRevenue == true && order.ShopId == shopId && revenue.isVip == false && revenue.CreateAt >= firstDayOfCurrentMonth && revenue.CreateAt <= today
+                               select revenue.Income)
+                              .SumAsync();
+
+            return total;
+        }
+
         public async Task<int> GetTotalRevenueNoCommissionFee(int shopId)
         {
             var total = await (_context.Orders
@@ -133,10 +148,30 @@ namespace Domain.Repositories
             return total;
         }
 
+        public async Task<int> GetTotalRevenueNoCommissionFeeThisMonth(int shopId)
+        {
+            var now = DateTime.UtcNow; // Use UTC for consistency
+            var firstDayOfCurrentMonth = new DateTime(now.Year, now.Month, 1);
+            var today = now.Date.AddDays(1).AddTicks(-1);
+
+            var total = await (_context.Orders
+                .Where(order => order.ShopId == shopId && !order.isVipUpgrade && order.CreateDate >= firstDayOfCurrentMonth && order.CreateDate <= today)
+                .SumAsync(order => order.TotalPrice));
+
+            return total;
+        }
+
         public async Task<int> GetCommissionFee(int shopId)
         {
             var total = await GetTotalRevenueNoCommissionFee(shopId);
             var income = await GetTotalRevenueByShopFromOrders(shopId);
+            return total - income;
+        }
+
+        public async Task<int> GetCommissionFeeThisMonth(int shopId)
+        {
+            var total = await GetTotalRevenueNoCommissionFeeThisMonth(shopId);
+            var income = await GetTotalRevenueByShopFromOrdersThisMonth(shopId);
             return total - income;
         }
     }
