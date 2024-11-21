@@ -132,6 +132,18 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("Order-all-by-admin")]
+        public async Task<IActionResult> GetAllOrderByAdminAsync()
+        {
+            var result = await _getService.GetOrderAdminAsync();
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(result);
+            return Ok(show);
+        }
+
         [HttpGet("VipOrderByUserId/{id}")]
         public async Task<IActionResult> GetVipOrderByUserIdAsync(string id)
         {
