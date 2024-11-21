@@ -49,6 +49,14 @@ namespace APIService.Controllers
             return Ok(result);
         }
 
+        [HttpGet("TotalAdminRevenueThisMonth")]
+        public async Task<IActionResult> GetTotalRevenueThisMonth()
+        {
+            var result = await _unitOfWork.RevenueRepository.GetTotalAdminRevenueThisMonth();
+
+            return Ok(result);
+        }
+
         [HttpGet("GetVipUpgradeRevenue")]
         public async Task<ActionResult<List<RevenueDTO>>> GetVipUpgradeRevenue()
         {
@@ -91,10 +99,26 @@ namespace APIService.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetTotalProductRevenueThisMonth")]
+        public async Task<IActionResult> GetTotalProductRevenueThisMonth()
+        {
+            var result = await _unitOfWork.RevenueRepository.GetTotalProductAdminRevenueThisMonth();
+
+            return Ok(result);
+        }
+
         [HttpGet("GetTotalVipUpgradeRevenue")]
         public async Task<IActionResult> GetTotalVipUpgradeRevenue()
         {
             var result = await _unitOfWork.RevenueRepository.GetTotalVipUpgradeRevenue();
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetTotalVipUpgradeRevenueThisMonth")]
+        public async Task<IActionResult> GetTotalVipUpgradeRevenueThisMonth()
+        {
+            var result = await _unitOfWork.RevenueRepository.GetTotalVipUpgradeRevenueThisMonth();
 
             return Ok(result);
         }

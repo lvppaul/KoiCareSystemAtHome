@@ -45,6 +45,19 @@ namespace Domain.Repositories
             return total;
         }
 
+        public async Task<int> GetTotalProductAdminRevenueThisMonth()
+        {
+            var now = DateTime.UtcNow; // Use UTC for consistency
+            var firstDayOfCurrentMonth = new DateTime(now.Year, now.Month, 1);
+            var today = now.Date.AddDays(1).AddTicks(-1);
+
+            var total = await _context.Revenues
+                .Where(r => r.CreateAt >= firstDayOfCurrentMonth && r.CreateAt <= today && r.isVip == false && r.isShopRevenue == false)
+                .SumAsync(r => r.Income);
+
+            return total;
+        }
+
         public async Task<int> GetTotalVipUpgradeRevenue()
         {
             var list = await _context.Revenues.Where(r => r.isVip == true).ToListAsync();
@@ -54,11 +67,37 @@ namespace Domain.Repositories
             return total;
         }
 
+        public async Task<int> GetTotalVipUpgradeRevenueThisMonth()
+        {
+            var now = DateTime.UtcNow; // Use UTC for consistency
+            var firstDayOfCurrentMonth = new DateTime(now.Year, now.Month, 1);
+            var today = now.Date.AddDays(1).AddTicks(-1);
+
+            var total = await _context.Revenues
+                .Where(r => r.CreateAt >= firstDayOfCurrentMonth && r.CreateAt <= today && r.isVip == true)
+                .SumAsync(r => r.Income);
+
+            return total;
+        }
+
         public async Task<int> GetTotalAdminRevenue()
         {
             var list = await _context.Revenues.ToListAsync();
 
             var total = list.Sum(r => r.Income);
+
+            return total;
+        }
+
+        public async Task<int> GetTotalAdminRevenueThisMonth()
+        {
+            var now = DateTime.UtcNow; // Use UTC for consistency
+            var firstDayOfCurrentMonth = new DateTime(now.Year, now.Month, 1);
+            var today = now.Date.AddDays(1).AddTicks(-1);
+
+            var total = await _context.Revenues
+                .Where(r => r.CreateAt >= firstDayOfCurrentMonth && r.CreateAt <= today && r.isShopRevenue == false)
+                .SumAsync(r => r.Income);
 
             return total;
         }
