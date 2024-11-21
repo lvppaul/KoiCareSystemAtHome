@@ -1,28 +1,62 @@
-import { useState, useEffect, useCallback } from "react";
-import { getListShopOrderByDays, setOrderSuccess } from "../../Config/OrderApi";
+import { useState, useEffect } from "react";
+import {
+  getListOrderAtMonth,
+  getListShopOrderByDays,
+  getListFailOrder,
+  getListSuccessOrder,
+  getOrderByShopId,
+} from "../../Config/OrderApi";
+import { getShopByUserId } from "../../Config/ShopApi";
+import Button from "@mui/material/Button";
 import AdminViewOrderDetailDialog from "../../components/AdminComponents/AdminViewOrderDetail";
 import AdminDropMenuGetOrderByDays from "../../components/AdminComponents/AdminDropDownMenuFilterOrder";
+import AdminDropMenuGetOrderAtMonth from "../../components/AdminComponents/AdminDropMenuMonth";
+import AdminDropMenuGetOrderStatus from "../../components/AdminComponents/AdminDropMenuStatusOrder";
+import { setOrderSuccess } from "../../Config/OrderApi";
 import { Table } from "antd";
-import { getShopByUserId } from "../../Config/ShopApi";
-import { useAuth } from "../Login/AuthProvider";
-import { Container, Nav } from "react-bootstrap";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import { useAuth } from "../../pages/Login/AuthProvider";
 
 const ShopOrder = () => {
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
-  const [dayCommission, setDayCommission] = useState(36500);
+
+  const [dayCommission, setDayCommission] = useState(0);
+  const [monthCommission, setMonthCommission] = useState(0);
+  const [statusCommission, setStatusCommission] = useState("Choose Status");
+
+  const [selectedLabel, setSelectedLabel] = useState("Choose Days");
+  const [selectedMonth, setSelectedMonth] = useState("Choose Month");
 
   const { user } = useAuth();
   const userId = user?.userId;
 
-  const fetchOrders = async (day) => {
+  const fetchOrders = async (day, month) => {
     setLoading(true);
     try {
       const shop = await getShopByUserId(userId);
-      const orderByDate = await getListShopOrderByDays(shop.shopId, day);
-      console.log("order:", orderByDate);
+      const res = await getOrderByShopId(shop.shopId); // Lấy tất cả đơn hàng
+      const orderByDate = day !== 0 ? await getListShopOrderByDays(day) : [];
+      const orderAtMonth = month !== 0 ? await getListOrderAtMonth(month) : [];
+      const successOrder = statusCommission === "Success" ? await getListSuccessOrder() : [];
+      const failOrder = statusCommission === "Fail" ? await getListFailOrder() : [];
+      // Chọn danh sách phù hợp dựa vào dayCommission hoặc monthCommission
+      let list;
+      if (day !== 0) {
+        list = orderByDate;
+      } else if (month !== 0) {
+        list = orderAtMonth;
+      } else if (statusCommission === "Success") {
+        list = successOrder;
+      } else if (statusCommission === "Fail") {
+        list = failOrder;
+      } else {
+        list = res;
+      }
+      console.log("check here", orderAtMonth);
+      console.log("res:", res);
       const data = await Promise.all(
-        orderByDate.map((item) => {
+        list.map((item) => {
           return {
             orderId: item.orderId,
             fullName: item.fullName,
@@ -54,7 +88,7 @@ const ShopOrder = () => {
   const handleSetSuccess = async (orderId) => {
     try {
       await setOrderSuccess(orderId);
-      fetchOrders(dayCommission);
+      fetchOrders(dayCommission, monthCommission);
     } catch (error) {
       console.log(error.message);
     }
@@ -75,7 +109,7 @@ const ShopOrder = () => {
     {
       title: "Set Success",
       render: (record) => (
-        <button 
+        <button
           className="btn btn-success btn-sm"
           onClick={() => handleSetSuccess(record.orderId)}
           disabled={record.orderStatus === "Successful"}
@@ -83,48 +117,71 @@ const ShopOrder = () => {
           Set Success
         </button>
       ),
-    }
+    },
   ];
 
-  const handleDayCommissionOption = (day) => {
+  const handleDayCommissionOptionDay = (day, contentDay) => {
     setDayCommission(day);
+    setSelectedLabel(contentDay);
+
+    setMonthCommission(0);
+    setSelectedMonth("Choose Month");
+
+    setStatusCommission("Choose Status");
+  };
+
+  const handleDayCommissionOptionMonth = (month, contentMonth) => {
+    setMonthCommission(month);
+    setSelectedMonth(contentMonth);
+
+    setDayCommission(0);
+    setSelectedLabel("Choose Days");
+    setStatusCommission("Choose Status");
+  };
+
+  const handleStatusCommissionOrder = (status) => {
+    setStatusCommission(status);
+    setDayCommission(0);
+    setSelectedLabel("Choose Days");
+    setMonthCommission(0);
+    setSelectedMonth("Choose Month");
+  };
+
+  const handleAll = () => {
+    setDayCommission(0);
+    setSelectedLabel("Choose Days");
+    setMonthCommission(0);
+    setSelectedMonth("Choose Month");
+    setStatusCommission("Choose Status");
   };
 
   useEffect(() => {
-    fetchOrders(dayCommission);
-  }, [dayCommission]);
+    fetchOrders(dayCommission, monthCommission);
+  }, [dayCommission, monthCommission, statusCommission]);
+
+  console.log("order:", orders);
 
   if (loading) return <div>Loading...</div>;
 
   return (
-    <Container className="p-3">
-      <Nav className="nav-tabs-login" variant="tabs" defaultActiveKey="/shopOrder">
-        <Nav.Item>
-          <Nav.Link eventKey="manageShop" href="/manageShop">
-            Manage Shop
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link href="/shopOrder">Orders</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="shopRevenue" href="/shopRevenue">
-            Revenue
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
-      <Container style={{borderTop: "1px solid gray"}}>
-        <div className="right-content">
-          <div className="members-content shadow border-0 p-3 mt-0">
-            <div className="member-content-header d-flex ">
-              <h3 className="hd">Shop Orders</h3>
-              <AdminDropMenuGetOrderByDays option={handleDayCommissionOption} />
-            </div>
-            <Table loading={loading} columns={columnOrder} dataSource={orders}></Table>
-          </div>
+    <div className="right-content">
+      <div className="members-content shadow border-0 p-3 mt-4">
+        <div className="member-content-header d-flex ">
+          <h3 className="hd">Commission Order</h3>
+
+          <ButtonGroup aria-label="Basic button group">
+            <AdminDropMenuGetOrderByDays option={handleDayCommissionOptionDay} contextOption={selectedLabel} />
+            <AdminDropMenuGetOrderAtMonth option={handleDayCommissionOptionMonth} contextOption={selectedMonth} />
+            <AdminDropMenuGetOrderStatus option={handleStatusCommissionOrder} contextOption={statusCommission} />
+          </ButtonGroup>
+          <Button size="small" variant="outlined" color="#ccc" onClick={handleAll}>
+            View All
+          </Button>
         </div>
-      </Container>
-    </Container>
+
+        <Table loading={loading} columns={columnOrder} dataSource={orders}></Table>
+      </div>
+    </div>
   );
 };
 export default ShopOrder;
