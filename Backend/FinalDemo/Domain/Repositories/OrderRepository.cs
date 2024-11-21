@@ -74,14 +74,29 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Successful") && p.ShopId == null).ToListAsync();
         }
 
+        public async Task<List<Order>> GetAllShopOrdersSuccessfulAsync(int shopId)
+        {
+            return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Successful") && p.ShopId == shopId).ToListAsync();
+        }
+
         public async Task<List<Order>> GetAllUserOrdersPendingAsync()
         {
             return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Pending") && p.ShopId == null).ToListAsync();
         }
 
+        public async Task<List<Order>> GetAllShopOrdersPendingAsync(int shopId)
+        {
+            return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Pending") && p.ShopId == shopId).ToListAsync();
+        }
+
         public async Task<List<Order>> GetAllUserOrdersFailedAsync()
         {
             return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Failed") && p.ShopId == null).ToListAsync();
+        }
+
+        public async Task<List<Order>> GetAllShopOrdersFailedAsync(int shopId)
+        {
+            return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Failed") && p.ShopId == shopId).ToListAsync();
         }
 
         public async Task<List<Order>> GetAllVipOrdersSuccessfulAsync()
@@ -171,6 +186,11 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             int year = DateTime.Now.Year;
             return await GetOrdersByMonthRangeAsync(month, year);
         }
+        public async Task<List<Order>> GetOrdersByInputMonthForShopAsync(int month, int shopId)
+        {
+            int year = DateTime.Now.Year;
+            return await GetOrdersByMonthRangeForShopAsync(month, year, shopId);
+        }
 
         // Hàm dùng chung để lấy danh sách orderVip theo khoảng thời gian
         private async Task<List<Order>> GetVipOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
@@ -228,6 +248,13 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         {
             return await _context.Orders.Include(o => o.OrderDetails)
                 .Where(o => !o.isVipUpgrade && o.CreateDate.Month == month && o.CreateDate.Year == year)
+                .ToListAsync();
+        }
+
+        private async Task<List<Order>> GetOrdersByMonthRangeForShopAsync(int month, int year, int shopId)
+        {
+            return await _context.Orders.Include(o => o.OrderDetails)
+                .Where(o => !o.isVipUpgrade && o.CreateDate.Month == month && o.CreateDate.Year == year && o.ShopId == shopId)
                 .ToListAsync();
         }
 
