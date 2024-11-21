@@ -1,23 +1,37 @@
 import React, { useState } from "react";
 import { Button, Dropdown, Space } from "antd";
 
-const AdminDropMenuGetOrderByDays = ({ option }) => {
+const AdminDropMenuGetOrderByDays = ({ option, contextOption }) => {
   const items = [
     {
       key: "1",
-      label: <a onClick={() => option(7)}>The past 7 days</a>,
+      label: (
+        <a onClick={() => option(7, "The past 7 days")}>The past 7 days</a>
+      ),
     },
     {
       key: "2",
-      label: <a onClick={() => option(14)}>The past 14 days</a>,
+      label: (
+        <a
+          onClick={() => {
+            option(14, "The past 14 days");
+          }}
+        >
+          The past 14 days
+        </a>
+      ),
     },
     {
       key: "3",
-      label: <a onClick={() => option(30)}>The past 30 days</a>,
-    },
-    {
-      key: "4",
-      label: <a onClick={() => option(36500)}>All</a>,
+      label: (
+        <a
+          onClick={() => {
+            option(30, "The past 30 days");
+          }}
+        >
+          The past 30 days
+        </a>
+      ),
     },
   ];
 
@@ -30,7 +44,7 @@ const AdminDropMenuGetOrderByDays = ({ option }) => {
           }}
           placement="bottomLeft"
         >
-          <Button>Days </Button>
+          <Button>{contextOption} </Button>
         </Dropdown>
       </Space>
     </Space>

@@ -1,9 +1,6 @@
 ﻿using Domain.Models.Dto.Request;
-using Domain.Models.Entity;
 using Domain.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SWP391.KCSAH.Repository;
 
 namespace APIService.Controllers
@@ -14,7 +11,7 @@ namespace APIService.Controllers
     {
         private readonly IVnPayService _vnpayService;
         private readonly UnitOfWork _unitOfWork;
-        public VNPayController(IVnPayService vnPayService,UnitOfWork unitOfWork)
+        public VNPayController(IVnPayService vnPayService, UnitOfWork unitOfWork)
         {
             _vnpayService = vnPayService;
             _unitOfWork = unitOfWork;

@@ -54,6 +54,14 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await GetOrdersByDateRangeAsync(startDate, endDate);
         }
 
+        //member và vip
+        public async Task<List<Order>> GetOrdersMemberByDayAsync(int days)
+        {
+            var endDate = DateTime.Now;
+            var startDate = endDate.AddDays(-days);
+            return await GetOrdersByDateMemberRangeAsync(startDate, endDate);
+        }
+
         public async Task<List<Order>> GetOrdersForShopByDayAsync(int days, int shopId)
         {
             var endDate = DateTime.Now;
@@ -61,6 +69,41 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
             return await GetOrdersForShopByDateRangeAsync(startDate, endDate, shopId);
         }
 
+        public async Task<List<Order>> GetAllUserOrdersSuccessfulAsync()
+        {
+            return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Successful") && p.ShopId == null).ToListAsync();
+        }
+
+        public async Task<List<Order>> GetAllUserOrdersFailedAsync()
+        {
+            return await _context.Orders.Include(p => p.OrderDetails).Where(p => p.isVipUpgrade == false && p.OrderStatus.Equals("Failed") && p.ShopId == null).ToListAsync();
+        }
+
+        public async Task<List<Order>> GetAllVipOrdersSuccessfulAsync()
+        {
+            var orderList = await _context.Orders.Include(p => p.OrderVipDetails).Where(p => p.isVipUpgrade == true && p.OrderStatus.Equals("Successful")).ToListAsync();
+            foreach (Order order in orderList)
+            {
+                var user = await _context.Users.FindAsync(order.UserId);
+                order.Email = user.Email;
+                order.Phone = user.PhoneNumber;
+                order.FullName = user.FirstName + " " + user.LastName;
+            }
+            return orderList;
+        }
+
+        public async Task<List<Order>> GetAllVipOrdersFailedAsync()
+        {
+            var orderList = await _context.Orders.Include(p => p.OrderVipDetails).Where(p => p.isVipUpgrade == true && p.OrderStatus.Equals("Failed")).ToListAsync();
+            foreach (Order order in orderList)
+            {
+                var user = await _context.Users.FindAsync(order.UserId);
+                order.Email = user.Email;
+                order.Phone = user.PhoneNumber;
+                order.FullName = user.FirstName + " " + user.LastName;
+            }
+            return orderList;
+        }
 
         // Lấy orderVip theo ngày hôm nay
         public async Task<List<Order>> GetVipOrdersTodayAsync()
@@ -114,22 +157,45 @@ namespace SWP391.KCSAH.Repository.KCSAH.Repository
         // Hàm dùng chung để lấy danh sách orderVip theo khoảng thời gian
         private async Task<List<Order>> GetVipOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            return await _context.Orders.Include(o => o.OrderVipDetails)
+            var orderList = await _context.Orders.Include(o => o.OrderVipDetails)
                 .Where(o => o.isVipUpgrade && o.CreateDate >= startDate && o.CreateDate <= endDate)
                 .ToListAsync();
+            foreach (Order order in orderList)
+            {
+                var user = await _context.Users.FindAsync(order.UserId);
+                order.Email = user.Email;
+                order.Phone = user.PhoneNumber;
+                order.FullName = user.FirstName + " " + user.LastName;
+            }
+            return orderList;
         }
 
         private async Task<List<Order>> GetVipOrdersByMonthRangeAsync(int month, int year)
         {
-            return await _context.Orders.Include(o => o.OrderVipDetails)
+            var orderList = await _context.Orders.Include(o => o.OrderVipDetails)
                 .Where(o => o.isVipUpgrade && o.CreateDate.Month == month && o.CreateDate.Year == year)
                 .ToListAsync();
+            foreach (Order order in orderList)
+            {
+                var user = await _context.Users.FindAsync(order.UserId);
+                order.Email = user.Email;
+                order.Phone = user.PhoneNumber;
+                order.FullName = user.FirstName + " " + user.LastName;
+            }
+            return orderList;
         }
 
         private async Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             return await _context.Orders.Include(o => o.OrderDetails)
                 .Where(o => !o.isVipUpgrade && o.CreateDate >= startDate && o.CreateDate <= endDate)
+                .ToListAsync();
+        }
+
+        private async Task<List<Order>> GetOrdersByDateMemberRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _context.Orders.Include(o => o.OrderDetails)
+                .Where(o => !o.isVipUpgrade && o.CreateDate >= startDate && o.CreateDate <= endDate && o.ShopId == null)
                 .ToListAsync();
         }
 

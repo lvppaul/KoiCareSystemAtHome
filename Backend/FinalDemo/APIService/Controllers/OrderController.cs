@@ -120,6 +120,18 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("Order-all-member")]
+        public async Task<IActionResult> GetAllOrderMemberAsync()
+        {
+            var result = await _getService.GetAllOrderForMemberAsync();
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(result);
+            return Ok(show);
+        }
+
         [HttpGet("VipOrderByUserId/{id}")]
         public async Task<IActionResult> GetVipOrderByUserIdAsync(string id)
         {
@@ -159,10 +171,71 @@ namespace KCSAH.APIServer.Controllers
         }
 
         // Lấy order của ngày 
+        [HttpGet("orders-by-day-member")]
+        public async Task<IActionResult> GetOrdersByDayForMember([FromQuery] int days = 0)
+        {
+            var orders = await _unitOfWork.OrderRepository.GetOrdersMemberByDayAsync(days);
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(orders);
+            return Ok(show);
+        }
+
+        // Lấy order của ngày 
         [HttpGet("orders-for-shop-by-day")]
         public async Task<IActionResult> GetOrdersForShopByDay([FromQuery] int shopId, int days = 0)
         {
             var orders = await _unitOfWork.OrderRepository.GetOrdersForShopByDayAsync(days, shopId);
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(orders);
+            return Ok(show);
+        }
+
+        [HttpGet("all-vip-orders-successful")]
+        public async Task<IActionResult> GetAllVipOrdersSuccessful()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllVipOrdersSuccessfulAsync();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderVipDTO>>(orders);
+            return Ok(show);
+        }
+
+        [HttpGet("all-vip-orders-failed")]
+        public async Task<IActionResult> GetAllVipOrdersFailed()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllVipOrdersFailedAsync();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderVipDTO>>(orders);
+            return Ok(show);
+        }
+
+        [HttpGet("all-user-orders-successful")]
+        public async Task<IActionResult> GetAllUserOrdersSuccessful()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllUserOrdersSuccessfulAsync();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(orders);
+            return Ok(show);
+        }
+
+        [HttpGet("all-user-orders-failed")]
+        public async Task<IActionResult> GetAllUserOrdersFailed()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllUserOrdersFailedAsync();
             if (orders == null)
             {
                 return NotFound();
