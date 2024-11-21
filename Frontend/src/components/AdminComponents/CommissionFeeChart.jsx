@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { getProductAdminRevenue } from "../../Config/RevenueApi";
@@ -20,7 +28,9 @@ const CommissionFeeChart = () => {
         dataType === "monthly"
           ? dayjs(item.createAt).format("MM/YYYY")
           : dataType === "quarterly"
-          ? `Q${Math.ceil((dayjs(item.createAt).month() + 1) / 3)}-${dayjs(item.createAt).year()}`
+          ? `Q${Math.ceil((dayjs(item.createAt).month() + 1) / 3)}-${dayjs(
+              item.createAt
+            ).year()}`
           : dayjs(item.createAt).format("YYYY");
 
       // Tính tổng revenue cho mỗi nhóm
@@ -98,7 +108,10 @@ const CommissionFeeChart = () => {
       </Stack>
 
       <ResponsiveContainer width="100%" height={500}>
-        <BarChart data={revenue}>
+        <BarChart
+          data={revenue}
+          margin={{ top: 20, right: 30, left: 50, bottom: 20 }}
+        >
           <CartesianGrid strokeDasharray="2 2" />
           <XAxis dataKey="date" />
           <YAxis />

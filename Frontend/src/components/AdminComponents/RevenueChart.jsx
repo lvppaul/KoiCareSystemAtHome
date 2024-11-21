@@ -108,7 +108,10 @@ const RevenueChart = () => {
       </Stack>
 
       <ResponsiveContainer width="100%" height={500}>
-        <BarChart data={revenue}>
+        <BarChart
+          data={revenue}
+          margin={{ top: 20, right: 30, left: 50, bottom: 20 }}
+        >
           <CartesianGrid strokeDasharray="2 2" />
           <XAxis dataKey="date" />
           <YAxis />

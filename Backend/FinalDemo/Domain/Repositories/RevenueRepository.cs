@@ -174,5 +174,26 @@ namespace Domain.Repositories
             var income = await GetTotalRevenueByShopFromOrdersThisMonth(shopId);
             return total - income;
         }
+
+        public async Task<List<(int ShopId, string shopName, int TotalRevenue)>> GetTop5ShopsByRevenue()
+        {
+            var topShops = await (from revenue in _context.Revenues
+                                  join order in _context.Orders on revenue.OrderId equals order.OrderId
+                                  join shop in _context.Shops on order.ShopId equals shop.ShopId
+                                  where revenue.isShopRevenue == true && revenue.isVip == false
+                                  group revenue by new { shop.ShopId, shop.ShopName } into shopGroup
+                                  orderby shopGroup.Sum(r => r.Income) descending
+                                  select new
+                                  {
+                                      ShopId = shopGroup.Key.ShopId,
+                                      ShopName = shopGroup.Key.ShopName,
+                                      TotalRevenue = shopGroup.Sum(r => r.Income)
+                                  })
+                         .Take(5)
+                         .ToListAsync();
+
+            // Chuyển đổi kết quả sang dạng List<(int, string, int)>
+            return topShops.Select(x => (x.ShopId, x.ShopName, x.TotalRevenue)).ToList();
+        }
     }
 }
