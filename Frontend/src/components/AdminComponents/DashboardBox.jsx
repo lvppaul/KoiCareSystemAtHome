@@ -7,6 +7,7 @@ const DashboardBox = (props) => {
   const values = props.value || "";
   const objects = props.object || "";
   const numbers = props.number || 0;
+  const contents = props.content || "";
   return (
     <div
       className="dashboardBox"
@@ -21,6 +22,7 @@ const DashboardBox = (props) => {
         </div>
 
         <div style={{ marginLeft: "auto" }}>
+          <span className="text-white contentMonth"> {contents} </span>
           <span className="icon">{icons}</span>
         </div>
       </div>

@@ -20,7 +20,7 @@ const AdminDropMenuGetOrderStatus = ({ option, contextOption }) => {
       ),
     },
     {
-      key: "2",
+      key: "3",
       label: (
         <a
           onClick={() => {

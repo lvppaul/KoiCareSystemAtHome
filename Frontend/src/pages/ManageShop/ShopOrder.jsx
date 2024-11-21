@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import {
-  getListOrderAtMonth,
+  getListShopOrderByMonth,
   getListShopOrderByDays,
-  getListFailOrder,
-  getListSuccessOrder,
   getOrderByShopId,
+  getListShopOrderSuccess,
+  getListShopOrderFail,
+  getListShopOrderPending,
 } from "../../Config/OrderApi";
 import { getShopByUserId } from "../../Config/ShopApi";
 import Button from "@mui/material/Button";
@@ -16,6 +17,7 @@ import { setOrderSuccess } from "../../Config/OrderApi";
 import { Table } from "antd";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useAuth } from "../../pages/Login/AuthProvider";
+import { Container, Nav, Spinner } from "react-bootstrap";
 
 const ShopOrder = () => {
   const [loading, setLoading] = useState(true);
@@ -36,10 +38,11 @@ const ShopOrder = () => {
     try {
       const shop = await getShopByUserId(userId);
       const res = await getOrderByShopId(shop.shopId); // Lấy tất cả đơn hàng
-      const orderByDate = day !== 0 ? await getListShopOrderByDays(day) : [];
-      const orderAtMonth = month !== 0 ? await getListOrderAtMonth(month) : [];
-      const successOrder = statusCommission === "Success" ? await getListSuccessOrder() : [];
-      const failOrder = statusCommission === "Fail" ? await getListFailOrder() : [];
+      const orderByDate = day !== 0 ? await getListShopOrderByDays(shop.shopId, day) : [];
+      const orderAtMonth = month !== 0 ? await getListShopOrderByMonth(shop.shopId, month) : [];
+      const successOrder = statusCommission === "Success" ? await getListShopOrderSuccess(shop.shopId) : [];
+      const failOrder = statusCommission === "Fail" ? await getListShopOrderFail(shop.shopId) : [];
+      const pendingOrder = statusCommission === "Pending" ? await getListShopOrderPending(shop.shopId) : [];
       // Chọn danh sách phù hợp dựa vào dayCommission hoặc monthCommission
       let list;
       if (day !== 0) {
@@ -50,6 +53,8 @@ const ShopOrder = () => {
         list = successOrder;
       } else if (statusCommission === "Fail") {
         list = failOrder;
+      } else if (statusCommission === "Pending") {
+        list = pendingOrder;
       } else {
         list = res;
       }
@@ -161,27 +166,52 @@ const ShopOrder = () => {
 
   console.log("order:", orders);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center mt-5" style={{ height: "100%" }}>
+        <Spinner animation="border" size="xl" role="status" />
+      </div>
+    );
+  }
 
   return (
-    <div className="right-content">
-      <div className="members-content shadow border-0 p-3 mt-4">
-        <div className="member-content-header d-flex ">
-          <h3 className="hd">Commission Order</h3>
+    <Container className="p-3">
+      <Nav className="nav-tabs-login" variant="tabs" defaultActiveKey="/shopOrder">
+        <Nav.Item>
+          <Nav.Link eventKey="manageShop" href="/manageShop">
+            Manage Shop
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="/shopOrder">Orders</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="shopRevenue" href="/shopRevenue">
+            Revenue
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <Container style={{ borderTop: "1px solid gray" }}>
+        <div className="right-content">
+          <div className="members-content shadow border-0 p-3 mt-4">
+            <div className="member-content-header d-flex ">
+              <h3 className="hd">Commission Order</h3>
 
-          <ButtonGroup aria-label="Basic button group">
-            <AdminDropMenuGetOrderByDays option={handleDayCommissionOptionDay} contextOption={selectedLabel} />
-            <AdminDropMenuGetOrderAtMonth option={handleDayCommissionOptionMonth} contextOption={selectedMonth} />
-            <AdminDropMenuGetOrderStatus option={handleStatusCommissionOrder} contextOption={statusCommission} />
-          </ButtonGroup>
-          <Button size="small" variant="outlined" color="#ccc" onClick={handleAll}>
-            View All
-          </Button>
+              <ButtonGroup aria-label="Basic button group">
+                <AdminDropMenuGetOrderByDays option={handleDayCommissionOptionDay} contextOption={selectedLabel} />
+                <AdminDropMenuGetOrderAtMonth option={handleDayCommissionOptionMonth} contextOption={selectedMonth} />
+                <AdminDropMenuGetOrderStatus option={handleStatusCommissionOrder} contextOption={statusCommission} />
+              </ButtonGroup>
+              <Button size="small" variant="outlined" color="#ccc" onClick={handleAll}>
+                View All
+              </Button>
+            </div>
+
+            <Table loading={loading} columns={columnOrder} dataSource={orders}></Table>
+          </div>
         </div>
-
-        <Table loading={loading} columns={columnOrder} dataSource={orders}></Table>
-      </div>
-    </div>
+      </Container>
+    </Container>
   );
 };
 export default ShopOrder;

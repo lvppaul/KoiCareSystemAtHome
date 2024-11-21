@@ -66,7 +66,7 @@ const AdminOrderManagement = () => {
       } else if (statusCommission === "Fail") {
         list = failOrder;
       } else if (statusCommission === "Pending") {
-        list = failOrder;
+        list = pendingOrder;
       } else {
         list = res;
       }
