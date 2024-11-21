@@ -339,6 +339,20 @@ const setOrderSuccess = async (orderId) => {
   }
 };
 
+const getAllAdminOrder = async () => {
+  try {
+    const response = await api.get(`Order/Order-all-by-admin`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+}
+
 export {
   createOrder,
   getOrderById,
@@ -361,4 +375,5 @@ export {
   getListSuccessOrder,
   getListVipOrderSuccess,
   getListVipOrderFail,
+  getAllAdminOrder,
 };

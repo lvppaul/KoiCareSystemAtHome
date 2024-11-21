@@ -183,13 +183,13 @@ const UpdateKoiDetail = ({ show, setShow, koidetail, setKoiDetail }) => {
                   <Row>
                     <Form.Group as={Col} controlId="formGridPhysique">
                       <Form.Label>Physique:</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter fish physique"
-                        name="physique"
-                        value={koi.physique}
-                        onChange={handleInputChange}
-                      />
+                      <Form.Control as="select" name="physique" 
+                      value={koi.physique} onChange={handleInputChange}>
+                        <option value="">Select physique</option>
+                        <option value="Slim">Slim</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Corpulent">Corpulent</option>
+                      </Form.Control>
                     </Form.Group>
                   </Row>
                   <Row>

@@ -132,6 +132,18 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("Order-all-by-admin")]
+        public async Task<IActionResult> GetAllOrderByAdminAsync()
+        {
+            var result = await _getService.GetOrderAdminAsync();
+            if (result == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(result);
+            return Ok(show);
+        }
+
         [HttpGet("VipOrderByUserId/{id}")]
         public async Task<IActionResult> GetVipOrderByUserIdAsync(string id)
         {
@@ -208,6 +220,18 @@ namespace KCSAH.APIServer.Controllers
             return Ok(show);
         }
 
+        [HttpGet("all-vip-orders-pending")]
+        public async Task<IActionResult> GetAllVipOrdersPending()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllVipOrdersPendingAsync();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderVipDTO>>(orders);
+            return Ok(show);
+        }
+
         [HttpGet("all-vip-orders-failed")]
         public async Task<IActionResult> GetAllVipOrdersFailed()
         {
@@ -224,6 +248,18 @@ namespace KCSAH.APIServer.Controllers
         public async Task<IActionResult> GetAllUserOrdersSuccessful()
         {
             var orders = await _unitOfWork.OrderRepository.GetAllUserOrdersSuccessfulAsync();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            var show = _mapper.Map<List<OrderDTO>>(orders);
+            return Ok(show);
+        }
+
+        [HttpGet("all-user-orders-pending")]
+        public async Task<IActionResult> GetAllUserOrdersPending()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllUserOrdersPendingAsync();
             if (orders == null)
             {
                 return NotFound();
