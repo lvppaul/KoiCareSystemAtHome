@@ -126,8 +126,8 @@ const PaymentResult = () => {
             {!isVipUpgrade ? 
             (<>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-evenly' }}>
-              <Button onClick={handleExportPDF} style={{ maxHeight: '50px', maxWidth: '300px', height: '100%', width: "100%", marginBottom: '20px', fontWeight: 'bold', fontSize: '20px', marginInlineEnd: '20px' }}>Export billing</Button>
-              <Button onClick={() => setShowOrderDetail(true)} style={{ maxHeight: '50px', maxWidth: '300px', height: '100%', width: "100%", marginBottom: '20px', fontWeight: 'bold', fontSize: '20px' }}>Order Detail</Button>
+              <Button onClick={handleExportPDF} style={{ maxHeight: '50px', maxWidth: '300px', height: '100%', width: "100%", marginBottom: '20px', fontWeight: 'bold', fontSize: '20px' }}>Export billing</Button>
+              {/* <Button onClick={() => setShowOrderDetail(true)} style={{ maxHeight: '50px', maxWidth: '300px', height: '100%', width: "100%", marginBottom: '20px', fontWeight: 'bold', fontSize: '20px' }}>Order Detail</Button> */}
             </div>
             </>)
             : null}
