@@ -38,11 +38,11 @@ const ShopOrder = () => {
     try {
       const shop = await getShopByUserId(userId);
       const res = await getOrderByShopId(shop.shopId); // Lấy tất cả đơn hàng
-      const orderByDate = day !== 0 ? await getListShopOrderByDays(day) : [];
-      const orderAtMonth = month !== 0 ? await getListShopOrderByMonth(month) : [];
-      const successOrder = statusCommission === "Success" ? await getListShopOrderSuccess() : [];
-      const failOrder = statusCommission === "Fail" ? await getListShopOrderFail() : [];
-      const pendingOrder = statusCommission === "Pending" ? await getListShopOrderPending() : [];
+      const orderByDate = day !== 0 ? await getListShopOrderByDays(shop.shopId, day) : [];
+      const orderAtMonth = month !== 0 ? await getListShopOrderByMonth(shop.shopId, month) : [];
+      const successOrder = statusCommission === "Success" ? await getListShopOrderSuccess(shop.shopId) : [];
+      const failOrder = statusCommission === "Fail" ? await getListShopOrderFail(shop.shopId) : [];
+      const pendingOrder = statusCommission === "Pending" ? await getListShopOrderPending(shop.shopId) : [];
       // Chọn danh sách phù hợp dựa vào dayCommission hoặc monthCommission
       let list;
       if (day !== 0) {
