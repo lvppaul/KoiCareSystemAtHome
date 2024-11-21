@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import {
-  getListOrderAtMonth,
+  getListShopOrderByMonth,
   getListShopOrderByDays,
-  getListFailOrder,
-  getListSuccessOrder,
   getOrderByShopId,
+  getListShopOrderSuccess,
+  getListShopOrderFail,
+  getListShopOrderPending,
 } from "../../Config/OrderApi";
 import { getShopByUserId } from "../../Config/ShopApi";
 import Button from "@mui/material/Button";
@@ -38,9 +39,10 @@ const ShopOrder = () => {
       const shop = await getShopByUserId(userId);
       const res = await getOrderByShopId(shop.shopId); // Lấy tất cả đơn hàng
       const orderByDate = day !== 0 ? await getListShopOrderByDays(day) : [];
-      const orderAtMonth = month !== 0 ? await getListOrderAtMonth(month) : [];
-      const successOrder = statusCommission === "Success" ? await getListSuccessOrder() : [];
-      const failOrder = statusCommission === "Fail" ? await getListFailOrder() : [];
+      const orderAtMonth = month !== 0 ? await getListShopOrderByMonth(month) : [];
+      const successOrder = statusCommission === "Success" ? await getListShopOrderSuccess() : [];
+      const failOrder = statusCommission === "Fail" ? await getListShopOrderFail() : [];
+      const pendingOrder = statusCommission === "Pending" ? await getListShopOrderPending() : [];
       // Chọn danh sách phù hợp dựa vào dayCommission hoặc monthCommission
       let list;
       if (day !== 0) {
@@ -51,6 +53,8 @@ const ShopOrder = () => {
         list = successOrder;
       } else if (statusCommission === "Fail") {
         list = failOrder;
+      } else if (statusCommission === "Pending") {
+        list = pendingOrder;
       } else {
         list = res;
       }

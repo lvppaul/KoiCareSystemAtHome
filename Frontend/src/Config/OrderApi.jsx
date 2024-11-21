@@ -126,15 +126,12 @@ const getListOrderByDays = async (day) => {
 /* get Commission order at ? month - https://localhost:7062/api/Order/orders-by-input-month?month=1 */
 const getListOrderAtMonth = async (month) => {
   try {
-    const response = await api.get(
-      `Order/orders-by-input-month?month=${month}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
+    const response = await api.get(`Order/orders-by-input-month?month=${month}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching order:", error);
@@ -192,18 +189,72 @@ const getListPendingOrder = async () => {
 
 const getListShopOrderByDays = async (shopId, day) => {
   try {
-    const response = await api.get(
-      `Order/orders-for-shop-by-day?shopId=${shopId}&days=${day}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
+    const response = await api.get(`Order/orders-for-shop-by-day?shopId=${shopId}&days=${day}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
+const getListShopOrderByMonth = async (shopId, month) => {
+  try {
+    const response = await api.get(`Order/orders-for-shop-by-input-month?shopId=${shopId}&month=${month}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+};
+
+const getListShopOrderPending = async (shopId) => {
+  try {
+    const response = await api.get(`Order/all-shop-orders-pending/${shopId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
+
+const getListShopOrderSuccess = async (shopId) => {
+  try {
+    const response = await api.get(`Order/all-shop-orders-success/${shopId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
+
+const getListShopOrderFail = async (shopId) => {
+  try {
+    const response = await api.get(`Order/all-shop-orders-failed/${shopId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
     return null;
   }
 };
@@ -274,15 +325,12 @@ const getListVipOrderByDays = async (days) => {
 /* Get vip order at month https://localhost:7062/api/Order/vip-orders-by-input-month?month=1 */
 const getListVipOrderAtMonth = async (month) => {
   try {
-    const response = await api.get(
-      `Order/vip-orders-by-input-month?month=${month}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
+    const response = await api.get(`Order/vip-orders-by-input-month?month=${month}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching order:", error);
@@ -393,4 +441,8 @@ export {
   getListVipOrderFail,
   getAllAdminOrder,
   getListPendingOrder,
+  getListShopOrderByMonth,
+  getListShopOrderPending,
+  getListShopOrderSuccess,
+  getListShopOrderFail,
 };
