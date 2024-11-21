@@ -228,6 +228,9 @@ button .icon svg {
   display: flex;
   justify-content: end;
 }
+.contentMonth {
+  font-size: 11px;
+}
 /*---------- Admin Create Account -------------------- */
 
 /*----------------Order Management------------------------------*/

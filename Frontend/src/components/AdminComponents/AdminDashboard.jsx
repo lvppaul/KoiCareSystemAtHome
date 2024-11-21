@@ -126,6 +126,7 @@ const AdminDashboard = () => {
                 color={["#1E90FF", "#87CEFA"]}
                 icon={<MdAttachMoney />}
                 object={"Revenue"}
+                content={"Current Month"}
                 number={amountRevenue.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
@@ -135,6 +136,7 @@ const AdminDashboard = () => {
                 color={["#D2691E", "#FFDEAD"]}
                 icon={<MdOutlineCardMembership />}
                 object={"Registration fee"}
+                content={"Current Month"}
                 number={amountVipPackage.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
@@ -144,6 +146,7 @@ const AdminDashboard = () => {
                 color={["#606060", "#E8E8E8"]}
                 icon={<IoBagCheckOutline />}
                 object={"Commission fee"}
+                content={"Current Month"}
                 number={amountCommission.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
