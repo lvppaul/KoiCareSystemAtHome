@@ -20,6 +20,7 @@ const Vips = () => {
     setLoading(true);
     try {
       const members = await getVips();
+      console.log("chech here", members);
       setMembers(members);
     } catch (error) {
       console.error("Error fetching members:", error);

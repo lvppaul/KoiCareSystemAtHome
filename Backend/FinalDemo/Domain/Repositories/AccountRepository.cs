@@ -176,7 +176,7 @@ namespace Domain.Repositories
             if (!isEmailConfirmed) return new AuthenticationResponse { Message = notConfirmEmail };
 
             bool isLockOut = await _userManager.IsLockedOutAsync(user!);
-            if (isLockOut) return new AuthenticationResponse { Message = "Your account is blocked" };
+            if (isLockOut) return new AuthenticationResponse { Message = "Your account is blocked. (Send email to levinhphat790@gmail.com for support)" };
 
             var passwordValid = await _userManager.CheckPasswordAsync(user!, model.Password);
             if (!passwordValid) return new AuthenticationResponse { Message = wrongPass };
@@ -642,49 +642,81 @@ namespace Domain.Repositories
 
         public async Task<string> LockoutEnabledAsync(string userId)
         {
-            string mes = "This account is locked already";
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return notExistAcc;
-
-            var check = await _userManager.GetLockoutEnabledAsync(user);
-           
-            if (!check)
-            {
-                var result = await _userManager.SetLockoutEnabledAsync(user, true);
-                if (!result.Succeeded)
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        return mes = error.Description;
-                    }
-                }
-                return mes = "Locked";
-            }
-            return mes;
-        }
-
-        public async Task<string> LockoutDisabledAsync(string userId)
-        {
-            string mes = "This account is not locked yet";
+            string message = "This account is locked already";
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return mes = "Your Account does not exist";
+                return "Account does not exist";
             }
-            var check = await _userManager.GetLockoutEnabledAsync(user);
-            if (check)
+
+            // Kiểm tra xem tài khoản có bật Lockout không
+            var isLockoutEnabled = await _userManager.GetLockoutEnabledAsync(user);
+            if (!isLockoutEnabled)
             {
-                var result = await _userManager.SetLockoutEnabledAsync(user, false);
-                if (!result.Succeeded)
+                // Bật tính năng Lockout
+                var enableLockoutResult = await _userManager.SetLockoutEnabledAsync(user, true);
+                if (!enableLockoutResult.Succeeded)
                 {
-                    foreach (var error in result.Errors)
+                    foreach (var error in enableLockoutResult.Errors)
                     {
-                        return mes = error.Description;
+                        return "Failed to enable lockout: " + error.Description;
                     }
                 }
-                return mes = "UnLocked";
             }
-            return mes;
+
+            
+            var lockoutEndDate = DateTimeOffset.UtcNow.AddMonths(12); // lock a year
+            var lockoutResult = await _userManager.SetLockoutEndDateAsync(user, lockoutEndDate);
+            if (!lockoutResult.Succeeded)
+            {
+                foreach (var error in lockoutResult.Errors)
+                {
+                    return "Failed to set lockout end date: " + error.Description;
+                }
+            }
+
+            return $"Account locked until {lockoutEndDate:yyyy-MM-dd HH:mm:ss} UTC (locked for {12} months)";
+        }
+
+
+        public async Task<string> LockoutDisabledAsync(string userId)
+        {
+            
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return "Account does not exist";
+            }
+
+            // Kiểm tra xem tài khoản có đang bị lock không
+            var isLockedOut = await _userManager.IsLockedOutAsync(user);
+            if (isLockedOut)
+            {
+                // Đặt LockoutEnd về null để mở khóa
+                var unlockResult = await _userManager.SetLockoutEndDateAsync(user, null);
+                if (!unlockResult.Succeeded)
+                {
+                    foreach (var error in unlockResult.Errors)
+                    {
+                        return error.Description;
+                    }
+                }
+
+                // Tắt tính năng lockout (không bắt buộc nếu bạn chỉ muốn mở khóa)
+                var disableLockoutResult = await _userManager.SetLockoutEnabledAsync(user, false);
+                if (!disableLockoutResult.Succeeded)
+                {
+                    foreach (var error in disableLockoutResult.Errors)
+                    {
+                        return error.Description;
+                    }
+                }
+
+                return "Account successfully unlocked";
+            }
+
+            return "Account is not locked";
         }
 
         public async Task<ApplicationUser> GetAccountByUserIdAsync(string id)
