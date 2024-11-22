@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   getListShopOrderByMonth,
   getListShopOrderByDays,
@@ -18,8 +18,10 @@ import { Table } from "antd";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useAuth } from "../../pages/Login/AuthProvider";
 import { Container, Nav, Spinner } from "react-bootstrap";
+import { ToastContext } from "../../App";
 
 const ShopOrder = () => {
+  const { setToastMessage } = useContext(ToastContext);
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
 
@@ -37,13 +39,13 @@ const ShopOrder = () => {
     setLoading(true);
     try {
       const shop = await getShopByUserId(userId);
-      const res = await getOrderByShopId(shop.shopId); 
+      const res = await getOrderByShopId(shop.shopId);
       const orderByDate = day !== 0 ? await getListShopOrderByDays(shop.shopId, day) : [];
       const orderAtMonth = month !== 0 ? await getListShopOrderByMonth(shop.shopId, month) : [];
       const successOrder = statusCommission === "Success" ? await getListShopOrderSuccess(shop.shopId) : [];
       const failOrder = statusCommission === "Fail" ? await getListShopOrderFail(shop.shopId) : [];
       const pendingOrder = statusCommission === "Pending" ? await getListShopOrderPending(shop.shopId) : [];
-    
+
       let list;
       if (day !== 0) {
         list = orderByDate;
@@ -94,6 +96,7 @@ const ShopOrder = () => {
     try {
       await setOrderSuccess(orderId);
       fetchOrders(dayCommission, monthCommission);
+      setToastMessage("Set order success successfully");
     } catch (error) {
       console.log(error.message);
     }
