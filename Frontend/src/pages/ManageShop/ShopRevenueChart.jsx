@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { getShopRevenue } from "../../Config/RevenueApi";
@@ -15,7 +23,7 @@ const ShopRevenueChart = () => {
   const [error, setError] = useState(null);
 
   const { user } = useAuth();
-    const userId = user?.userId;
+  const userId = user?.userId;
 
   const formatData = (data) => {
     const groupedData = {};
@@ -26,7 +34,9 @@ const ShopRevenueChart = () => {
         dataType === "monthly"
           ? dayjs(item.createAt).format("MM/YYYY")
           : dataType === "quarterly"
-          ? `Q${Math.ceil((dayjs(item.createAt).month() + 1) / 3)}-${dayjs(item.createAt).year()}`
+          ? `Q${Math.ceil((dayjs(item.createAt).month() + 1) / 3)}-${dayjs(
+              item.createAt
+            ).year()}`
           : dayjs(item.createAt).format("YYYY");
 
       // Tính tổng revenue cho mỗi nhóm
@@ -89,7 +99,10 @@ const ShopRevenueChart = () => {
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center mt-5" style={{ height: "100%" }}>
+      <div
+        className="d-flex justify-content-center align-items-center mt-5"
+        style={{ height: "100%" }}
+      >
         <Spinner animation="border" size="xl" role="status" />
       </div>
     );
@@ -111,7 +124,10 @@ const ShopRevenueChart = () => {
       </Stack>
 
       <ResponsiveContainer width="100%" height={500}>
-        <BarChart data={revenue}>
+        <BarChart
+          data={revenue}
+          margin={{ top: 20, right: 30, left: 50, bottom: 20 }}
+        >
           <CartesianGrid strokeDasharray="2 2" />
           <XAxis dataKey="date" />
           <YAxis />
