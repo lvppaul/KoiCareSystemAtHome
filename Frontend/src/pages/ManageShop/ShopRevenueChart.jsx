@@ -17,7 +17,7 @@ import { getShopByUserId } from "../../Config/ShopApi";
 import { Spinner } from "react-bootstrap";
 
 const ShopRevenueChart = () => {
-  const [dataType, setDataType] = useState("monthly"); // Default to monthly data
+  const [dataType, setDataType] = useState("monthly"); 
   const [revenue, setRevenue] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ const ShopRevenueChart = () => {
     const groupedData = {};
 
     data.forEach((item) => {
-      // Xác định key nhóm theo dataType
+    
       const key =
         dataType === "monthly"
           ? dayjs(item.createAt).format("MM/YYYY")
@@ -39,14 +39,14 @@ const ShopRevenueChart = () => {
             ).year()}`
           : dayjs(item.createAt).format("YYYY");
 
-      // Tính tổng revenue cho mỗi nhóm
+     
       if (!groupedData[key]) {
         groupedData[key] = { date: key, revenue: 0 };
       }
       groupedData[key].revenue += item.income;
     });
 
-    // Tạo các khoảng thời gian cho từng loại dữ liệu
+
     const year = dayjs().year();
     let filledData = [];
 
@@ -68,7 +68,7 @@ const ShopRevenueChart = () => {
         };
       });
     } else if (dataType === "yearly") {
-      // Giả định là hiển thị dữ liệu trong 5 năm gần nhất
+     
       filledData = Array.from({ length: 5 }, (_, i) => {
         const pastYear = year - (4 - i);
         return {

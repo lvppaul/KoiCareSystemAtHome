@@ -25,7 +25,7 @@ const Order = () => {
     for (const detail of orderDetails) {
       const product = await getProductById(detail.productId);
       productDetails[detail.productId] = product;
-      // Fetch shop details if not already fetched
+     
       if (!shopDetails[product.shopId]) {
         const shop = await getShopByShopId(product.shopId);
         shopDetails[product.shopId] = shop;
@@ -57,7 +57,7 @@ const Order = () => {
 
     const response = await sendPayment(payload);
     if (response) {
-      //console.log('Redirecting to:', response);
+   
       window.location.href = response;
     } else {
       console.error("Error: No URL returned from API");
