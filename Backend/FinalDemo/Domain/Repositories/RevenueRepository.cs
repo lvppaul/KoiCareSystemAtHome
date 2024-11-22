@@ -154,9 +154,14 @@ namespace Domain.Repositories
             var firstDayOfCurrentMonth = new DateTime(now.Year, now.Month, 1);
             var today = now.Date.AddDays(1).AddTicks(-1);
 
-            var total = await (_context.Orders
-                .Where(order => order.ShopId == shopId && !order.isVipUpgrade && order.CreateDate >= firstDayOfCurrentMonth && order.CreateDate <= today)
-                .SumAsync(order => order.TotalPrice));
+            var total = await (from revenue in _context.Revenues
+                               join order in _context.Orders on revenue.OrderId equals order.OrderId
+                               where order.ShopId == shopId
+                                     && !order.isVipUpgrade
+                                     && revenue.CreateAt >= firstDayOfCurrentMonth
+                                     && revenue.CreateAt <= today
+                               select order.TotalPrice)
+                       .SumAsync();
 
             return total;
         }
