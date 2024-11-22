@@ -6,11 +6,17 @@ const AdminDropMenuGetOrderByDays = ({ option, contextOption }) => {
     {
       key: "1",
       label: (
-        <a onClick={() => option(7, "The past 7 days")}>The past 7 days</a>
+        <a onClick={() => option(2, "The past 2 days")}>The past 2 days</a>
       ),
     },
     {
       key: "2",
+      label: (
+        <a onClick={() => option(7, "The past 7 days")}>The past 7 days</a>
+      ),
+    },
+    {
+      key: "3",
       label: (
         <a
           onClick={() => {
@@ -22,7 +28,7 @@ const AdminDropMenuGetOrderByDays = ({ option, contextOption }) => {
       ),
     },
     {
-      key: "3",
+      key: "4",
       label: (
         <a
           onClick={() => {
