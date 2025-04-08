@@ -18,13 +18,13 @@ namespace Domain.Services
             _context = context;
         }
 
-        public async Task<int> GetVolumesOfPondById(int id)
+        public async Task<int> GetVolumesOfPondById(int Id)
         {
-            if (id <= 0)
+            if (Id <= 0)
             {
-                throw new ArgumentException("Pond ID must be greater than 0", nameof(id));
+                throw new ArgumentException("Pond ID must be greater than 0", nameof(Id));
             }
-            var result = await _unitOfWork.PondRepository.GetByIdAsync1(id);
+            var result = await _unitOfWork.PondRepository.GetByIdAsync1(Id);
             if (result == null)
             {
                 return 0;
