@@ -1,10 +1,5 @@
 ﻿using Domain.Models.Entity;
 using SWP391.KCSAH.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Services
 {
@@ -18,21 +13,9 @@ namespace Domain.Services
             _context = context;
         }
 
-        public async Task<int> GetVolumesOfPondById(int Id)
-        {
-            if (Id <= 0)
-            {
-                throw new ArgumentException("Pond ID must be greater than 0", nameof(Id));
-            }
-            var result = await _unitOfWork.PondRepository.GetByIdAsync1(Id);
-            if (result == null)
-            {
-                return 0;
-            }
-            return result.Volume;
-        }
 
-        public async Task<int> AmountOfSaltChangeHigherConcentration(int id, float desired,float current)
+
+        public async Task<int> AmountOfSaltChangeHigherConcentration(int id, float desired, float current)
         {
             ValidateConcentrations(desired, current);
             int volume = await GetVolumesOfPondById(id);
@@ -58,7 +41,7 @@ namespace Domain.Services
             return amountOfSaltRefill;
         }
 
-        public async Task<int> NumberOfWaterChangesChangeLowerConcentration(int id, float desired, float current,int percentWaterChange)
+        public async Task<int> NumberOfWaterChangesChangeLowerConcentration(int id, float desired, float current, int percentWaterChange)
         {
             ValidateParameters(desired, current, percentWaterChange);
             int volume = await GetVolumesOfPondById(id);
@@ -71,9 +54,9 @@ namespace Domain.Services
             {
                 return 0;
             }
-            double numerator = CalculateNumerator(desired,current);
-            double denominator = CalculateDenominator(volume,waterChange);
-            if (denominator ==0) //double.Epsilon: số dương bé nhất có thể có mà >0
+            double numerator = CalculateNumerator(desired, current);
+            double denominator = CalculateDenominator(volume, waterChange);
+            if (denominator == 0) //double.Epsilon: số dương bé nhất có thể có mà >0
             {
                 return 0;
             }
@@ -98,7 +81,7 @@ namespace Domain.Services
 
         private void ValidateConcentrations(float desired, float current)
         {
-            if (desired < 0 || desired >2)
+            if (desired < 0 || desired > 2)
             {
                 throw new ArgumentException("Desired concentration must be non-negative and lower than 2", nameof(desired));
             }
@@ -127,6 +110,20 @@ namespace Domain.Services
             {
                 throw new ArgumentException("Percent water change must be between 0 and 100", nameof(percentWaterChange));
             }
+        }
+
+        public async Task<int> GetVolumesOfPondById(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException("Pond ID must be greater than 0", nameof(id));
+            }
+            var result = await _unitOfWork.PondRepository.GetByIdAsync1(id);
+            if (result == null)
+            {
+                return 0;
+            }
+            return result.Volume;
         }
 
     }
