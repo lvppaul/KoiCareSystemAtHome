@@ -77,7 +77,7 @@ namespace Domain.Services
             {
                 return 0;
             }
-            return (int)Math.Ceiling(numerator / denominator); //làm tròn lên để đạt đc nồng độ mong muốn
+            return (int)Math.Ceiling(numerator / denominator);
         }
 
         private double CalculateNumerator(float desired, float current)
